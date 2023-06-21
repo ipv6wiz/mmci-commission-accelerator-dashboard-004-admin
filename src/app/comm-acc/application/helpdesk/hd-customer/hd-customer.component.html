@@ -1,0 +1,297 @@
+<div class="container">
+  <div class="row help-desk" [ngClass]="selectedView">
+    <div class="col-xl-8 col-lg-12 filter-bar">
+      <nav class="text-end m-b-30 p-10 justify-content-end pt-0">
+        <div class="btn-group btn-group-toggle" ngbRadioGroup>
+          <label ngbButtonLabel class="btn btn-primary">
+            <input
+              ngbButton
+              type="radio"
+              title="sm-view"
+              value="sm-view"
+              id="option1"
+              [checked]="selectedView === 'sm-view'"
+              (click)="selectedView = 'sm-view'"
+            />
+            <i class="feather icon-align-justify ms-1"></i>
+          </label>
+          <label ngbButtonLabel class="btn btn-primary">
+            <input
+              ngbButton
+              type="radio"
+              value="md-view"
+              title="md-view"
+              id="option2"
+              [checked]="selectedView === 'md-view'"
+              (click)="selectedView = 'md-view'"
+            />
+            <i class="feather icon-menu ms-1"></i>
+          </label>
+          <label ngbButtonLabel class="btn btn-primary active">
+            <input
+              ngbButton
+              type="radio"
+              value="large-view"
+              title="large-view"
+              id="option3"
+              [checked]="selectedView === 'large-view'"
+              (click)="selectedView = 'large-view'"
+            />
+            <i class="feather icon-grid ms-1"></i>
+          </label>
+        </div>
+      </nav>
+      <div (click)="addContact(content)" class="ticket-block {{ list.color }}" *ngFor="let list of customer">
+        <div class="row">
+          <div class="col-auto">
+            <img class="media-object wid-60 img-radius" src="{{ list.src }}" alt="Generic placeholder image " />
+          </div>
+          <div class="col">
+            <div class="card hd-body">
+              <div class="row align-items-center">
+                <div class="col border-right pe-0">
+                  <div class="card-body inner-center">
+                    <div class="ticket-customer font-weight-bold">John lui</div>
+                    <div class="ticket-type-icon private mt-1 mb-1"
+                      ><i class="feather icon-lock me-1 f-14"></i>theme customisation issue</div
+                    >
+                    <ul class="list-inline mt-2 mb-0">
+                      <li class="list-inline-item"
+                        ><img src="assets/images/ticket/p1.jpg" alt="ticket-img" class="wid-20 rounded me-1 img-fluid" />Piaf able</li
+                      >
+                      <li class="list-inline-item"
+                        ><img src="assets/images/user/avatar-5.jpg" alt="ticket-img" class="wid-20 rounded me-1 img-fluid" />Assigned to
+                        Robert alia</li
+                      >
+                      <li class="list-inline-item"><i class="feather icon-calendar me-1 f-14"></i>Updated 22 hours ago</li>
+                      <li class="list-inline-item"><i class="feather icon-message-square me-1 f-14"></i>9</li>
+                    </ul>
+                    <div class="excerpt mt-4">
+                      <h6
+                        ><img src="assets/images/user/avatar-5.jpg" alt="user-img" class="wid-20 avatar me-2 rounded" />Last comment from
+                        <a href="javascript:">Robert alia:</a></h6
+                      >
+                      <p
+                        >hello John lui, you need to create "toolbar-options" div only once in a page&nbsp;in your code, this div fill found
+                        every "td" tag in your page, just remove those things. and also in option button add</p
+                      >
+                    </div>
+                    <div class="mt-2">
+                      <a [routerLink]="['/hd-customer-detail']" class="me-3 text-muted"><i class="feather icon-eye me-1"></i>View Ticket</a>
+                      <a href="javascript:" class="text-danger"><i class="feather icon-trash-2 me-1"></i>Delete</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto ps-0 right-icon">
+                  <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                      <li
+                        ><a href="javascript:" title="star" class="active"><i class="feather icon-star text-warning"></i></a
+                      ></li>
+                      <li
+                        ><a href="javascript:" title="select"><i class="feather icon-circle text-muted"></i></a
+                      ></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-auto hover-blk position-absolute shadow-sm rounded">
+                  <div class="card-body p-0 pt-2">
+                    <div class="img-txt">
+                      <img src="assets/images/user/avatar-1.jpg" alt="user-img" class="wid-20 rounded me-1 img-fluid" />
+                      <p>You replied</p>
+                    </div>
+                    <p
+                      >hello Yogin dra,you need to create "toolbar-options" div only once in a page in your code, this div fill found every
+                      "td"...</p
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-12">
+      <div class="right-side">
+        <div class="card mb-3">
+          <div class="card-header">
+            <h5>Ticket Categories</h5>
+          </div>
+          <div class="card-body p-3">
+            <div class="cat-list">
+              <div class="{{ ticket.type }}" *ngFor="let ticket of tickets">
+                <div class="d-inline-block">
+                  <img src="{{ ticket.src }}" alt="ticket-img" class="wid-20 rounded me-1 img-fluid" />
+                  <a href="javascript:">{{ ticket.name }}</a>
+                </div>
+                <div class="float-end span-content">
+                  <a href="javascript:" class="btn btn-default {{ ticket.background }} rounded-circle me-1" title="Total">{{
+                    ticket.number
+                  }}</a>
+                  <a href="javascript:" class="btn btn-default bg-secondary rounded-circle me-0" title="Total Ticket">3</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header pt-4 pb-4">
+            <h5>Support Agent</h5>
+          </div>
+          <div class="card-body p-3">
+            <div class="cat-list">
+              <div class="border-bottom pb-3 pt-3" *ngFor="let agent of agents">
+                <div class="d-inline-block">
+                  <img src="{{ agent.src }}" alt="agent-img" class="wid-20 rounded me-1 img-fluid" />
+                  <a href="javascript:">{{ agent.name }}</a>
+                </div>
+                <div class="float-end span-content">
+                  <a href="javascript:" class="btn btn-default {{ agent.background }} rounded-circle me-1" title="total value">{{
+                    agent.number
+                  }}</a>
+                  <a href="javascript:" class="btn btn-default bg-secondary rounded-circle me-0" title="Total">3</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-offcanvas>
+  <ng-scrollbar style="height: calc(100vh - 0px)" visibility="hover">
+    <div class="content">
+      <div class="card-body">
+        <h4
+          >Chrome bug The page uses a roller to slide under a black block<span class="badge bg-danger text-uppercase ms-2 f-12"
+            >Private</span
+          ></h4
+        >
+        <div class="border-bottom pb-3 pt-3">
+          <div class="row">
+            <div class="col-md-7">
+              <button type="button" class="btn btn-outline-success btn-sm"><i class="feather icon-check me-1"></i> Closed</button>
+              <p class="list-inline-item mb-0 ms-3"
+                ><img src="assets/images/ticket/p1.jpg" alt="ticket-img" class="wid-20 rounded me-1 img-fluid" />Alpha pro</p
+              >
+            </div>
+            <div class="col-md-5 text-end">
+              <p class="d-inline-block mb-0"><i class="feather icon-calendar me-1"></i><label class="mb-0">Jan,1st,2019</label></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- [  editor ] start -->
+      <div class="col-sm-12 p-r-15 p-l-15">
+        <div class="card border-0 shadow-none">
+          <div class="card-body pe-0 ps-0 pt-0">
+            <div class="row">
+              <div class="col-auto">
+                <img class="media-object wid-60 img-radius" src="assets/images/user/avatar-5.jpg" alt="Generic placeholder image " />
+              </div>
+              <div class="col">
+                <div class="tab-block border-bottom mb-4 pb-3">
+                  <h5><i class="feather icon-corner-up-left me-1"></i>Reply</h5>
+                </div>
+                <p class="text-danger"
+                  ><span class="font-weight-bold me-1">Note!</span>This ticket is closed. If you want to re-open it, just post a reply
+                  below.</p
+                >
+                <quill-editor>
+                  <div quill-editor-toolbar>
+                    <span class="ql-formats">
+                      <select class="ql-header" [title]="'header'">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                        <option value="5"></option>
+                        <option value="6"></option>
+                        <option selected="selected"></option>
+                      </select>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-bold" [title]="'Bold'"></button>
+                      <button class="ql-italic" [title]="'Italic'"></button>
+                      <button class="ql-underline" [title]="'Italic'"></button>
+                      <button class="ql-italic" [title]="'strike'"></button>
+                      <button class="ql-link" [title]="'link'"></button>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-list" value="ordered"></button>
+                      <button class="ql-list" value="bullet"></button>
+                    </span>
+                    <span class="ql-formats">
+                      <button class="ql-clean"></button>
+                    </span>
+                  </div>
+                </quill-editor>
+                <div class="btn-block mt-3">
+                  <div class="btn-group mb-2 me-2 dropdown" ngbDropdown placement="auto">
+                    <button type="button" class="btn btn-primary">Primary</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" ngbDropdownToggle
+                      ><span class="sr-only">Toggle Dropdown</span></button
+                    >
+                    <div class="dropdown-menu" ngbDropdownMenu>
+                      <a class="dropdown-item" href="javascript:">Action</a>
+                      <a class="dropdown-item" href="javascript:">Another action</a>
+                      <a class="dropdown-item" href="javascript:">Something else here</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="javascript:">Separated link</a>
+                    </div>
+                  </div>
+                  <div class="file btn btn-outline-secondary file-btn mb-2 me-2">
+                    <i class="feather icon-paperclip"></i>Add Atachment
+                    <input type="file" name="file" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row border-bottom border-top pb-3 pt-4 ps-3 pe-3" *ngFor="let profile of profiles">
+            <div class="col-auto">
+              <img class="media-object wid-60 img-radius" src="{{ profile.src }}" alt="Generic placeholder image " />
+            </div>
+            <div class="col">
+              <h6 class="mb-0">Support Agent name<span class="badge bg-secondary ms-2">Support Agent</span></h6>
+              <label class="text-muted">5 Month ago</label>
+            </div>
+            <div class="col-auto">
+              <ul class="list-unstyled mb-0">
+                <li class="d-inline-block me-1"
+                  ><a href="javascript:"><i class="feather icon-edit text-muted"></i></a
+                ></li>
+                <li class="d-inline-block"
+                  ><a href="javascript:"><i class="feather icon-trash-2 text-muted"></i></a
+                ></li>
+              </ul>
+            </div>
+            <div class="col-md-12 mt-3">
+              <div class="comment-content">
+                <p>hello John lui,</p>
+                <p
+                  >you need to create <strong>"toolbar-options" div only once</strong> in a page in your code, this div fill found
+                  <strong>every "td"</strong> tag in your page, just remove those things.
+                </p>
+                <p>and also</p>
+                <p>in option button add "<strong>p-0</strong>" class in "<strong>I</strong>" tag</p>
+                <p>to</p>
+                <p></p>
+                <p>Thanks...</p>
+              </div>
+              <div class="row text-center mb-2">
+                <div class="col-xl-2 col-lg-3 col-sm-4 col-xs-12" *ngFor="let images of img">
+                  <a href="{{ images.src }}"> <img src="{{ images.image }}" class="img-fluid m-b-10" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- [  editor ] end -->
+    </div>
+  </ng-scrollbar>
+</ng-template>

@@ -1,0 +1,185 @@
+<div class="container">
+  <div class="row btn-page">
+    <div class="col">
+      <div class="card">
+        <div class="bg-c-blue p-4">
+          <h5 class="text-white mb-0"><i class="feather icon-lock me-1"></i>Private Ticket #1831786</h5>
+        </div>
+        <div class="card-body topic-name">
+          <div class="row align-items-center">
+            <div class="col-xl-8">
+              <h3 class="d-inline-block mb-0">Theme customization issue</h3>
+            </div>
+            <div class="col-xl-4">
+              <div class="btn-star">
+                <a href="javascript:" class="btn btn-primary btn-sm">Mark as unread</a>
+                <a href="javascript:" title="star"><i class="feather icon-star f-20 text-muted"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-light p-3">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-secondary text-uppercase"
+                ><i class="fas fa-comment-alt me-2"></i>Post a reply <span class="badge bg-light m-l-10 text-dark">R</span></button
+              >
+              <button type="button" class="btn btn-secondary text-uppercase"
+                ><i class="fas fa-pen me-2"></i>Post a Note <span class="badge bg-light m-l-10 text-dark">N</span></button
+              >
+              <button type="button" class="btn btn-secondary text-uppercase"
+                ><i class="fas fas fa-address-book me-2"></i>Customer Notes</button
+              >
+            </div>
+          </div>
+        </div>
+        <div class="card-body hd-detail hdd-admin border-bottom">
+          <div class="row">
+            <div class="col-auto text-center">
+              <img class="media-object wid-60 img-radius mb-2" src="assets/images/user/avatar-5.jpg" alt="Generic placeholder image " />
+              <p><i class="fas fa-thumbs-up me-1 text-primary"></i>4</p>
+            </div>
+            <div class="col">
+              <div class="comment-top">
+                <h3>You <small class="text-muted f-w-400">replied</small></h3>
+                <p>1 day ago on Wednesday at 8:18am</p>
+              </div>
+              <ng-container *ngTemplateOutlet="textContent"></ng-container>
+            </div>
+            <div class="col-auto ps-0 col-right">
+              <div class="card-body text-center">
+                <ul class="list-unstyled mb-0 edit-del">
+                  <li class="d-inline-block f-20 me-1"
+                    ><a href="javascript:" title="Edit"><i class="feather icon-edit-2 text-muted"></i></a
+                  ></li>
+                  <li class="d-inline-block f-20"
+                    ><a href="javascript:" title="Delete"><i class="feather icon-trash-2 text-muted"></i></a
+                  ></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body hd-detail hdd-user border-bottom bg-light">
+          <div class="row">
+            <div class="col-auto text-center">
+              <img class="media-object wid-60 img-radius mb-2" src="assets/images/user/avatar-4.jpg" alt="Generic placeholder image " />
+              <p>1 Ticket</p>
+            </div>
+            <div class="col">
+              <div class="comment-top">
+                <h3>User <small class="text-muted f-w-400">replied</small></h3>
+                <p>1 day ago on Wednesday at 8:18am</p>
+              </div>
+              <ng-container *ngTemplateOutlet="textContent"></ng-container>
+
+              <div class="row text-center mb-2">
+                <div class="col-xl-2 col-lg-3 col-sm-4 col-xs-12" *ngFor="let list of images">
+                  <a href="{{ list.img }}">
+                    <img src="{{ list.src }}" class="img-fluid m-b-10" alt="gallery-img" />
+                  </a>
+                </div>
+              </div>
+              <button type="button" class="btn btn-outline-primary btn-sm"><i class="fas fa-thumbs-up me-1"></i> Like</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body hd-detail hdd-admin">
+          <div class="row">
+            <div class="col-auto text-center">
+              <img class="media-object wid-60 img-radius mb-2" src="assets/images/user/avatar-5.jpg" alt="Generic placeholder image " />
+              <p><i class="fas fa-thumbs-up me-1 text-primary"></i>4</p>
+            </div>
+            <div class="col">
+              <div class="comment-top">
+                <h3>You <small class="text-muted f-w-400">replied</small></h3>
+                <p>1 day ago on Wednesday at 8:18am</p>
+              </div>
+              <ng-container *ngTemplateOutlet="textContent"></ng-container>
+            </div>
+            <div class="col-auto ps-0 col-right">
+              <div class="card-body text-center">
+                <ul class="list-unstyled mb-0 edit-del">
+                  <li class="d-inline-block f-20 me-1"
+                    ><a href="javascript:" title="Edit"><i class="feather icon-edit-2 text-muted"></i></a
+                  ></li>
+                  <li class="d-inline-block f-20"
+                    ><a href="javascript:" title="Delete"><i class="feather icon-trash-2 text-muted"></i></a
+                  ></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-auto hdd-right-side">
+      <div class="card hdd-right-inner">
+        <div class="card-header pt-4 pb-4">
+          <h5>Ticket Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success d-block text-center text-uppercase"
+            ><i class="feather icon-check-circle me-2"></i>Verified Purchase</div
+          >
+          <div class="select-block">
+            <div class="form-group">
+              <select title="Ticket Status" class="js-status-multiple col-sm-12 form-control">
+                <option>Open</option>
+                <option>Close</option>
+                <option>CLosed Forever</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select title="Assigned To" class="js-assigned-multiple col-sm-12 form-control">
+                <option value="avatar-5">Jack Pall</option>
+                <option value="avatar-4">Liza Mac</option>
+                <option value="avatar-3">Lina Hop</option>
+                <option value="avatar-2">Sam Hunk</option>
+                <option value="avatar-1">Jhon White</option>
+              </select>
+            </div>
+            <select title="Category" class="js-category-multiple col-sm-12 form-control">
+              <option value="prod-1">Able Admin</option>
+              <option value="prod-2">Guru Dash</option>
+              <option value="prod-3">Datta Able</option>
+              <option value="prod-4">Able Dash</option>
+              <option value="prod-5">Dash Able</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row border-bottom pt-3 pb-2" *ngFor="let list of person">
+            <div class="col-sm-4 col-xl-3">
+              <label class="mb-0">{{ list.title }}</label></div
+            >
+            <div class="col-sm-8 col-xl-9 d-inline-block mb-0">
+              <p
+                ><img src="{{ list.src }}" class="wid-20 rounded me-1 img-fluid" /><i class="{{ list.icon }}"></i
+                ><a href="javascript:">{{ list.name }}</a></p
+              >
+            </div>
+          </div>
+          <div class="d-flex mt-3">
+            <button type="button" class="btn btn-outline-primary"><i class="feather icon-thumbs-up me-2"></i>Make Private</button>
+            <button type="button" class="btn btn-outline-danger"><i class="feather icon-trash-2 me-2"></i>Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #textContent>
+  <div class="comment-content">
+    <p>hello john doe,</p>
+    <p
+      >you need to create <strong>"toolbar-options" div only once</strong> in a page in your code, this div fill found
+      <strong>every "td"</strong> tag in your page, just remove those things.
+    </p>
+    <p>and also</p>
+    <p>in option button add "<strong>p-0</strong>" class in "<strong>I</strong>" tag</p>
+    <p>to</p>
+    <p></p>
+    <p>Thanks...</p>
+  </div>
+</ng-template>

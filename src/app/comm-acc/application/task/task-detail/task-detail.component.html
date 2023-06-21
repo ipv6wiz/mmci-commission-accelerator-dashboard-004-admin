@@ -1,0 +1,363 @@
+<div class="row btn-page">
+  <div class="col-xl-4 col-lg-12 task-detail-right">
+    <app-card cardTitle="Task Timer" [options]="false" blockClass="bg-c-blue" [hidHeader]="true">
+      <div class="counter text-center">
+        <h3 id="timer" class="text-white m-0">
+          <b>{{ dYears !== 0 && dYears !== undefined ? dYears : '' }}</b
+          >{{ dYears !== 0 && dYears !== undefined ? 'y : ' : '' }} <b>{{ dDays }}</b
+          >d : <b>{{ dHours }}</b
+          >h : <b>{{ dMinutes }}</b
+          >m : <b>{{ dSeconds }}</b
+          >s
+        </h3>
+      </div>
+    </app-card>
+    <app-card cardTitle="Task Details" blockClass="task-details" [options]="false">
+      <table class="table">
+        <tbody>
+          <tr *ngFor="let list of task_details">
+            <td><i class="{{ list.icon }} m-r-5"></i> {{ list.title }}:</td>
+            <td class="text-end"
+              ><a class="text-secondary" href="javascript:"><i class="{{ list.symbol }} m-r-5"></i> {{ list.text }}</a></td
+            >
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <span>
+          <a href="javascript:" title="share" class="text-muted f-16 m-r-10"><i class="fas fa-random"></i> </a>
+        </span>
+        <span class="m-r-10">
+          <a href="javascript:" title="more" class="text-muted f-16"><i class="fas fa-ellipsis-v"></i></a>
+        </span>
+        <div class="btn-group d-inline-block dropdown" ngbDropdown placement="auto">
+          <button class="btn drp-icon btn-primary" ngbDropdownToggle type="button"><i class="feather icon-thumbs-up"></i></button>
+          <div ngbDropdownMenu>
+            <a class="dropdown-item" href="javascript:">Check in</a>
+            <a class="dropdown-item" href="javascript:">Attach screenshot</a>
+            <a class="dropdown-item active" href="javascript:">Reassign</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:">Edit task</a>
+            <a class="dropdown-item" href="javascript:">Remove</a>
+          </div>
+        </div>
+      </div>
+    </app-card>
+    <app-card cardTitle="Task settings" blockClass="task-setting" [options]="false">
+      <div class="form-group">
+        <div class="row" *ngFor="let task of setting; let i = index">
+          <div class="col-sm-12">
+            <div class="form-group mb-0">
+              <div class="switch d-inline m-r-10">
+                <input type="checkbox" id="switch-{{ i }}" checked placeholder="switch" />
+                <label for="switch-{{ i }}" class="cr"></label>
+              </div>
+              <label>{{ task.title }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngFor="let task of settings; let i = index">
+          <div class="col-sm-12">
+            <div class="form-group mb-0">
+              <div class="switch d-inline m-r-10">
+                <input type="checkbox" id="Switch-{{ i }}" placeholder="switch" />
+                <label for="Switch-{{ i }}" class="cr"></label>
+              </div>
+              <label>{{ task.title }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="row text-center mt-2">
+          <div class="col-sm-12">
+            <button type="button" class="btn btn-secondary">Reset </button>
+            <button type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </app-card>
+    <app-card cardTitle="Revisions" [options]="false">
+      <div class="taskboard-right-revision user-box">
+        <div class="media" *ngFor="let media of medias">
+          <div class="media-left me-3">
+            <a class="btn {{ media.background }} btn-icon" href="javascript:" role="button"><i class="{{ media.icon }}"></i> </a>
+          </div>
+          <div class="media-body">
+            <div class="chat-header f-w-400 mb-1">{{ media.title }}</div>
+            <p class="chat-header text-muted">{{ media.time }}</p>
+          </div>
+        </div>
+      </div>
+    </app-card>
+    <app-card cardTitle="Attached Files" blockClass="task-attachment" [options]="false">
+      <ul class="media-list p-0">
+        <li class="media d-flex m-b-15" *ngFor="let task of attached">
+          <div class="m-r-20 file-attach">
+            <i class="{{ task.icon }} f-28 text-muted"></i>
+          </div>
+          <div class="media-body">
+            <a href="javascript:" class="m-b-5 d-block text-secondary">{{ task.title }}</a>
+            <div class="text-muted">
+              <span>{{ task.text }}</span>
+              <span>
+                Added by<a href="javascript:" class="text-secondary">{{ task.file }}</a></span
+              >
+            </div>
+          </div>
+          <div class="float-end text-muted">
+            <i class="fas fa-download f-18"></i>
+          </div>
+        </li>
+      </ul>
+    </app-card>
+    <app-card cardTitle="Assigned Users" blockClass="user-box assign-user" [options]="false">
+      <div class="media" *ngFor="let user of users">
+        <div class="media-left media-middle me-3">
+          <a href="javascript:">
+            <img class="img-radius" src="{{ user.img }}" alt="chat-user" />
+          </a>
+        </div>
+        <div class="media-body">
+          <h6>{{ user.name }}</h6>
+          <p>{{ user.position }}</p>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-8 col-lg-12">
+    <app-card [customHeader]="true" [options]="false">
+      <div class="app-card-header">
+        <h5 class="mb-3"><i class="fas fa-ticket-alt m-r-5"></i> Ticket List Doesn't Support Commas</h5>
+        <button class="btn btn-primary float-end f-14"><i class="far fa-bell m-r-5"></i>Check in</button>
+      </div>
+      <div class="m-b-20">
+        <h6>Overview</h6>
+        <hr />
+        <p
+          >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+          text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p
+        >
+      </div>
+      <div class="m-b-20">
+        <h6>What we need</h6>
+        <hr />
+        <p
+          >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+          text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has
+          survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p
+        >
+      </div>
+      <div class="m-b-20 col-sm-12">
+        <div class="row">
+          <div class="col-md-12 col-lg-6">
+            <div class="text-primary f-14 m-b-10"> 1. The standard Lorem Ipsum passage </div>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <div class="text-primary f-14 m-b-10"> 2. The standard Lorem Ipsum passage </div>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          </div>
+        </div>
+      </div>
+      <div class="m-b-20">
+        <h6>Requirements</h6>
+        <hr />
+        <p
+          >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+          text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has
+          survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p
+        >
+        <div class="table-responsive m-t-20">
+          <table class="table m-b-0 f-14 b-solid requid-table">
+            <thead>
+              <tr class="text-uppercase">
+                <th class="text-center">#</th>
+                <th class="text-center">Task</th>
+                <th class="text-center">Due Date</th>
+                <th class="text-center">Description</th>
+              </tr>
+            </thead>
+            <tbody class="text-center text-muted">
+              <tr *ngFor="let list of tables">
+                <td>{{ list.id }}</td>
+                <td>{{ list.task }}</td>
+                <td> <i class="far fa-calendar-alt"></i>&nbsp; {{ list.date }}</td>
+                <td>The standard Lorem Ipsum passage</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="float-start mt-4"
+        ><span class="txt-primary m-r-10"> <i class="fas fa-chart-line me-2"></i>Status:</span>
+        <div class="dropdown-secondary d-inline-block dropdown" ngbDropdown placement="auto">
+          <button class="btn btn btn-primary" ngbDropdownToggle type="button">Open</button>
+          <div ngbDropdownMenu>
+            <a class="dropdown-item active" href="javascript:">Open</a>
+            <a class="dropdown-item" href="javascript:">On hold</a>
+            <a class="dropdown-item" href="javascript:">Resolved</a>
+            <a class="dropdown-item" href="javascript:">Closed</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:">Dublicate</a>
+            <a class="dropdown-item" href="javascript:">Invalid</a>
+            <a class="dropdown-item" href="javascript:">Wontfix</a>
+          </div>
+        </div>
+      </div>
+      <div class="float-end d-flex mt-4">
+        <span
+          ><a href="javascript:" class="text-muted m-r-10 f-16"><i class="fas fa-edit"></i> </a
+        ></span>
+        <span class="m-r-10"
+          ><a href="javascript:" class="text-muted f-16"><i class="fas fa-trash"></i></a
+        ></span>
+      </div>
+    </app-card>
+    <app-card [customHeader]="true" blockClass="task-comment" [options]="false">
+      <div class="app-card-header">
+        <h5 class="card-header-text"><i class="fas fa-plus m-r-5"></i> Comments</h5>
+        <button type="button" class="btn btn-icon btn-primary float-end m-0"><i class="fas fa-plus"></i></button>
+      </div>
+      <ul class="media-list p-0">
+        <li class="media">
+          <div class="media-left me-3">
+            <a href="javascript:">
+              <img class="media-object img-radius comment-img" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image" />
+            </a>
+          </div>
+          <div class="media-body">
+            <h6 class="media-heading txt-primary">Lorem Ipsum <span class="f-12 text-muted m-l-5">Just now</span></h6>
+            <p
+              >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s.</p
+            >
+            <div class="m-t-10 m-b-25">
+              <span><a href="javascript:" class="m-r-10 text-secondary">Reply</a></span
+              ><span><a href="javascript:" class="m-r-10 text-secondary">Edit</a> </span>
+            </div>
+            <hr />
+            <div class="media mt-2">
+              <a class="media-left me-3" href="javascript:">
+                <img class="media-object img-radius comment-img" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image" />
+              </a>
+              <div class="media-body">
+                <h6 class="media-heading txt-primary">Lorem Ipsum <span class="f-12 text-muted m-l-5">Just now</span></h6>
+                <p
+                  >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                  dummy text ever since the 1500s.</p
+                >
+                <div class="m-t-10 m-b-25">
+                  <span><a href="javascript:" class="m-r-10 text-secondary">Reply</a></span
+                  ><span><a href="javascript:" class="m-r-10 text-secondary">Edit</a> </span>
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="media mt-2">
+          <div class="media-left me-3">
+            <a href="javascript:">
+              <img class="media-object img-radius comment-img" src="assets/images/user/avatar-3.jpg" alt="Generic placeholder image" />
+            </a>
+          </div>
+          <div class="media-body">
+            <h6 class="media-heading txt-primary">Lorem ipsum<span class="f-12 text-muted m-l-5">Just now</span></h6>
+            <p
+              >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s.</p
+            >
+            <div class="m-t-10 m-b-25">
+              <span><a href="javascript:" class="m-r-10 text-secondary">Reply</a></span
+              ><span><a href="javascript:" class="m-r-10 text-secondary">Edit</a> </span>
+            </div>
+            <hr />
+          </div>
+        </li>
+        <li class="media">
+          <div class="media-left me-3">
+            <a href="javascript:">
+              <img class="media-object img-radius comment-img" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image" />
+            </a>
+          </div>
+          <div class="media-body">
+            <h6 class="media-heading txt-primary">Lorem Ipsum <span class="f-12 text-muted m-l-5">Just now</span></h6>
+            <p
+              >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s.</p
+            >
+            <div class="m-t-10 m-b-25">
+              <span><a href="javascript:" class="m-r-10 text-secondary">Reply</a></span
+              ><span><a href="javascript:" class="m-r-10 text-secondary">Edit</a> </span>
+            </div>
+            <hr />
+            <div class="media mt-2">
+              <a class="media-left me-3" href="javascript:">
+                <img class="media-object img-radius comment-img" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image" />
+              </a>
+              <div class="media-body">
+                <h6 class="media-heading txt-primary">Lorem Ipsum <span class="f-12 text-muted m-l-5">Just now</span></h6>
+                <p
+                  >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                  dummy text ever since the 1500s.</p
+                >
+                <div class="m-t-10 m-b-25">
+                  <span><a href="javascript:" class="m-r-10 text-secondary">Reply</a></span
+                  ><span><a href="javascript:" class="m-r-10 text-secondary">Edit</a> </span>
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="media mt-2">
+          <div class="media-left me-3">
+            <a href="javascript:">
+              <img class="media-object img-radius comment-img" src="assets/images/user/avatar-3.jpg" alt="Generic placeholder image" />
+            </a>
+          </div>
+          <div class="media-body">
+            <h6 class="media-heading txt-primary">Lorem ipsum<span class="f-12 text-muted m-l-5">Just now</span></h6>
+            <p
+              >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s.</p
+            >
+            <div class="m-t-10 m-b-25">
+              <span><a href="javascript:" class="m-r-10 text-secondary">Reply</a></span
+              ><span><a href="javascript:" class="m-r-10 text-secondary">Edit</a> </span>
+            </div>
+            <hr />
+          </div>
+        </li>
+        <li class="media mt-2">
+          <div class="media-left me-3">
+            <a href="javascript:">
+              <img class="media-object img-radius comment-img" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image" />
+            </a>
+          </div>
+          <div class="media-body">
+            <h6 class="media-heading txt-primary">Lorem ipsum<span class="f-12 text-muted m-l-5">Just now</span></h6>
+            <p
+              >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s.</p
+            >
+            <div class="m-t-10 m-b-25">
+              <span><a href="javascript:" class="m-r-10 text-secondary">Reply</a></span
+              ><span><a href="javascript:" class="m-r-10 text-secondary">Edit</a> </span>
+            </div>
+            <hr />
+          </div>
+        </li>
+      </ul>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Add Task..."
+          aria-label="Recipient's username"
+          aria-describedby="basic-addon2"
+        />
+        <span class="input-group-text bg-primary" id="basic-addon2"><i class="fas fa-search"></i></span>
+      </div>
+    </app-card>
+  </div>
+</div>

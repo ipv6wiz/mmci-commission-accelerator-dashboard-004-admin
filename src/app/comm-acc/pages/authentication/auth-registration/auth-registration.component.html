@@ -1,0 +1,446 @@
+<div class="card">
+    <div class="card-header">
+        <h5>New Client Application Process</h5>
+    </div>
+    <div class="card-body">
+        <aw-wizard #wizard class="arc-wizard" navBarLayout="large-filled-symbols">
+            <aw-wizard-step stepTitle="Profile" [navigationSymbol]="{ symbol: '&#xe9f1;', fontFamily: 'Feather' }" [style.font-weight]="900">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Profile</h5>
+                        <hr />
+                    </div>
+                </div>
+                <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <fieldset>
+                                <legend>Account Creation</legend>
+                                <div class="row">
+                                    <p>An Account will be created for you that you can use to check the progress of your application.
+                                        You will receive a confirmation email.
+                                        Follow the link to confirm your email address, only then will you be able to login</p>
+                                </div>
+                                <div class="row">
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="email">Your Email: </label>
+
+                                        <input
+                                            class="form-control"
+                                            id="email"
+                                            formControlName="email"
+                                            [ngClass]="{ 'is-invalid': f?.['email'].touched &&  f?.['email'].errors }"
+                                        />
+                                        <div class="row">
+                                        <div *ngIf="f?.['email'].touched && f?.['email'].errors" class="alert alert-danger">
+                                            <div *ngIf="f?.['email'].errors.required">Email Address Required</div>
+                                            <div *ngIf="f?.['email'].invalid">Valid Email Address Required</div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="input-group">
+                                            <label class="col-sm-4 col-form-label" for="password">Password: </label>
+                                            <input
+                                                class="form-control"
+                                                id="password"
+                                                type="password"
+                                                formControlName="password"
+                                                [ngClass]="{ 'is-invalid': f?.['password'].touched && f?.['password'].errors }"
+                                            />
+                                            <i class="fa fa-eye  password-show" id="togglePassword"></i>
+                                            <div *ngIf="f?.['password'].touched && f?.['password'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['password'].errors.required">Password is required.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="confirm-password">Confirm Password: </label>
+
+                                        <input
+                                            class="form-control"
+                                            id="confirm-password"
+                                            type="password"
+                                            formControlName="confirmPassword"
+                                            [ngClass]="{ 'is-invalid': f?.['confirmPassword'].touched &&  f?.['confirmPassword'].errors }"
+                                        />
+                                    </div>
+                                    <div class="row">
+                                        <div *ngIf="f?.['confirmPassword'].touched && f?.['confirmPassword'].errors" class="alert alert-danger">
+                                            <div *ngIf="f?.['confirmPassword'].errors.required">Confirm Password is required.</div>
+                                            <div *ngIf="f?.['confirmPassword'].errors.confirmedValidator">Password and Confirm Password must be match.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+                        <div class="col-sm-4">
+                            <fieldset>
+                            <legend>Contact Information</legend>
+                            <div class="row">
+                            <div class="">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="firstName">First Name:</label>
+                                    <input
+                                        class="form-control"
+                                        id="firstName"
+                                        formControlName="firstName"
+                                        [ngClass]="{ 'is-invalid': f?.['firstName'].touched && f?.['firstName'].errors }"
+                                    />
+                                    <div *ngIf="f?.['firstName'].touched && f?.['firstName'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['firstName'].errors.required">First Name Required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="middleName">Middle Name(s): </label>
+                                    <input
+                                        class="form-control"
+                                        id="middleName"
+                                        formControlName="middleName"
+                                        [ngClass]="{ 'is-invalid': f?.['middleName'].touched && f?.['middleName'].errors }"
+                                    />
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="lastName">Last Name: </label>
+                                    <input
+                                        class="form-control"
+                                        id="lastName"
+                                        formControlName="lastName"
+                                        [ngClass]="{ 'is-invalid': f?.['lastName'].touched &&  f?.['lastName'].errors }"
+                                    />
+                                    <div *ngIf="f?.['lastName'].touched && f?.['lastName'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['lastName'].errors.required">Last Name Required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="dreNumber">Your DRE#: </label>
+                                    <input
+                                        class="form-control"
+                                        id="dreNumber"
+                                        type="text"
+                                        formControlName="dreNumber"
+                                        [ngClass]="{ 'is-invalid': f?.['dreNumber'].touched &&  f?.['dreNumber'].errors }"
+                                    />
+                                    <div *ngIf="f?.['dreNumber'].touched && f?.['dreNumber'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['dreNumber'].errors.required">DRE# Required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label" for="cellPhone">Your Cell Phone: </label>
+                                    <input
+                                        class="form-control"
+                                        id="cellPhone"
+                                        type="text"
+                                        formControlName="cellPhone"
+                                        [ngClass]="{ 'is-invalid': f?.['cellPhone'].touched &&  f?.['cellPhone'].errors }"
+                                    />
+                                    <div *ngIf="f?.['cellPhone'].touched && f?.['cellPhone'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['cellPhone'].errors.required">Cell Phone Required</div>
+                                        <div *ngIf="f?.['cellPhone'].errors.pattern">Phone format must be xxx-xxx-xxxx or (xxx) xxx-xxxx</div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </fieldset>
+                        </div>
+                        <div class="col-sm-4">
+                            <fieldset>
+                                <legend>Your Home Address</legend>
+                                <div class="row">
+                                    <div class="">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="addrLine1">Line 1: </label>
+                                            <input
+                                                class="form-control"
+                                                id="addrLine1"
+                                                type="text"
+                                                formControlName="addrLine1"
+                                                [ngClass]="{ 'is-invalid': f?.['addrLine1'].touched &&  f?.['addrLine1'].errors }"
+                                            />
+                                            <div *ngIf="f?.['addrLine1'].touched && f?.['addrLine1'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['addrLine1'].errors.required">Address Line 1 Required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="addrLine2">Line 2: </label>
+                                            <input
+                                                class="form-control"
+                                                id="addrLine2"
+                                                type="text"
+                                                formControlName="addrLine2"
+                                                [ngClass]="{ 'is-invalid': f?.['addrLine1'].touched &&  f?.['addrLine2'].errors }"
+                                            />
+                                            <div *ngIf="f?.['addrLine2'].touched && f?.['addrLine2'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['addrLine2'].errors.required">Address Line 2 Optional</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="addrLine3">Line 3: </label>
+                                            <input
+                                                class="form-control"
+                                                id="addrLine3"
+                                                type="text"
+                                                formControlName="addrLine3"
+                                                [ngClass]="{ 'is-invalid': f?.['addrLine3'].touched &&  f?.['addrLine3'].errors }"
+                                            />
+                                            <div *ngIf="f?.['addrLine3'].touched && f?.['addrLine3'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['addrLine3'].errors.required">Address Line 3 Optional</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="addrCity">City: </label>
+                                            <input
+                                                class="form-control"
+                                                id="addrCity"
+                                                type="text"
+                                                formControlName="addrCity"
+                                                [ngClass]="{ 'is-invalid': f?.['addrCity'].touched &&  f?.['addrCity'].errors }"
+                                            />
+                                            <div *ngIf="f?.['addrCity'].touched && f?.['addrCity'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['addrCity'].errors.required">City Required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="addrState">State: </label>
+                                            <input
+                                                class="form-control"
+                                                id="addrState"
+                                                type="text"
+                                                formControlName="addrState"
+                                                [ngClass]="{ 'is-invalid': f?.['addrState'].touched &&  f?.['addrState'].errors }"
+                                            />
+                                            <div *ngIf="f?.['addrState'].touched && f?.['addrState'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['addrState'].errors.required">Address State Required</div>
+                                                <div *ngIf="f?.['addrState'].errors.pattern">Only CA supported at this time</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="addrZip">ZIP Code: </label>
+                                            <input
+                                                class="form-control"
+                                                id="addrZip"
+                                                type="text"
+                                                formControlName="addrZip"
+                                                [ngClass]="{ 'is-invalid': f?.['addrZip'].touched &&  f?.['addrZip'].errors }"
+                                            />
+                                            <div *ngIf="f?.['addrZip'].touched && f?.['addrZip'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['addrZip'].errors.required">Address ZIP Code Required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <fieldset>
+                                <legend>Brokerage Information</legend>
+                                <div class="row">
+                                    <div class="">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="brokerageName">Brokerage Name:</label>
+                                            <input
+                                                class="form-control"
+                                                id="brokerageName"
+                                                formControlName="brokerageName"
+                                                [ngClass]="{ 'is-invalid': f?.['brokerageName'].touched && f?.['brokerageName'].errors }"
+                                            />
+                                            <div *ngIf="f?.['brokerageName'].touched && f?.['brokerageName'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['brokerageName'].errors.required">Brokerage Name Required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="brokerName">Broker Name: </label>
+                                            <input
+                                                class="form-control"
+                                                id="brokerName"
+                                                formControlName="brokerName"
+                                                [ngClass]="{ 'is-invalid': f?.['brokerName'].touched && f?.['brokerName'].errors }"
+                                            />
+                                            <div *ngIf="f?.['brokerName'].touched && f?.['brokerName'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['brokerName'].errors.required">Broker Name Required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="brokerEmail">Broker Email: </label>
+                                            <input
+                                                class="form-control"
+                                                id="brokerEmail"
+                                                formControlName="brokerEmail"
+                                                [ngClass]="{ 'is-invalid': f?.['brokerEmail'].touched &&  f?.['brokerEmail'].errors }"
+                                            />
+                                            <div *ngIf="f?.['brokerEmail'].touched && f?.['brokerEmail'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['brokerEmail'].errors.required">Broker Email Address Required</div>
+                                                <div *ngIf="f?.['brokerEmail'].invalid">Valid Broker Email Address Required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="brokerDreNumber">Broker DRE#: </label>
+                                            <input
+                                                class="form-control"
+                                                id="brokerDreNumber"
+                                                type="text"
+                                                formControlName="brokerDreNumber"
+                                                [ngClass]="{ 'is-invalid': f?.['brokerDreNumber'].touched &&  f?.['brokerDreNumber'].errors }"
+                                            />
+                                            <div *ngIf="f?.['brokerDreNumber'].touched && f?.['brokerDreNumber'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['brokerDreNumber'].errors.required">Broker DRE# Required</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label" for="brokerPhone">Broker Phone: </label>
+                                            <input
+                                                class="form-control"
+                                                id="brokerPhone"
+                                                type="text"
+                                                formControlName="brokerPhone"
+                                                [ngClass]="{ 'is-invalid': f?.['brokerPhone'].touched &&  f?.['brokerPhone'].errors }"
+                                            />
+                                            <div *ngIf="f?.['brokerPhone'].touched && f?.['brokerPhone'].errors" class="alert alert-danger">
+                                                <div *ngIf="f?.['brokerPhone'].errors.required">Broker Phone Required</div>
+                                                <div *ngIf="f?.['brokerPhone'].errors.pattern">Broker Phone format must be xxx-xxx-xxxx or (xxx) xxx-xxxx</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-sm-6">
+                            <fieldset>
+                                <legend>Performance Information</legend>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="perfProdVol">Production Last 12 months $ volume: </label>
+                                    <input
+                                        class="form-control"
+                                        id="perfProdVol"
+                                        type="text"
+                                        formControlName="perfProdVol"
+                                        [ngClass]="{ 'is-invalid': f?.['perfProdVol'].touched &&  f?.['perfProdVol'].errors }"
+                                    />
+                                    <div *ngIf="f?.['perfProdVol'].touched && f?.['perfProdVol'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['perfProdVol'].errors.required">Performance $ volume Required</div>
+                                        <div *ngIf="f?.['perfProdVol'].errors.pattern">Format Currency Rounded (numbers and commas) only</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="perfProdQty">Production Last 12 months quantity: </label>
+                                    <input
+                                        class="form-control"
+                                        id="perfProdQty"
+                                        type="text"
+                                        formControlName="perfProdQty"
+                                        [ngClass]="{ 'is-invalid': f?.['perfProdQty'].touched &&  f?.['perfProdQty'].errors }"
+                                    />
+                                    <div *ngIf="f?.['perfProdQty'].touched && f?.['perfProdQty'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['perfProdQty'].errors.required">Performance transaction quantity Required</div>
+                                        <div *ngIf="f?.['perfProdQty'].errors.pattern">Format whole number (numbers) only</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="activePurchEscrowsQty">Active Purchase Escrows (Qty): </label>
+                                    <input
+                                        class="form-control"
+                                        id="activePurchEscrowsQty"
+                                        type="text"
+                                        formControlName="activePurchEscrowsQty"
+                                        [ngClass]="{ 'is-invalid': f?.['activePurchEscrowsQty'].touched &&  f?.['activePurchEscrowsQty'].errors }"
+                                    />
+                                    <div *ngIf="f?.['activePurchEscrowsQty'].touched && f?.['activePurchEscrowsQty'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['activePurchEscrowsQty'].errors.required">Active Purchase Escrows quantity Required</div>
+                                        <div *ngIf="f?.['activePurchEscrowsQty'].errors.pattern">Format whole number (numbers) only</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="activeListingsQty">Active Listings (Qty): </label>
+                                    <input
+                                        class="form-control"
+                                        id="activeListingsQty"
+                                        type="text"
+                                        formControlName="activeListingsQty"
+                                        [ngClass]="{ 'is-invalid': f?.['activeListingsQty'].touched &&  f?.['activeListingsQty'].errors }"
+                                    />
+                                    <div *ngIf="f?.['activeListingsQty'].touched && f?.['activeListingsQty'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['activeListingsQty'].errors.required">Active Listings quantity Required</div>
+                                        <div *ngIf="f?.['activeListingsQty'].errors.pattern">Format whole number (numbers) only</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="pendingListingsQty">Pending Listings (Qty): </label>
+                                    <input
+                                        class="form-control"
+                                        id="pendingListingsQty"
+                                        type="text"
+                                        formControlName="pendingListingsQty"
+                                        [ngClass]="{ 'is-invalid': f?.['pendingListingsQty'].touched &&  f?.['pendingListingsQty'].errors }"
+                                    />
+                                    <div *ngIf="f?.['pendingListingsQty'].touched && f?.['pendingListingsQty'].errors" class="alert alert-danger">
+                                        <div *ngIf="f?.['pendingListingsQty'].errors.required">Pending Listings quantity Required</div>
+                                        <div *ngIf="f?.['pendingListingsQty'].errors.pattern">Format whole number (numbers) only</div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px">
+                        <div class="col-sm-12 centered-content">
+                            <div class="btn-group mt-10">
+                                <button [disabled]="!regForm.valid" type="submit" class="btn btn-primary btn-sm" >Submit for Approval </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </aw-wizard-step>
+            <aw-wizard-step stepTitle="Documents" [navigationSymbol]="{ symbol: '&#xe943;', fontFamily: 'Feather' }" [style.font-weight]="900">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Address Title</h5>
+                        <hr />
+                        <h6>Sub title 1</h6>
+                        <p>
+                            <strong>@Title content 1!.. </strong> Lorem Ipsum is simply dummy text of the printing
+                            <strong>@Content content 1 </strong> and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.
+                        </p>
+                        <h6 class="mt-3">Sub title 2</h6>
+                        <p>
+                            <strong>@Title content 2!.. </strong> Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text.
+                        </p>
+                    </div>
+                    <div class="col-sm-12 centered-content">
+                        <div class="btn-group mt-10">
+                            <button type="button" class="btn btn-secondary btn-sm me-2" awPreviousStep> Back </button>
+                            <button type="button" class="btn btn-primary btn-sm" awNextStep> Continue </button>
+                        </div>
+                    </div>
+                </div>
+            </aw-wizard-step>
+            <aw-wizard-step stepTitle="Completed" [navigationSymbol]="{ symbol: '&#xe92d;', fontFamily: 'Feather' }">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Finished Title</h5>
+                        <hr />
+                        <h6>Sub title 1</h6>
+                        <p>
+                            <strong>@Title content 1!.. </strong> Lorem Ipsum is simply dummy text of the printing
+                            <strong>@Content content 1 </strong> and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.
+                        </p>
+                        <h6 class="mt-3">Sub title 2</h6>
+                        <p>
+                            <strong>@Title content 2!.. </strong> Lorem Ipsum is simply dummy text and typesetting industry. Lorem Ipsum has been the
+                            industry's standard dummy text.
+                        </p>
+                    </div>
+                    <div class="col-sm-12 centered-content">
+                        <div class="btn-group mt-10">
+                            <button type="button" class="btn btn-secondary btn-sm me-2" awPreviousStep> Back </button>
+                            <button type="button" class="btn btn-success btn-sm" awResetWizard> Finished </button>
+                        </div>
+                    </div>
+                </div>
+            </aw-wizard-step>
+        </aw-wizard>
+    </div>
+</div>

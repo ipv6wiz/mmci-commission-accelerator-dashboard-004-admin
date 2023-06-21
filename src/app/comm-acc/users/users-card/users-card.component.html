@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-12">
+    <ul ngbNav aria-busy="true" #nav="ngbNav" class="nav-pills">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>SIMPLE</a>
+        <ng-template ngbNavContent>
+          <app-user-card-simple></app-user-card-simple>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2">
+        <a ngbNavLink>CLIP IMAGE</a>
+        <ng-template ngbNavContent>
+          <app-user-card-clip></app-user-card-clip>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="3">
+        <a ngbNavLink>FOOTER</a>
+        <ng-template ngbNavContent>
+          <app-user-card-footer></app-user-card-footer>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="4">
+        <a ngbNavLink>SOCIAL</a>
+        <ng-template ngbNavContent>
+          <app-user-card-social></app-user-card-social>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="5">
+        <a ngbNavLink>OTHER</a>
+        <ng-template ngbNavContent>
+          <app-user-card-other></app-user-card-other>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="mt-3"></div>
+  </div>
+</div>

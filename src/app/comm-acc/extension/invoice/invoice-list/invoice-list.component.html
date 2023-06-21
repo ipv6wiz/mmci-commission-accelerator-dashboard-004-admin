@@ -1,0 +1,200 @@
+<div class="row btn-page">
+  <div class="col-xl-3 col-lg-12">
+    <app-card cardTitle="Search Box" cardClass="task-board-left" [options]="false">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search here..."
+          aria-label="Recipient's username"
+          aria-describedby="basic-addon2"
+        />
+        <span class="input-group-text bg-primary" id="basic-addon2"><i class="fas fa-search"></i></span>
+      </div>
+      <div class="task-right">
+        <!-- complete status -->
+        <div
+          class="task-right-header-status"
+          (click)="isCompleteStatus = !isCompleteStatus"
+          [attr.aria-expanded]="!isCompleteStatus"
+          aria-controls="completeStatus"
+        >
+          <span class="f-w-400">Completed Status</span>
+          <i class="fas fa-caret-down float-end m-t-5"></i>
+        </div>
+        <div id="completeStatus" [ngbCollapse]="isCompleteStatus" class="taskboard-right-progress">
+          <div *ngFor="let task of tasks">
+            <h6 class="m-t-10">{{ task.title }}</h6>
+            <ngb-progressbar type="{{ task.color }}" height="9px" value="{{ task.progress }}"></ngb-progressbar>
+          </div>
+        </div>
+        <!-- assign users -->
+        <div
+          class="task-right-header-users"
+          (click)="isAssignUsers = !isAssignUsers"
+          [attr.aria-expanded]="!isAssignUsers"
+          aria-controls="assignUsers"
+        >
+          <span class="f-w-400">Assign Users</span>
+          <i class="fas fa-caret-down float-end m-t-5"></i>
+        </div>
+        <div id="assignUsers" [ngbCollapse]="isAssignUsers" class="user-box assign-user taskboard-right-users">
+          <div class="media mb-2" *ngFor="let media of medias">
+            <div class="media-left media-middle me-3">
+              <a href="javascript:">
+                <img class="media-object img-radius" src="{{ media.src }}" alt="Generic placeholder image" />
+                <div class="live-status {{ media.status }}"></div>
+              </a>
+            </div>
+            <div class="media-body">
+              <h6>{{ media.name }}</h6>
+              <p>{{ media.position }}</p>
+            </div>
+          </div>
+        </div>
+        <!-- revision -->
+        <div
+          class="task-right-header-revision"
+          (click)="isRevision = !isRevision"
+          [attr.aria-expanded]="!isRevision"
+          aria-controls="revision"
+        >
+          <span class="f-w-400">Revision</span>
+          <i class="fas fa-caret-down float-end m-t-5"></i>
+        </div>
+        <div id="revision" [ngbCollapse]="isRevision" class="taskboard-right-revision user-box">
+          <div class="media" *ngFor="let task of revision">
+            <div class="media-left me-3">
+              <a class="btn {{ task.background }} btn-icon" href="javascript:" role="button" title="icon"
+                ><i class="{{ task.icon }}"></i>
+              </a>
+            </div>
+            <div class="media-body">
+              <div class="chat-header f-w-400 mb-1">{{ task.title }}</div>
+              <p class="chat-header text-muted">{{ task.time }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-9 col-lg-12 filter-bar invoice-list">
+    <nav class="navbar m-b-30 p-10">
+      <ul class="nav">
+        <li class="nav-item active">
+          <a class="nav-link text-secondary" href="javascript:">Filter: <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown" ngbDropdown placement="auto">
+          <a class="nav-link text-secondary" ngbDropdownToggle href="javascript:" id="bydate"><i class="far fa-clock"></i> By Date</a>
+          <div ngbDropdownMenu aria-labelledby="bydate">
+            <a class="dropdown-item" href="javascript:">Show all</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:">Today</a>
+            <a class="dropdown-item" href="javascript:">Yesterday</a>
+            <a class="dropdown-item" href="javascript:">This week</a>
+            <a class="dropdown-item" href="javascript:">This month</a>
+            <a class="dropdown-item" href="javascript:">This year</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown" ngbDropdown placement="auto">
+          <a class="nav-link text-secondary" ngbDropdownToggle href="javascript:" id="bystatus"
+            ><i class="fas fa-chart-line"></i> By Status</a
+          >
+          <div ngbDropdownMenu aria-labelledby="bystatus">
+            <a class="dropdown-item" href="javascript:">Show all</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:">Open</a>
+            <a class="dropdown-item" href="javascript:">On hold</a>
+            <a class="dropdown-item" href="javascript:">Resolved</a>
+            <a class="dropdown-item" href="javascript:">Closed</a>
+            <a class="dropdown-item" href="javascript:">Duplicate</a>
+            <a class="dropdown-item" href="javascript:">Postfix</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown" ngbDropdown placement="auto">
+          <a class="nav-link text-secondary" ngbDropdownToggle href="javascript:" id="bypriority"
+            ><i class="fas fa-list-ol"></i> By Priority</a
+          >
+          <div ngbDropdownMenu aria-labelledby="bypriority">
+            <a class="dropdown-item" href="javascript:">Show all</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:">Highest</a>
+            <a class="dropdown-item" href="javascript:">High</a>
+            <a class="dropdown-item" href="javascript:">Normal</a>
+            <a class="dropdown-item" href="javascript:">Low</a>
+          </div>
+        </li>
+      </ul>
+      <div class="nav-item nav-grid">
+        <span class="m-r-15">View Mode: </span>
+        <button type="button" class="btn btn-primary btn-icon" title="list view">
+          <i class="fas fa-list-ul"></i>
+        </button>
+        <button type="button" class="btn btn-primary btn-icon" title="grid view">
+          <i class="fas fa-th-large"></i>
+        </button>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="col-md-6 col-sm-12" *ngFor="let card of cards">
+        <app-card cardClass="{{ card.background }}" blockClass="card-task" [customHeader]="true">
+          <div class="app-card-header">
+            <a href="javascript:" class="text-secondary">#24. Create UI design model </a>
+            <span class="label label-primary float-end"> 28 January, 2015 </span>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <p class="task-detail"
+                >A collection of textile samples lay spread out on the table One morning, when Gregor Samsa woke from troubled.</p
+              >
+              <p class="task-due"><strong> Due : </strong><strong class="label label-primary">23 hours</strong></p>
+            </div>
+          </div>
+          <hr />
+          <div class="task-list-table">
+            <a href="javascript:"><img class="img-fluid img-radius m-r-5" src="assets/images/user/avatar-2.jpg" alt="user img" /></a>
+            <a href="javascript:"><img class="img-fluid img-radius m-r-5" src="assets/images/user/avatar-1.jpg" alt="user img" /></a>
+            <a href="javascript:" title="add user"><i class="fas fa-plus"></i></a>
+          </div>
+          <div class="task-board">
+            <div class="dropdown-secondary m-r-5 dropdown" ngbDropdown placement="auto">
+              <button class="btn {{ card.color }} btn-sm" ngbDropdownToggle type="button">Normal</button>
+              <div ngbDropdownMenu>
+                <a class="dropdown-item" href="javascript:"><span class="point-marker bg-danger"></span>Highest priority</a>
+                <a class="dropdown-item" href="javascript:"><span class="point-marker bg-warning"></span>High priority</a>
+                <a class="dropdown-item active" href="javascript:"><span class="point-marker bg-success"></span>Normal priority</a>
+                <a class="dropdown-item" href="javascript:"><span class="point-marker bg-info"></span>Low priority</a>
+              </div>
+            </div>
+            <div class="dropdown-secondary m-r-5 dropdown" ngbDropdown placement="auto">
+              <button class="btn {{ card.color }} btn-sm b-none txt-muted" ngbDropdownToggle type="button">Open</button>
+              <div ngbDropdownMenu>
+                <a class="dropdown-item active" href="javascript:">Open</a>
+                <a class="dropdown-item" href="javascript:">On hold</a>
+                <a class="dropdown-item" href="javascript:">Resolved</a>
+                <a class="dropdown-item" href="javascript:">Closed</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:">Dublicate</a>
+                <a class="dropdown-item" href="javascript:">Invalid</a>
+                <a class="dropdown-item" href="javascript:">Wontfix</a>
+              </div>
+            </div>
+            <div class="dropdown-secondary dropdown" ngbDropdown placement="auto">
+              <button class="btn {{ card.color }} btn-sm b-none txt-muted" ngbDropdownToggle type="button"
+                ><i class="fas fa-bars"></i
+              ></button>
+              <div ngbDropdownMenu>
+                <a class="dropdown-item" href="javascript:">Check in</a>
+                <a class="dropdown-item" href="javascript:">Attach screenshot</a>
+                <a class="dropdown-item" href="javascript:">Reassign</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:">Edit task</a>
+                <a class="dropdown-item" href="javascript:">Remove</a>
+              </div>
+            </div>
+          </div>
+        </app-card>
+      </div>
+    </div>
+  </div>
+</div>

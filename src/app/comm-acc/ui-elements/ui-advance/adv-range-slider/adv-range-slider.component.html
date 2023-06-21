@@ -1,0 +1,142 @@
+<div class="row">
+  <div class="col-sm-6">
+    <app-card cardTitle="Simple Slider" [options]="false">
+      <p>Value: <input type="number" [(ngModel)]="value" placeholder="value" /></p>
+      <ngx-slider [(value)]="value" [options]="options"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Simple Slider Reactive Form" [options]="false">
+      <div class="d-flex align-items-center">
+        <p class="px-2 mb-0">Value: {{ sliderControl.value }}</p>
+        <p class="m-0">
+          <button class="btn btn-primary alien-item-center" (click)="resetForm()"> Reset </button>
+        </p>
+      </div>
+      <ngx-slider [options]="options" ngDefaultControl [formControl]="sliderControl"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Range Slider" [options]="false">
+      <div class="row">
+        <p class="col-md-6"> Min value: <input type="number" [(ngModel)]="minValue" placeholder="value" /> </p>
+        <p class="col-md-6"> Max value: <input type="number" [(ngModel)]="maxValue" placeholder="value" /> </p>
+      </div>
+      <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Range Slider reactive Form" [options]="false">
+      <form [formGroup]="sliderForm">
+        <div class="d-flex align-items-center">
+          <p class="px-2"> Low value: {{ sliderForm.value.sliderControl[0] }} </p>
+          <p class="px-2"> High value: {{ sliderForm.value.sliderControl[1] }} </p>
+          <p>
+            <button (click)="resetForm1()" class="px-10 btn btn-primary alien-item-center btn-sm"> Reset </button>
+          </p>
+        </div>
+        <ngx-slider [options]="options" ngDefaultControl formControlName="sliderControl"></ngx-slider>
+      </form>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Slider With Custom Style" [options]="false">
+      <ngx-slider [(value)]="minValue1" [(highValue)]="maxValue1" [options]="options1"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Range slider with the range limited to 10 through 50" [options]="false">
+      <ngx-slider [(value)]="minValue2" [(highValue)]="maxValue2" [options]="options2"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Dynamic Options Slider" [options]="false">
+      <div *ngFor="let slider of sliders">
+        <ngx-slider [(value)]="slider.value" [(highValue)]="slider.highValue" [options]="sliderOptions(slider)"></ngx-slider>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Range Slider With Fix Ceil" [options]="false">
+      <ngx-slider [(value)]="minValue3" [(highValue)]="maxValue3" [options]="options3"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Slider with visible selection bar from specified value" [options]="false">
+      <ngx-slider [(value)]="value4" [options]="options4"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Slider with dynamic selection bar color" [options]="false">
+      <ngx-slider [(value)]="value5" [options]="options5"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="RTL Slider" [options]="false">
+      <ngx-slider [(value)]="value6" [options]="options6"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Slider with ticks values and legend" [options]="false">
+      <ngx-slider [(value)]="value7" [options]="options7"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Read-only slider" [options]="false">
+      <div class="form-check">
+        <label class="form-check-label" for="flexCheckDefault"> Read-only </label>
+        <input class="form-check-input" type="checkbox" [(ngModel)]="readOnly" (change)="onChangeReadOnly()" id="flexCheckDefault" />
+      </div>
+      <ngx-slider [(value)]="value10" [options]="options10"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Slider with alphabet" [options]="false">
+      <ngx-slider [(value)]="value8" [options]="options8"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-6">
+    <app-card cardTitle="Slider with dates" [options]="false">
+      <ngx-slider [(value)]="value9" [options]="options9"></ngx-slider>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Vertical sliders" [options]="false">
+      <div class="container-fluid">
+        <div class="row" style="height: 300px">
+          <div class="col-2" style="height: 100%">
+            <ngx-slider [(value)]="verticalSlider1.value" [options]="verticalSlider1.options"></ngx-slider>
+          </div>
+
+          <div class="col-2" style="height: 100%">
+            <ngx-slider
+              [(value)]="verticalSlider2.minValue"
+              [(highValue)]="verticalSlider2.maxValue"
+              [options]="verticalSlider2.options"
+            ></ngx-slider>
+          </div>
+
+          <div class="col-2" style="height: 100%">
+            <ngx-slider [(value)]="verticalSlider3.value" [options]="verticalSlider3.options"></ngx-slider>
+          </div>
+
+          <div class="col-2" style="height: 100%">
+            <ngx-slider
+              [(value)]="verticalSlider4.minValue"
+              [(highValue)]="verticalSlider4.maxValue"
+              [options]="verticalSlider4.options"
+            ></ngx-slider>
+          </div>
+
+          <div class="col-2" style="height: 100%">
+            <ngx-slider [(value)]="verticalSlider5.value" [options]="verticalSlider5.options"></ngx-slider>
+          </div>
+
+          <div class="col-2" style="height: 100%">
+            <ngx-slider [(value)]="verticalSlider6.value" [options]="verticalSlider6.options"></ngx-slider>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

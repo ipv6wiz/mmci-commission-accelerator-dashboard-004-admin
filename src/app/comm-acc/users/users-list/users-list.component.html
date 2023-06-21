@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="User List" cardClass="user-profileList" [options]="false">
+      <div class="dt-responsive table-responsive">
+        <table datatable class="table table-striped row-border table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Office</th>
+              <th>Age</th>
+              <th>Start date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let table of tables">
+              <td>
+                <div class="d-inline-block align-middle">
+                  <img src="{{ table.src }}" alt="user image" class="img-radius align-top m-r-15" style="width: 40px" />
+                  <div class="d-inline-block">
+                    <h6 class="m-b-0">{{ table.name }}</h6>
+                    <p class="m-b-0">{{ table.email }}</p>
+                  </div>
+                </div>
+              </td>
+              <td>{{ table.position }}</td>
+              <td>{{ table.office }}</td>
+              <td>{{ table.age }}</td>
+              <td>{{ table.date }}</td>
+              <td>
+                <span class="badge {{ table.background }}">{{ table.status }}</span>
+                <div class="overlay-edit">
+                  <button type="button" class="btn btn-icon btn-success" title="Edit"><i class="feather icon-check-circle"></i></button>
+                  <button type="button" class="btn btn-icon btn-danger" title="Delete"><i class="feather icon-trash-2"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Office</th>
+              <th>Age</th>
+              <th>Start date</th>
+              <th>Status</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </app-card>
+  </div>
+</div>

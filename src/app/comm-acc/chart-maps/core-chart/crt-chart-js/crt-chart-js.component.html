@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-xl-6 col-md-12">
+    <app-card cardTitle="Line chart" [options]="false">
+      <canvas baseChart [type]="'line'" [data]="lineChartData" [options]="lineChartOptions" [legend]="lineChartLegend"> </canvas>
+    </app-card>
+  </div>
+  <div class="col-xl-6 col-md-12">
+    <app-card cardTitle="Bar Chart" [options]="false">
+      <canvas
+        baseChart
+        [data]="barChartData"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [type]="'bar'"
+      >
+      </canvas>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="pie chart" [options]="false">
+      <canvas
+        baseChart
+        height="471"
+        [type]="'pie'"
+        [datasets]="pieChartDatasets"
+        [labels]="pieChartLabels"
+        [options]="pieChartOptions"
+        [plugins]="pieChartPlugins"
+        [legend]="pieChartLegend"
+      >
+      </canvas>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Doughnut chart" [options]="false">
+      <canvas
+        baseChart
+        [labels]="doughnutChartLabels"
+        [datasets]="doughnutChartDatasets"
+        [options]="doughnutChartOptions"
+        [legend]="true"
+        [type]="'doughnut'"
+      >
+      </canvas>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Radar chart" [options]="false">
+      <canvas baseChart [datasets]="radarChartDatasets" [options]="radarChartOptions" [labels]="radarChartLabels" [type]="'radar'">
+      </canvas>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Polar Area chart" [options]="false">
+      <canvas
+        baseChart
+        [datasets]="polarAreaChartDatasets"
+        [labels]="polarAreaChartLabels"
+        [legend]="polarAreaLegend"
+        [options]="polarAreaOptions"
+        [type]="'polarArea'"
+      >
+      </canvas>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Bubble chart" [options]="false">
+      <canvas
+        baseChart
+        width="471"
+        height="471"
+        [datasets]="bubbleChartDatasets"
+        [options]="bubbleChartOptions"
+        [legend]="bubbleChartLegend"
+        [type]="'bubble'"
+      >
+      </canvas>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Scatter chart" [options]="false">
+      <canvas baseChart width="471" height="471" [datasets]="scatterChartDatasets" [options]="scatterChartOptions" [type]="'scatter'">
+      </canvas>
+    </app-card>
+  </div>
+  <div class="col-sl-12">
+    <app-card cardTitle="New Bar chart" [options]="false">
+      <canvas class="chart" baseChart width="600" height="300" [data]="barChartData1" [options]="barChartOptions1" [type]="barChartType">
+      </canvas>
+      <button mat-button mat-raised-button color="btn btn-primary" (click)="randomize()">Update</button>
+    </app-card>
+  </div>
+</div>

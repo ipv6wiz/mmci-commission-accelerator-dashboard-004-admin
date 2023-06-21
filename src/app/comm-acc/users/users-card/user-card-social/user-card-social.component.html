@@ -1,0 +1,192 @@
+<div class="row mb-n4">
+  <div class="col-xl-12">
+    <h6 class="text-center mb-3">Social profile</h6>
+    <app-card
+      [customHeader]="true"
+      headerClass="border-0 p-2 pb-0"
+      [options]="false"
+      cardClass="user-card user-card-2 shape-right"
+      blockClass="pt-0"
+    >
+      <div class="app-card-header">
+        <div class="cover-img-block">
+          <img src="assets/images/user/cover.jpg" alt="cover img" class="img-fluid" />
+          <div class="overlay"></div>
+          <div class="change-cover">
+            <div class="dropdown" ngbDropdown placement="bottom-left">
+              <a class="drp-icon dropdown-toggle" ngbDropdownToggle><i class="icon feather icon-camera"></i></a>
+              <div class="dropdown-menu" ngbDropdownMenu>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-upload-cloud me-2"></i>upload new</a>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-image me-2"></i>from photos</a>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-film me-2"></i> upload video</a>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-trash-2 me-2"></i>remove</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="user-about-block">
+        <div class="row align-items-center">
+          <div class="col">
+            <div class="row align-items-center">
+              <div class="col-auto col pr-0">
+                <div class="change-profile">
+                  <div class="dropdown" ngbDropdown placement="auto">
+                    <a class="dropdown-toggle" ngbDropdownToggle>
+                      <div class="profile-dp">
+                        <img class="img-radius img-fluid wid-100" src="assets/images/user/avatar-1.jpg" alt="User image" />
+                        <div class="overlay">
+                          <span>change</span>
+                        </div>
+                      </div>
+                    </a>
+                    <div class="dropdown-menu" ngbDropdownMenu>
+                      <a class="dropdown-item" href="javascript:"><i class="feather icon-upload-cloud me-2"></i>upload new</a>
+                      <a class="dropdown-item" href="javascript:"><i class="feather icon-image me-2"></i>from photos</a>
+                      <a class="dropdown-item" href="javascript:"><i class="feather icon-shield me-2"></i>Protact</a>
+                      <a class="dropdown-item" href="javascript:"><i class="feather icon-trash-2 me-2"></i>remove</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <h6 class="mb-1">Lary Doe</h6>
+                <p class="mb-0">UI/UX Designer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <h6 class="text-center mb-3">Badge</h6>
+    <app-card [hidHeader]="true" cardClass="user-card user-card-3 support-bar1" [isCardFooter]="true" footerClass="bg-light">
+      <div class="text-center">
+        <div class="position-relative d-inline-block">
+          <img class="img-radius img-fluid wid-150" src="assets/images/user/img-avatar-3.jpg" alt="User image" />
+          <div class="certificated-badge" placement="right" ngbTooltip="Certificated">
+            <i class="fas fa-certificate text-c-blue bg-icon"></i>
+            <i class="fas fa-medal front-icon text-white"></i>
+          </div>
+        </div>
+        <h3 class="mb-1 mt-3 f-w-400">Joseph William</h3>
+        <p class="mb-3 text-muted">UI/UX Designer</p>
+      </div>
+      <div class="app-card-footer">
+        <div class="row text-center">
+          <div class="col">
+            <h6 class="mb-1">37</h6>
+            <p class="mb-0">Mails</p>
+          </div>
+          <div class="col">
+            <h6 class="mb-1">2749</h6>
+            <p class="mb-0">Followers</p>
+          </div>
+          <div class="col">
+            <h6 class="mb-1">678</h6>
+            <p class="mb-0">Following</p>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <h6 class="text-center mb-3">Social link 1</h6>
+    <app-card [hidHeader]="true" cardClass="user-card user-card-3 support-bar1" [isCardFooter]="true" footerClass="bg-light">
+      <div class="text-center">
+        <img class="img-radius img-fluid wid-150" src="assets/images/user/img-avatar-1.jpg" alt="User image" />
+        <h3 class="mb-1 mt-3 f-w-400">Sara Soudein</h3>
+        <p class="mb-3 text-muted">UI/UX Designer</p>
+        <ul class="list-inline f-20 mt-3 mb-0">
+          <li class="list-inline-item"
+            ><a href="javascript:" title="facebook" class="text-facebook"><i class="fab fa-facebook-f"></i></a
+          ></li>
+          <li class="list-inline-item"
+            ><a href="javascript:" title="twitter" class="text-twitter"><i class="fab fa-twitter"></i></a
+          ></li>
+          <li class="list-inline-item"
+            ><a href="javascript:" title="dribble" class="text-dribbble"><i class="fab fa-dribbble"></i></a
+          ></li>
+          <li class="list-inline-item"
+            ><a href="javascript:" title="pinterest" class="text-pinterest"><i class="fab fa-pinterest"></i></a
+          ></li>
+          <li class="list-inline-item"
+            ><a href="javascript:" title="youtube" class="text-youtube"><i class="fab fa-youtube"></i></a
+          ></li>
+          <li class="list-inline-item"
+            ><a href="javascript:" title="Google Plus" class="text-googleplus"><i class="fab fa-google-plus-g"></i></a
+          ></li>
+          <li class="list-inline-item"
+            ><a href="javascript:" title="Linkedin" class="text-linkedin"><i class="fab fa-linkedin-in"></i></a
+          ></li>
+        </ul>
+      </div>
+      <div class="app-card-footer">
+        <div class="row text-center">
+          <div class="col">
+            <h6 class="mb-1">37</h6>
+            <p class="mb-0">Mails</p>
+          </div>
+          <div class="col">
+            <h6 class="mb-1">2749</h6>
+            <p class="mb-0">Followers</p>
+          </div>
+          <div class="col">
+            <h6 class="mb-1">678</h6>
+            <p class="mb-0">Following</p>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <h6 class="text-center mb-3">Social link 2 on hover</h6>
+    <app-card [hidHeader]="true" cardClass="user-card user-card-3 support-bar1 social-hover" [isCardFooter]="true" footerClass="bg-light">
+      <div class="text-center">
+        <img class="img-radius img-fluid wid-150" src="assets/images/user/img-avatar-3.jpg" alt="User image" />
+        <h3 class="mb-1 mt-3 f-w-400">Suzen</h3>
+        <p class="mb-3 text-muted">UI/UX Designer</p>
+        <ul class="list-unstyled f-20 mb-0 social-top-link">
+          <li class="list-item"
+            ><a href="javascript:" title="facebook" class="text-facebook"><i class="fab fa-facebook-f"></i></a
+          ></li>
+          <li class="list-item"
+            ><a href="javascript:" title="twitter" class="text-twitter"><i class="fab fa-twitter"></i></a
+          ></li>
+          <li class="list-item"
+            ><a href="javascript:" title="dribble" class="text-dribbble"><i class="fab fa-dribbble"></i></a
+          ></li>
+          <li class="list-item"
+            ><a href="javascript:" title="pinterest" class="text-pinterest"><i class="fab fa-pinterest"></i></a
+          ></li>
+          <li class="list-item"
+            ><a href="javascript:" title="youtube" class="text-youtube"><i class="fab fa-youtube"></i></a
+          ></li>
+          <li class="list-item"
+            ><a href="javascript:" title="Google Plus" class="text-googleplus"><i class="fab fa-google-plus-g"></i></a
+          ></li>
+          <li class="list-item"
+            ><a href="javascript:" title="Linkedin" class="text-linkedin"><i class="fab fa-linkedin-in"></i></a
+          ></li>
+        </ul>
+      </div>
+      <div class="app-card-footer">
+        <div class="row text-center">
+          <div class="col">
+            <h6 class="mb-1">37</h6>
+            <p class="mb-0">Mails</p>
+          </div>
+          <div class="col">
+            <h6 class="mb-1">2749</h6>
+            <p class="mb-0">Followers</p>
+          </div>
+          <div class="col">
+            <h6 class="mb-1">678</h6>
+            <p class="mb-0">Following</p>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

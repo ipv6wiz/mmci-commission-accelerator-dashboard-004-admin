@@ -1,0 +1,172 @@
+<div class="merge-card">
+  <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+    <h5 class="mb-0">Personal details</h5>
+    <button
+      type="button"
+      title="Edit"
+      (click)="this.editProfile = !this.editProfile; this.editProfileIcon = this.editProfile ? 'icon-x' : 'icon-edit'"
+      class="btn btn-primary btn-sm rounded m-0 float-end"
+      aria-controls="pro-det-edit-1 pro-det-edit-2"
+    >
+      <i class="feather" [ngClass]="editProfileIcon"></i>
+    </button>
+  </app-card>
+  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editProfile">
+    <div class="row mb-3" *ngFor="let list of details">
+      <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
+      <div class="col-sm-9">{{ list.name }} </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Location</label>
+      <div class="col-sm-9">
+        <p class="mb-0 text-muted">4289 Calvin Street</p>
+        <p class="mb-0 text-muted">Baltimore, near MD Tower Maryland,</p>
+        <p class="mb-0 text-muted">Maryland (21201)</p>
+      </div>
+    </div>
+  </app-card>
+  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editProfile">
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Full Name</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Full Name" value="Lara Doe" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Gender</label>
+      <div class="col-sm-9">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" checked />
+          <label class="custom-control-label ms-1" for="customRadioInline1">Male</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input" />
+          <label class="custom-control-label ms-1" for="customRadioInline2">Female</label>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Birth Date</label>
+      <div class="col-sm-9">
+        <input type="date" class="form-control" value="1994-12-16" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Martial Status</label>
+      <div class="col-sm-9">
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>Select Marital Status</option>
+          <option>Married</option>
+          <option selected>Unmarried</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Location</label>
+      <div class="col-sm-9">
+        <textarea class="form-control">4289 Calvin Street,  Baltimore, near MD Tower Maryland, Maryland (21201)</textarea>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label"></label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </app-card>
+</div>
+<div class="merge-card">
+  <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+    <h5 class="mb-0">Contact Information</h5>
+    <button
+      type="button"
+      title="Edit"
+      (click)="this.editContact = !this.editContact; this.editContactIcon = this.editContact ? 'icon-x' : 'icon-edit'"
+      class="btn btn-primary btn-sm rounded m-0 float-end"
+      aria-controls="pro-det-edit-1 pro-det-edit-2"
+    >
+      <i class="feather" [ngClass]="editContactIcon"></i>
+    </button>
+  </app-card>
+  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editContact">
+    <div class="row mb-3" *ngFor="let list of information">
+      <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
+      <div class="col-sm-9">{{ list.name }} </div>
+    </div>
+  </app-card>
+  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editContact">
+    <div class="row mb-3" *ngFor="let list of contact_information">
+      <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Full Name" value="{{ list.name }}" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label"></label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </app-card>
+</div>
+<div class="merge-card">
+  <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+    <h5 class="mb-0">Other Information</h5>
+    <button
+      type="button"
+      title="Edit"
+      (click)="this.editOtherInfo = !this.editOtherInfo; this.editOtherInfoIcon = this.editOtherInfo ? 'icon-x' : 'icon-edit'"
+      class="btn btn-primary btn-sm rounded m-0 float-end"
+      aria-controls="pro-det-edit-1 pro-det-edit-2"
+    >
+      <i class="feather" [ngClass]="editOtherInfoIcon"></i>
+    </button>
+  </app-card>
+  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editOtherInfo">
+    <div class="row mb-3" *ngFor="let list of other_information">
+      <label class="col-sm-3 col-form-label fw-bolder">{{ list.title }}</label>
+      <div class="col-sm-9"> {{ list.name }} </div>
+    </div>
+  </app-card>
+  <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editOtherInfo">
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Occupation</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Full Name" value="Designer" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Skill</label>
+      <div class="col-sm-9">
+        <div class="custom-control custom-checkbox form-check d-inline-block me-2">
+          <input type="checkbox" class="custom-control-input" id="pro-wrk-chk-1" checked />
+          <label class="custom-control-label ms-1" for="pro-wrk-chk-1">C#</label>
+        </div>
+        <div class="custom-control custom-checkbox form-check d-inline-block me-2">
+          <input type="checkbox" class="custom-control-input" id="pro-wrk-chk-2" checked />
+          <label class="custom-control-label ms-1" for="pro-wrk-chk-2">Javascript</label>
+        </div>
+        <div class="custom-control custom-checkbox form-check d-inline-block me-2">
+          <input type="checkbox" class="custom-control-input" id="pro-wrk-chk-3" checked />
+          <label class="custom-control-label ms-1" for="pro-wrk-chk-3">Scss</label>
+        </div>
+        <div class="custom-control custom-checkbox form-check d-inline-block me-2">
+          <input type="checkbox" class="custom-control-input" id="pro-wrk-chk-4" />
+          <label class="custom-control-label ms-1" for="pro-wrk-chk-4">Html</label>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label fw-bolder">Jobs</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" placeholder="Ema" value="CodedThemes" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-3 col-form-label"></label>
+      <div class="col-sm-9">
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </app-card>
+</div>

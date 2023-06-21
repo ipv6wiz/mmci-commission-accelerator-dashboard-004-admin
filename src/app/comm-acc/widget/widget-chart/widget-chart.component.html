@@ -1,0 +1,1267 @@
+<div class="row">
+  <!-- student start -->
+  <div class="col-lg-8 col-md-12">
+    <app-card cardTitle="Students by Courses" [options]="false">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [yaxis]="chartOptions.yaxis"
+        [xaxis]="chartOptions.xaxis"
+        [colors]="chartOptions.colors"
+        [dataLabels]="chartOptions.dataLabels"
+        [stroke]="chartOptions.stroke"
+        [fill]="chartOptions.fill"
+        [markers]="chartOptions.markers"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <app-card cardTitle="Email Campaign" [options]="false">
+      <apx-chart
+        [series]="chartOptions_1.series"
+        [chart]="chartOptions_1.chart"
+        [dataLabels]="chartOptions_1.dataLabels"
+        [labels]="chartOptions_1.labels"
+        [colors]="chartOptions_1.colors"
+        [legend]="chartOptions_1.legend"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <!-- student start -->
+  <!-- users visits and profile start -->
+  <div class="col-md-12 col-xl-4">
+    <app-card
+      [hidHeader]="true"
+      [options]="false"
+      cardClass="seo-card"
+      blockClass="seo-statustic"
+      footerClass="seo-chart border border-top-0 p-0 overflow-hidden"
+      [isCardFooter]="true"
+    >
+      <i class="feather icon-save f-20 text-c-green"></i>
+      <h5 class="mb-1">64%</h5>
+      <p>Memory</p>
+      <div class="app-card-footer">
+        <apx-chart
+          [dataLabels]="analyticsSeoCard.dataLabels"
+          [chart]="analyticsSeoCard.chart"
+          [fill]="analyticsSeoCard.fill"
+          [stroke]="analyticsSeoCard.stroke"
+          [colors]="analyticsSeoCard.colors"
+          [series]="analyticsSeoCard.series"
+          [yaxis]="analyticsSeoCard.yaxis"
+          [tooltip]="analyticsSeoCard.tooltip"
+        ></apx-chart>
+      </div>
+    </app-card>
+    <app-card
+      [hidHeader]="true"
+      cardClass="seo-card"
+      blockClass="seo-statustic"
+      footerClass="seo-chart border border-top-0 p-0 overflow-hidden"
+      [isCardFooter]="true"
+    >
+      <i class="feather icon-refresh-cw f-20 text-c-blue"></i>
+      <h5 class="mb-1">$46,845</h5>
+      <p>Revenue</p>
+      <div class="app-card-footer">
+        <apx-chart
+          [dataLabels]="chartSeoCard.dataLabels"
+          [chart]="chartSeoCard.chart"
+          [fill]="chartSeoCard.fill"
+          [stroke]="chartSeoCard.stroke"
+          [colors]="chartSeoCard.colors"
+          [series]="chartSeoCard.series"
+          [tooltip]="chartSeoCard.tooltip"
+        ></apx-chart>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-md-12 col-xl-8">
+    <app-card
+      cardTitle="Unique Visitor"
+      [options]="false"
+      cardClass="bg-c-blue map-visitor-card"
+      blockClass="pl-0 pb-0"
+      [isCardFooter]="true"
+    >
+      <apx-chart
+        [dataLabels]="chartUniqueVisitor.dataLabels"
+        [chart]="chartUniqueVisitor.chart"
+        [fill]="chartUniqueVisitor.fill"
+        [colors]="chartUniqueVisitor.colors"
+        [series]="chartUniqueVisitor.series"
+        [tooltip]="chartUniqueVisitor.tooltip"
+        [plotOptions]="chartUniqueVisitor.plotOptions"
+        [xaxis]="chartUniqueVisitor.xaxis"
+        [yaxis]="chartUniqueVisitor.yaxis"
+        [grid]="chartUniqueVisitor.grid"
+      ></apx-chart>
+      <div class="app-card-footer">
+        <div class="row justify-content-center text-center">
+          <div class="col-auto b-r-default col-6 col-sm-4">
+            <h6>Visits</h6>
+            <p class="text-muted">29.703 Users (40%)</p>
+            <div class="progress justify-content-center">
+              <div class="progress-bar bg-c-blue" style="width: 40%"></div>
+            </div>
+          </div>
+          <div class="col-auto col-6 col-sm-4">
+            <h6>Revenue</h6>
+            <p class="text-muted">20703$ (60%)</p>
+            <div class="progress justify-content-center">
+              <div class="progress-bar bg-c-green" style="width: 60%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- users visits and profile end -->
+
+  <!-- statistic and process start -->
+  <div class="col-lg-8 col-md-12">
+    <app-card cardTitle="Statistics" [options]="false">
+      <apx-chart
+        [dataLabels]="chartStatistics.dataLabels"
+        [chart]="chartStatistics.chart"
+        [fill]="chartStatistics.fill"
+        [colors]="chartStatistics.colors"
+        [series]="chartStatistics.series"
+        [stroke]="chartStatistics.stroke"
+        [markers]="chartStatistics.markers"
+        [xaxis]="chartStatistics.xaxis"
+        [yaxis]="chartStatistics.yaxis"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <app-card cardTitle="Process Compliance" [options]="false">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="f-50 d-inline-block m-t-30 m-b-30">0.4</p>
+          <i class="feather icon-arrow-down text-c-red f-26 m-l-5"></i>
+          <span class="text-muted">2018 (Jan - Jun)</span>
+          <div class="m-t-30">
+            <a href="#!" class="text-underline text-c-blue"><small>Previous Quarters</small></a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <apx-chart
+            [dataLabels]="chartProcessCompliance.dataLabels"
+            [chart]="chartProcessCompliance.chart"
+            [fill]="chartProcessCompliance.fill"
+            [colors]="chartProcessCompliance.colors"
+            [series]="chartProcessCompliance.series"
+            [plotOptions]="chartProcessCompliance.plotOptions"
+            [markers]="chartProcessCompliance.markers"
+            [xaxis]="chartProcessCompliance.xaxis"
+          ></apx-chart>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- statistic and process end -->
+  <!-- users statistic start -->
+  <div class="col-lg-4 col-md-6">
+    <app-card cardTitle="Active user" [options]="false">
+      <apx-chart
+        [dataLabels]="chartUser1.dataLabels"
+        [chart]="chartUser1.chart"
+        [fill]="chartUser1.fill"
+        [colors]="chartUser1.colors"
+        [series]="chartUser1.series"
+        [stroke]="chartUser1.stroke"
+        [grid]="chartUser1.grid"
+        [xaxis]="chartUser1.xaxis"
+        [yaxis]="chartUser1.yaxis"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <div class="col-lg-4 col-md-6">
+    <app-card cardTitle="Page view" [options]="false">
+      <apx-chart
+        [dataLabels]="chartUser2.dataLabels"
+        [chart]="chartUser2.chart"
+        [fill]="chartUser2.fill"
+        [colors]="chartUser2.colors"
+        [series]="chartUser2.series"
+        [stroke]="chartUser2.stroke"
+        [grid]="chartUser2.grid"
+        [xaxis]="chartUser2.xaxis"
+        [yaxis]="chartUser2.yaxis"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <app-card cardTitle="New installation" [options]="false">
+      <apx-chart
+        [dataLabels]="chartUser3.dataLabels"
+        [chart]="chartUser3.chart"
+        [fill]="chartUser3.fill"
+        [colors]="chartUser3.colors"
+        [series]="chartUser3.series"
+        [stroke]="chartUser3.stroke"
+        [grid]="chartUser3.grid"
+        [xaxis]="chartUser3.xaxis"
+        [yaxis]="chartUser3.yaxis"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <!-- users statistic end -->
+  <!-- amount-card start -->
+  <div class="col-md-6 col-xl-3">
+    <app-card
+      [hidHeader]="true"
+      [isCardFooter]="true"
+      footerClass="p-0 border border-0"
+      cardClass="bg-c-blue overflow-hidden amount-card"
+      blockClass="pb-1"
+    >
+      <i class="feather icon-arrow-up"></i>
+      <h4 class="text-white">$4600,00</h4>
+      <div class="app-card-footer">
+        <apx-chart
+          [dataLabels]="chartAmount1.dataLabels"
+          [chart]="chartAmount1.chart"
+          [fill]="chartAmount1.fill"
+          [colors]="chartAmount1.colors"
+          [series]="chartAmount1.series"
+          [stroke]="chartAmount1.stroke"
+          [tooltip]="chartAmount1.tooltip"
+          [yaxis]="chartAmount1.yaxis"
+        ></apx-chart>
+        <p class="text-dark pb-1">Amount Founded</p>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <app-card
+      [hidHeader]="true"
+      [isCardFooter]="true"
+      footerClass="p-0 border border-0"
+      cardClass="bg-c-green overflow-hidden amount-card"
+      blockClass="pb-1"
+    >
+      <i class="feather icon-arrow-down"></i>
+      <h4 class="text-white">$387.00</h4>
+      <div class="app-card-footer">
+        <apx-chart
+          [dataLabels]="chartAmount2.dataLabels"
+          [chart]="chartAmount2.chart"
+          [fill]="chartAmount2.fill"
+          [colors]="chartAmount2.colors"
+          [series]="chartAmount2.series"
+          [stroke]="chartAmount2.stroke"
+          [tooltip]="chartAmount2.tooltip"
+          [yaxis]="chartAmount2.yaxis"
+        ></apx-chart>
+        <p class="text-dark">Balance</p>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <app-card
+      [hidHeader]="true"
+      [isCardFooter]="true"
+      footerClass="p-0 border border-0"
+      cardClass="bg-c-yellow overflow-hidden amount-card"
+      blockClass="pb-1"
+    >
+      <i class="feather icon-arrow-up"></i>
+      <h4 class="text-white">$8350.00</h4>
+      <div class="app-card-footer">
+        <apx-chart
+          [dataLabels]="chartAmount3.dataLabels"
+          [chart]="chartAmount3.chart"
+          [fill]="chartAmount3.fill"
+          [colors]="chartAmount3.colors"
+          [series]="chartAmount3.series"
+          [stroke]="chartAmount3.stroke"
+          [tooltip]="chartAmount3.tooltip"
+          [yaxis]="chartAmount3.yaxis"
+        ></apx-chart>
+        <p class="text-dark">Payback Amount</p>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-md-6 col-xl-3">
+    <app-card
+      [hidHeader]="true"
+      [isCardFooter]="true"
+      footerClass="p-0 border border-0"
+      cardClass="bg-c-red overflow-hidden amount-card"
+      blockClass="pb-1"
+    >
+      <i class="feather icon-arrow-down"></i>
+      <h4 class="text-white">$123.00</h4>
+      <div class="app-card-footer">
+        <apx-chart
+          [dataLabels]="chartAmount4.dataLabels"
+          [chart]="chartAmount4.chart"
+          [fill]="chartAmount4.fill"
+          [colors]="chartAmount4.colors"
+          [series]="chartAmount4.series"
+          [stroke]="chartAmount4.stroke"
+          [tooltip]="chartAmount4.tooltip"
+          [yaxis]="chartAmount4.yaxis"
+        ></apx-chart>
+        <p class="text-dark">Planned Collection Income</p>
+      </div>
+    </app-card>
+  </div>
+  <!-- amount-card end -->
+
+  <!-- support-tracker start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card [hidHeader]="true">
+      <div class="row">
+        <div class="col-6">
+          <h6>Support Analytics</h6>
+        </div>
+        <div class="col">
+          <div class="dropdown float-end" ngbDropdown placement="auto">
+            <a class="dropdown-toggle text-c-blue" ngbDropdownToggle> Last Week </a>
+            <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+              <a class="dropdown-item" href="javascript:">1 week</a>
+              <a class="dropdown-item" href="javascript:">2 year</a>
+              <a class="dropdown-item" href="javascript:">3 month</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-6">
+          <h2 class="mt-2 mb-0">280</h2>
+          <span class="">Tickets</span>
+          <h6 class="mb-0 mt-3">Close: <span class="text-success">120</span></h6>
+          <h6>Response <span class="text-danger">2d</span></h6>
+        </div>
+        <div class="col-6">
+          <div id="hd-complited-ticket"></div>
+          <apx-chart
+            [dataLabels]="completedTicketCAC.dataLabels"
+            [chart]="completedTicketCAC.chart"
+            [series]="completedTicketCAC.series"
+            [stroke]="completedTicketCAC.stroke"
+            [tooltip]="completedTicketCAC.tooltip"
+          ></apx-chart>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- support-tracker end -->
+  <!-- session-device start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card [hidHeader]="true">
+      <h6>Traffic tracker</h6>
+      <div class="row mt-2">
+        <div class="col-6">
+          <span class="d-block text-uppercase">Inbound</span>
+          <h3 class="mt-1">180 GB</h3>
+          <div class="mt-3">
+            <apx-chart
+              [dataLabels]="transactions1CAC.dataLabels"
+              [chart]="transactions1CAC.chart"
+              [series]="transactions1CAC.series"
+              [tooltip]="transactions1CAC.tooltip"
+              [plotOptions]="transactions1CAC.plotOptions"
+              [colors]="transactions1CAC.colors"
+              [xaxis]="transactions1CAC.xaxis"
+              [labels]="transactions1CAC.labels"
+            ></apx-chart>
+          </div>
+        </div>
+        <div class="col-6">
+          <span class="d-block text-uppercase">Outbound</span>
+          <h3 class="mt-1">597.1 GB</h3>
+          <div class="mt-3">
+            <apx-chart
+              [dataLabels]="transactions2CAC.dataLabels"
+              [chart]="transactions2CAC.chart"
+              [series]="transactions2CAC.series"
+              [tooltip]="transactions2CAC.tooltip"
+              [plotOptions]="transactions2CAC.plotOptions"
+              [colors]="transactions2CAC.colors"
+              [xaxis]="transactions2CAC.xaxis"
+              [labels]="transactions2CAC.labels"
+            ></apx-chart>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- session-device end -->
+  <!-- storage-activity start -->
+  <div class="col-xl-4 col-md-12">
+    <div class="marge-card">
+      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+        <div class="row">
+          <div class="col-auto">
+            <h6>Cloud Computing</h6>
+          </div>
+          <div class="col">
+            <div class="dropdown float-end" ngbDropdown placement="auto">
+              <a class="dropdown-toggle text-c-blue" ngbDropdownToggle href="javascript:">weekly</a>
+              <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                <a class="dropdown-item" href="javascript:">1 week</a>
+                <a class="dropdown-item" href="javascript:">2 year</a>
+                <a class="dropdown-item" href="javascript:">3 month</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-auto">
+            <span class="d-block"><i class="fas fa-circle text-c-green f-10 m-r-10"></i>Storage</span>
+            <h6 class="ms-3 mt-1">10.5 GB</h6>
+          </div>
+          <div class="col">
+            <span class="d-block"><i class="fas fa-circle text-c-purple f-10 m-r-10"></i>Bandwidth</span>
+            <h6 class="ms-3 mt-1">50 GB</h6>
+          </div>
+        </div>
+      </app-card>
+      <app-card [hidHeader]="true" blockClass="p-0">
+        <apx-chart
+          [dataLabels]="storageCAC.dataLabels"
+          [chart]="storageCAC.chart"
+          [series]="storageCAC.series"
+          [colors]="storageCAC.colors"
+          [stroke]="storageCAC.stroke"
+          [tooltip]="storageCAC.tooltip"
+        ></apx-chart>
+      </app-card>
+    </div>
+  </div>
+  <!-- storage-activity end -->
+
+  <!-- account-section start -->
+  <div class="col-xl-8">
+    <div class="marge-card">
+      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+        <h6 class="text-c-blue mb-3">Department wise annual recurring and profit</h6>
+        <div class="row">
+          <div class="col-auto">
+            <h3>$687,578</h3>
+            <h6><i class="feather icon-trending-down text-c-red me-2"></i>Marketing Growth</h6>
+            <span>Measure How Fast You're Growing in<br />current Market.<span class="text-c-blue">Learn More</span></span>
+          </div>
+          <div class="col">
+            <h3>30%</h3>
+            <h6><i class="feather icon-trending-up text-c-blue me-2"></i>Annual profit/stakeholders</h6>
+            <span>Ave 30% or more profite provide to investor as<br />Anual return.<span class="text-c-blue">Learn More</span></span>
+          </div>
+        </div>
+      </app-card>
+      <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+        <apx-chart
+          [dataLabels]="accountCAC.dataLabels"
+          [chart]="accountCAC.chart"
+          [series]="accountCAC.series"
+          [colors]="accountCAC.colors"
+          [stroke]="accountCAC.stroke"
+          [tooltip]="accountCAC.tooltip"
+        ></apx-chart>
+      </app-card>
+    </div>
+  </div>
+  <!-- account-section end -->
+
+  <!-- traffic-monitor start -->
+  <div class="col-xl-4">
+    <div class="row">
+      <div class="col-xl-12 col-md-6">
+        <app-card [hidHeader]="true">
+          <div class="row">
+            <div class="col-auto">
+              <h6>Page view by device</h6>
+            </div>
+            <div class="col">
+              <div class="dropdown float-end" ngbDropdown placement="auto">
+                <a class="dropdown-toggle text-c-blue" ngbDropdownToggle href="javascript:">weekly</a>
+                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                  <a class="dropdown-item" href="javascript:">1 week</a>
+                  <a class="dropdown-item" href="javascript:">2 year</a>
+                  <a class="dropdown-item" href="javascript:">3 month</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 pr-0">
+              <h6 class="my-3"
+                ><i class="feather icon-monitor f-20 me-2 text-primary"></i>66.6%<span class="text-c-green ms-2 f-14"
+                  ><i class="feather icon-arrow-up"></i>2%</span
+                ></h6
+              >
+              <h6 class="my-3"
+                ><i class="feather icon-tablet f-20 me-2 text-success"></i>29.7%<span class="text-c-red ms-2 f-14"
+                  ><i class="feather icon-arrow-down"></i>3%</span
+                ></h6
+              >
+              <h6 class="my-3"
+                ><i class="feather icon-smartphone f-20 me-2 text-danger"></i>32.8%<span class="text-c-green ms-2 f-14"
+                  ><i class="feather icon-arrow-up"></i>8%</span
+                ></h6
+              >
+            </div>
+            <div class="col-6">
+              <div class="chart-percent text-center">
+                <apx-chart
+                  [dataLabels]="percentageCAC.dataLabels"
+                  [chart]="percentageCAC.chart"
+                  [series]="percentageCAC.series"
+                  [colors]="percentageCAC.colors"
+                  [stroke]="percentageCAC.stroke"
+                  [plotOptions]="percentageCAC.plotOptions"
+                  [xaxis]="percentageCAC.xaxis"
+                ></apx-chart>
+              </div>
+            </div>
+          </div>
+        </app-card>
+      </div>
+      <div class="col-xl-12 col-md-6">
+        <app-card [hidHeader]="true">
+          <div class="row d-flex align-items-center">
+            <div class="col-6 pr-0">
+              <span class="d-block mb-1"><i class="fas fa-circle f-10 m-r-5 text-primary"></i>Desktop [66.6%]</span>
+              <span class="d-block mb-1"><i class="fas fa-circle f-10 m-r-5 text-success"></i>Mobile [29.7%]</span>
+              <span class="d-block"><i class="fas fa-circle f-10 m-r-5 text-warning"></i>Tablet [38.6%]</span>
+            </div>
+            <div class="col-6">
+              <div id="device-chart"></div>
+              <apx-chart
+                [dataLabels]="deviceCAC.dataLabels"
+                [chart]="deviceCAC.chart"
+                [series]="deviceCAC.series"
+                [grid]="deviceCAC.grid"
+                [labels]="deviceCAC.labels"
+                [legend]="deviceCAC.legend"
+              ></apx-chart>
+            </div>
+          </div>
+        </app-card>
+      </div>
+    </div>
+  </div>
+  <!-- traffic-monitor end -->
+
+  <!-- conversion-section start -->
+  <div class="col-sm-12">
+    <div class="row no-gutters">
+      <div class="col-md-4 col-xl-2 col-sm-6">
+        <app-card [hidHeader]="true">
+          <span>Transactions</span>
+          <h3>61</h3>
+          <apx-chart
+            [stroke]="analyticsUser.stroke"
+            [chart]="analyticsUser.chart"
+            [series]="analyticsUser.series"
+            [fill]="analyticsUser.fill"
+            [yaxis]="analyticsUser.yaxis"
+            [tooltip]="analyticsUser.tooltip"
+            [colors]="analyticsUser.colors"
+          ></apx-chart>
+          <!-- <app-apex-chart chartID="analytics-apex-user-chart" [chartConfig]="this.chartDB.analyticsUser"></app-apex-chart> -->
+        </app-card>
+      </div>
+      <div class="col-md-4 col-xl-2 col-sm-6">
+        <app-card [hidHeader]="true">
+          <span>Current stock</span>
+          <h3>50</h3>
+          <apx-chart
+            [stroke]="analyticsSession.stroke"
+            [chart]="analyticsSession.chart"
+            [series]="analyticsSession.series"
+            [fill]="analyticsSession.fill"
+            [yaxis]="analyticsSession.yaxis"
+            [tooltip]="analyticsSession.tooltip"
+            [colors]="analyticsSession.colors"
+          ></apx-chart>
+          <!-- <app-apex-chart chartID="analytics-apex-session-chart" [chartConfig]="this.chartDB.analyticsSession"></app-apex-chart> -->
+        </app-card>
+      </div>
+      <div class="col-md-4 col-xl-2 col-sm-6">
+        <app-card [hidHeader]="true">
+          <span>Page bounce rate</span>
+          <h3>0.50%</h3>
+          <apx-chart
+            [stroke]="analyticsPageView.stroke"
+            [chart]="analyticsPageView.chart"
+            [series]="analyticsPageView.series"
+            [fill]="analyticsPageView.fill"
+            [yaxis]="analyticsPageView.yaxis"
+            [tooltip]="analyticsPageView.tooltip"
+            [colors]="analyticsPageView.colors"
+          ></apx-chart>
+          <!-- <app-apex-chart chartID="analytics-apex-page-view-chart" [chartConfig]="this.chartDB.analyticsPageView"></app-apex-chart> -->
+        </app-card>
+      </div>
+      <div class="col-md-4 col-xl-2 col-sm-6">
+        <app-card [hidHeader]="true">
+          <span>Total order value</span>
+          <h3>$203.20</h3>
+          <apx-chart
+            [stroke]="analyticsPageSession.stroke"
+            [chart]="analyticsPageSession.chart"
+            [series]="analyticsPageSession.series"
+            [fill]="analyticsPageSession.fill"
+            [yaxis]="analyticsPageSession.yaxis"
+            [tooltip]="analyticsPageSession.tooltip"
+            [colors]="analyticsPageSession.colors"
+          ></apx-chart>
+          <!-- <app-apex-chart chartID="analytics-apex-page-session-chart" [chartConfig]="this.chartDB.analyticsPageSession"></app-apex-chart> -->
+        </app-card>
+      </div>
+      <div class="col-md-4 col-xl-2 col-sm-6">
+        <app-card [hidHeader]="true">
+          <span>Revenue</span>
+          <h3>$2,45,789</h3>
+          <apx-chart
+            [stroke]="analyticsAvgSession.stroke"
+            [chart]="analyticsAvgSession.chart"
+            [series]="analyticsAvgSession.series"
+            [fill]="analyticsAvgSession.fill"
+            [yaxis]="analyticsAvgSession.yaxis"
+            [tooltip]="analyticsAvgSession.tooltip"
+            [colors]="analyticsAvgSession.colors"
+          ></apx-chart>
+          <!-- <app-apex-chart chartID="analytics-apex-avg-session-chart" [chartConfig]="this.chartDB.analyticsAvgSession"></app-apex-chart> -->
+        </app-card>
+      </div>
+      <div class="col-md-4 col-xl-2 col-sm-6">
+        <app-card [hidHeader]="true">
+          <span>New Purchases</span>
+          <h3>45</h3>
+          <apx-chart
+            [stroke]="analyticsBounceRate.stroke"
+            [chart]="analyticsBounceRate.chart"
+            [series]="analyticsBounceRate.series"
+            [fill]="analyticsBounceRate.fill"
+            [yaxis]="analyticsBounceRate.yaxis"
+            [tooltip]="analyticsBounceRate.tooltip"
+            [colors]="analyticsBounceRate.colors"
+          ></apx-chart>
+          <!-- <app-apex-chart chartID="analytics-apex-bounce-rate-chart" [chartConfig]="this.chartDB.analyticsBounceRate"></app-apex-chart> -->
+        </app-card>
+      </div>
+    </div>
+  </div>
+  <!-- conversion-section end -->
+
+  <!-- moderate start -->
+  <div class="col-xl-4 col-md-5">
+    <app-card [hidHeader]="true" cardClass="rating-bar">
+      <div class="row mb-3">
+        <div class="col-6">
+          <h6 class="m-0">Task Completed</h6>
+          <span>Successful tested</span>
+        </div>
+        <div class="col-6">
+          <h2 class="text-end">60%</h2>
+        </div>
+      </div>
+      <bar-rating [(rate)]="taskRate" [max]="18" [theme]="'horizontal'"></bar-rating>
+    </app-card>
+    <app-card cardTitle="Session by time of day" [options]="false">
+      <apx-chart
+        [dataLabels]="timeUserCAC.dataLabels"
+        [chart]="timeUserCAC.chart"
+        [series]="timeUserCAC.series"
+        [colors]="timeUserCAC.colors"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <!-- moderate end -->
+
+  <!-- population-section start -->
+  <div class="col-xl-8 col-md-7">
+    <app-card cardTitle="Product manufacturing completion by Region" [options]="false">
+      <apx-chart
+        [dataLabels]="horizontalBarCAC.dataLabels"
+        [chart]="horizontalBarCAC.chart"
+        [series]="horizontalBarCAC.series"
+        [colors]="horizontalBarCAC.colors"
+        [plotOptions]="horizontalBarCAC.plotOptions"
+        [stroke]="horizontalBarCAC.stroke"
+        [xaxis]="horizontalBarCAC.xaxis"
+      ></apx-chart>
+    </app-card>
+    <div class="row">
+      <div class="col-xl-6 col-md-12">
+        <div class="marge-card">
+          <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+            <h6>Conversions</h6>
+            <h4 class="m-0"
+              >0.85%<span class="text-c-blue ms-2"><i class="feather icon-arrow-up"></i>0.50%</span></h4
+            >
+            <span>Purchased</span>
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+            <apx-chart
+              [dataLabels]="conversionsBarCAC.dataLabels"
+              [chart]="conversionsBarCAC.chart"
+              [series]="conversionsBarCAC.series"
+              [colors]="conversionsBarCAC.colors"
+              [plotOptions]="conversionsBarCAC.plotOptions"
+              [tooltip]="conversionsBarCAC.tooltip"
+              [xaxis]="conversionsBarCAC.xaxis"
+            ></apx-chart>
+          </app-card>
+        </div>
+      </div>
+      <div class="col-xl-6 col-md-12">
+        <app-card [hidHeader]="true">
+          <div class="row d-flex align-items-center">
+            <div class="col-6">
+              <h6>Active customer <span class="d-block">on site</span></h6>
+              <h2 class="m-0">2.86</h2>
+              <span class="text-c-green">+85.9%</span>
+            </div>
+            <div class="col-6">
+              <apx-chart
+                [dataLabels]="siteCAC.dataLabels"
+                [chart]="siteCAC.chart"
+                [series]="siteCAC.series"
+                [colors]="siteCAC.colors"
+                [stroke]="siteCAC.stroke"
+                [yaxis]="siteCAC.yaxis"
+              ></apx-chart>
+            </div>
+          </div>
+        </app-card>
+      </div>
+    </div>
+  </div>
+  <!-- population-section start -->
+
+  <!-- customer-section start -->
+  <div class="col-lg-6">
+    <app-card [hidHeader]="true">
+      <h6>Customer Satisfaction</h6>
+      <span
+        >It takes continuous effort to maintain high customer satisfaction levels.Internal and external quality measures are often tied
+        together.,as the opinion...</span
+      >
+      <span class="text-c-blue d-block">Learn more..</span>
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col">
+          <apx-chart
+            [dataLabels]="saleSatisfaction.dataLabels"
+            [chart]="saleSatisfaction.chart"
+            [series]="saleSatisfaction.series"
+            [labels]="saleSatisfaction.labels"
+            [legend]="saleSatisfaction.legend"
+            [theme]="saleSatisfaction.theme"
+            [responsive]="saleSatisfaction.responsive"
+          ></apx-chart>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- customer-section end -->
+
+  <!-- traffic-section start -->
+  <div class="col-lg-6">
+    <app-card cardTitle="Marketing campaign" [options]="false">
+      <apx-chart
+        [dataLabels]="trafficCAC.dataLabels"
+        [chart]="trafficCAC.chart"
+        [series]="trafficCAC.series"
+        [labels]="trafficCAC.labels"
+        [legend]="trafficCAC.legend"
+        [colors]="trafficCAC.colors"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <!-- traffic-section end -->
+
+  <!-- view-section start -->
+  <div class="col-md-4">
+    <div class="marge-card">
+      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+        <div class="row">
+          <div class="col-6">
+            <h3>4856</h3>
+          </div>
+          <div class="col-6 text-end">
+            <span>Views</span>
+          </div>
+        </div>
+      </app-card>
+      <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+        <apx-chart
+          [dataLabels]="view1CAC.dataLabels"
+          [chart]="view1CAC.chart"
+          [series]="view1CAC.series"
+          [stroke]="view1CAC.stroke"
+          [tooltip]="view1CAC.tooltip"
+          [colors]="view1CAC.colors"
+        ></apx-chart>
+      </app-card>
+    </div>
+    <div class="marge-card">
+      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+        <div class="row">
+          <div class="col-6">
+            <h3>678</h3>
+          </div>
+          <div class="col-6 text-end">
+            <span>Active Users</span>
+          </div>
+        </div>
+      </app-card>
+      <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+        <apx-chart
+          [dataLabels]="view2CAC.dataLabels"
+          [chart]="view2CAC.chart"
+          [series]="view2CAC.series"
+          [stroke]="view2CAC.stroke"
+          [tooltip]="view2CAC.tooltip"
+          [colors]="view2CAC.colors"
+        ></apx-chart>
+      </app-card>
+    </div>
+  </div>
+  <!-- view-section end -->
+
+  <!-- time-section start -->
+  <div class="col-md-4">
+    <app-card cardTitle="Time on Site" [options]="false">
+      <apx-chart
+        [dataLabels]="timeCAC.dataLabels"
+        [chart]="timeCAC.chart"
+        [series]="timeCAC.series"
+        [stroke]="timeCAC.stroke"
+        [xaxis]="timeCAC.xaxis"
+        [colors]="timeCAC.colors"
+        [grid]="timeCAC.grid"
+      ></apx-chart>
+      <div class="row mt-2">
+        <div class="col-6">
+          <span class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-10"></i>Time on site</span>
+        </div>
+        <div class="col-6 text-end">
+          <span class="text-muted">1:31</span>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- time-section end -->
+
+  <!-- browser-section start -->
+  <div class="col-md-4">
+    <app-card cardTitle="Browser States" cardClass="table-card" headerClass="borderless" blockClass="px-0 py-0" [options]="false">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <tbody>
+            <tr>
+              <td>Google Chrome</td>
+              <td
+                ><span class="text-end d-block m-0"
+                  ><span class="m-r-15">21%</span
+                  ><span class="data-attributes" data-peity='{ "fill": ["#4680ff", "#eeeeee"],"innerRadius": 8, "radius": 13 }'
+                    >5/7</span
+                  ></span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Mozila Firefox</td>
+              <td
+                ><span class="text-end d-block m-0"
+                  ><span class="m-r-15">76%</span
+                  ><span class="data-attributes" data-peity='{ "fill": ["#ff5252", "#eeeeee"],"innerRadius": 8, "radius": 13 }'
+                    >3/8</span
+                  ></span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Apple Safari</td>
+              <td
+                ><span class="text-end d-block m-0"
+                  ><span class="m-r-15">20%</span
+                  ><span class="data-attributes" data-peity='{ "fill": ["#11c15b", "#eeeeee"],"innerRadius": 8, "radius": 13 }'
+                    >5/6</span
+                  ></span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Internet Explorer</td>
+              <td
+                ><span class="text-end d-block m-0"
+                  ><span class="m-r-15">26%</span
+                  ><span class="data-attributes" data-peity='{ "fill": ["#7759de", "#eeeeee"],"innerRadius": 8, "radius": 13 }'
+                    >2/6</span
+                  ></span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Opera mini</td>
+              <td
+                ><span class="text-end d-block m-0"
+                  ><span class="m-r-15">27%</span
+                  ><span class="data-attributes" data-peity='{ "fill": ["#FF9800", "#eeeeee"],"innerRadius": 8, "radius": 13 }'
+                    >5/7</span
+                  ></span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+  </div>
+  <!-- browser-section end -->
+
+  <!-- visit-section start -->
+  <div class="col-xl-5 col-md-12">
+    <app-card [hidHeader]="true">
+      <div class="row">
+        <div class="col-auto">
+          <span>Customers</span>
+        </div>
+        <div class="col text-end">
+          <h2 class="mb-0">826</h2>
+          <span class="text-c-green">8.2%<i class="feather icon-trending-up ms-1"></i></span>
+        </div>
+      </div>
+      <apx-chart
+        [dataLabels]="customerCAC.dataLabels"
+        [chart]="customerCAC.chart"
+        [plotOptions]="customerCAC.plotOptions"
+        [labels]="customerCAC.labels"
+        [legend]="customerCAC.legend"
+        [grid]="customerCAC.grid"
+        [colors]="customerCAC.colors"
+        [series]="customerCAC.series"
+      ></apx-chart>
+      <div class="row mt-4">
+        <div class="col">
+          <h3 class="m-0"><i class="fas fa-circle f-10 m-r-5 text-primary"></i>674</h3>
+          <span class="ms-3">New</span>
+        </div>
+        <div class="col">
+          <h3 class="m-0"><i class="fas fa-circle text-c-blue f-10 m-r-5 text-success"></i>182</h3>
+          <span class="ms-3">Return</span>
+        </div>
+        <div class="col">
+          <h3 class="m-0"><i class="fas fa-circle text-c-purple f-10 m-r-5 text-danger"></i>768</h3>
+          <span class="ms-3">Custom</span>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- visit-section end -->
+
+  <!-- population-section start -->
+  <div class="col-xl-7 col-md-12">
+    <div class="row">
+      <div class="col-md-6">
+        <app-card cardTitle="Current project progress" [options]="false">
+          <h6 class="mb-3"><span class="pie_1" data-peity='{"radius": 12 }'>226,134</span><span class="m-l-10">AFSL web app</span></h6>
+          <h6 class="mb-3"><span class="pie_2" data-peity='{"radius": 12 }'>1,4</span><span class="m-l-10">Norttech website</span></h6>
+          <h6 class="mb-0"
+            ><span class="pie_3" data-peity='{"radius": 12 }'>1/3</span><span class="m-l-10">Maestro iris attendance</span></h6
+          >
+        </app-card>
+        <div class="marge-card">
+          <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+            <h6>New stock <span class="text-muted">( purchased )</span></h6>
+            <h4 class="m-0"
+              >0.85%<span class="text-info ms-2"><i class="feather icon-arrow-up"></i>0.50%</span></h4
+            >
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="p-0 m-t-15">
+            <apx-chart
+              [dataLabels]="conversionsCAC.dataLabels"
+              [chart]="conversionsCAC.chart"
+              [plotOptions]="conversionsCAC.plotOptions"
+              [xaxis]="conversionsCAC.xaxis"
+              [tooltip]="conversionsCAC.tooltip"
+              [colors]="conversionsCAC.colors"
+              [series]="conversionsCAC.series"
+            ></apx-chart>
+          </app-card>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <app-card cardTitle="Sales Report" [options]="false">
+          <apx-chart
+            [dataLabels]="saleCAC.dataLabels"
+            [chart]="saleCAC.chart"
+            [plotOptions]="saleCAC.plotOptions"
+            [xaxis]="saleCAC.xaxis"
+            [tooltip]="saleCAC.tooltip"
+            [colors]="saleCAC.colors"
+            [series]="saleCAC.series"
+          ></apx-chart>
+          <div class="row mt-3 d-flex align-items-center text-center">
+            <div class="col-6">
+              <h6>$1000</h6>
+              <span>Target</span>
+            </div>
+            <div class="col-6">
+              <h6>$985</h6>
+              <span>Last week</span>
+            </div>
+          </div>
+        </app-card>
+      </div>
+    </div>
+  </div>
+  <!-- population-section end -->
+
+  <!-- total-revenue start -->
+  <div class="col-xl-4 col-md-12">
+    <app-card cardTitle="Total Revenue" [options]="false" cardClass="mb-0" blockClass="">
+      <div id="revenue-chart"></div>
+      <apx-chart
+        [dataLabels]="revenueCAC.dataLabels"
+        [chart]="revenueCAC.chart"
+        [labels]="revenueCAC.labels"
+        [legend]="revenueCAC.legend"
+        [colors]="revenueCAC.colors"
+        [series]="revenueCAC.series"
+      ></apx-chart>
+      <span class="text-center text-muted d-block">Total sales made today</span>
+    </app-card>
+    <app-card [hidHeader]="true" blockClass="p-10">
+      <div class="row d-flex align-items-center text-center">
+        <div class="col">
+          <h6>$1258</h6>
+          <span>Target</span>
+        </div>
+        <div class="col">
+          <h6>$975</h6>
+          <span>Last week</span>
+        </div>
+        <div class="col">
+          <h6>$500</h6>
+          <span>Last Day</span>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- total-revenue end -->
+
+  <!-- market-dow start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Market Sales" [options]="false">
+      <h3><i class="feather icon-trending-down text-c-red me-3"></i>27,695.65</h3>
+      <div class="row d-flex align-items-center text-center mt-4">
+        <div class="col">
+          <h6>Youtube</h6>
+          <span class="text-c-red">- 16.85%</span>
+        </div>
+        <div class="col">
+          <h6>Facebook</h6>
+          <span class="text-c-purple">+ 45.36%</span>
+        </div>
+        <div class="col">
+          <h6>Twitter</h6>
+          <span class="text-c-blue">+ 50.69%</span>
+        </div>
+      </div>
+      <apx-chart
+        [dataLabels]="marketCAC.dataLabels"
+        [chart]="marketCAC.chart"
+        [plotOptions]="marketCAC.plotOptions"
+        [xaxis]="marketCAC.xaxis"
+        [colors]="marketCAC.colors"
+        [series]="marketCAC.series"
+        [legend]="marketCAC.legend"
+        [fill]="marketCAC.fill"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <!-- market-dow end -->
+
+  <!-- sales-section start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Sale report of year" [options]="false">
+      <apx-chart
+        [dataLabels]="typeCAC.dataLabels"
+        [chart]="typeCAC.chart"
+        [plotOptions]="typeCAC.plotOptions"
+        [legend]="typeCAC.legend"
+        [colors]="typeCAC.colors"
+        [series]="typeCAC.series"
+        [labels]="typeCAC.labels"
+      ></apx-chart>
+      <div class="mt-3">
+        <span class="d-block mb-2"
+          ><i class="fas fa-circle f-10 m-r-15 text-danger"></i>Desktop Computers<span class="float-end f-w-400">76.7%</span></span
+        >
+        <span class="d-block mb-2"
+          ><i class="fas fa-circle f-10 m-r-15 text-warning"></i>Smartphones<span class="float-end f-w-400">15%</span></span
+        >
+        <span class="d-block"><i class="fas fa-circle f-10 m-r-15 text-info"></i>Tablets<span class="float-end f-w-400">30%</span></span>
+      </div>
+    </app-card>
+  </div>
+  <!-- sales-section end -->
+
+  <!-- sessions-section start -->
+  <div class="col-xl-12">
+    <app-card cardTitle="Advertising campaign monitor" cardClass="table-card" blockClass="px-0 py-0" [options]="false">
+      <apx-chart
+        [dataLabels]="trafficMonitorCAC.dataLabels"
+        [chart]="trafficMonitorCAC.chart"
+        [plotOptions]="trafficMonitorCAC.plotOptions"
+        [xaxis]="trafficMonitorCAC.xaxis"
+        [colors]="trafficMonitorCAC.colors"
+        [series]="trafficMonitorCAC.series"
+        [tooltip]="trafficMonitorCAC.tooltip"
+      ></apx-chart>
+      <div class="table-responsive">
+        <app-chart-report></app-chart-report>
+      </div>
+    </app-card>
+  </div>
+  <!-- sessions-section end -->
+
+  <!-- support-section start -->
+  <div class="col-xl-4 col-md-12">
+    <div class="marge-card support-bar">
+      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="pb-0">
+        <h2 class="m-0">350</h2>
+        <span class="text-c-blue">Support Requests</span>
+        <p class="mb-3 mt-3">Total number of support requests that come in.</p>
+      </app-card>
+      <app-card [hidHeader]="true" cardClass="mb-0" blockClass="p-0">
+        <apx-chart
+          [dataLabels]="supportCAC.dataLabels"
+          [chart]="supportCAC.chart"
+          [stroke]="supportCAC.stroke"
+          [colors]="supportCAC.colors"
+          [series]="supportCAC.series"
+          [tooltip]="supportCAC.tooltip"
+        ></apx-chart>
+      </app-card>
+      <app-card [hidHeader]="true" cardClass="bg-primary text-white" blockClass="p-10">
+        <div class="row text-center">
+          <div class="col">
+            <h4 class="m-0 text-white">10</h4>
+            <span>Open</span>
+          </div>
+          <div class="col">
+            <h4 class="m-0 text-white">5</h4>
+            <span>Running</span>
+          </div>
+          <div class="col">
+            <h4 class="m-0 text-white">3</h4>
+            <span>Solved</span>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <!-- support-section end -->
+
+  <!-- average-section start -->
+  <div class="col-xl-8 col-md-12">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card mrr-card">
+          <div class="card-body mb-3">
+            <span class="d-flex align-items-center"><i class="fab fa-bitcoin text-c-blue f-22 m-r-5"></i>Bitcoin</span>
+          </div>
+          <div class="position-absolute bottom-chart w-100">
+            <apx-chart
+              [dataLabels]="average1CAC.dataLabels"
+              [chart]="average1CAC.chart"
+              [stroke]="average1CAC.stroke"
+              [colors]="average1CAC.colors"
+              [series]="average1CAC.series"
+              [tooltip]="average1CAC.tooltip"
+              [fill]="average1CAC.fill"
+              [yaxis]="average1CAC.yaxis"
+            ></apx-chart>
+          </div>
+          <div class="card-body">
+            <span class="float-end">Goal: $75</span>
+            <h3 class="m-0">$80</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card mrr-card">
+          <div class="card-body mb-3">
+            <span class="d-flex align-items-center"><i class="fab fa-ethereum text-c-green f-22 m-r-5"></i>Ethereum</span>
+          </div>
+          <div class="position-absolute bottom-chart w-100">
+            <apx-chart
+              [dataLabels]="average2CAC.dataLabels"
+              [chart]="average2CAC.chart"
+              [stroke]="average2CAC.stroke"
+              [colors]="average2CAC.colors"
+              [series]="average2CAC.series"
+              [tooltip]="average2CAC.tooltip"
+              [fill]="average2CAC.fill"
+              [yaxis]="average2CAC.yaxis"
+            ></apx-chart>
+          </div>
+          <div class="card-body">
+            <span class="float-end">Goal: $75</span>
+            <h3 class="m-0">$80</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card bg-danger text-white mrr-card">
+          <div class="card-body mb-3">
+            <span>Total ticket Resolved</span>
+          </div>
+          <div class="position-absolute bottom-chart" [style.width]="'100%'">
+            <apx-chart
+              [dataLabels]="average3CAC.dataLabels"
+              [chart]="average3CAC.chart"
+              [stroke]="average3CAC.stroke"
+              [colors]="average3CAC.colors"
+              [series]="average3CAC.series"
+              [tooltip]="average3CAC.tooltip"
+              [fill]="average3CAC.fill"
+              [yaxis]="average3CAC.yaxis"
+            ></apx-chart>
+          </div>
+          <div class="card-body">
+            <span class="float-end">pending: 75</span>
+            <h3 class="m-0 text-white">400</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card bg-warning text-white mrr-card">
+          <div class="card-body mb-3">
+            <span>Avg. Customer Satisfaction</span>
+          </div>
+          <div class="position-absolute bottom-chart" [style.width]="'100%'">
+            <apx-chart
+              [dataLabels]="average4CAC.dataLabels"
+              [chart]="average4CAC.chart"
+              [stroke]="average4CAC.stroke"
+              [colors]="average4CAC.colors"
+              [series]="average4CAC.series"
+              [tooltip]="average4CAC.tooltip"
+              [fill]="average4CAC.fill"
+              [yaxis]="average4CAC.yaxis"
+            ></apx-chart>
+          </div>
+          <div class="card-body">
+            <span class="float-end">Reopen: 20%</span>
+            <h3 class="m-0 text-white">75%</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- average-section end -->
+</div>

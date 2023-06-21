@@ -1,0 +1,19 @@
+/**  =====================
+      mail css start
+==========================  **/
+.choose-color {
+  border: none;
+}
+.text-color-pick {
+  border: none;
+  background: none;
+}
+
+.btn.btn-muted {
+  background-color: $gray-200;
+  color: $theme-font-color;
+  margin-left: 0px !important;
+}
+
+// @include media-breakpoint-down(md) {}
+// mail css end

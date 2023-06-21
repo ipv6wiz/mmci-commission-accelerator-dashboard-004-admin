@@ -1,0 +1,80 @@
+<div class="merge-card" *ngFor="let list of merge_card">
+  <app-card
+    cardTitle="Josephine Doe"
+    cardCaption="50 minutes ago - posted on your timeline"
+    captionClass="mb-0 text-muted"
+    cardClass="mb-0"
+    blockClass="p-0"
+  >
+    <a href="javascript:"><img src="{{ list.src }}" alt="user-img" class="img-fluid" /></a>
+  </app-card>
+  <app-card [hidHeader]="true" cardClass="mb-0">
+    <a href="javascript:" class="text-h-primary">
+      <h6>The new Lorem Ipsum is simply</h6>
+    </a>
+    <p class="text-muted mb-0"
+      >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text
+      ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p
+    >
+  </app-card>
+  <app-card [hidHeader]="true" cardClass="mb-0" blockClass="border-top border-bottom">
+    <ul class="list-inline m-0">
+      <li class="list-inline-item"
+        ><a href="javascript:" class="{{ list.color }} text-h-danger"><i class="feather icon-heart-on me-2"></i>Like</a></li
+      >
+      <li class="list-inline-item"
+        ><a href="javascript:" class="text-muted text-h-primary"><i class="feather icon-message-square me-2"></i>Comment</a></li
+      >
+      <li class="list-inline-item"
+        ><a href="javascript:" class="text-muted text-h-primary"><i class="feather icon-share-2 me-2"></i>Share</a></li
+      >
+    </ul>
+  </app-card>
+  <app-card [hidHeader]="true">
+    <div class="row justify-content-between mb-4">
+      <div class="col-auto"><a href="javascript:" class="text-muted text-h-primary">Comment (50)</a></div>
+      <div class="col-auto"><a href="javascript:" class="text-muted text-h-primary" (click)="isShow = !isShow">See All</a></div>
+    </div>
+    <div class="media mb-0">
+      <img src="assets/images/user/avatar-2.jpg" alt="user image" class="img-radius wid-30 align-top m-r-15" />
+      <div class="media-body">
+        <a href="javascript:">
+          <h6 class="mb-0 text-h-primary">Alex Thompson</h6>
+        </a>
+        <p class="m-b-0"
+          >Looking Very nice type and scrambled
+          <a href="javascript:" class="text-muted text-h-danger ms-1"><small>Like</small></a>
+          <a href="javascript:" class="text-muted text-h-primary ms-1"><small>Comment</small></a>
+        </p>
+      </div>
+    </div>
+    <hr />
+    <div [ngbCollapse]="isShow">
+      <div class="media mb-0">
+        <img src="assets/images/user/avatar-3.jpg" alt="user image" class="img-radius wid-30 align-top m-r-15" />
+        <div class="media-body">
+          <a href="javascript:">
+            <h6 class="mb-0 text-h-primary">Alex Thompson</h6>
+          </a>
+          <p class="m-b-0"
+            >Nice Pic printing and typesetting industry
+            <a href="javascript:" class="text-muted text-h-danger ms-1"><small>Like</small></a>
+            <a href="javascript:" class="text-muted text-h-primary ms-1"><small>Comment</small></a>
+          </p>
+        </div>
+      </div>
+      <hr />
+    </div>
+    <div class="media mb-0">
+      <img src="assets/images/user/avatar-1.jpg" alt="user image" class="img-radius wid-40 align-top m-r-15" />
+      <div class="media-body">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control form-control border-0 shadow-none px-0" placeholder="Write comment here !. . ." />
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" title="Send Message"><i class="feather icon-message-circle"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-card>
+</div>

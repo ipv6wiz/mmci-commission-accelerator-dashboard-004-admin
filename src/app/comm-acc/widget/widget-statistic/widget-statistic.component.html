@@ -1,0 +1,443 @@
+<div class="row">
+  <!-- notification counter start -->
+  <div class="col-md-6 col-xl-3" *ngFor="let task of tasks">
+    <app-card [hidHeader]="true" cardClass="{{ task.bg }} notification-card">
+      <div class="row align-items-center">
+        <div class="col-4 notify-icon"><i class="{{ task.icon }}"></i></div>
+        <div class="col-8 notify-cont">
+          <h4>123</h4>
+          <p>{{ task.text }}</p>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- notification counter end -->
+
+  <!-- order-card start -->
+  <div class="col-md-6 col-xl-3" *ngFor="let order of order_card">
+    <app-card [hidHeader]="true" cardClass="{{ order.bg }} order-card">
+      <h6 class="text-white">{{ order.message }}</h6>
+      <h2 class="text-end text-white"
+        ><i class="feather {{ order.icon }} float-start"></i><span>{{ order.number }}</span></h2
+      >
+      <p class="m-b-0"
+        >{{ order.text }}<span class="float-end">{{ order.amount }}</span></p
+      >
+    </app-card>
+  </div>
+  <!-- order-card end -->
+
+  <!-- transaction start -->
+  <div class="col-lg-12 col-xl-4">
+    <app-card
+      cardClass="trnasiction-card"
+      [customHeader]="true"
+      headerClass="bg-c-red"
+      blockClass="text-center"
+      [isCardFooter]="true"
+      footerClass="border-top transection-footer p-0"
+    >
+      <div class="app-card-header">
+        <h5 class="text-white">Not Complete<span class="d-block">Cycle ends in 22 days</span></h5>
+        <div class="card-header-right">
+          <div class="transection-preogress running-75">
+            <p class="m-b-0">44%</p>
+          </div>
+        </div>
+      </div>
+      <div class="trnasiction-profile">
+        <h4 class="text-white">RT</h4>
+      </div>
+      <h6>Registered Respiratory <span class="d-block">Therapist</span></h6>
+      <p>RT 334445566</p>
+      <div class="app-card-footer row p-0">
+        <div class="col-6 p-15 border-right"
+          ><a href="javascript;" class="text-dark"><i class="fa fa-plus-circle m-r-10"></i>Report CE</a></div
+        >
+        <div class="col-6 p-15"
+          ><a href="javascript;" class="text-dark"><i class="fa fa-eye m-r-10"></i>Transcript</a></div
+        >
+      </div>
+    </app-card>
+  </div>
+  <div class="col-lg-6 col-xl-4" *ngFor="let card of transition_card">
+    <app-card
+      cardClass="trnasiction-card"
+      [customHeader]="true"
+      headerClass="bg-c-green"
+      blockClass="text-center"
+      [isCardFooter]="true"
+      footerClass="border-top transection-footer p-0"
+    >
+      <div class="app-card-header">
+        <h5 class="text-white">Not Complete<span class="d-block">Next cycle starts Feb 2 2017</span></h5>
+        <div class="card-header-right">
+          <div class="transection-preogress complited">
+            <span class="fa fa-check f-20"></span>
+          </div>
+        </div>
+      </div>
+      <div class="trnasiction-profile bg-c-green">
+        <h4 class="text-white">{{ card.title }}</h4>
+      </div>
+      <h6
+        >{{ card.text }}<span class="d-block">{{ card.position }}</span></h6
+      >
+      <p>{{ card.code }</p>
+      <div class="app-card-footer row p-0">
+        <div class="col-6 p-15 border-right"
+          ><a href="javascript:" class="text-dark"><i class="fa fa-plus-circle m-r-10"></i>Report CE</a></div
+        >
+        <div class="col-6 p-15"
+          ><a href="javascript:" class="text-dark"><i class="fa fa-eye m-r-10"></i>Transcript</a></div
+        >
+      </div>
+    </app-card>
+  </div>
+  <!-- transaction end -->
+
+  <!-- user start -->
+  <div class="col-md-6 col-lg-3" *ngFor="let card of user_card">
+    <app-card [hidHeader]="true" blockClass="user-radial-card">
+      <div data-label="50%" class="radial-bar radial-bar-90 radial-bar-lg radial-bar-danger">
+        <img src="{{ card.img }}" class="img-radius wid-70" alt="User-Image" />
+      </div>
+      <span class="f-36 {{ card.color }}">{{ card.number }}</span>
+      <p>{{ card.text }}</p>
+    </app-card>
+  </div>
+  <!-- user end -->
+
+  <!-- social statistic start -->
+  <div class="col-md-12 col-lg-4">
+    <app-card [hidHeader]="true" blockClass="text-center">
+      <i class="fa fa-envelope-open text-c-blue d-block f-40"></i>
+      <h4 class="m-t-20"><span class="text-c-blue">8.62k</span> Subscribers</h4>
+      <p class="m-b-20">Your main list is growing</p>
+      <button class="btn btn-primary btn-sm btn-round">Manage List</button>
+    </app-card>
+  </div>
+  <div class="col-md-6 col-lg-4" *ngFor="let card of social_card">
+    <app-card [hidHeader]="true" blockClass="text-center">
+      <i class="fab {{ card.icon }} d-block f-40"></i>
+      <i class="fa {{ card.icon1 }} d-block f-40"></i>
+      <h4 class="m-t-20"
+        ><span class="text-c-blgreenue">{{ card.number }}</span> {{ card.text }}</h4
+      >
+      <p class="m-b-20">{{ card.describe }}</p>
+      <button class="btn {{ card.color }} btn-sm btn-round">{{ card.status }}</button>
+    </app-card>
+  </div>
+  <!-- social statistic end -->
+
+  <!-- statustic with progress start -->
+  <div class="col-md-6 col-lg-3" *ngFor="let card of articles">
+    <app-card
+      cardTitle="{{ card.title }}"
+      [options]="false"
+      cardClass="statustic-card"
+      blockClass="text-center"
+      [isCardFooter]="true"
+      footerClass="{{ card.bg }}"
+    >
+      <span class="d-block {{ card.background }} f-36">{{ card.number }}</span>
+      <p class="m-b-0">Total</p>
+      <ngb-progressbar type="{{ card.type }}" height="4px" value="{{ card.value }}"></ngb-progressbar>
+      <div class="app-card-footer">
+        <h6 class="text-white m-b-0">{{ card.text }}</h6>
+      </div>
+    </app-card>
+  </div>
+  <!-- statustic with progress end -->
+
+  <!-- Whether card start -->
+  <div class="col-lg-8 col-md-12">
+    <app-card cardTitle="Summary" [options]="false">
+      <div class="row">
+        <div class="col-sm-4" *ngFor="let summary of summaries">
+          <h2 class="d-inline-block {{ summary.color }} m-r-10">{{ summary.number }}</h2>
+          <div class="d-inline-block">
+            <p class="m-b-0"><i class="{{ summary.icon }} m-r-10"></i>{{ summary.percentage }}</p>
+            <p class="text-muted">{{ summary.describe }}</p>
+          </div>
+        </div>
+      </div>
+    </app-card>
+
+    <app-card [customHeader]="true" headerClass="pt-0" blockClass="text-center pt-0">
+      <div class="app-card-header">
+        <div class="card-header-right">
+          <h5 class="text-muted">$25</h5>
+        </div>
+      </div>
+      <img src="assets/images/widget/prod.jpg" class="img-fluid" alt="product" />
+      <h6 class="m-b-0">Sports Shoes</h6>
+      <p class="m-b-10">Some quick example text.</p>
+      <button class="btn btn-primary btn-round">Buy now</button>
+    </app-card>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <app-card cardTitle="Popular" [options]="false">
+      <div class="popular-img-block">
+        <div></div>
+        <img class="img-fluid" src="{{ image.img }}" alt="Gallery" *ngFor="let image of images" />
+      </div>
+      <div class="text-center m-t-15">
+        <button class="btn btn-outline-primary btn-round btn-sm">Load More</button>
+      </div>
+    </app-card>
+  </div>
+  <!-- Whether card end -->
+
+  <!-- live-view start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card [hidHeader]="true">
+      <h6 class="mb-0 float-end">New York , NY</h6>
+      <span class="d-block mb-1">Monday 2:00 PM</span>
+      <div class="row align-items-center justify-content-center">
+        <div class="col-auto">
+          <h2 class="text-c-purple m-0"><i class="feather icon-cloud-snow text-muted me-2"></i>23<sup class="f-20">°</sup></h2>
+        </div>
+        <div class="col text-end">
+          <div class="form-group mb-1">
+            <label class="m-r-5 f-20 mb-0">°C</label>
+            <div class="switch switch-primary d-inline">
+              <input type="checkbox" id="switch-a-1" checked title="Switch On" />
+              <label for="switch-a-1" class="cr"></label>
+            </div>
+            <label class="m-l-5 f-20 mb-0">°F</label>
+          </div>
+          <small class="d-block mt-0">Partly Cloudy</small>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- live-view end -->
+
+  <!-- active-user start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Overdue tasks" headerClass="pb-3" [options]="false">
+      <div class="row">
+        <div class="col">
+          <h2 class="m-0"><i class="feather icon-arrow-up text-c-green"></i>4</h2>
+        </div>
+        <div class="col text-end">
+          <h5 class="text-c-green m-0">15%</h5>
+          <span class="d-block">Last Month:6</span>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- active-user end -->
+
+  <!-- Revenue-section start -->
+  <div class="col-xl-4 col-md-12">
+    <app-card [hidHeader]="true" blockClass="p-0">
+      <div class="row d-flex align-items-center m-0">
+        <div class="col-6 text-center">
+          <div class="py-4">
+            <h2 class="text-c-purple mb-0">19<sup class="f-20">°</sup></h2>
+            <span>Sunny</span>
+          </div>
+        </div>
+        <div class="col-6 text-center bg-primary p-0">
+          <div class="py-4">
+            <i class="feather icon-sun f-36 text-white"></i>
+            <h6 class="mt-2 mb-0 text-white f-w-400">New York , NY</h6>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- Revenue-section end -->
+
+  <!-- impression, goal, impact start -->
+  <div class="col-xl-4 col-md-12" *ngFor="let task of goal">
+    <app-card [hidHeader]="true" cardClass="comp-card">
+      <div class="row align-items-center">
+        <div class="col">
+          <h6 class="m-b-20">{{ task.title }}</h6>
+          <h3 class="{{ task.color }}">{{ task.number }}</h3>
+          <p class="m-b-0">{{ task.date }}</p>
+        </div>
+        <div class="col-auto">
+          <i class="{{ task.icon }}"></i>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- impression, goal, impact end -->
+
+  <!-- product profit start -->
+  <div class="col-xl-3 col-md-6" *ngFor="let card of product">
+    <app-card [hidHeader]="true" cardClass="prod-p-card {{ card.bg }}">
+      <div class="row align-items-center m-b-25">
+        <div class="col">
+          <h6 class="m-b-5 text-white">{{ card.title }}</h6>
+          <h3 class="m-b-0 text-white">{{ card.amount }}</h3>
+        </div>
+        <div class="col-auto">
+          <i class="{{ card.icon }} text-white"></i>
+        </div>
+      </div>
+      <p class="m-b-0 text-white"
+        ><span class="label {{ card.background }} m-r-10">{{ card.percentage }}</span
+        >From Previous Month</p
+      >
+    </app-card>
+  </div>
+  <!-- product profit end -->
+
+  <!-- project-ticket start -->
+  <div class="col-xl-4 col-md-12" *ngFor="let card of project_ticket">
+    <app-card [hidHeader]="true" cardClass="proj-t-card">
+      <div class="row align-items-center m-b-30">
+        <div class="col-auto">
+          <i class="{{ card.icon }} {{ card.color }} f-30"></i>
+        </div>
+        <div class="col p-l-0">
+          <h6 class="m-b-5">{{ card.title }}</h6>
+          <h6 class="m-b-0 {{ card.color }}">Live Update</h6>
+        </div>
+      </div>
+      <div class="row align-items-center text-center">
+        <div class="col">
+          <h6 class="m-b-0">{{ card.amount }}</h6>
+        </div>
+        <div class="col"><i class="fas fa-exchange-alt {{ card.color }} f-18"></i></div>
+        <div class="col">
+          <h6 class="m-b-0">{{ card.day }}</h6>
+        </div>
+      </div>
+      <h6 class="pt-badge {{ card.background }}">{{ card.percentage }}</h6>
+    </app-card>
+  </div>
+  <!-- project-ticket end -->
+
+  <!-- ticket, project, client start -->
+  <div class="col-xl-3 col-md-6" *ngFor="let card of client_start">
+    <app-card [hidHeader]="true" cardClass="ticket-card">
+      <p class="m-b-25 {{ card.background }} lbl-card"><i class="{{ card.icon }} m-r-5"></i> {{ card.title }}</p>
+      <div class="text-center">
+        <h2 class="m-b-0 d-inline-block {{ card.color }}">{{ card.amount }}</h2>
+        <p class="m-b-0 d-inline-block">{{ card.describe }}</p>
+        <p class="m-b-0 m-t-10"><i class="{{ card.symbol }} m-r-10 f-18 {{ card.color }}"></i>From Previous Month</p>
+      </div>
+    </app-card>
+  </div>
+  <!-- ticket, project, client end -->
+
+  <!-- analytic card start -->
+  <div class="col-xl-4 col-md-12" *ngFor="let card of analytic_card">
+    <app-card [hidHeader]="true" cardClass="analytic-card {{ card.background }}">
+      <div class="row align-items-center m-b-25">
+        <div class="col-auto">
+          <i class="{{ card.icon }} f-18 analytic-icon"></i>
+        </div>
+        <div class="col text-end">
+          <h3 class="m-b-5 text-white">{{ card.amount }}</h3>
+          <h6 class="m-b-0 text-white">{{ card.text }}</h6>
+        </div>
+      </div>
+      <p class="m-b-0 text-white d-inline-block">{{ card.title }} : </p>
+      <h5 class="text-white d-inline-block m-b-0 m-l-10">{{ card.income }}</h5>
+      <h6 class="m-b-0 d-inline-block text-white float-end"><i class="{{ card.position }} m-r-10 f-18"></i>{{ card.growth }}</h6>
+    </app-card>
+  </div>
+  <!-- analytic card end -->
+
+  <!-- users visited and profile start -->
+  <div class="col-md-4">
+    <app-card cardTitle="Profile" [options]="false" cardClass="user-card">
+      <div class="usre-image">
+        <img src="assets/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image" />
+      </div>
+      <h6 class="f-w-600 m-t-15 m-b-10">Alessa Robert</h6>
+      <p class="text-muted">Active | Male | Born 23.05.1992</p>
+      <hr />
+      <p class="text-muted m-t-15">Activity Level: 87%</p>
+      <ul class="list-unstyled activity-leval">
+        <li class="active"></li>
+        <li class="active"></li>
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <div class="bg-c-blue counter-block m-t-10 p-20">
+        <div class="row">
+          <div class="col-4">
+            <i class="ti-comments"></i>
+            <p>1256</p>
+          </div>
+          <div class="col-4">
+            <i class="ti-user"></i>
+            <p>8562</p>
+          </div>
+          <div class="col-4">
+            <i class="ti-bag"></i>
+            <p>189</p>
+          </div>
+        </div>
+      </div>
+      <p class="m-t-15 text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting.</p>
+      <hr />
+      <div class="row justify-content-center user-social-link">
+        <div class="col-auto"
+          ><a href="javascript:" title="facebook"><i class="fab fa-facebook text-facebook"></i></a
+        ></div>
+        <div class="col-auto"
+          ><a href="javascript:" title="Twitter"><i class="fab fa-twitter text-twitter"></i></a
+        ></div>
+        <div class="col-auto"
+          ><a href="javascript:" title="Dribble"><i class="fab fa-dribbble text-dribbble"></i></a
+        ></div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-md-8">
+    <!-- SEO-card start -->
+    <div class="row">
+      <div class="col-xl-8 col-lg-12">
+        <div class="card seo-card">
+          <img src="assets/images/widget/seoimg1.jpg" alt="seo bg" class="img-fluid" />
+          <div class="overlay-bg bg-c-blue"></div>
+          <div class="card-body seo-content">
+            <span class="label label-success">Traffic</span>
+            <h4 class="m-t-10 text-white">Devices and resolution</h4>
+            <p class="m-b-0 m-t-20"
+              >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry.</p
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-12">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card seo-card">
+              <img src="assets/images/widget/seoimg2.jpg" alt="seo bg" class="img-fluid" />
+              <div class="overlay-bg"></div>
+              <div class="card-body seo-content">
+                <h6 class="text-white">New Users</h6>
+                <p class="m-b-5 m-t-15"><i class="fa fa-caret-up text-c-green m-r-10"></i> +52%</p>
+                <p class="m-b-0">Calculated in 7 days</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="card seo-card">
+              <img src="assets/images/widget/seoimg3.jpg" alt="seo bg" class="img-fluid" />
+              <div class="overlay-bg"></div>
+              <div class="card-body seo-content">
+                <h6 class="text-white">Bounce Rate</h6>
+                <p class="m-b-5 m-t-15"><i class="fa fa-caret-down text-c-red m-r-10"></i> -82%</p>
+                <p class="m-b-0">Calculated in 7 days</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SEO-card end -->
+  </div>
+  <!-- users visited and profile end -->
+</div>

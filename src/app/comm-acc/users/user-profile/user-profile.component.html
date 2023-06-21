@@ -1,0 +1,147 @@
+<div class="user-profile user-card mb-4">
+  <div class="card-header border-0 p-0 pb-0">
+    <div class="cover-img-block">
+      <img src="assets/images/profile/cover.jpg" alt="Contacts" class="img-fluid" />
+      <div class="overlay"></div>
+      <div class="change-cover">
+        <div class="dropdown" ngbDropdown placement="bottom-left">
+          <a class="drp-icon dropdown-toggle" ngbDropdownToggle><i class="icon feather icon-camera"></i></a>
+          <div class="dropdown-menu" ngbDropdownMenu>
+            <a class="dropdown-item" href="javascript:"><i class="feather icon-upload-cloud me-2"></i>upload new</a>
+            <a class="dropdown-item" href="javascript:"><i class="feather icon-image me-2"></i>from photos</a>
+            <a class="dropdown-item" href="javascript:"><i class="feather icon-film me-2"></i> upload video</a>
+            <a class="dropdown-item" href="javascript:"><i class="feather icon-trash-2 me-2"></i>remove</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-0 user-details">
+    <div class="user-about-block m-0">
+      <div class="row">
+        <div class="col-md-4 text-center mt-n5">
+          <div class="change-profile text-center">
+            <div class="dropdown w-auto d-inline-block" ngbDropdown placement="auto">
+              <a class="dropdown-toggle" ngbDropdownToggle>
+                <div class="profile-dp">
+                  <div class="position-relative d-inline-block">
+                    <img class="img-radius img-fluid wid-100" src="assets/images/user/avatar-5.jpg" alt="User image" />
+                  </div>
+                  <div class="overlay">
+                    <span>change</span>
+                  </div>
+                </div>
+                <div class="certificated-badge">
+                  <i class="fas fa-certificate text-c-blue bg-icon"></i>
+                  <i class="fas fa-check front-icon text-white"></i>
+                </div>
+              </a>
+              <div class="dropdown-menu" ngbDropdownMenu>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-upload-cloud me-2"></i>upload new</a>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-image me-2"></i>from photos</a>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-shield me-2"></i>Protact</a>
+                <a class="dropdown-item" href="javascript:"><i class="feather icon-trash-2 me-2"></i>remove</a>
+              </div>
+            </div>
+          </div>
+          <h5 class="mb-1">Lary Doe</h5>
+          <p class="mb-2 text-muted">UI/UX Designer</p>
+        </div>
+        <div class="col-md-8 mt-md-4">
+          <div class="row">
+            <div class="col-md-6">
+              <a href="javascript:" class="mb-1 text-muted d-flex align-items-end text-h-primary"
+                ><i class="feather icon-globe me-2 f-18"></i>https://codedthemes.com/submit-ticket/</a
+              >
+              <div class="clearfix"></div>
+              <a href="mailto:demo@domain.com" class="mb-1 text-muted d-flex align-items-end text-h-primary"
+                ><i class="feather icon-mail me-2 f-18"></i>demo@domain.com</a
+              >
+              <div class="clearfix"></div>
+              <a href="javascript:" class="mb-1 text-muted d-flex align-items-end text-h-primary"
+                ><i class="feather icon-phone me-2 f-18"></i>+1 9999-999-999</a
+              >
+            </div>
+            <div class="col-md-6">
+              <div class="media">
+                <i class="feather icon-map-pin me-2 mt-1 f-18"></i>
+                <div class="media-body">
+                  <p class="mb-0 text-muted">4289 Calvin Street</p>
+                  <p class="mb-0 text-muted">Baltimore, near MD Tower Maryland,</p>
+                  <p class="mb-0 text-muted">Maryland (21201)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ul ngbNav aria-busy="true" #nav="ngbNav" class="nav-tabs profile-tabs nav-fill">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink class="nav-link text-reset"><i class="feather icon-home me-2"></i>Home</a>
+              <ng-template ngbNavContent>
+                <app-us-home></app-us-home>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink class="nav-link text-reset"><i class="feather icon-user me-2"></i>Profile</a>
+              <ng-template ngbNavContent>
+                <app-us-profile></app-us-profile>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+              <a ngbNavLink class="nav-link text-reset"><i class="feather icon-phone me-2"></i>My Contacts</a>
+              <ng-template ngbNavContent>
+                <app-us-contact></app-us-contact>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="4">
+              <a ngbNavLink class="nav-link text-reset"><i class="feather icon-image me-2"></i>Gallery</a>
+              <ng-template ngbNavContent>
+                <app-us-gallery></app-us-gallery>
+              </ng-template>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- profile body start -->
+<div class="row">
+  <div class="col-md-8 order-md-2">
+    <div class="tab-content" id="myTabContent">
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+  </div>
+  <div class="col-md-4 order-md-1">
+    <div class="merge-card">
+      <app-card [hidHeader]="true" blockClass="p-10" cardClass="m-b-0">
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="mb-0">Friends</h5>
+          <span class="badge badge-light-primary float-end">100+</span>
+        </div>
+      </app-card>
+      <app-card [hidHeader]="true">
+        <ul class="list-inline">
+          <li class="list-inline-item" *ngFor="let image of images"
+            ><a href="javascript:"
+              ><img src="{{ image.src }}" alt="user image" class="img-radius mb-2 wid-50" placement="auto" ngbTooltip="Joseph William" /></a
+          ></li>
+        </ul>
+      </app-card>
+    </div>
+
+    <app-card cardTitle="New Customers" cardClass="new-cust-card" blockClass="p-b-0 scrollable-body" [options]="false">
+      <ng-scrollbar style="height: 415px; padding-top: 0px" visibility="hover">
+        <div class="align-middle m-b-25" *ngFor="let customer of customers">
+          <img src="{{ customer.src }}" alt="user image" class="img-radius align-top m-r-15 float-start" />
+          <div class="d-inline-block">
+            <a href="javascript:">
+              <h6>{{ customer.name }}</h6>
+            </a>
+            <p class="m-b-0">{{ customer.text }}</p>
+            <span class="status {{ customer.status }}"><i class="{{ customer.icon }} m-r-10"></i>{{ customer.time }}</span>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+</div>

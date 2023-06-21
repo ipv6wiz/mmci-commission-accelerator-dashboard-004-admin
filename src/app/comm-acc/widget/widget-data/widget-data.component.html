@@ -1,0 +1,1269 @@
+<div class="row">
+  <!-- tabs card start -->
+  <div class="col-sm-12">
+    <app-card [hidHeader]="true" cardClass="tab-card" blockClass="nav-fill">
+      <ul ngbNav aria-busy="true" #nav="ngbNav" class="nav-pills">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink><i class="fa fa-home m-r-10"></i>Home</a>
+          <ng-template ngbNavContent>
+            <div class="table-responsive">
+              <table class="table">
+                <tr>
+                  <th>Image</th>
+                  <th>Product Code</th>
+                  <th>Customer</th>
+                  <th>Purchased On</th>
+                  <th>Status</th>
+                  <th>Transaction ID</th>
+                </tr>
+                <tr *ngFor="let home of homes">
+                  <td><img src="{{ home.src }}" alt="prod img" class="img-fluid" /></td>
+                  <td>{{ home.code }}</td>
+                  <td>{{ home.name }}</td>
+                  <td>{{ home.date }}</td>
+                  <td
+                    ><span class="label label-danger">{{ home.status }}</span></td
+                  >
+                  <td>{{ home.id }}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="text-center">
+              <button class="btn btn-outline-primary btn-round btn-sm">Load More</button>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink><i class="fa fa-key m-r-10"></i>Security</a>
+          <ng-template ngbNavContent>
+            <div class="table-responsive">
+              <table class="table">
+                <tr>
+                  <th>Image</th>
+                  <th>Product Code</th>
+                  <th>Customer</th>
+                  <th>Purchased On</th>
+                  <th>Status</th>
+                  <th>Transaction ID</th>
+                </tr>
+                <tr *ngFor="let list of security">
+                  <td><img src="{{ list.src }}" alt="prod img" class="img-fluid" /></td>
+                  <td>{{ list.code }}</td>
+                  <td>{{ list.name }}</td>
+                  <td>{{ list.date }}</td>
+                  <td
+                    ><span class="label {{ list.background }}">{{ list.status }}</span></td
+                  >
+                  <td>{{ list.id }}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="text-center">
+              <button class="btn btn-outline-primary btn-round btn-sm">Load More</button>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3">
+          <a ngbNavLink><i class="fa fa-play-circle m-r-10"></i>Entertainment</a>
+          <ng-template ngbNavContent>
+            <div class="table-responsive">
+              <table class="table">
+                <tr>
+                  <th>Image</th>
+                  <th>Product Code</th>
+                  <th>Customer</th>
+                  <th>Purchased On</th>
+                  <th>Status</th>
+                  <th>Transaction ID</th>
+                </tr>
+                <tr *ngFor="let list of entertainment">
+                  <td><img src="{{ list.src }}" alt="prod img" class="img-fluid" /></td>
+                  <td>{{ list.code }}</td>
+                  <td>{{ list.name }}</td>
+                  <td>{{ list.date }}</td>
+                  <td
+                    ><span class="label {{ list.background }}">{{ list.status }}</span></td
+                  >
+                  <td>{{ list.id }}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="text-center">
+              <button class="btn btn-outline-primary btn-round btn-sm">Load More</button>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="4">
+          <a ngbNavLink><i class="fa fa-database m-r-10"></i>Big Data</a>
+          <ng-template ngbNavContent>
+            <div class="table-responsive">
+              <table class="table">
+                <tr>
+                  <th>Image</th>
+                  <th>Product Code</th>
+                  <th>Customer</th>
+                  <th>Purchased On</th>
+                  <th>Status</th>
+                  <th>Transaction ID</th>
+                </tr>
+                <tr *ngFor="let list of data">
+                  <td><img src="{{ list.src }}" alt="prod img" class="img-fluid" /></td>
+                  <td>{{ list.code }}</td>
+                  <td>{{ list.name }}</td>
+                  <td>{{ list.date }}</td>
+                  <td
+                    ><span class="label {{ list.background }}">{{ list.status }}</span></td
+                  >
+                  <td>{{ list.id }}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="text-center">
+              <button class="btn btn-outline-primary btn-round btn-sm">Load More</button>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mb-3"></div>
+    </app-card>
+  </div>
+  <!-- tabs card end -->
+
+  <!-- activity feed start -->
+  <div class="col-lg-8 col-md-12">
+    <app-card cardTitle="Activity Feed" [options]="false">
+      <ul class="feed-blog ps-0 mt-3">
+        <li class="active-feed">
+          <div class="feed-user-img">
+            <img src="assets/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image" />
+          </div>
+          <h6><span class="badge bg-danger">File</span> Eddie uploaded new files: <small class="text-muted">2 hours ago</small></h6>
+          <p class="m-b-15 m-t-15"
+            >hii <b> @everone</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s.</p
+          >
+          <div class="row">
+            <div class="col-auto text-center">
+              <img src="assets/images/gallery-grid/img-grd-gal-1.jpg" alt="img" class="img-fluid wid-100" />
+              <h6 class="m-t-15 m-b-0">Old Scooter</h6>
+              <p class="text-muted m-b-0"><small>PNG-100KB</small></p>
+            </div>
+            <div class="col-auto text-center">
+              <img src="assets/images/gallery-grid/img-grd-gal-2.jpg" alt="img" class="img-fluid wid-100" />
+              <h6 class="m-t-15 m-b-0">Wall Art</h6>
+              <p class="text-muted m-b-0"><small>PNG-150KB</small></p>
+            </div>
+            <div class="col-auto text-center">
+              <img src="assets/images/gallery-grid/img-grd-gal-3.jpg" alt="img" class="img-fluid wid-100" />
+              <h6 class="m-t-15 m-b-0">Microphone</h6>
+              <p class="text-muted m-b-0"><small>PNG-150KB</small></p>
+            </div>
+          </div>
+        </li>
+        <li class="diactive-feed">
+          <div class="feed-user-img">
+            <img src="assets/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image" />
+          </div>
+          <h6
+            ><span class="badge bg-success">Task</span> Sarah marked the Pending Review:
+            <span class="text-c-green"> Trash Can Icon Design</span><small class="text-muted"> 2 hours ago</small>
+          </h6>
+        </li>
+        <li class="diactive-feed">
+          <div class="feed-user-img">
+            <img src="assets/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image" />
+          </div>
+          <h6
+            ><span class="badge bg-primary">comment</span> abc posted a task: <span class="text-c-green">Design a new Homepage</span>
+            <small class="text-muted">6 hours ago</small>
+          </h6>
+          <p class="m-b-15 m-t-15"
+            >hii <b> @everone</b> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+            industry's standard dummy text ever since the 1500s.</p
+          >
+        </li>
+      </ul>
+    </app-card>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <!-- social statistic start -->
+    <app-card [hidHeader]="true" cardClass="bg-facebook social-card">
+      <ngb-carousel [showNavigationArrows]="false">
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">Facebook Feed</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <i class="fab fa-facebook-f"></i>
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">Facebook Feed</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <img src="assets/images/user/avatar-4.jpg" alt="User-Image" class="img-fluid img-radius wid-30" />
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">Facebook Feed</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <i class="fab fa-facebook-f"></i>
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+      </ngb-carousel>
+    </app-card>
+
+    <app-card [hidHeader]="true" cardClass="bg-twitter social-card">
+      <ngb-carousel [showNavigationArrows]="false">
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">Latest Tweets</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <img src="assets/images/user/avatar-4.jpg" alt="User-Image" class="img-fluid img-radius wid-30" />
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">Latest Tweets</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <i class="fab fa-twitter"></i>
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">Latest Tweets</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <i class="fab fa-twitter"></i>
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+      </ngb-carousel>
+    </app-card>
+
+    <app-card [hidHeader]="true" cardClass="bg-dribbble social-card">
+      <ngb-carousel [showNavigationArrows]="false">
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">Responsive</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <i class="fab fa-dribbble"></i>
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">After Effect</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <i class="fab fa-dribbble"></i>
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+        <ng-template ngbSlide>
+          <div class="row">
+            <div class="col align-self-start">
+              <h6 class="text-white mb-3">VFX</h6>
+            </div>
+            <div class="col align-self-start text-end">
+              <img src="assets/images/user/avatar-4.jpg" alt="User-Image" class="img-fluid img-radius wid-30" />
+            </div>
+          </div>
+          <p class="m-t-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          <p class="m-t-10 m-b-0"><small>1 March, 2017</small></p>
+        </ng-template>
+      </ngb-carousel>
+    </app-card>
+    <!-- social statistic end -->
+  </div>
+  <!-- activity feed end -->
+
+  <!-- chat start -->
+  <div class="col-md-12 col-lg-4">
+    <app-card cardTitle="Chats" [options]="false" cardClass="chat-card" [isCardFooter]="true" footerClass="chat-control">
+      <div class="media received-chat">
+        <img class="align-self-start me-3 img-radius wid-40" src="assets/images/user/avatar-2.jpg" alt="user image" />
+        <div class="media-body">
+          <h6 class="mt-0">John Deo</h6>
+          <p class="m-t-10 msg">Lorem Ipsum is simply dummy text of the printing industry.</p>
+          <p class="text-muted">10:53am</p>
+        </div>
+      </div>
+      <div class="chat-saprator"><span>Today</span></div>
+      <div class="media send-chat">
+        <div class="media-body">
+          <h6 class="mt-0">John Deo</h6>
+          <p class="m-t-10 msg">Lorem Ipsum is simply dummy text of the printing industry.</p>
+          <p class="text-muted">10:53am</p>
+        </div>
+        <img class="align-self-start ms-3 img-radius wid-40" src="assets/images/user/avatar-4.jpg" alt="user image" />
+      </div>
+      <div class="media received-chat">
+        <img class="align-self-start me-3 img-radius wid-40" src="assets/images/user/avatar-2.jpg" alt="user image" />
+        <div class="media-body">
+          <h6 class="mt-0">John Deo</h6>
+          <p class="m-t-10 msg">Lorem Ipsum is simply dummy text of the printing industry.</p>
+          <p class="text-muted">10:53am</p>
+        </div>
+      </div>
+      <div class="app-card-footer">
+        <div class="chat-form">
+          <input type="text" class="form-control border-0 shadow-none" placeholder="Type here . ." />
+          <div class="chat-btn">
+            <button class="btn btn-primary btn-icon"><i class="fa fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-md-12 col-lg-8">
+    <app-card cardTitle="Activity" [options]="false">
+      <ul class="activity-blog ps-0">
+        <li>
+          <div class="activity-user-img">
+            <img src="assets/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image" />
+          </div>
+          <h6 class="m-b-0">John Deo <small class="text-muted">2 hours ago</small></h6>
+          <p class="m-b-15">Assign a new Task <span class="text-c-blue">Design Web Mockup</span></p>
+          <div class="row m-b-15">
+            <div class="col-auto text-center m-b-5 m-t-5" *ngFor="let image of images">
+              <img src="{{ image.src }}" alt="img" class="img-fluid wid-100" />
+            </div>
+          </div>
+          <a href="javascript:!" class="m-r-10 text-muted"><i class="fa fa-comment text-c-blue m-r-5"></i> 3 Comments</a>
+          <a href="javascript:!" class="text-muted"> <i class="fa fa-heart text-c-red m-r-5"></i> 5 Like</a>
+        </li>
+        <li>
+          <div class="activity-user-img">
+            <img src="assets/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image" />
+          </div>
+          <h6 class="m-b-0">John Deo <small class="text-muted">2 hours ago</small></h6>
+          <div class="row m-b-15 m-t-15">
+            <div class="col-auto col-sm-3">
+              <img src="assets/images/gallery-grid/img-grd-gal-1.jpg" alt="img" class="img-fluid wid-100" />
+            </div>
+            <div class="col-sm-auto col-sm-9">
+              <p class="m-b-15"
+                >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                dummy text ever since the 1500s.</p
+              >
+              <button class="btn btn-primary btn-round btn-sm">Design Web Mockup</button>
+            </div>
+          </div>
+          <a href="javascript:!" class="m-r-10 text-muted"><i class="fa fa-comment text-c-blue m-r-5"></i> 3 Comments</a>
+          <a href="javascript:!" class="text-muted"> <i class="fa fa-heart text-c-red m-r-5"></i> 5 Like</a>
+        </li>
+        <li>
+          <div class="activity-user-img">
+            <img src="assets/images/user/avatar-4.jpg" class="img-radius" alt="User-Profile-Image" />
+          </div>
+          <h6 class="m-b-0">John Deo <small class="text-muted">2 hours ago</small></h6>
+          <p class="m-b-15 m-t-15"
+            >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+            text ever since the 1500s.</p
+          >
+          <a href="javascript:!" class="m-r-10 text-muted"><i class="fa fa-comment text-c-blue m-r-5"></i> 3 Comments</a>
+          <a href="javascript:!" class="text-muted"> <i class="fa fa-heart text-c-red m-r-5"></i> 5 Like</a>
+        </li>
+      </ul>
+    </app-card>
+  </div>
+  <!-- chat end -->
+
+  <!-- Recent Orders start -->
+  <div class="col-sm-12">
+    <app-card cardTitle="Recent Orders" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <th>Image</th>
+            <th>Product Code</th>
+            <th>Customer</th>
+            <th>Purchased On</th>
+            <th>Status</th>
+            <th>Transaction ID</th>
+          </tr>
+          <tr *ngFor="let table of tables">
+            <td><img src="{{ table.src }}" alt="prod img" class="img-fluid" /></td>
+            <td>{{ table.code }}</td>
+            <td>{{ table.name }}</td>
+            <td>{{ table.date }}</td>
+            <td
+              ><span class="label {{ table.background }}">{{ table.status }}</span></td
+            >
+            <td>{{ table.id }}</td>
+          </tr>
+        </table>
+      </div>
+    </app-card>
+  </div>
+  <!-- Recent Orders end -->
+
+  <!-- expansions-section start -->
+  <div class="col-xl-4 col-md-6" *ngFor="let design of designs">
+    <app-card [hidHeader]="true">
+      <h6 class="mb-0"
+        ><i class="feather {{ design.icon }}"></i>{{ design.amount
+        }}<span class="float-end"><i class="feather {{ design.icon2 }}"></i>{{ design.amount2 }}</span></h6
+      >
+      <div class="mt-1">
+        <ngb-progressbar type="{{ design.status }}" height="6px" value="{{ design.progress }}"></ngb-progressbar>
+      </div>
+      <span class="mt-1 d-block mb-3"
+        >{{ design.to }}<span class="float-end">{{ design.form }}</span></span
+      >
+      <h6 class="{{ design.background }} mb-0">{{ design.describe }}</h6>
+    </app-card>
+  </div>
+  <!-- expansions-section end -->
+
+  <!-- sale, income, revenue section start -->
+  <div class="col-xl-5 col-md-12">
+    <app-card cardTitle="Product Sales" [options]="false">
+      <div class="row mb-3">
+        <div class="col" *ngFor="let title of titles">
+          <span class="text-muted">{{ title.name }}</span>
+          <h4 class="mt-2">{{ title.amount }}<span class="ms-2">USD</span></h4>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <ng-scrollbar style="height: 215px" visibility="hover">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Last Sales</th>
+                <th>Name Product</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of products">
+                <td>
+                  <h6 class="mb-1 {{ product.status }}">{{ product.sale }}</h6>
+                </td>
+                <td>{{ product.name }}</td>
+                <td>
+                  <h6 class="mb-1 {{ product.status }}">{{ product.amount }}</h6>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Incoming Requests" blockClass="p-0 scrollabel-body" [options]="false">
+      <ng-scrollbar style="height: 269px" visibility="hover">
+        <div class="mt-3 mb-3">
+          <div *ngFor="let request of requests">
+            <span class="px-4 d-block"
+              ><i class="fas fa-circle {{ request.status }} f-10 m-r-5 m-t-5 float-start"></i>{{ request.title }}</span
+            >
+            <hr />
+          </div>
+        </div>
+      </ng-scrollbar>
+      <div class="card-footer">
+        <h6 class="text-center m-0"><a href="javascript:">Show more</a></h6>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-3 col-md-6">
+    <app-card cardTitle="Total Revenue" cardClass="table-card" blockClass="px-0 py-0" headerClass="borderless" [options]="false">
+      <div class="table-responsive">
+        <ng-scrollbar style="height: 309px" visibility="hover">
+          <table class="table table-hover mb-0">
+            <tbody>
+              <tr *ngFor="let revenue of revenues">
+                <td><i class="{{ revenue.icon }} {{ revenue.status }} f-24"></i></td>
+                <td>{{ revenue.name }}</td>
+                <td>
+                  <h6 class="{{ revenue.status }}">{{ revenue.amount }}</h6>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- sale, income, revenue section end -->
+
+  <!-- product-section start -->
+  <div class="col-sm-12">
+    <app-card cardTitle="Last Product Sales" cardClass="table-card" blockClass="px-0 py-0" [options]="false">
+      <app-sale-report></app-sale-report>
+    </app-card>
+  </div>
+  <!-- product-section end -->
+
+  <!-- product and new customer start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="New Customers" cardClass="new-cust-card" blockClass="p-b-0 scrollable-body" [options]="false">
+      <ng-scrollbar style="height: 415px; padding-top: 0px" visibility="hover">
+        <div class="align-middle m-b-25" *ngFor="let customer of customers">
+          <img src="{{ customer.src }}" alt="user image" class="img-radius align-top m-r-15 float-start" />
+          <div class="d-inline-block">
+            <a href="javascript:">
+              <h6>{{ customer.name }}</h6>
+            </a>
+            <p class="m-b-0">{{ customer.text }}</p>
+            <span class="status {{ customer.status }}"><i class="{{ customer.icon }} m-r-10"></i>{{ customer.time }}</span>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+  <div class="col-xl-8 col-md-6">
+    <app-card cardTitle="New Products" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 415px; padding-top: 0px" visibility="hover">
+          <table class="table table-hover m-b-0">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Image</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let table of new_product">
+                <td>{{ table.product }}</td>
+                <td><img src="{{ table.src }}" alt="widget-img" class="img-20" /></td>
+                <td>
+                  <div
+                    ><label class="badge {{ table.background }}">{{ table.status }}</label></div
+                  >
+                </td>
+                <td>{{ table.price }}</td>
+                <td
+                  ><a href="javascript:" title="Edit"><i class="icon feather icon-edit f-16 text-c-green"></i></a
+                  ><a href="javascript:" title="Delete"><i class="feather icon-trash-2 ms-3 f-16 text-c-red"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- product and new customer end -->
+
+  <!-- top contact and member performance start -->
+  <div class="col-xl-6 col-md-6">
+    <app-card cardTitle="Top Contacts" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 380px" visibility="hover">
+          <table class="table table-hover m-b-0">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let list of contacts">
+                <td>{{ list.company }}</td>
+                <td>{{ list.start_date }}</td>
+                <td>{{ list.end_date }}</td>
+                <td
+                  ><label class="badge {{ list.background }}">{{ list.status }}</label></td
+                >
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-6 col-md-6">
+    <app-card cardTitle="Top Contacts" cardClass="table-card" blockClass="p-0" [options]="false">
+      <ng-scrollbar style="height: 380px" visibility="hover">
+        <div class="table-responsive">
+          <table class="table table-hover m-b-0 without-header">
+            <tbody>
+              <tr *ngFor="let list of top_contacts">
+                <td class="text-left">
+                  <div class="d-inline-block align-middle">
+                    <img src="{{ list.src }}" alt="user image" class="img-radius align-top me-3" style="width: 40px" />
+                    <div class="d-inline-block">
+                      <h6 class="m-b-0">{{ list.name }}</h6>
+                      <p class="m-b-0">{{ list.position }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <h6 class="m-b-0">{{ list.amount }}<i class="{{ list.icon }} m-l-10"></i></h6>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+  <!-- top contact and member performance end -->
+
+  <!-- latest activity and statistic card start -->
+  <div class="col-xl-4 col-md-12">
+    <app-card cardTitle="What’s New" cardClass="latest-update-card update-card" blockClass="scrollable-body" [options]="false">
+      <ng-scrollbar style="height: 370px; padding-top: 0px" visibility="hover">
+        <div class="latest-update-box p-b-10">
+          <div class="row p-b-30 client" *ngFor="let task of what_new">
+            <div class="col-auto text-end update-meta">
+              <i class="{{ task.icon }}"></i>
+              <img src="{{ task.src }}" class="{{ task.img }}" alt="" />
+            </div>
+            <div class="col p-l-5">
+              <a href="javascript:">
+                <h6 class="m-0">{{ task.title }}</h6>
+              </a>
+              <p class="m-b-0">{{ task.name }}</p>
+            </div>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Latest Activity" cardClass="latest-update-card" blockClass="scrollable-body" [options]="false">
+      <ng-scrollbar style="height: 370px; padding-top: 0px" visibility="hover">
+        <div class="latest-update-box p-b-10">
+          <div class="row p-b-20 client" *ngFor="let task of activity">
+            <div class="col-auto text-end update-meta">
+              <i class="b-primary update-icon ring"></i>
+            </div>
+            <div class="col p-l-5">
+              <a href="javascript:">
+                <h6 class="m-0">{{ task.name }}</h6>
+              </a>
+              <p class="m-b-0"
+                >{{ task.text }} <a href="javascript:" class="{{ task.background }}"> {{ task.status }}</a></p
+              >
+            </div>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Campaign Statistics" cardClass="table-card" blockClass="p-0" [options]="false">
+      <ng-scrollbar style="height: 370px" visibility="hover">
+        <div class="table-responsive">
+          <table class="table table-hover m-b-0 without-header">
+            <tbody>
+              <tr *ngFor="let task of statistics">
+                <td>
+                  <h3 class="m-0">{{ task.amount }}</h3>
+                </td>
+                <td>
+                  <p class="m-0">{{ task.title }}</p>
+                </td>
+                <td class="text-end">
+                  <label class="badge {{ task.background }} m-0">{{ task.percentage }}</label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+  <!-- latest activity and statistic card end -->
+
+  <!-- customer overview start -->
+  <div class="col-md-12">
+    <app-card cardTitle="Customer Overview" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 465px" visibility="hover">
+          <table class="table table-hover m-b-0">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Customer</th>
+                <th>Company</th>
+                <th>Lead Score</th>
+                <th>Date</th>
+                <th>Tags</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let list of over_view">
+                <td>
+                  <img src="{{ list.src }}" alt="user image" class="img-radius align-top m-r-15" style="width: 40px" />
+                </td>
+                <td>
+                  <h6 class="m-0">{{ list.name }}</h6>
+                  <p class="m-0">{{ list.text }}</p>
+                </td>
+                <td>{{ list.company }}</td>
+                <td>{{ list.score }}</td>
+                <td>{{ list.date }}</td>
+                <td>
+                  <label class="badge badge-light-primary me-1">{{ list.tag }}</label>
+                  <label class="badge badge-light-danger me-1">{{ list.tag1 }}</label>
+                  <label class="badge badge-light-warning me-1">{{ list.tag2 }}</label>
+                  <label class="badge badge-light-info me-1">{{ list.tag3 }}</label>
+                  <label class="badge badge-light-success me-1">{{ list.tag4 }}</label>
+                </td>
+                <td
+                  ><a href="javascript:" title="Edit"><i class="icon feather icon-edit f-16 text-c-green"></i></a
+                  ><a href="javascript:" title="Delete"><i class="feather icon-trash-2 f-16 ms-3 text-c-red"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- customer overview end -->
+
+  <!-- testimonial and top selling start -->
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Testimonial" cardClass="testimonial-card table-card" blockClass="p-b-0" [options]="false">
+      <ng-scrollbar style="height: 386px" visibility="hover">
+        <div class="review-block">
+          <div class="row client" *ngFor="let task of testimonial">
+            <div class="col-sm-auto p-r-0">
+              <img src="{{ task.src }}" alt="user image" class="img-radius profile-img cust-img m-b-15" />
+            </div>
+            <div class="col">
+              <h6 class="m-b-10">{{ task.name }}</h6>
+              <div class="row align-items-center client">
+                <div class="col">
+                  <div class="mt-1">
+                    <ngb-progressbar type="{{ task.background }}" height="4px" value="{{ task.value }}"></ngb-progressbar>
+                  </div>
+                </div>
+                <div class="col">
+                  <h6 class="m-b-0">{{ task.number }}</h6>
+                </div>
+              </div>
+              <p class="m-t-10 m-b-0">Lorem Ipsum is simply dummy text of the printing and typesetting. </p>
+            </div>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+  <div class="col-xl-8 col-md-6">
+    <app-card cardTitle="New Products" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 405px" visibility="hover">
+          <table class="table table-hover m-b-0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Product Code</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let task of product_new">
+                <td>{{ task.name }}</td>
+                <td>{{ task.code }}</td>
+                <td>{{ task.email }}</td>
+                <td
+                  ><label class="badge {{ task.background }}">{{ task.status }}</label></td
+                >
+                <td>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-c-yellow"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-c-yellow"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-c-yellow"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 {{ task.icon }}"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-muted"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-muted"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- testimonial and top selling end -->
+
+  <!-- customer overview start -->
+  <div class="col-md-12">
+    <app-card cardTitle="Project Task List" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 385px" visibility="hover">
+          <table class="table table-hover m-b-0">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Regarding</th>
+                <th>Activity Type</th>
+                <th>Activity Status</th>
+                <th>Owner</th>
+                <th>Priority</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let list of task_list">
+                <td>{{ list.subject }}</td>
+                <td>Software pro</td>
+                <td>Task</td>
+                <td
+                  ><label class="badge {{ list.background }}">{{ list.status }}</label></td
+                >
+                <td>{{ list.name }}</td>
+                <td>{{ list.priority }}</td>
+                <td>{{ list.start_date }}</td>
+                <td>{{ list.end_date }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- customer overview end -->
+
+  <!-- feed, project,chat start -->
+  <div class="col-md-12 col-xl-4">
+    <app-card cardClass="widget-chat-box" [hidHeader]="true" blockClass="scrollable-body" [options]="false">
+      <div class="row m-15">
+        <div class="col-sm-2">
+          <i class="fas fa-bars pop-up"></i>
+        </div>
+        <div class="col-sm-8 text-center">
+          <h5>John Henry</h5>
+        </div>
+        <div class="col-sm-2 text-end">
+          <i class="fas fa-pencil-alt"></i>
+        </div>
+      </div>
+      <ng-scrollbar style="height: 350px" visibility="hover">
+        <p class="text-center">12:05 A.M.</p>
+        <div class="media">
+          <img class="d-flex m-r-15" src="assets/images/user/avatar-1.jpg" alt="Generic placeholder image" style="width: 60px" />
+          <div class="media-body send-chat">
+            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante.
+            <span class="time">3 min ago</span>
+          </div>
+        </div>
+        <div class="media col-sm-8 offset-md-4">
+          <div class="media-body receive-chat">
+            Cras sit amet nibh libero, in gravida nulla.vel metus scelerisque ante
+            <span class="time"> <i class="fas fa-check m-r-5"></i>Seen 2 sec ago </span>
+          </div>
+        </div>
+        <p class="text-center">11:05 A.M.</p>
+        <div class="media">
+          <img class="d-flex m-r-15" src="assets/images/user/avatar-2.jpg" alt="Generic placeholder image" style="width: 60px" />
+          <div class="media-body send-chat">
+            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante.
+            <span class="time">3 min ago</span>
+          </div>
+        </div>
+        <div class="media col-sm-8 offset-md-4">
+          <div class="media-body receive-chat">
+            Cras sit amet nibh libero, in gravida nulla.vel metus scelerisque ante
+            <span class="time"> <i class="fas fa-check m-r-5"></i>Seen 2 sec ago </span>
+          </div>
+        </div>
+      </ng-scrollbar>
+      <div class="right-icon-control m-15">
+        <div class="input-group input-group-button">
+          <input type="text" class="form-control" placeholder="Send message" />
+          <div class="input-group-append">
+            <button class="btn waves-effect waves-light btn-primary waves-effect waves-light" type="button"
+              ><i class="feather icon-message-circle m-0 text-white"></i
+            ></button>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="My Projects" blockClass="widget-last-task scrollable-body" [options]="false">
+      <ng-scrollbar style="height: 350px" visibility="hover">
+        <div *ngFor="let task of my_project">
+          <p class="m-b-10"
+            >{{ task.title }} <span class="float-end">{{ task.time }}</span></p
+          >
+          <ul class="list-unstyled m-b-20">
+            <li class="d-inline-block"
+              ><img src="{{ task.src }}" alt="data-images" style="width: 30px" class="img-radius img-30 m-r-10"
+            /></li>
+            <li class="d-inline-block"
+              ><img src="{{ task.src1 }}" alt="data-images" style="width: 30px" class="img-radius img-30 m-r-10"
+            /></li>
+            <li class="d-inline-block"><img src="{{ task.src2 }}" style="width: 30px" class="img-radius img-30 m-r-10" /></li>
+          </ul>
+        </div>
+      </ng-scrollbar>
+      <div class="right-icon-control m-15">
+        <div class="input-group input-group-button">
+          <input type="text" class="form-control" placeholder="Add Project" />
+          <div class="input-group-append">
+            <button class="btn waves-effect waves-light btn-primary" type="button"><i class="feather icon-plus m-0"></i></button>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <app-card cardTitle="Chat" cardClass="chat-card" blockClass="scrollable-body" [options]="false">
+      <ng-scrollbar style="height: 350px" visibility="hover">
+        <div *ngFor="let chat of chats">
+          <div class="row m-b-20 received-chat">
+            <div class="col-auto p-r-0">
+              <img src="assets/images/user/avatar-1.jpg" alt="user image" class="img-radius" style="width: 30px" />
+            </div>
+            <div class="col">
+              <div class="msg">
+                <p class="m-b-0">{{ chat.message }}</p>
+                <img class="img-fluid" src="{{ chat.img }}" />
+                <img class="img-fluid" src="{{ chat.img1 }}" />
+              </div>
+              <p class="m-b-0"><i class="fa fa-clock-o m-r-10"></i>10:20am</p>
+            </div>
+          </div>
+          <div class="row m-b-20 send-chat">
+            <div class="col">
+              <div class="msg">
+                <p class="m-b-0">{{ chat.message }}</p>
+              </div>
+              <p class="m-b-0"><i class="fa fa-clock-o m-r-10"></i>10:20am</p>
+            </div>
+            <div class="col-auto p-l-0">
+              <img src="assets/images/user/avatar-2.jpg" alt="user image" class="img-radius" style="width: 30px" />
+            </div>
+          </div>
+        </div>
+        <div class="row m-b-20 received-chat">
+          <div class="col-auto p-r-0">
+            <img src="assets/images/user/avatar-1.jpg" alt="user image" class="img-radius" style="width: 30px" />
+          </div>
+          <div class="col">
+            <div class="msg">
+              <p class="m-b-0">Nice to meet you!</p>
+              <img class="img-fluid" src="assets/images/slider/img-slide-1.jpg" alt="widget-img" />
+              <img class="img-fluid" src="assets/images/slider/img-slide-2.jpg" alt="widget-img" />
+            </div>
+            <p class="m-b-0"><i class="fa fa-clock-o m-r-10"></i>10:20am</p>
+          </div>
+        </div>
+      </ng-scrollbar>
+      <div class="right-icon-control m-15">
+        <div class="input-group input-group-button">
+          <input type="text" class="form-control" placeholder="Send message" />
+          <div class="input-group-append">
+            <button class="btn waves-effect waves-light btn-success" type="button"><i class="feather icon-message-circle m-0"></i></button>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <!-- feed, project,chat end -->
+
+  <!-- feed, user activity section start -->
+  <div class="col-xl-5 col-md-12">
+    <app-card cardTitle="Feeds" cardClass="feed-card" blockClass="scrollable-body" [options]="false">
+      <ng-scrollbar style="height: 410px" visibility="hover">
+        <div class="row m-b-20 m-t-5 align-items-center" *ngFor="let feed of feeds">
+          <div class="col-auto p-r-0">
+            <i class="feather {{ feed.icon }} feed-icon"></i>
+          </div>
+          <div class="col">
+            <a href="javascript:">
+              <h6 class="m-b-5"
+                >{{ feed.text }} <span class="text-muted float-end f-14">{{ feed.time }}</span></h6
+              >
+            </a>
+          </div>
+        </div>
+      </ng-scrollbar>
+    </app-card>
+  </div>
+  <div class="col-xl-7 col-md-12">
+    <app-card cardTitle="User Activity" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 410px" visibility="hover">
+          <table class="table table-hover m-0">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>User</th>
+                <th>Activity</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th class="text-end"></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let activity of activities">
+                <td><img class="rounded-circle" style="width: 40px" src="{{ activity.src }}" alt="activity-user" /></td>
+                <td>{{ activity.user }}</td>
+                <td>{{ activity.work }}</td>
+                <td>{{ activity.time }}</td>
+                <td
+                  ><span class="m-0 {{ activity.background }}">{{ activity.status }}</span></td
+                >
+                <td class="text-end"><i class="fas fa-circle {{ activity.background }} f-10"></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- feed, user activity section end -->
+
+  <!-- application list start -->
+  <div class="col-xl-12">
+    <app-card cardTitle="Application list" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 365px" visibility="hover">
+          <table class="table table-hover m-0">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Application</th>
+                <th>Installs</th>
+                <th>Created</th>
+                <th>Budget</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let list of application">
+                <td><img class="rounded-circle" style="width: 40px" src="{{ list.src }}" alt="activity-user" /></td>
+                <td>
+                  <h6 class="mb-1">{{ list.company }}</h6>
+                  <p class="m-0">{{ list.sub_company }}</p>
+                </td>
+                <td>
+                  <p class="mb-1">{{ list.installs }}</p>
+                  <span class="{{ list.color }} m-0">{{ list.daily_install }}</span>
+                </td>
+                <td>{{ list.date }}</td>
+                <td>{{ list.budget }}</td>
+                <td
+                  ><a class=" badge {{ list.background }} f-12" href="javascript:">{{ list.status }}</a></td
+                >
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- application list end -->
+
+  <!-- user project list start -->
+  <div class="col-xl-7 col-md-12">
+    <app-card cardTitle="User Project List" cardClass="user-list table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 430px" visibility="hover">
+          <table class="table table-hover m-0">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>project</th>
+                <th>Completed</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let task of list_project">
+                <td><img class="rounded-circle" style="width: 40px" src="{{ task.img }}" alt="activity-user" /></td>
+                <td>
+                  <h6 class="mb-1">{{ task.title }}</h6>
+                  <p class="m-0"
+                    >Assigned to <span class="{{ task.background }}">{{ task.name }}</span></p
+                  >
+                </td>
+                <td>{{ task.complete }}</td>
+                <td class="{{ task.background }}">{{ task.status }}</td>
+                <td>{{ task.date }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-5 col-md-12 m-b-30">
+    <app-card [hidHeader]="true" cardClass="pill-card" [options]="false">
+      <ul ngbNav #nav1="ngbNav" aria-busy="true" class="nav-pills">
+        <li [ngbNavItem]="1">
+          <a ngbNavLink>Developer</a>
+          <ng-template ngbNavContent>
+            <div class="widget-timeline m-b-25" *ngFor="let list of lists">
+              <div class="media">
+                <div class="me-3 photo-table">
+                  <i class="fas fa-circle {{ list.background }} f-10 m-r-10"></i>
+                  <a href="javascript:"><img class="rounded-circle" style="width: 40px" src="{{ list.src }}" alt="chat-user" /></a>
+                </div>
+                <div class="media-body">
+                  <h6 class="d-inline-block m-0">{{ list.title }}</h6>
+                  <p class="m-0">Lorem Ipsum is simply dummy text of</p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink>Designer</a>
+          <ng-template ngbNavContent>
+            <div class="widget-timeline m-b-25" *ngFor="let list of lists2">
+              <div class="media">
+                <div class="me-3 photo-table">
+                  <i class="fas fa-circle {{ list.background }} f-10 m-r-10"></i>
+                  <a href="javascript:"><img class="rounded-circle" style="width: 40px" src="{{ list.src }}" alt="chat-user" /></a>
+                </div>
+                <div class="media-body">
+                  <h6 class="d-inline-block m-0">{{ list.title }}</h6>
+                  <p class="m-0">Lorem Ipsum is simply dummy text of</p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3">
+          <a ngbNavLink>All</a>
+          <ng-template ngbNavContent>
+            <div class="widget-timeline m-b-25" *ngFor="let list of lists2">
+              <div class="media">
+                <div class="me-3 photo-table">
+                  <i class="fas fa-circle {{ list.background }} f-10 m-r-10"></i>
+                  <a href="javascript:"><img class="rounded-circle" style="width: 40px" src="{{ list.src }}" alt="chat-user" /></a>
+                </div>
+                <div class="media-body">
+                  <h6 class="d-inline-block m-0">{{ list.title }}</h6>
+                  <p class="m-0">Lorem Ipsum is simply dummy text of</p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav1" class="mt-3"></div>
+    </app-card>
+  </div>
+  <!-- user project list end -->
+
+  <!-- full width-table start -->
+  <div class="col-sm-12">
+    <app-card cardTitle="Full Width Table" cardClass="table-card" blockClass="p-0" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 375px" visibility="hover">
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th>Id Number</th>
+                <th>Code</th>
+                <th>Date</th>
+                <th>Budget</th>
+                <th>Status</th>
+                <th class="text-end">Ratings</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let list of full_table">
+                <td>{{ list.id }}</td>
+                <td>{{ list.code }}</td>
+                <td>{{ list.date }}</td>
+                <td>{{ list.budget }}</td>
+                <td
+                  ><a href="javascript:" class="badge {{ list.background }}">{{ list.status }}</a></td
+                >
+                <td class="text-end">
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-c-yellow"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-c-yellow"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 {{ list.icon }}"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-black-50"></i></a>
+                  <a href="javascript:" title="rating"><i class="fa fa-star f-14 text-black-50"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- full width-table end -->
+
+  <!-- recent users start -->
+  <div class="col-sm-12">
+    <app-card cardTitle="Recent Users" cardClass="table-card" blockClass="p-0" headerClass="borderless" [options]="false">
+      <div class="table-responsive overflow">
+        <ng-scrollbar style="height: 384px" visibility="hover">
+          <table class="table table-hover">
+            <tbody>
+              <tr *ngFor="let list of recent_user">
+                <td><img class="rounded-circle" style="width: 40px" src="{{ list.img }}" alt="activity-user" /></td>
+                <td>
+                  <h6 class="mb-1">{{ list.name }}</h6>
+                  <p class="m-0">Lorem Ipsum is simply dummy text of…</p>
+                </td>
+                <td>
+                  <h6 class="text-muted"><i class="fas fa-circle {{ list.color }} f-10 m-r-15 float-start"></i>{{ list.date }}</h6>
+                </td>
+                <td
+                  ><a href="javascript:" class="badge {{ list.bg }} badge-pill f-12 me-2">Reject</a
+                  ><a href="javascript:" class="badge {{ list.background }} badge-pill f-12 me-2">Approve</a></td
+                >
+              </tr>
+            </tbody>
+          </table>
+        </ng-scrollbar>
+      </div>
+    </app-card>
+  </div>
+  <!-- recent users end -->
+</div>

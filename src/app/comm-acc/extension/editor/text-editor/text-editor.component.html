@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="text-editor" [options]="false">
+      <form [formGroup]="form">
+        <div class="editor">
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+          <ngx-editor [editor]="editor" formControlName="editorContent"> </ngx-editor>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>

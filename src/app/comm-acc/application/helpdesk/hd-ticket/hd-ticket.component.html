@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <h3 class="d-inline-block mb-0">Create New Ticket</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow-none">
+        <div class="card-body shadow border-0">
+          <form>
+            <div class="form-group">
+              <label>Customer</label>
+              <select title="Customer" name="customer" class="mb-3 form-control">
+                <option>Default select</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select title="Category" name="category" class="mb-3 form-control">
+                <option>Default select</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Subject</label>
+              <input type="password" class="form-control" name="exampleInputPassword1" id="exampleInputPassword1" placeholder="Password" />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword2">Description</label>
+              <quill-editor>
+                <div quill-editor-toolbar>
+                  <span class="ql-formats">
+                    <select class="ql-header" [title]="'header'">
+                      <option value="1"></option>
+                      <option value="2"></option>
+                      <option value="3"></option>
+                      <option value="4"></option>
+                      <option value="5"></option>
+                      <option value="6"></option>
+                      <option selected="selected"></option>
+                    </select>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-bold" [title]="'Bold'"></button>
+                    <button class="ql-italic" [title]="'Italic'"></button>
+                    <button class="ql-underline" [title]="'Italic'"></button>
+                    <button class="ql-italic" [title]="'strike'"></button>
+                    <button class="ql-link" [title]="'link'"></button>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                  </span>
+                  <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                  </span>
+                </div>
+              </quill-editor>
+              <div class="file btn btn-outline-primary mt-3 file-btn">
+                <i class="feather icon-paperclip"></i>Add Attached
+                <input type="file" name="file" title="Attached" />
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="mail-body-content table-responsive">
+  <table class="table">
+    <tbody>
+      <tr class="{{ mail.type }}" *ngFor="let mail of mails">
+        <td>
+          <div class="check-star">
+            <div class="form-group d-inline">
+              <div class="checkbox checkbox-primary checkbox-fill d-inline">
+                <input type="checkbox" name="checkbox-s-in-1" id="{{ mail.id }}" />
+                <label for="{{ mail.id }}" class="cr"></label>
+              </div>
+            </div>
+            <a href="javascript:" title="important"><i class="feather {{ mail.icon }} ms-2"></i></a>
+          </div>
+        </td>
+        <td
+          ><a [routerLink]="['/email/mail-read']" class="email-name waves-effect">{{ mail.sender }}</a></td
+        >
+        <td
+          ><a [routerLink]="['/email/mail-read']" class="email-name waves-effect">{{ mail.text }}</a>
+        </td>
+        <td class="email-time">{{ mail.time }}</td>
+      </tr>
+      <tr class="{{ mail.type }}" *ngFor="let mail of attachment">
+        <td>
+          <div class="check-star">
+            <div class="form-group d-inline">
+              <div class="checkbox checkbox-primary checkbox-fill d-inline">
+                <input type="checkbox" name="checkbox-s-in-2" id="checkbox-unfill-2" />
+                <label for="checkbox-unfill-2" class="cr"></label>
+              </div>
+            </div>
+            <a href="javascript:" title="important"><i class="feather icon-star-on text-c-yellow ms-2"></i></a>
+          </div>
+        </td>
+        <td
+          ><a [routerLink]="['/email/mail-read']" class="email-name waves-effect">{{ mail.title }}</a></td
+        >
+        <td>
+          <a [routerLink]="['/email/mail-read']" class="email-name waves-effect">{{ mail.description }}</a>
+          <div
+            ><a href="javascript:" class="{{ mail.attach }}"><i class="feather {{ mail.file }} me-2"></i>{{ mail.file_name }}</a>
+            <a href="javascript:" title="attache document" class="{{ mail.attach }} ms-2"
+              ><i class="feather {{ mail.icon }} me-2"></i>{{ mail.icon_title }}</a
+            >
+          </div>
+        </td>
+        <td class="email-time">{{ mail.time }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,206 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card email-card">
+      <div class="card-header">
+        <div class="mail-header">
+          <div class="row align-items-center">
+            <!-- [ inbox-left section ] start -->
+            <div class="col-xl-2 col-md-3">
+              <a href="javascript:" class="b-brand">
+                <div class="b-bg"> N </div>
+                <span class="b-title text-muted">Gradient Able</span>
+              </a>
+            </div>
+            <!-- [ inbox-left section ] end -->
+            <!-- [ inbox-right section ] start -->
+            <div class="col-xl-10 col-md-9">
+              <div class="input-group mb-0">
+                <label class="input-group-text" for="inputGroupSelect01"><i class="feather icon-search"></i></label>
+                <select class="form-select" id="inputGroupSelect01" title="select">
+                  <option selected>Search...</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+            <!-- [ inbox-right section ] end -->
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="mail-body">
+          <div class="row">
+            <!-- [ inbox-left section ] start -->
+            <div class="col-xl-2 col-md-3">
+              <div class="mb-3">
+                <a [routerLink]="['/email/mail-compose']" class="btn waves-effect waves-light btn-rounded btn-outline-primary">+ Compose</a>
+              </div>
+              <ul ngbNav #nav="ngbNav" aria-busy="true" class="mb-2 flex-column nav-pills" orientation="vertical">
+                <li [ngbNavItem]="1" class="mail-section">
+                  <a ngbNavLink class="text-start">
+                    <span><i class="feather icon-inbox"></i> Inbox</span>
+                    <span class="float-end">6</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <ul ngbNav #nav="ngbNav" class="nav-pills nav-fill mb-0">
+                      <li [ngbNavItem]="1">
+                        <a ngbNavLink
+                          ><span><i class="feather icon-inbox"></i>primary</span></a
+                        >
+                        <ng-template ngbNavContent>
+                          <app-mail-content></app-mail-content>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="2">
+                        <a ngbNavLink
+                          ><span><i class="feather icon-users"></i>Social</span></a
+                        >
+                        <ng-template ngbNavContent>
+                          <div class="mail-body-content table-responsive">
+                            <table class="table">
+                              <tbody>
+                                <app-mail-content></app-mail-content>
+                              </tbody>
+                            </table>
+                          </div>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="3">
+                        <a ngbNavLink
+                          ><span><i class="feather icon-tag"></i>Promotions</span></a
+                        >
+                        <ng-template ngbNavContent>
+                          <app-mail-content></app-mail-content>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="4">
+                        <a ngbNavLink>
+                          <span><i class="feather icon-upload-cloud"></i>Update</span></a
+                        >
+                        <ng-template ngbNavContent>
+                          <app-mail-content></app-mail-content>
+                        </ng-template>
+                      </li>
+                      <li [ngbNavItem]="5">
+                        <a ngbNavLink
+                          ><span><i class="feather icon-message-square"></i>Forum</span></a
+                        >
+                        <ng-template ngbNavContent>
+                          <app-mail-content></app-mail-content>
+                        </ng-template>
+                      </li>
+                    </ul>
+                    <div [ngbNavOutlet]="nav"></div>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2" class="mail-section">
+                  <a ngbNavLink class="text-start">
+                    <span><i class="feather icon-star-on"></i> Starred</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <app-mail-content></app-mail-content>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="3" class="mail-section">
+                  <a ngbNavLink class="text-start">
+                    <span><i class="feather icon-file-text"></i> Drafts</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <app-mail-content></app-mail-content>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="4" class="mail-section">
+                  <a ngbNavLink class="text-start">
+                    <span><i class="feather icon-navigation"></i> Sent Mail</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <app-mail-content></app-mail-content>
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="5" class="mail-section">
+                  <a ngbNavLink class="text-start">
+                    <span><i class="feather icon-trash-2"></i> Trash</span>
+                  </a>
+                  <ng-template ngbNavContent>
+                    <app-mail-content></app-mail-content>
+                  </ng-template>
+                </li>
+              </ul>
+              <a
+                class="email-more-link"
+                (click)="isCollapsed = !isCollapsed"
+                href="javascript:"
+                role="button"
+                aria-expanded="false"
+                aria-controls="email-more-cont"
+              >
+                <span *ngIf="!isCollapsed"><i class="feather icon-chevron-down me-2"></i>More</span>
+                <span *ngIf="isCollapsed"><i class="feather icon-chevron-up me-2"></i>Less</span>
+              </a>
+              <div class="collapse" id="email-more-cont" [ngbCollapse]="!isCollapsed">
+                <ul class="nav nav-tab flex-column nav-pills">
+                  <li class="nav-item mail-section" *ngFor="let menu of menus">
+                    <a class="nav-link text-start" href="javascript:">
+                      <span><i class="feather {{ menu.icon }}"></i> {{ menu.text }}</span>
+                      <span class="float-end">{{ menu.number }}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- [ inbox-left section ] end -->
+            <!-- [ inbox-right section ] start -->
+            <div class="col-xl-10 col-md-9 inbox-right">
+              <div class="email-btn">
+                <button type="button" title="alert" class="btn waves-effect waves-light btn-icon btn-rounded btn-outline-secondary mb-2"
+                  ><i class="feather icon-alert-circle"></i
+                ></button>
+                <button type="button" title="inbox" class="btn waves-effect waves-light btn-icon btn-rounded btn-outline-secondary mb-2"
+                  ><i class="feather icon-inbox"></i
+                ></button>
+                <button type="button" title="delete" class="btn waves-effect waves-light btn-icon btn-rounded btn-outline-secondary mb-2"
+                  ><i class="feather icon-trash-2"></i
+                ></button>
+                <div class="btn-group mb-2 me-2 dropdown" ngbDropdown placement="auto">
+                  <button class="btn drp-icon btn-rounded btn-outline-secondary dropdown-toggle" title="log-out" ngbDropdownToggle
+                    ><i class="feather icon-log-out"></i
+                  ></button>
+                  <div class="dropdown-menu" ngbDropdownMenu>
+                    <a class="dropdown-item" href="javascript:">Move to</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pl-4" href="javascript:"
+                      ><span><i class="feather icon-users me-2"></i>Social</span></a
+                    >
+                    <a class="dropdown-item pl-4" href="javascript:"
+                      ><span><i class="feather icon-tag me-2"></i>Promotion</span></a
+                    >
+                    <a class="dropdown-item pl-4" href="javascript:"
+                      ><span><i class="feather icon-upload-cloud me-2"></i>Update</span></a
+                    >
+                    <a class="dropdown-item pl-4" href="javascript:"
+                      ><span><i class="feather icon-message-square me-2"></i>Forum</span></a
+                    >
+                  </div>
+                </div>
+                <div class="btn-group mb-2 me-2 dropdown" ngbDropdown placement="auto">
+                  <button class="btn drp-icon btn-rounded btn-outline-secondary dropdown-toggle" title="More" ngbDropdownToggle
+                    ><i class="feather icon-more-vertical"></i
+                  ></button>
+                  <div class="dropdown-menu" ngbDropdownMenu>
+                    <a class="dropdown-item" href="javascript:">Mark as unread</a>
+                    <a class="dropdown-item" href="javascript:">Mark as important</a>
+                    <a class="dropdown-item" href="javascript:">Mark as not important</a>
+                    <a class="dropdown-item" href="javascript:">Filter messages like these</a>
+                    <a class="dropdown-item" href="javascript:">Mute</a>
+                  </div>
+                </div>
+              </div>
+              <div [ngbNavOutlet]="nav" class="p-0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

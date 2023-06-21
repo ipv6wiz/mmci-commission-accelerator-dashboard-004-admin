@@ -1,0 +1,149 @@
+<div class="dp-page-content">
+  <div class="row">
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('minValidation')" class="dp-option">
+        <app-card cardTitle="Min-Date Validation (minDate)" [options]="false">
+          <div class="">
+            <div class="dp-option-playground">
+              <dp-date-picker
+                [config]="{ format: localFormat }"
+                [formControl]="minValidation"
+                [mode]="pickerMode.startsWith('daytime') ? 'daytime' : 'day'"
+                id="minDatePicker"
+                placeholder="Select a min date"
+                theme="dp-material"
+              >
+              </dp-date-picker>
+            </div>
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('maxValidation')" class="dp-option">
+        <app-card cardTitle="Max-Date Validation (maxDate)" [options]="false">
+          <div class="">
+            <div class="dp-option-playground">
+              <dp-date-picker
+                [config]="{ format: localFormat }"
+                [formControl]="maxValidation"
+                [mode]="pickerMode.startsWith('daytime') ? 'daytime' : 'day'"
+                id="maxDatePicker"
+                placeholder="Select a max date"
+                theme="dp-material"
+              >
+              </dp-date-picker>
+            </div>
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('theme')" class="dp-option">
+        <app-card cardTitle="Theme Option" [options]="false">
+          <div class="dp-option-playground">
+            <label class="px-2 monthdayshow"
+              >Material Theme
+              <input class="ms-2" [formControl]="material" [value]="true" id="themeOn" name="style" type="radio" />
+            </label>
+            <label class="monthdayshow"
+              >No Theme
+              <input class="ms-2" [formControl]="material" [value]="false" id="themeOff" name="style" type="radio" />
+            </label>
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('firstDayOfWeek')" class="dp-option">
+        <app-card cardTitle="First Day of The week" [options]="false">
+          <div class="dp-option-playground">
+            <select [formControl]="firstDayOfWeek" id="firstDayOfWeekSelect">
+              <option *ngFor="let day of DAYS" [value]="day">{{ day }}</option>
+            </select>
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('monthFormat')" class="dp-option">
+        <app-card cardTitle="Month Format (monthFormat)" [options]="false">
+          <div class="dp-option-playground">
+            <input [formControl]="monthFormat" id="monthFormatInput" />
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('min')" class="dp-option">
+        <app-card cardTitle="Min Selectable Date (min)" [options]="false">
+          <div class="dp-option-playground">
+            <dp-date-picker
+              [config]="{ format: localFormat }"
+              [formControl]="min"
+              [mode]="pickerMode.startsWith('daytime') ? 'daytime' : 'day'"
+              id="minSelectable"
+              placeholder="Select a min date"
+              theme="dp-material"
+            >
+            </dp-date-picker>
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('max')" class="dp-option">
+        <app-card cardTitle="Max Selectable Date (max)" [options]="false">
+          <div class="dp-option-playground">
+            <dp-date-picker
+              [config]="{ format: localFormat }"
+              [formControl]="max"
+              [mode]="pickerMode.startsWith('daytime') ? 'daytime' : 'day'"
+              id="maxSelectable"
+              placeholder="Select a max date"
+              theme="dp-material"
+            >
+            </dp-date-picker>
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-lg-4">
+      <div *ngIf="isValidConfig('showNearMonthDays')" class="dp-option">
+        <app-card cardTitle="Show near Month Days (Show Near Month Days)" [options]="false">
+          <div class="dp-option-playground">
+            <label class="px-2 monthdayshow"
+              >Show
+              <input
+                class="ms-2"
+                [formControl]="showNearMonthDays"
+                [value]="true"
+                id="showNearMonthDaysRadio"
+                name="showNearMonthDays"
+                type="radio"
+              />
+            </label>
+            <label class="monthdayshow"
+              >Hide
+              <input
+                class="ms-2"
+                [formControl]="showNearMonthDays"
+                [value]="false"
+                id="hideNearMonthDaysRadio"
+                name="showNearMonthDays"
+                type="radio"
+              />
+            </label>
+          </div>
+        </app-card>
+      </div>
+    </div>
+  </div>
+</div>

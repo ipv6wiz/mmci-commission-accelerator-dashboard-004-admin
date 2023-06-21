@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-xl-6">
+    <app-card cardTitle="Sales and Expenses" [options]="false">
+      <apx-chart
+        [chart]="bar1CAC.chart"
+        [plotOptions]="bar1CAC.plotOptions"
+        [dataLabels]="bar1CAC.dataLabels"
+        [colors]="bar1CAC.colors"
+        [stroke]="bar1CAC.stroke"
+        [series]="bar1CAC.series"
+        [xaxis]="bar1CAC.xaxis"
+        [yaxis]="bar1CAC.yaxis"
+        [fill]="bar1CAC.fill"
+        [tooltip]="bar1CAC.tooltip"
+      ></apx-chart>
+    </app-card>
+  </div>
+  <div class="col-xl-6">
+    <app-card cardTitle="Sales, Receipt and Dues" [options]="false" blockClass="table-border-style">
+      <div class="table-responsive">
+        <table class="table table-lg table-hover m-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Sales</th>
+              <th>Receipt</th>
+              <th>Dues</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sale of sales">
+              <th scope="row">{{ sale.duration }}</th>
+              <td>{{ sale.amount }}</td>
+              <td>{{ sale.receipt }}</td>
+              <td>{{ sale.dues }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-xl-12">
+    <app-card cardTitle="Recent Orders" [options]="false" blockClass="table-border-style invoice-summary">
+      <div class="table-responsive">
+        <table class="table table-lg table-styling">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Order No.</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let list of recent_orders">
+              <th scope="row">{{ list.id }}</th>
+              <td>{{ list.no }}</td>
+              <td>{{ list.name }}</td>
+              <td>{{ list.quantity }}</td>
+              <td>
+                <label class="label label-md label-danger">{{ list.price }}</label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+  </div>
+</div>

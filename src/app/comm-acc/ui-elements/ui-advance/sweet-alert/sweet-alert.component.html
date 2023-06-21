@@ -1,0 +1,499 @@
+<div class="row btn-page">
+  <div class="col-sm-12">
+    <app-card cardTitle="Alerts" [options]="false">
+      <button
+        type="button"
+        class="btn btn-primary me-2"
+        [swal]="{
+          title: 'Hello world!'
+        }"
+      >
+        Basic
+      </button>
+      <button
+        type="button"
+        class="btn btn-success me-2"
+        [swal]="{
+          title: 'Good job!',
+          icon: 'success',
+          text: 'You clicked the button!'
+        }"
+      >
+        Success
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning me-2"
+        [swal]="{
+          title: 'Good job!',
+          icon: 'warning',
+          text: 'You clicked the button!'
+        }"
+      >
+        Warning
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger me-2"
+        [swal]="{
+          title: 'Good job!',
+          icon: 'error',
+          text: 'You clicked the button!'
+        }"
+      >
+        Error
+      </button>
+      <button
+        type="button"
+        class="btn btn-info me-2"
+        [swal]="{
+          title: 'Good job!',
+          icon: 'info',
+          text: 'You clicked the button!'
+        }"
+      >
+        Info
+      </button>
+      <button type="button" class="btn btn-primary me-2" (click)="confirmAlert()"> Success or Cancel </button>
+      <button type="button" class="btn btn-primary" (click)="promptAlert()"> Prompt </button>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="SweetAlert 2" [options]="false">
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Basic message</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              title: 'Any fool can use a computer'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Title with a text under</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              title: 'The Internet?',
+              icon: 'question',
+              text: 'That thing is still around?'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Title with a error icon</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-danger bs-error-icon"
+            [swal]="{
+              title: 'Oops...',
+              icon: 'error',
+              text: 'Something went wrong!',
+              footer: '<a>Why do I have this issue?</a>'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Long content inside</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              imageUrl: 'https://placeholder.pics/svg/300x1500',
+              imageHeight: '1500',
+              imageAlt: 'A tall image'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Custom HTML</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              title: '<strong>HTML <u>example</u></strong>',
+              icon: 'info',
+              html: 'You can use <b>bold text</b>, ' + '<a>links</a> ' + 'and other HTML tags',
+              showCloseButton: true,
+              showCancelButton: true,
+              focusConfirm: false,
+              confirmButtonText: 'Great!'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Dialog with Three buttons</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button class="btn btn-light-primary bs-message" (click)="threeBtn()"> Try me! </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Custom positioned</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              position: 'top-end',
+              icon: 'success',
+              title: 'Your work has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Custom animation</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              title: 'Custom animation with Animate.css',
+              showClass: {
+                popup: 'animate__animated animate__backInDown'
+              },
+              hideClass: {
+                popup: 'animate__animated animate__backOutUp'
+              }
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">By passing a parameter, you can execute something</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button class="btn btn-light-primary bs-message" (click)="twoBtn()"> Try me! </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Message with a custom image</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              title: 'Sweet!',
+              text: 'Modal with a custom image.',
+              imageUrl: 'https://unsplash.it/400/200',
+              imageWidth: 400,
+              imageHeight: 200,
+              imageAlt: 'Custom image'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end"
+          >Message with custom width, padding, background and animated Nyan Cat</label
+        >
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button class="btn btn-light-primary bs-message" (click)="customs()"> Try me! </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Auto close timer</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button class="btn btn-light-primary bs-message" (click)="Autoclose()"> Try me! </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">RTL Languages </label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-light-primary bs-message"
+            [swal]="{
+              title: 'هل تريد الاستمرار؟',
+              icon: 'question',
+              iconHtml: '؟',
+              confirmButtonText: 'نعم',
+              cancelButtonText: 'لا',
+              showCancelButton: true,
+              showCloseButton: true
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">AJAX request </label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button type="button" class="btn btn-light-primary bs-message" (click)="ajaxAlert()"> Try Me! </button>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Icon" [options]="false">
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Success icons</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [swal]="{
+              title: 'Success modal',
+              icon: 'success'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Error icons</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [swal]="{
+              title: 'Error modal',
+              icon: 'error'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Warning icons</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [swal]="{
+              title: 'warning modal',
+              icon: 'warning'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Info icons</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [swal]="{
+              title: 'info modal',
+              icon: 'info'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-form-label col-lg-5 col-sm-12 text-lg-end">Question icons</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            class="btn btn-primary"
+            type="button"
+            [swal]="{
+              title: 'question modal',
+              icon: 'question'
+            }"
+          >
+            Try me!
+          </button>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Input Type" [options]="false">
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Text</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              title: 'Enter your IP address',
+              input: 'text'
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Email</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              title: 'Input email address',
+              text: 'Your email address',
+              inputPlaceholder: 'Enter your email address',
+              input: 'email'
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Url</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              text: 'URL address',
+              inputPlaceholder: 'Enter the URL',
+              input: 'url'
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Password</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              text: 'Password',
+              inputPlaceholder: 'Enter your password',
+              input: 'password'
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Textarea</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              text: 'Message',
+              inputPlaceholder: 'Type your message here...',
+              showCancelButton: true,
+              input: 'textarea'
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Select</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              title: 'Select field validation',
+              inputPlaceholder: 'Select a fruit',
+              showCancelButton: true,
+              input: 'select',
+              inputOptions: {
+                Fruits: {
+                  apples: 'Apples',
+                  bananas: 'Bananas',
+                  grapes: 'Grapes',
+                  oranges: 'Oranges'
+                },
+                Vegetables: {
+                  potato: 'Potato',
+                  broccoli: 'Broccoli',
+                  carrot: 'Carrot'
+                },
+                icecream: 'Ice cream'
+              }
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Radio</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              title: 'Select color',
+              input: 'radio',
+              inputOptions: {
+                '#ff0000': 'Red',
+                '#00ff00': 'Green',
+                '#0000ff': 'Blue'
+              }
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">Checkbox</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              title: 'Terms and conditions',
+              input: 'checkbox',
+              inputValue: 1,
+              inputPlaceholder: 'I agree with the terms and conditions'
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="" class="col-form-label col-lg-5 col-sm-12 text-lg-end">File</label>
+        <div class="col-lg-4 col-md-9 col-sm-12">
+          <button
+            type="button"
+            class="btn btn-primary"
+            [swal]="{
+              title: 'Select image',
+              input: 'file',
+              inputAttributes: {
+                accept: 'image/*',
+                'aria-label': 'Upload your profile picture'
+              }
+            }"
+          >
+            Try Me!
+          </button>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</div>

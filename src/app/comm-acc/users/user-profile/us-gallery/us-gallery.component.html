@@ -1,0 +1,5 @@
+<div class="row text-center">
+  <div class="col-xl-3 col-lg-4 col-sm-6 img-row" *ngFor="let image of Images">
+    <img src="{{ image.src }}" alt="images" class="img-fluid m-b-10 img-thumbnail bg-white" (click)="openModal(400, images, imageIndex)" />
+  </div>
+</div>

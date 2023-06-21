@@ -1,0 +1,162 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Switches" [options]="false">
+      <app-form-switch></app-form-switch>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Radio" [options]="false">
+      <app-form-radio></app-form-radio>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Color Options" [options]="false">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="">Color States</label>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-primary" id="customCheckc1" checked />
+              <label for="customCheckc1" class="form-check-label">primary</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-secondary" id="customCheckc2" checked />
+              <label for="customCheckc2" class="form-check-label">secondary</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-success" id="customCheckc3" checked />
+              <label for="customCheckc3" class="form-check-label">success</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-danger" id="customCheckc4" checked />
+              <label for="customCheckc4" class="form-check-label">danger</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-warning" id="customCheckc5" checked />
+              <label for="customCheckc5" class="form-check-label">warning</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-info" id="customCheckc6" checked />
+              <label for="customCheckc6" class="form-check-label">info</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-dark" id="customCheckc7" checked />
+              <label for="customCheckc7" class="form-check-label">dark</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="">Color States</label>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-light-primary" id="customCheckclight1" checked />
+              <label for="customCheckclight1" class="form-check-label">primary</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-light-secondary" id="customCheckclight2" checked />
+              <label for="customCheckclight2" class="form-check-label">secondary</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-light-success" id="customCheckclight3" checked />
+              <label for="customCheckclight3" class="form-check-label">success</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-light-danger" id="customCheckclight4" checked />
+              <label for="customCheckclight4" class="form-check-label">danger</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-light-warning" id="customCheckclight5" checked />
+              <label for="customCheckclight5" class="form-check-label">warning</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-light-info" id="customCheckclight6" checked />
+              <label for="customCheckclight6" class="form-check-label">info</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input input-light-dark" id="customCheckclight7" checked />
+              <label for="customCheckclight7" class="form-check-label">dark</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Checkbox" [options]="false">
+      <app-form-checkbox></app-form-checkbox>
+    </app-card>
+  </div>
+  <div class="col-sm-12">
+    <app-card cardTitle="Tags Input" [options]="false">
+      <div class="mb-5">
+        <h5>Basic Tag Input</h5>
+        <hr />
+        <p>Just add <code>ngModel</code> to your <code>tag-input</code> field to automatically change it to a tags input field.</p>
+        <tag-input class="tag-chips" [(ngModel)]="items" [modelAsStrings]="true"></tag-input>
+      </div>
+      <div class="mb-5">
+        <h5>Read Only Tag Input</h5>
+        <hr />
+        <p>Just add <code>identifyBy, displayBy</code> attribute to your <code>tag-input</code> field.</p>
+        <tag-input class="tag-chips" [(ngModel)]="itemsAsObjects" [identifyBy]="'id'" [displayBy]="'name'"></tag-input>
+      </div>
+      <div class="mb-5">
+        <h5>Editable Tag Input</h5>
+        <hr />
+        <p
+          >Just add <code>editable</code> attribute with <code>true</code> value, to your <code>tag-input</code> field. (doubble click on
+          tag)</p
+        >
+        <tag-input class="tag-chips" [(ngModel)]="itemsEdit" [editable]="true"></tag-input>
+      </div>
+      <div class="mb-5">
+        <h5>Tag Input Limit (3)</h5>
+        <hr />
+        <p>Just add <code>maxItems, ripple</code> attribute to your <code>tag-input</code> field. (doubble click on tag)</p>
+        <tag-input
+          class="tag-chips"
+          [ngModel]="['Amsterdam', 'Washington', 'Sydney']"
+          [maxItems]="5"
+          [ripple]="false"
+          placeholder="Insert a new item"
+        ></tag-input>
+      </div>
+      <div class="mb-5">
+        <h5>Tag Input Validation</h5>
+        <hr />
+        <p>Just add <code>errorMessages, validators</code> attribute to your <code>tag-input</code> field.</p>
+        <tag-input
+          class="tag-chips"
+          [ngModel]="['@Amsterdam$', '@Washington$', '@Sydney$']"
+          [errorMessages]="errorMessages"
+          [validators]="validators"
+        ></tag-input>
+      </div>
+      <div class="mb-5">
+        <h5>Tag Input with Space Key</h5>
+        <hr />
+        <p>Just add <code>separatorKeyCodes</code> attribute with <code>ket code</code> method to your <code>tag-input</code> field.</p>
+        <tag-input class="tag-chips" [ngModel]="['Amsterdam']" [separatorKeyCodes]="[32, 188]"></tag-input>
+      </div>
+      <div class="mb-5">
+        <h5>Tag Input with Theme</h5>
+        <hr />
+        <p
+          >Just add <code>theme</code> attribute with <code>bootstrap(default), danger, success, warning, dark</code> value to your
+          <code>tag-input</code> field.</p
+        >
+        <tag-input class="tag-chips" [theme]="'dark'" [ngModel]="['Amsterdam', 'Washington']" name="items"></tag-input>
+      </div>
+      <div class="mb-5">
+        <h5>Tag Input with Minimal Theme</h5>
+        <hr />
+        <p
+          >Just add <code>theme</code> attribute with
+          <code>minimal, minimal-danger, minimal-success, minimal-warning, minimal-dark</code> value to your
+          <code>tag-input</code> field.</p
+        >
+        <tag-input class="tag-chips" [theme]="'minimal-danger'" [ngModel]="['Amsterdam', 'Washington', 'Sydney']" name="items"></tag-input>
+      </div>
+    </app-card>
+  </div>
+</div>

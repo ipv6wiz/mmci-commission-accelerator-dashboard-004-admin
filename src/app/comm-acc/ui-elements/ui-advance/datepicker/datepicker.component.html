@@ -1,0 +1,54 @@
+<div class="dp-date-wrapper">
+  <div class="dp-date-input-container dp-inline" *ngIf="ready">
+    <div class="dp-form-item">
+      <app-card cardTitle="Change Content View" [options]="false">
+        <div class="d-flex justify-content-center">
+          <dp-day-calendar
+            #dateComponent
+            (close)="closed()"
+            (onChange)="log($event)"
+            (onLeftNav)="onLeftNav($event)"
+            (onRightNav)="onRightNav($event)"
+            (onSelect)="onSelect($event)"
+            (open)="opened()"
+            [config]="config"
+            [displayDate]="displayDate"
+            [formControl]="control"
+            [maxDate]="validationMaxDate"
+            [minDate]="validationMinDate"
+            ngDefaultControl
+            [mode]="'day'"
+            [placeholder]="placeholder"
+            [required]="required"
+            [theme]="material ? 'dp-material dp-main' : 'dp-main'"
+            id="picker"
+          >
+          </dp-day-calendar>
+        </div>
+
+        <div class="dp-validations">
+          <div *ngIf="control.errors?.minDate" id="minDateValidation" class="form-text text-danger text-center">minDate invalid</div>
+          <div *ngIf="control.errors?.maxDate" id="maxDateValidation" class="form-text text-danger text-center">maxDate invalid</div>
+          <div *ngIf="control.errors?.format" id="formatValidation" class="form-text text-danger text-center">invalid format</div>
+          <div *ngIf="control.errors?.required" id="requiredValidation" class="form-text text-danger text-center">required</div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+
+  <app-config-form
+    #component
+    (ConfigChange)="ConfigChange($event)"
+    (DisabledChange)="DisabledChange($event)"
+    (DisplayDateChange)="DisplayDateChange($event)"
+    (MaterialThemeChange)="MaterialThemeChange($event)"
+    (MaxValidationChange)="MaxValidationChange($event)"
+    (MinValidationChange)="MinValidationChange($event)"
+    (RequireValidationChange)="RequireValidationChange($event)"
+    (LocaleChange)="LocaleChange($event)"
+    [config]="config"
+    [localeVal]="locale"
+    pickerMode="dayInline"
+  >
+  </app-config-form>
+</div>
