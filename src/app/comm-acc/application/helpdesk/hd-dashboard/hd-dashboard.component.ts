@@ -130,7 +130,7 @@ export default class HdDashboardComponent {
 
   cards = [
     {
-      icon: 'feather icon-star-on',
+      icon: 'feather-star-on',
       background: 'widget-primary-card',
       title: '4000 +',
       text: 'Ratings Received'

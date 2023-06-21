@@ -24,16 +24,16 @@ export class UserCardSimpleComponent {
     {
       title: 'With option',
       src: 'assets/images/widget/slider7.jpg',
-      icon: 'icon feather icon-star',
-      icon2: 'feather icon-more-horizontal',
+      icon: 'icon feather-star',
+      icon2: 'feather-more-horizontal',
       name: 'Suzen',
       avatar: 'assets/images/user/avatar-1.jpg'
     },
     {
       title: 'Option selected',
       src: 'assets/images/widget/slider6.jpg',
-      icon: 'icon feather icon-star-on',
-      icon2: 'feather icon-more-horizontal',
+      icon: 'icon feather-star-on',
+      icon2: 'feather-more-horizontal',
       name: 'Suzen',
       avatar: 'assets/images/user/avatar-3.jpg'
     }

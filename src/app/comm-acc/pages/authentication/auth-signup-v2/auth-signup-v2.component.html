@@ -46,7 +46,7 @@
                       aria-describedby="basic-addon3"
                       [ngClass]="{ 'is-invalid': f?.['password'].touched && f?.['password'].errors }"
                   />
-                    <i class="feather icon-eye  password-show" id="togglePassword"></i>
+                    <i class="feather-eye  password-show" id="togglePassword"></i>
                     <div *ngIf="f?.['password'].touched && f?.['password'].errors" class="invalid-feedback">
                         <div *ngIf="f?.['password'].errors.required">Password is required</div>
                     </div>

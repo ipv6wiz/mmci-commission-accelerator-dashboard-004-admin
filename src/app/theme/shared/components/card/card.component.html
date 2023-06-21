@@ -5,7 +5,7 @@
     <div class="card-header-right" *ngIf="this.options && !customHeader">
       <div class="btn-group card-option dropdown" ngbDropdown>
         <button type="button" title="more" class="btn dropdown-toggle btn-icon" ngbDropdownToggle>
-          <i class="feather icon-more-horizontal"></i>
+          <i class="feather-more-horizontal"></i>
         </button>
         <ul class="list-unstyled card-option dropdown-menu dropdown-menu-end" ngbDropdownMenu>
           <li class="dropdown-item full-card" (click)="fullCardToggle(toAnimate, '', true)">
@@ -19,14 +19,14 @@
                 ><i class="feather" [ngClass]="collapsedIcon"></i>
                 {{ this.collapsedCard === 'collapsed' ? 'Expand' : 'Collapse' }}
               </span>
-              <span style="display: none"><i class="feather icon-plus"></i></span
+              <span style="display: none"><i class="feather-plus"></i></span
             ></a>
           </li>
           <li class="dropdown-item reload-card" (click)="cardRefresh()">
-            <a href="javascript:"><i class="feather icon-refresh-cw"></i> Reload</a>
+            <a href="javascript:"><i class="feather-refresh-cw"></i> Reload</a>
           </li>
           <li class="dropdown-item close-card" (click)="cardRemoveAction()">
-            <a href="javascript:"><i class="feather icon-trash"></i> Remove</a>
+            <a href="javascript:"><i class="feather-trash"></i> Remove</a>
           </li>
         </ul>
       </div>

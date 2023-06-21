@@ -15,7 +15,7 @@
             <!-- [ inbox-right section ] start -->
             <div class="col-xl-10 col-md-9">
               <div class="input-group mb-0">
-                <label class="input-group-text" for="inputGroupSelect01"><i class="feather icon-search"></i></label>
+                <label class="input-group-text" for="inputGroupSelect01"><i class="feather-search"></i></label>
                 <select class="form-select" id="inputGroupSelect01" title="select">
                   <option selected>Search...</option>
                   <option value="1">One</option>
@@ -39,14 +39,14 @@
               <ul ngbNav #nav="ngbNav" aria-busy="true" class="mb-2 flex-column nav-pills" orientation="vertical">
                 <li [ngbNavItem]="1" class="mail-section">
                   <a ngbNavLink class="text-start">
-                    <span><i class="feather icon-inbox"></i> Inbox</span>
+                    <span><i class="feather-inbox"></i> Inbox</span>
                     <span class="float-end">6</span>
                   </a>
                   <ng-template ngbNavContent>
                     <ul ngbNav #nav="ngbNav" class="nav-pills nav-fill mb-0">
                       <li [ngbNavItem]="1">
                         <a ngbNavLink
-                          ><span><i class="feather icon-inbox"></i>primary</span></a
+                          ><span><i class="feather-inbox"></i>primary</span></a
                         >
                         <ng-template ngbNavContent>
                           <app-mail-content></app-mail-content>
@@ -54,7 +54,7 @@
                       </li>
                       <li [ngbNavItem]="2">
                         <a ngbNavLink
-                          ><span><i class="feather icon-users"></i>Social</span></a
+                          ><span><i class="feather-users"></i>Social</span></a
                         >
                         <ng-template ngbNavContent>
                           <div class="mail-body-content table-responsive">
@@ -68,7 +68,7 @@
                       </li>
                       <li [ngbNavItem]="3">
                         <a ngbNavLink
-                          ><span><i class="feather icon-tag"></i>Promotions</span></a
+                          ><span><i class="feather-tag"></i>Promotions</span></a
                         >
                         <ng-template ngbNavContent>
                           <app-mail-content></app-mail-content>
@@ -76,7 +76,7 @@
                       </li>
                       <li [ngbNavItem]="4">
                         <a ngbNavLink>
-                          <span><i class="feather icon-upload-cloud"></i>Update</span></a
+                          <span><i class="feather-upload-cloud"></i>Update</span></a
                         >
                         <ng-template ngbNavContent>
                           <app-mail-content></app-mail-content>
@@ -84,7 +84,7 @@
                       </li>
                       <li [ngbNavItem]="5">
                         <a ngbNavLink
-                          ><span><i class="feather icon-message-square"></i>Forum</span></a
+                          ><span><i class="feather-message-square"></i>Forum</span></a
                         >
                         <ng-template ngbNavContent>
                           <app-mail-content></app-mail-content>
@@ -96,7 +96,7 @@
                 </li>
                 <li [ngbNavItem]="2" class="mail-section">
                   <a ngbNavLink class="text-start">
-                    <span><i class="feather icon-star-on"></i> Starred</span>
+                    <span><i class="feather-star-on"></i> Starred</span>
                   </a>
                   <ng-template ngbNavContent>
                     <app-mail-content></app-mail-content>
@@ -104,7 +104,7 @@
                 </li>
                 <li [ngbNavItem]="3" class="mail-section">
                   <a ngbNavLink class="text-start">
-                    <span><i class="feather icon-file-text"></i> Drafts</span>
+                    <span><i class="feather-file-text"></i> Drafts</span>
                   </a>
                   <ng-template ngbNavContent>
                     <app-mail-content></app-mail-content>
@@ -112,7 +112,7 @@
                 </li>
                 <li [ngbNavItem]="4" class="mail-section">
                   <a ngbNavLink class="text-start">
-                    <span><i class="feather icon-navigation"></i> Sent Mail</span>
+                    <span><i class="feather-navigation"></i> Sent Mail</span>
                   </a>
                   <ng-template ngbNavContent>
                     <app-mail-content></app-mail-content>
@@ -120,7 +120,7 @@
                 </li>
                 <li [ngbNavItem]="5" class="mail-section">
                   <a ngbNavLink class="text-start">
-                    <span><i class="feather icon-trash-2"></i> Trash</span>
+                    <span><i class="feather-trash-2"></i> Trash</span>
                   </a>
                   <ng-template ngbNavContent>
                     <app-mail-content></app-mail-content>
@@ -135,8 +135,8 @@
                 aria-expanded="false"
                 aria-controls="email-more-cont"
               >
-                <span *ngIf="!isCollapsed"><i class="feather icon-chevron-down me-2"></i>More</span>
-                <span *ngIf="isCollapsed"><i class="feather icon-chevron-up me-2"></i>Less</span>
+                <span *ngIf="!isCollapsed"><i class="feather-chevron-down me-2"></i>More</span>
+                <span *ngIf="isCollapsed"><i class="feather-chevron-up me-2"></i>Less</span>
               </a>
               <div class="collapse" id="email-more-cont" [ngbCollapse]="!isCollapsed">
                 <ul class="nav nav-tab flex-column nav-pills">
@@ -154,38 +154,38 @@
             <div class="col-xl-10 col-md-9 inbox-right">
               <div class="email-btn">
                 <button type="button" title="alert" class="btn waves-effect waves-light btn-icon btn-rounded btn-outline-secondary mb-2"
-                  ><i class="feather icon-alert-circle"></i
+                  ><i class="feather-alert-circle"></i
                 ></button>
                 <button type="button" title="inbox" class="btn waves-effect waves-light btn-icon btn-rounded btn-outline-secondary mb-2"
-                  ><i class="feather icon-inbox"></i
+                  ><i class="feather-inbox"></i
                 ></button>
                 <button type="button" title="delete" class="btn waves-effect waves-light btn-icon btn-rounded btn-outline-secondary mb-2"
-                  ><i class="feather icon-trash-2"></i
+                  ><i class="feather-trash-2"></i
                 ></button>
                 <div class="btn-group mb-2 me-2 dropdown" ngbDropdown placement="auto">
                   <button class="btn drp-icon btn-rounded btn-outline-secondary dropdown-toggle" title="log-out" ngbDropdownToggle
-                    ><i class="feather icon-log-out"></i
+                    ><i class="feather-log-out"></i
                   ></button>
                   <div class="dropdown-menu" ngbDropdownMenu>
                     <a class="dropdown-item" href="javascript:">Move to</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item pl-4" href="javascript:"
-                      ><span><i class="feather icon-users me-2"></i>Social</span></a
+                      ><span><i class="feather-users me-2"></i>Social</span></a
                     >
                     <a class="dropdown-item pl-4" href="javascript:"
-                      ><span><i class="feather icon-tag me-2"></i>Promotion</span></a
+                      ><span><i class="feather-tag me-2"></i>Promotion</span></a
                     >
                     <a class="dropdown-item pl-4" href="javascript:"
-                      ><span><i class="feather icon-upload-cloud me-2"></i>Update</span></a
+                      ><span><i class="feather-upload-cloud me-2"></i>Update</span></a
                     >
                     <a class="dropdown-item pl-4" href="javascript:"
-                      ><span><i class="feather icon-message-square me-2"></i>Forum</span></a
+                      ><span><i class="feather-message-square me-2"></i>Forum</span></a
                     >
                   </div>
                 </div>
                 <div class="btn-group mb-2 me-2 dropdown" ngbDropdown placement="auto">
                   <button class="btn drp-icon btn-rounded btn-outline-secondary dropdown-toggle" title="More" ngbDropdownToggle
-                    ><i class="feather icon-more-vertical"></i
+                    ><i class="feather-more-vertical"></i
                   ></button>
                   <div class="dropdown-menu" ngbDropdownMenu>
                     <a class="dropdown-item" href="javascript:">Mark as unread</a>

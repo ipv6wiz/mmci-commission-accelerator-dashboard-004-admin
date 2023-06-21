@@ -22,7 +22,7 @@ export default class HdCustomerDetailComponent {
     },
     {
       title: 'Contact',
-      icon: 'feather icon-mail me-1',
+      icon: 'feather-mail me-1',
       name: 'mail@mail.com'
     },
     {
@@ -37,12 +37,12 @@ export default class HdCustomerDetailComponent {
     },
     {
       title: 'Created',
-      icon: 'feather icon-calendar me-1',
+      icon: 'feather-calendar me-1',
       name: 'Date'
     },
     {
       title: 'Response',
-      icon: 'feather icon-clock me-1',
+      icon: 'feather-clock me-1',
       name: 'Time'
     }
   ];

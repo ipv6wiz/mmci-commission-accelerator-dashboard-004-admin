@@ -613,17 +613,17 @@ export default class WidgetDataComponent {
       name: 'Jonny michel'
     },
     {
-      icon: 'feather icon-briefcase bg-c-red update-icon',
+      icon: 'feather-briefcase bg-c-red update-icon',
       title: 'You have 3 pending Task.',
       name: 'Hemilton'
     },
     {
-      icon: 'feather icon-check f-w-600 bg-c-green update-icon',
+      icon: 'feather-check f-w-600 bg-c-green update-icon',
       title: 'New Order Received.',
       name: 'Hemilton'
     },
     {
-      icon: 'feather icon-briefcase bg-c-red update-icon',
+      icon: 'feather-briefcase bg-c-red update-icon',
       title: 'You have 3 pending Task.',
       name: 'Hemilton'
     },
@@ -634,12 +634,12 @@ export default class WidgetDataComponent {
       name: 'Jonny michel'
     },
     {
-      icon: 'feather icon-check f-w-600 bg-c-green update-icon',
+      icon: 'feather-check f-w-600 bg-c-green update-icon',
       title: 'New Order Received.',
       name: 'Hemilton'
     },
     {
-      icon: 'feather icon-briefcase bg-c-red update-icon',
+      icon: 'feather-briefcase bg-c-red update-icon',
       title: 'You have 2 pending Task.',
       name: 'James Alexander'
     }

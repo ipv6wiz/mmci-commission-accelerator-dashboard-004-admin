@@ -15,6 +15,7 @@ export interface NavigationItem {
     title?: string;
     type?: string;
   };
+  roles?: string[],
   children?: NavigationItem[];
 }
 
@@ -23,13 +24,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'navigation',
     title: 'Navigation',
     type: 'group',
-    icon: 'feather icon-monitor',
+    icon: 'feather-monitor',
     children: [
       {
         id: 'dashboard',
         title: 'Dashboard',
         type: 'collapse',
-        icon: 'feather icon-home',
+        icon: 'feather-home',
         children: [
           {
             id: 'analytics',
@@ -67,7 +68,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'page-layouts',
         title: 'Page Layouts',
         type: 'collapse',
-        icon: 'feather icon-layout',
+        icon: 'feather-layout',
         children: [
           {
             id: 'vertical',
@@ -156,7 +157,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'widget',
         title: 'Widget',
         type: 'collapse',
-        icon: 'feather icon-layers',
+        icon: 'feather-layers',
         badge: {
           title: '100+',
           type: 'bg-success'
@@ -186,7 +187,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'users',
         title: 'User',
         type: 'collapse',
-        icon: 'feather icon-users',
+        icon: 'feather-users',
         children: [
           {
             id: 'profile',
@@ -215,13 +216,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'ui-element',
     title: 'UI ELEMENT',
     type: 'group',
-    icon: 'feather icon-layers',
+    icon: 'feather-layers',
     children: [
       {
         id: 'basic',
         title: 'Basic',
         type: 'collapse',
-        icon: 'feather icon-box',
+        icon: 'feather-box',
         children: [
           {
             id: 'alert',
@@ -331,7 +332,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'advance',
         title: 'Advance',
         type: 'collapse',
-        icon: 'feather icon-gitlab',
+        icon: 'feather-gitlab',
         children: [
           {
             id: 'sweet-alert',
@@ -383,13 +384,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'forms',
     title: 'Forms',
     type: 'group',
-    icon: 'feather icon-layout',
+    icon: 'feather-layout',
     children: [
       {
         id: 'forms-element',
         title: 'Forms',
         type: 'collapse',
-        icon: 'feather icon-file-text',
+        icon: 'feather-file-text',
         children: [
           {
             id: 'form-elements',
@@ -442,13 +443,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'table',
     title: 'Table',
     type: 'group',
-    icon: 'feather icon-list',
+    icon: 'feather-list',
     children: [
       {
         id: 'bootstrap',
         title: 'Bootstrap',
         type: 'collapse',
-        icon: 'feather icon-server',
+        icon: 'feather-server',
         children: [
           {
             id: 'bt-basic',
@@ -480,7 +481,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'data-table',
         title: 'Data Table',
         type: 'item',
-        icon: 'feather icon-grid',
+        icon: 'feather-grid',
         url: '/tbl-datatable'
       }
     ]
@@ -489,13 +490,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'chart-maps',
     title: 'Chart & Maps',
     type: 'group',
-    icon: 'feather icon-pie-chart',
+    icon: 'feather-pie-chart',
     children: [
       {
         id: 'charts',
         title: 'Charts',
         type: 'collapse',
-        icon: 'feather icon-pie-chart',
+        icon: 'feather-pie-chart',
         children: [
           {
             id: 'apex',
@@ -527,7 +528,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'maps',
         title: 'Maps',
         type: 'collapse',
-        icon: 'feather icon-map',
+        icon: 'feather-map',
         children: [
           {
             id: 'google',
@@ -543,13 +544,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'pages',
     title: 'Pages',
     type: 'group',
-    icon: 'feather icon-file-text',
+    icon: 'feather-file-text',
     children: [
       {
         id: 'auth',
         title: 'Authentication',
         type: 'collapse',
-        icon: 'feather icon-lock',
+        icon: 'feather-lock',
         children: [
           {
             id: 'signup',
@@ -645,7 +646,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'maintenance',
         title: 'Maintenance',
         type: 'collapse',
-        icon: 'feather icon-sliders',
+        icon: 'feather-sliders',
         children: [
           {
             id: 'error',
@@ -679,13 +680,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'app',
     title: 'App',
     type: 'group',
-    icon: 'feather icon-tv',
+    icon: 'feather-tv',
     children: [
       {
         id: 'email',
         title: 'Email',
         type: 'collapse',
-        icon: 'feather icon-mail',
+        icon: 'feather-mail',
         children: [
           {
             id: 'mail-inbox',
@@ -711,7 +712,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'task',
         title: 'Task',
         type: 'collapse',
-        icon: 'feather icon-clipboard',
+        icon: 'feather-clipboard',
         children: [
           {
             id: 'task-list',
@@ -737,7 +738,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'to-dos',
         title: 'Todo',
         type: 'collapse',
-        icon: 'feather icon-check-square',
+        icon: 'feather-check-square',
         children: [
           {
             id: 'todo',
@@ -751,7 +752,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'gallery',
         title: 'Gallery',
         type: 'collapse',
-        icon: 'feather icon-image',
+        icon: 'feather-image',
         children: [
           {
             id: 'grid',
@@ -765,7 +766,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'helpDesk',
         title: 'HelpDesk',
         type: 'collapse',
-        icon: 'feather icon-help-circle',
+        icon: 'feather-help-circle',
         badge: {
           title: 'New',
           type: 'bg-success'
@@ -809,13 +810,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'extension',
     title: 'Extension',
     type: 'group',
-    icon: 'feather icon-cpu',
+    icon: 'feather-cpu',
     children: [
       {
         id: 'editor',
         title: 'Editor',
         type: 'collapse',
-        icon: 'feather icon-file-plus',
+        icon: 'feather-file-plus',
         children: [
           {
             id: 'quill-editor',
@@ -835,7 +836,7 @@ export const NavigationItems: NavigationItem[] = [
         id: 'invoice',
         title: 'Invoice',
         type: 'collapse',
-        icon: 'feather icon-file-minus',
+        icon: 'feather-file-minus',
         children: [
           {
             id: 'invoice-basic',
@@ -863,7 +864,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/full-calendar',
         classes: 'nav-item',
-        icon: 'feather icon-calendar'
+        icon: 'feather-calendar'
       },
       {
         id: 'file-upload',
@@ -871,7 +872,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/file-upload',
         classes: 'nav-item',
-        icon: 'feather icon-upload-cloud'
+        icon: 'feather-upload-cloud'
       }
     ]
   },
@@ -879,13 +880,13 @@ export const NavigationItems: NavigationItem[] = [
     id: 'other',
     title: 'Other',
     type: 'group',
-    icon: 'feather icon-align-left',
+    icon: 'feather-align-left',
     children: [
       {
         id: 'menu-level',
         title: 'Menu Levels',
         type: 'collapse',
-        icon: 'feather icon-menu',
+        icon: 'feather-menu',
         children: [
           {
             id: 'menu-level-2.1',
@@ -924,7 +925,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: 'javascript:',
         classes: 'nav-item disabled',
-        icon: 'feather icon-power',
+        icon: 'feather-power',
         external: true
       },
       {
@@ -933,7 +934,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         url: '/sample-page',
         classes: 'nav-item',
-        icon: 'feather icon-sidebar'
+        icon: 'feather-sidebar'
       }
     ]
   }

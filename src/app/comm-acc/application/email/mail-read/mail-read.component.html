@@ -15,7 +15,7 @@
             <!-- [ email-right section ] start -->
             <div class="col-xl-10 col-md-9">
               <div class="input-group mb-0">
-                <label class="input-group-text" for="inputGroupSelect01"><i class="feather icon-search"></i></label>
+                <label class="input-group-text" for="inputGroupSelect01"><i class="feather-search"></i></label>
                 <select class="form-select" id="inputGroupSelect01" title="select">
                   <option selected>Search ...</option>
                   <option value="1">One</option>
@@ -51,8 +51,8 @@
                 role="button"
                 aria-controls="email-more-cont"
               >
-                <span *ngIf="!isCollapsed"><i class="feather icon-chevron-down me-2"></i>More</span>
-                <span *ngIf="isCollapsed"><i class="feather icon-chevron-up me-2"></i>Less</span>
+                <span *ngIf="!isCollapsed"><i class="feather-chevron-down me-2"></i>More</span>
+                <span *ngIf="isCollapsed"><i class="feather-chevron-up me-2"></i>Less</span>
               </a>
               <div class="collapse" id="email-more-cont" [ngbCollapse]="!isCollapsed">
                 <ul class="nav nav-tab flex-column nav-pills">
@@ -123,7 +123,7 @@
                         </div>
                       </div>
                       <div class="m-t-15">
-                        <i class="feather icon-paperclip f-20 m-r-10"></i>Attachments <b>(3)</b>
+                        <i class="feather-paperclip f-20 m-r-10"></i>Attachments <b>(3)</b>
                         <div class="row mail-img m-t-20">
                           <div class="col-sm-4 col-md-3 col-xl-2 m-b-20" *ngFor="let list of attachment">
                             <a href="javascript:"><img src="{{ list.img }}" class="img-fluid img-thumbnail" alt="mail-images" /></a>
