@@ -2,7 +2,7 @@ import { ECalendarValue } from '../../type/calendar-value-enum';
 import { SingleCalendarValue } from '../../type/single-calendar-value';
 import { ElementRef, Injectable } from '@angular/core';
 
-import { Dayjs, UnitType } from 'dayjs';
+import dayjs, { Dayjs, UnitType } from 'dayjs';
 import { CalendarValue } from '../../type/calendar-value';
 import { IDate } from '../../modal/date.model';
 import { CalendarMode } from '../../type/calendar-mode';
@@ -25,7 +25,7 @@ export class UtilsService {
     return new Array(size).fill(1);
   }
 
-  convertToDayjs(date: SingleCalendarValue, format: string): Dayjs {
+  convertToDayjs(date: SingleCalendarValue, format: string): dayjs.Dayjs | null {
     if (!date) {
       return null;
     } else if (typeof date === 'string') {
@@ -84,13 +84,15 @@ export class UtilsService {
   // todo:: add unit test
   convertToDayjsArray(value: CalendarValue, config: { allowMultiSelect?: boolean; format?: string }): Dayjs[] {
     let retVal: Dayjs[];
-    switch (this.getInputType(value, config.allowMultiSelect)) {
+    switch (this.getInputType(value, config.allowMultiSelect || false)) {
       case ECalendarValue.String:
         retVal = value ? [dayjsRef(<string>value, config.format, true)] : [];
         break;
-      case ECalendarValue.StringArr:
-        retVal = (<string[]>value).map((v) => (v ? dayjsRef(v, config.format, true) : null)).filter(Boolean);
-        break;
+        case ECalendarValue.StringArr:
+              const arr: string[] = value as string[];
+              const retArr: any = arr.map((v: string) => (v ? dayjsRef(v, config.format, true) : null));
+              retVal = retArr.filter((x: Dayjs | null) => x !== null)
+          break;
       case ECalendarValue.Dayjs:
         retVal = value ? [dayjsRef((<Dayjs>value).toDate())] : [];
         break;
@@ -126,9 +128,16 @@ export class UtilsService {
     if (typeof value === 'string') {
       tmpVal = [value];
     } else if (Array.isArray(value)) {
-      if (value.length) {
-        tmpVal = (<SingleCalendarValue[]>value).map((v) => {
-          return this.convertToDayjs(v, format).format(format);
+        let tmpArr = value as SingleCalendarValue[];
+         tmpArr = tmpArr.filter((x: any) => x !== null)
+      if (tmpArr.length > 0) {
+        tmpVal = tmpArr.map((v) => {
+            let conv = this.convertToDayjs(v, format);
+            let convStr = null;
+            if(conv !== null) {
+                convStr = conv.format(format);
+            }
+          return convStr;
         });
       } else {
         tmpVal = <string[]>value;

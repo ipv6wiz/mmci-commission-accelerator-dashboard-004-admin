@@ -35,10 +35,10 @@ const routes: Routes = [
         loadChildren: () => import('./comm-acc/widget/widget.module').then((module) => module.WidgetModule),
           canActivate: [AuthGuard]
       },
-      {
-        path: 'users',
-        loadChildren: () => import('./comm-acc/users/users.module').then((module) => module.UsersModule)
-      },
+      // {
+      //   path: 'users',
+      //   loadChildren: () => import('./comm-acc/users/users.module').then((module) => module.UsersModule)
+      // },
       {
         path: 'basic',
         loadChildren: () => import('./comm-acc/ui-elements/ui-basic/ui-basic.module').then((module) => module.UiBasicModule),

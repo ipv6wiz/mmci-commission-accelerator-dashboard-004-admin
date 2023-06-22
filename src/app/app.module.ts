@@ -37,46 +37,49 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
 import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
 
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    AdminComponent,
-    GuestComponent,
-    ConfigurationComponent,
-    NavBarComponent,
-    NavigationComponent,
-    NavLeftComponent,
-    NavRightComponent,
-    NavSearchComponent,
-    ChatMsgComponent,
-    ChatUserListComponent,
-    FriendComponent,
-    NavContentComponent,
-    NavItemComponent,
-    NavCollapseComponent,
-    NavGroupComponent
-  ],
-  imports: [
-    BrowserModule,
-      AngularFireModule.initializeApp(environment.firebase),
-      AngularFireAuthModule,
-      AngularFirestoreModule,
-      AngularFireStorageModule,
-    AppRoutingModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot(),
-    HttpClientModule
-  ],
-  providers: [
-      {provide: ErrorHandler, useClass: GlobalErrorHandler},
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider,
-      AuthenticationService
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        AdminComponent,
+        GuestComponent,
+        ConfigurationComponent,
+        NavBarComponent,
+        NavigationComponent,
+        NavLeftComponent,
+        NavRightComponent,
+        NavSearchComponent,
+        ChatMsgComponent,
+        ChatUserListComponent,
+        FriendComponent,
+        NavContentComponent,
+        NavItemComponent,
+        NavCollapseComponent,
+        NavGroupComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        AngularFirestoreModule,
+        AngularFireStorageModule,
+        AppRoutingModule,
+        SharedModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        HttpClientModule,
+
+    ],
+    providers: [
+        {provide: ErrorHandler, useClass: GlobalErrorHandler},
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+        fakeBackendProvider,
+        AuthenticationService
+    ],
+    exports: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

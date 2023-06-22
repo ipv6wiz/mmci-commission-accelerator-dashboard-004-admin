@@ -60,7 +60,7 @@ export const NavigationItems: NavigationItem[] = [
                 id: 'uers',
                 title: 'Users',
                 type: 'item',
-                url: '/dashboard/users  '
+                url: '/dashboard/users'
             }
         ]
       },

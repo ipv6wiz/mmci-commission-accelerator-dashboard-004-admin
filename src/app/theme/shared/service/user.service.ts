@@ -2,15 +2,53 @@
 import { HttpClient } from '@angular/common/http';
 import { User } from '../entities/user.interface';
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
+import firebase from "firebase/compat";
+import WhereFilterOp = firebase.firestore.WhereFilterOp;
 import {map, take} from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
     private dbPath: string = '/users';
     usersRef: AngularFirestoreCollection<User>
-  constructor(private http: HttpClient, private afs: AngularFirestore) {
+  constructor( private afs: AngularFirestore) {
       this.usersRef = afs.collection(this.dbPath);
   }
+
+    async getAllForEdit(options:any = {}) {
+        let opStr: WhereFilterOp = '==';
+        let opVal = 1;
+        console.log('getAllForEdit - options: ', JSON.stringify(options));
+        const userData = options.userData;
+        if(userData.userStatusFilter) {
+            switch (userData.userStatusFilter) {
+                case 'active':
+                    opStr = '==';
+                    opVal = 1;
+                    break;
+                case "pending":
+                    opStr = '>=';
+                    opVal = 0;
+                    break;
+                case 'archived':
+                    opStr = '==';
+                    opVal = -1;
+                    break;
+                case 'deleted':
+                    opStr = '==';
+                    opVal = -2;
+                    break;
+                case 'all':
+                    opStr = '>';
+                    opVal = -99;
+            }
+        }
+
+        const res = await this.usersRef.ref
+            .where('status', opStr, opVal).get();
+        let data: any[] = [];
+        res.docs.forEach(doc => data.push({id: doc.id , ...doc.data()}));
+        return data;
+    }
 
   getAll() {
       console.log('getAll called');
