@@ -63,14 +63,15 @@ export class UserService {
   }
 
     getOne(id: string): any {
-        return this.usersRef.doc(id).ref.get().then((doc) => {
-            if (doc.exists) {
-                return doc.data();
-            } else {
-                console.log(`Doc with id ${id} does not exist`);
-                return null;
-            }
-        })
+        return this.usersRef.doc(id).ref.get()
+            .then((doc) => {
+                if (doc.exists) {
+                    return doc.data();
+                } else {
+                    console.log(`Doc with id ${id} does not exist`);
+                    return null;
+                }
+            })
             .catch((err) => {
                 console.log(`Error retrieving Document with id ${id} and msg: ${err.message}`);
             });

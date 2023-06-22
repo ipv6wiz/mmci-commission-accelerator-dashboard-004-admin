@@ -6,6 +6,7 @@ import { GradientConfig } from 'src/app/app-config';
 // bootstrap
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import {AuthenticationService} from "../../../../shared/service";
+import {User} from "../../../../shared/entities/user.interface";
 
 @Component({
   selector: 'app-nav-right',
@@ -29,11 +30,19 @@ export class NavRightComponent implements DoCheck {
   chatMessage: boolean;
   friendId!: number;
   gradientConfig = GradientConfig;
+  currentUserImage: string;
+  currentUser: User;
 
   // constructor
   constructor(public authService: AuthenticationService) {
     this.visibleUserList = false;
     this.chatMessage = false;
+    this.currentUser = this.authService.getUserData();
+    if(!!this.currentUser.photoURL) {
+        this.currentUserImage = this.currentUser.photoURL;
+    } else {
+        this.currentUserImage = 'assets/images/user/avatar-1.jpg';
+    }
   }
 
   // public method

@@ -1,4 +1,5 @@
-﻿import { Injectable } from '@angular/core';
+﻿import {Inject, Injectable, LOCALE_ID} from '@angular/core';
+import { formatDate } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,6 +9,7 @@ import { User } from '../entities/user.interface';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {UserService} from "./user.service";
 import * as auth from 'firebase/auth';
+import {DatePipe} from "@angular/common";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -19,7 +21,8 @@ export class AuthenticationService {
       private router: Router,
       private http: HttpClient,
       public afAuth: AngularFireAuth,
-      public userService: UserService
+      public userService: UserService,
+      @Inject(LOCALE_ID) public locale: string
   ) {
     // eslint-disable-next-line
     this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
@@ -36,15 +39,13 @@ export class AuthenticationService {
           .then((result) => {
               /* Call the SendVerificaitonMail() function when new user sign
               up and returns promise */
-              this.SetUserData(result.user, agentData)
+              this.SetUserData(result.user)
                   .then(() => {
                       this.SendVerificationMail()
                           .then(() => {
                               this.router.navigate(['auth/verify-email-address']);
-                          });;
+                          });
                   });
-
-
           })
           .catch((error) => {
               console.log('Caught signUp Error');
@@ -78,23 +79,42 @@ export class AuthenticationService {
       return this.afAuth
           .signInWithEmailAndPassword(email, password)
           .then((result) => {
-              this.SetUserData(result.user)
+              console.log('login - user result: ', result);
+              return this.SetUserData(result.user)
                   .then(() => {
                       this.afAuth.authState.subscribe((user) => {
                           if (user) {
                               this.userData = user;
                               // @ts-ignore
                               this.userData['lastLoginDate'] = new Date(parseInt(user.metadata.lastLoginAt)).toString();
-                              console.log('login - userData:', this.userData);
-                              localStorage.setItem('user', JSON.stringify(this.userData));
-                              this.router.navigateByUrl(returnUrl);
+                              this.getCurrentUserDocument()
+                                  .then((doc) => {
+                                      const {defaultPage} = doc;
+                                      console.log('You have been successfully logged in!: ', this.isLoggedIn);
+                                      console.log('login - userData:', this.userData);
+                                      localStorage.setItem('user', JSON.stringify(this.userData));
+                                      console.log('login - returnUrl: ', returnUrl);
+                                      console.log('login - defaultPage: ', defaultPage);
+                                      if(!returnUrl) {
+                                          returnUrl = defaultPage;
+                                      }
+                                      return this.router.navigate([defaultPage]);
+                                  })
+                                  .catch((err) => {
+                                      throw new Error(err.message);
+                                  });
+
+                              // this.router.navigateByUrl(userDoc.defaultPage).then(r => );
+                          } else {
+                              // const timeStr = formatDate(Date.now(), 'H:mm:SSS', this.locale);
+                              // throw new Error(timeStr + ' Login - Invalid User.');
                           }
                   });
               });
           })
           .catch((error) => {
               console.log('Caught Login Error');
-              throw new Error(error.message + ' you must register and be approved first');
+              throw new Error(error.message + ' You must register and be approved first');
           });
   }
 
@@ -104,11 +124,11 @@ export class AuthenticationService {
               console.log('Logout');
               localStorage.removeItem('user');
               // console.log('Logout - userdata: ', JSON.stringify(this.getUserData()));
-              this.userSubject.next(null);
-              this.router.navigate(['/auth/signin-v2']);
+              this.userSubject.unsubscribe();
+              return this.router.navigate(['/auth/signin-v2']);
           })
           .catch((err) => {
-              throw new Error(err.message);
+              throw new Error(`Logout - ${err.message}`);
           })
     // remove user from local storage to log user out
 
@@ -132,21 +152,24 @@ export class AuthenticationService {
     /* Setting up user data when sign in with username/password,
    sign up with username/password and sign in with social auth
    provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-    async SetUserData(user: any, agentData: any = []) {
+    async SetUserData(user: any) {
+        console.log('SetUserData - user: ', user);
         const userDoc = await this.userService.getOne(user.uid);
-        const userData: User = {
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            emailVerified: user.emailVerified,
-            lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toString(),
-        };
         if(userDoc === null ) {
-            console.log('Invalid User');
-            throw new Error('Invalid User');
+            console.log('User Not Found');
+            throw new Error('User Not Found');
         } else {
-            return this.userService.update(userData.uid, userData)
+            console.log('SetUserData - userDoc: ', userDoc);
+            this.userData = {
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+                emailVerified: user.emailVerified,
+                lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toString(),
+            };
+            localStorage.setItem('user', JSON.stringify(this.userData));
+            return this.userService.update(this.userData.uid, this.userData)
         }
     }
 

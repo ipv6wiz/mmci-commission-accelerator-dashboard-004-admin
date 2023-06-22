@@ -1,0 +1,38 @@
+<div class="col-md-12">
+    <app-card cardTitle="Users (not Clients)" cardClass="tab-card tab-content" blockClass="nav-fill" >
+        <dx-data-grid
+            id="usersDataGrid"
+            [dataSource]="dataSource"
+            [showBorders]="true"
+            [rowAlternationEnabled]="true"
+            remoteOperations="false"
+        >
+            <dxo-editing
+                mode="row"
+                [allowUpdating]="true"
+                [allowDeleting]="true"
+                [allowAdding]="true"
+            ></dxo-editing>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxi-column
+                dataField="photoURL"
+                [allowFiltering]="false"
+                [allowSorting]="false"
+                cellTemplate="cellTemplate"
+                width="100"></dxi-column>
+            <dxi-column dataField="displayName" dataType="string" width="auto" readonly="true"></dxi-column>
+            <dxi-column dataField="email" dataType="string" width="auto" readonly="true"></dxi-column>
+            <dxi-column dataField="emailVerified" width="auto" dataType="boolean"></dxi-column>
+            <dxi-column dataField="lastLogin" dataType="string" readonly="true"></dxi-column>
+            <div *dxTemplate="let data of 'cellTemplate'">
+                <div *ngIf="data.value">
+                    <img [src]="data.value" alt="Profile Picture" (error)="imgErrorHandler($event)" />
+                </div>
+                <div *ngIf="!data.value">
+                    <img alt="default" src="../../../../assets/images/user/default-user.png" />
+                </div>
+            </div>
+        </dx-data-grid>
+    </app-card>
+</div>
+<!--<p>Dash Users Works!</p>-->

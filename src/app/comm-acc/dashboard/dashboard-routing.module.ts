@@ -23,7 +23,7 @@ const routes: Routes = [
             path: 'users',
             loadComponent: () => import('./dash-users/dash-users.component'),
             canActivate: [AuthGuard],
-            data: {roles: ['SuperAdmin']}
+            data: {roles: ['UsersAdmin']}
         },
       {
         path: 'clients',

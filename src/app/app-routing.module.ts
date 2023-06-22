@@ -23,7 +23,7 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('./comm-acc/dashboard/dashboard.module').then((module) => module.DashboardModule),
           canActivate: [AuthGuard],
-          data: {roles: ['UserAdmin', 'FundsAdmin', 'ClientsAdmin']}
+          data: {roles: ['UsersAdmin', 'FundsAdmin', 'ClientsAdmin']}
       },
       {
         path: 'layout',

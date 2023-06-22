@@ -1,6 +1,6 @@
 // Angular import
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, formatDate} from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -35,15 +35,17 @@ export default class AuthSigninV2Component implements OnInit {
     public authenticationService: AuthenticationService
   ) {
     // redirect to home if already logged in
+      const timeStr = formatDate(Date.now(), 'H:mm:SSS', this.authenticationService.locale);
     if (this.authenticationService.isLoggedIn) {
-      console.log('AuthSigninV2Component - isLoggedIn');
+      console.log(`${timeStr} - AuthSigninV2Component - isLoggedIn`);
       this.authenticationService.logout();
     } else {
-        console.log('AuthSigninV2Component - NOT logged In');
+        console.log(`${timeStr} - AuthSigninV2Component - NOT logged In`);
     }
   }
 
   ngOnInit() {
+      console.log('AuthSigninV2Component - ngOnInit');
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
