@@ -37,7 +37,6 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
 import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
 
-
 @NgModule({
     declarations: [
         AppComponent,

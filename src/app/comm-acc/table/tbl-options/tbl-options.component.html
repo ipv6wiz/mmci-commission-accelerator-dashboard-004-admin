@@ -1,0 +1,73 @@
+<div class="content-page">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Main content -->
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <div class="inner-adjust">
+                        <div class="pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Options (dropdown lists)</h1>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <dx-data-grid
+                                    id="optionsGrid"
+                                    [dataSource]="dataSource"
+                                    [showBorders]="true"
+                                    [remoteOperations]="false"
+                                    (onSelectionChanged)="selectionChanged($event)"
+                                    (onContentReady)="contentReady($event)"
+                                >
+                                    <dxo-editing
+                                        mode="row"
+                                        [allowUpdating]="true"
+                                        [allowDeleting]="true"
+                                        [allowAdding]="true"
+                                    ></dxo-editing>
+                                    <dxo-selection mode="single"></dxo-selection>
+                                    <dxo-master-detail [enabled]="false" template="detail"></dxo-master-detail>
+                                    <dxi-column dataField="type" dataType="string"> </dxi-column>
+                                    <div *dxTemplate="let optType of 'detail'">
+                                        <div class="internal-grid-container">
+                                            <div>{{optType.data.type + "'s Values"}}</div>
+                                            <dx-data-grid
+                                                id="optionsDetailGridContainer"
+                                                [dataSource]="optType.data.values"
+                                                [showColumnLines]="true"
+                                                [allowColumnResizing]="true"
+                                                columnResizingMode="widget"
+                                                [columnMinWidth]="50"
+                                                [columnAutoWidth]="true"
+                                                [showRowLines]="true"
+                                                [showBorders]="true"
+                                                [rowAlternationEnabled]="true"
+                                                (onRowInserting)="valueCreate($event, optType.data.id)"
+                                                (onRowUpdating)="valueUpdate($event, optType.data.id)">
+                                                <dxo-search-panel
+                                                    [visible]="false"
+                                                    [width]="240"
+                                                    placeholder="Search...">
+                                                </dxo-search-panel>
+                                                <dxo-editing
+                                                    mode="form"
+                                                    [allowUpdating]="true"
+                                                    [allowAdding]="true"
+                                                    [texts] = "{addRow: 'Add Option Choice'}"
+                                                >
+                                                </dxo-editing>
+                                                <dxi-column dataField="key" caption="Key"></dxi-column>
+                                                <dxi-column dataField="value" caption="value"></dxi-column>
+                                                <dxi-column dataField="sortOrder" caption="Sort Order"></dxi-column>
+                                                <dxi-column dataField="displayValue" caption="Short Name"></dxi-column>
+                                            </dx-data-grid>
+                                        </div>
+                                    </div>
+                                </dx-data-grid>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>

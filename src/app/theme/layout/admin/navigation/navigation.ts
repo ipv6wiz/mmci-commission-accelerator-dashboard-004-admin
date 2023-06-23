@@ -57,10 +57,16 @@ export const NavigationItems: NavigationItem[] = [
                 url: '/dashboard/funds'
             },
             {
-                id: 'uers',
+                id: 'uesrs',
                 title: 'Users',
                 type: 'item',
                 url: '/dashboard/users'
+            },
+            {
+                id: 'admin',
+                title: 'Admin Functions',
+                type: 'item',
+                url: '/dashboard/admin'
             }
         ]
       },
