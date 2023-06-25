@@ -2,7 +2,7 @@
 import { Component, Input } from '@angular/core';
 import { Location, LocationStrategy } from '@angular/common';
 import { GradientConfig } from 'src/app/app-config';
-import { NavigationItem } from '../../navigation';
+import {NavigationItem} from "../../../../../shared/entities/navigation-item.interface";
 
 @Component({
   selector: 'app-nav-item',

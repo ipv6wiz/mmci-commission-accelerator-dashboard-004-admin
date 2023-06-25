@@ -5,8 +5,10 @@ import { NavigationEnd, Router, RouterModule, Event } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 // project import
-import { NavigationItem, NavigationItems } from 'src/app/theme/layout/admin/navigation/navigation';
-
+import {  NavigationItems } from 'src/app/theme/layout/admin/navigation/navigation';
+import {NavigationItem} from "../../entities/navigation-item.interface";
+import {NavigationService} from "../../service/navigation.service";
+import {AuthenticationService} from "../../service";
 interface titleType {
   url: string | boolean | undefined;
   title: string;
@@ -24,14 +26,22 @@ interface titleType {
 export class BreadcrumbComponent {
   // public props
   @Input() type: string;
-
-  navigations: NavigationItem[];
+    currentUserRoles: string[] = [];
+  navigations: NavigationItem[] = [];
   breadcrumbList: Array<string> = [];
   navigationList: string[] | { url: string | boolean | undefined; title: string; breadcrumbs: unknown; type: string }[] = [];
 
   // constructor
-  constructor(private route: Router, private titleService: Title) {
-    this.navigations = NavigationItems;
+  constructor(
+      private route: Router,
+      private titleService: Title,
+      private navService: NavigationService,
+      private authAService: AuthenticationService
+      ) {
+      this.authAService.getCurrentUserRoles().then(roles => {
+          this.currentUserRoles = roles;
+          this.navService.getAllFilteredByRole(this.currentUserRoles).then(nav => this.navigations = nav);
+      });
     this.type = 'theme2';
     this.setBreadcrumb();
   }
@@ -44,7 +54,7 @@ export class BreadcrumbComponent {
         const breadcrumbList = this.filterNavigation(this.navigations, activeLink);
         this.navigationList = breadcrumbList;
         const title = breadcrumbList[breadcrumbList.length - 1]?.title || 'Welcome';
-        this.titleService.setTitle(title + ' | Gradient Able Angular Admin Template');
+        this.titleService.setTitle(title + ' | Commission Accelerator');
       }
     });
   }

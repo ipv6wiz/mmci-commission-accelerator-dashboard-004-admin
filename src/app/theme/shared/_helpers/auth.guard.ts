@@ -8,16 +8,13 @@ import {Observable} from "rxjs";
 export class AuthGuard  {
   constructor(private router: Router, private authService: AuthenticationService) {}
 
-  // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-  //   if (this.authenticationService.isLoggedIn) {
-  //     return true;
-  //   }
-  //
-  //   // not logged in so redirect to login page with the return url
-  //   this.router.navigate(['auth/signin-v2'], { queryParams: { returnUrl: state.url } });
-  //   return false;
-  // }
+    // getRoutes(){
+    //   const routes = this.router.config;
+    //   console.log('AuthGuard - routes: ', routes);
+    // }
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      // this.getRoutes();
       if (!this.authService.isLoggedIn) {
           this.router.navigate(['auth/signin-v2'], { queryParams: { returnUrl: state.url } });
           return false;
@@ -38,10 +35,7 @@ export class AuthGuard  {
               .catch((err) => {
                   throw new Error(err.message);
               });
-
-
       }
-
-}
+  }
 
 }

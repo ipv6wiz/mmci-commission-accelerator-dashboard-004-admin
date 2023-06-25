@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { NavigationItem, NavigationItems } from '../navigation';
+import {  NavigationItems } from '../navigation';
+import {NavigationItem} from "../../../../shared/entities/navigation-item.interface";
 import { Location, LocationStrategy } from '@angular/common';
 import { GradientConfig } from 'src/app/app-config';
 import { environment } from 'src/environments/environment';
+import {NavigationService} from "../../../../shared/service/navigation.service";
+import {AuthenticationService} from "../../../../shared/service";
 
 @Component({
   selector: 'app-nav-content',
@@ -13,10 +16,10 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   // version
   title = 'Demo application for version numbering';
   currentApplicationVersion = environment.appVersion;
-
+  currentUserRoles: string[] = [];
   // public pops
   gradientConfig;
-  navigations: NavigationItem[];
+  navigations: NavigationItem[] = [];
   prevDisabled: string;
   nextDisabled: string;
   contentWidth: number;
@@ -30,9 +33,18 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   @ViewChild('navbarWrapper', { static: false }) navbarWrapper!: ElementRef;
 
   // constructor
-  constructor(private zone: NgZone, private location: Location, private locationStrategy: LocationStrategy) {
+  constructor(
+      private zone: NgZone,
+      private location: Location,
+      private locationStrategy: LocationStrategy,
+      private navService: NavigationService,
+      private authAService: AuthenticationService
+  ) {
+    this.authAService.getCurrentUserRoles().then(roles => {
+        this.currentUserRoles = roles;
+        this.navService.getAllFilteredByRole(this.currentUserRoles).then(nav => this.navigations = nav);
+    });
     this.gradientConfig = GradientConfig;
-    this.navigations = NavigationItems;
     this.windowWidth = window.innerWidth;
     this.prevDisabled = 'disabled';
     this.nextDisabled = '';
