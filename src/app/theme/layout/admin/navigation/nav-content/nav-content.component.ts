@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import {  NavigationItems } from '../navigation';
 import {NavigationItem} from "../../../../shared/entities/navigation-item.interface";
 import { Location, LocationStrategy } from '@angular/common';
 import { GradientConfig } from 'src/app/app-config';

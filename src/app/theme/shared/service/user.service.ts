@@ -46,7 +46,10 @@ export class UserService {
         const res = await this.usersRef.ref
             .where('status', opStr, opVal).get();
         let data: any[] = [];
-        res.docs.forEach(doc => data.push({id: doc.id , ...doc.data()}));
+        res.docs.forEach(doc => {
+            console.log('User Doc: ', doc);
+            return data.push({id: doc.id, ...doc.data()});
+        });
         return data;
     }
 
@@ -55,8 +58,11 @@ export class UserService {
       return this.usersRef.snapshotChanges().pipe(
           take(1),
           map(changes =>
-              changes.map(c =>
-                  ({ id: c.payload.doc.id, ...c.payload.doc.data() })
+              changes.map(c => {
+                  console.log('getAll - doc ID: ', c.payload.doc.id);
+                  console.log('getAll - doc data: ', c.payload.doc.data());
+                      return ({id: c.payload.doc.id, ...c.payload.doc.data()});
+                  }
               )
           )
       );

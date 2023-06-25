@@ -4,6 +4,7 @@ import CustomStore from "devextreme/data/custom_store";
 import {lastValueFrom} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
+import {OptionsService} from "../../../theme/shared/service/options.service";
 
 @Component({
   selector: 'app-tbl-users',
@@ -14,8 +15,9 @@ import {SharedModule} from "../../../theme/shared/shared.module";
 })
 export class TblUsersComponent {
     dataSource: any = [];
+    rolesDataSource: any = [];
 
-    constructor(private userService: UserService) {
+    constructor(private userService: UserService, private optionsService: OptionsService) {
         this.dataSource = new CustomStore({
             key: 'uid',
             load: (): any => {

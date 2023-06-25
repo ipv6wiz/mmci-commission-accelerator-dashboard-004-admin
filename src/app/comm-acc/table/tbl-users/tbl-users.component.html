@@ -8,7 +8,7 @@
             remoteOperations="false"
         >
             <dxo-editing
-                mode="row"
+                mode="popup"
                 [allowUpdating]="true"
                 [allowDeleting]="true"
                 [allowAdding]="true"
@@ -24,6 +24,7 @@
             <dxi-column dataField="email" dataType="string" width="auto" readonly="true"></dxi-column>
             <dxi-column dataField="emailVerified" width="auto" dataType="boolean"></dxi-column>
             <dxi-column dataField="lastLogin" dataType="string" readonly="true"></dxi-column>
+            <dxi-column dataField="roles" ></dxi-column>
             <div *dxTemplate="let data of 'cellTemplate'">
                 <div *ngIf="data.value">
                     <img [src]="data.value" alt="Profile Picture" (error)="imgErrorHandler($event)" />
