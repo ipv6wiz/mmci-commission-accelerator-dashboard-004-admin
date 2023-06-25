@@ -24,7 +24,18 @@
             <dxi-column dataField="email" dataType="string" width="auto" readonly="true"></dxi-column>
             <dxi-column dataField="emailVerified" width="auto" dataType="boolean"></dxi-column>
             <dxi-column dataField="lastLogin" dataType="string" readonly="true"></dxi-column>
-            <dxi-column dataField="roles" ></dxi-column>
+            <dxi-column dataField="roles" editCellTemplate="tagBoxEditor"></dxi-column>
+            <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+                <dx-tag-box
+                    [dataSource]="rolesDataSource"
+                    displayExpr="key"
+                    valueExpr="value"
+                    [value]="cellInfo.value"
+                    [hideSelectedItems]="true"
+                    (onValueChanged)="updateRoles($event, cellInfo)"
+                   >
+                </dx-tag-box>
+            </div>
             <div *dxTemplate="let data of 'cellTemplate'">
                 <div *ngIf="data.value">
                     <img [src]="data.value" alt="Profile Picture" (error)="imgErrorHandler($event)" />

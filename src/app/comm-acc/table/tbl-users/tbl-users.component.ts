@@ -6,16 +6,17 @@ import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
 import {OptionsService} from "../../../theme/shared/service/options.service";
 
+
 @Component({
   selector: 'app-tbl-users',
     standalone: true,
-    imports: [CommonModule,SharedModule,],
+    imports: [CommonModule, SharedModule,],
   templateUrl: './tbl-users.component.html',
   styleUrls: ['./tbl-users.component.scss']
 })
 export class TblUsersComponent {
-    dataSource: any = [];
-    rolesDataSource: any = [];
+    dataSource: any;
+    rolesDataSource: any;
 
     constructor(private userService: UserService, private optionsService: OptionsService) {
         this.dataSource = new CustomStore({
@@ -33,9 +34,24 @@ export class TblUsersComponent {
                 return this.userService.delete(key);
             }
         });
+
+        this.rolesDataSource = new CustomStore({
+            key: 'uid',
+            load: (): any => {
+                return this.optionsService.getOptionsByType('Role');
+            }
+        });
+    }
+
+    updateRoles(event: any, cellInfo: any) {
+        console.log('updateRoles - event: ', event);
+        console.log('updateRoles - cellInfo: ', cellInfo);
+        cellInfo.setValue(event.value);
     }
 
     imgErrorHandler(e:any) {
         console.log('imgErrorHandler - event: ', e);
     }
+
+    protected readonly decodeURI = decodeURI;
 }

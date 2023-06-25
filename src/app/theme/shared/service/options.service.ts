@@ -42,7 +42,29 @@ export class OptionsService {
     })
       .catch((err) => {
         console.log(`Error retrieving Document with id ${id} and msg: ${err.message()}`);
+        throw new Error('Invalid Option id');
       });
+  }
+
+  getOptionsByType(type: string) {
+      console.log('getOptionsByType - called');
+      let data: any = [];
+      let docData: any;
+      return this.optionsRef.ref.where('type', '==', type).get()
+          .then((res) => {
+              if(res.docs.length > 0) {
+                  docData = res.docs[0].data();
+                  data = docData.values;
+                  console.log('Option Data: ', data);
+                  return data;
+              } else {
+                  throw new Error('Not found');
+              }
+          })
+          .catch((err) => {
+                console.log('Option Type not found');
+                throw new Error('Option Type not found');
+          });
   }
 
   create(option: Options): any {
