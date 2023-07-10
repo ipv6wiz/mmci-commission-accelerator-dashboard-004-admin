@@ -16,10 +16,10 @@ export class AuthenticationService {
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
   userData: any;
+  returnUrl = '';
 
   constructor(
       private router: Router,
-      private http: HttpClient,
       public afAuth: AngularFireAuth,
       public userService: UserService,
       @Inject(LOCALE_ID) public locale: string
@@ -33,13 +33,20 @@ export class AuthenticationService {
     return this.userSubject.value;
   }
 
-  signUp(email: string, password: string, agentData: any) {
+    /**
+     * Call this from the add user of the User DG
+     * Users can only be created by certain roles
+     * NO self signup
+     * @param values
+     */
+  signUp(values: any) {
+      const {email, password, firstName, lastName} = values;
       return this.afAuth
           .createUserWithEmailAndPassword(email, password)
           .then((result) => {
               /* Call the SendVerificaitonMail() function when new user sign
               up and returns promise */
-              this.SetUserData(result.user)
+              this.SetUserData(result.user, {firstName, lastName})
                   .then(() => {
                       this.SendVerificationMail()
                           .then(() => {
@@ -53,7 +60,7 @@ export class AuthenticationService {
           });
   }
 
-    // Send email verfificaiton when new user sign up
+    // Send email verification when new user signs up
     SendVerificationMail() {
         return this.afAuth.currentUser
             .then((u: any) => {
@@ -75,46 +82,47 @@ export class AuthenticationService {
             });
     }
 
-  login(email: string, password: string, returnUrl: string) {
+  async login(email: string, password: string, returnUrl: string) {
       return this.afAuth
           .signInWithEmailAndPassword(email, password)
-          .then((result) => {
+          .then(async (result) => {
               console.log('login - user result: ', result);
-              return this.SetUserData(result.user)
-                  .then(() => {
-                      this.afAuth.authState.subscribe((user) => {
-                          if (user) {
-                              this.userData = user;
-                              // @ts-ignore
-                              this.userData['lastLoginDate'] = new Date(parseInt(user.metadata.lastLoginAt)).toString();
-                              this.getCurrentUserDocument()
-                                  .then((doc) => {
-                                      const {defaultPage} = doc;
-                                      console.log('You have been successfully logged in!: ', this.isLoggedIn);
-                                      console.log('login - userData:', this.userData);
-                                      localStorage.setItem('user', JSON.stringify(this.userData));
-                                      console.log('login - returnUrl: ', returnUrl);
-                                      console.log('login - defaultPage: ', defaultPage);
-                                      if(!returnUrl) {
-                                          returnUrl = defaultPage;
-                                      }
-                                      return this.router.navigate([defaultPage]);
-                                  })
-                                  .catch((err) => {
-                                      throw new Error(err.message);
-                                  });
+              const user = result.user;
+              if (!user) {
+                  throw new Error('Invalid User');
+              } else {
+                  if (!user.emailVerified) {
+                      throw new Error('Please verify your email address, check the email account you used for signup');
+                  } else {
+                    return this.SetUserData(user)
+                        .then(() => {
+                            this.getCurrentUserDocument()
+                                .then((doc) => {
+                                    const {defaultPage} = doc;
+                                    console.log('You have been successfully logged in!: ', this.isLoggedIn);
+                                    console.log('login - userData:', this.userData);
+                                    localStorage.setItem('user', JSON.stringify(this.userData));
+                                    console.log('login - returnUrl: ', returnUrl);
+                                    console.log('login - defaultPage: ', defaultPage);
+                                    if (!returnUrl) {
+                                        returnUrl = defaultPage;
+                                    }
+                                    return this.router.navigate([defaultPage]);
+                                })
+                                .catch((err) => {
+                                    throw new Error(err.message);
+                                });
 
-                              // this.router.navigateByUrl(userDoc.defaultPage).then(r => );
-                          } else {
-                              // const timeStr = formatDate(Date.now(), 'H:mm:SSS', this.locale);
-                              // throw new Error(timeStr + ' Login - Invalid User.');
-                          }
-                  });
-              });
+                        })
+
+                      // this.router.navigateByUrl(userDoc.defaultPage).then(r => );
+                  }
+              }
           })
+
           .catch((error) => {
               console.log('Caught Login Error');
-              throw new Error(error.message + ' You must register and be approved first');
+              throw new Error(error.message + ' Contact the Administrator and be approved first');
           });
   }
 
@@ -141,10 +149,14 @@ export class AuthenticationService {
         return user !== null && user.emailVerified !== false;
     }
 
-    // Sign in with Google
+    /**
+     * @TODO:  Need to get the record to set the defaultPage
+     * @constructor
+     */
     GoogleAuth() {
         return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-            console.log('GoogleAuth');
+            console.log('GoogleAuth - res: ', res);
+
             this.router.navigate(['dashboard/analytics']);
         });
     }
@@ -152,12 +164,32 @@ export class AuthenticationService {
     /* Setting up user data when sign in with username/password,
    sign up with username/password and sign in with social auth
    provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-    async SetUserData(user: any) {
+    async SetUserData(user: any, data: any = {}) {
+        const {firstName, lastName} = data;
         console.log('SetUserData - user: ', user);
         const userDoc = await this.userService.getOne(user.uid);
+        const idToken = await user.getIdToken();
+        const accessToken = user.auth.currentUser.accessToken;
+        console.log('SetClientData - idToken: ', idToken);
+        this.userData = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            emailVerified: user.emailVerified,
+            idToken: idToken || '',
+            accessToken: accessToken || '',
+            lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toString(),
+        };
         if(userDoc === null ) {
-            console.log('User Not Found');
-            throw new Error('User Not Found');
+            console.log('New User');
+            this.userData.roles = ['PendingUser'];
+            this.userData.status = 'pending';
+            this.userData.defaultPage = '/dashboard/';
+            this.userData.firstName = firstName;
+            this.userData.lastName = lastName;
+            this.setLocalUserData(this.userData);
+            return this.userService.create(this.userData);
         } else {
             console.log('SetUserData - userDoc: ', userDoc);
             this.userData = {
@@ -173,7 +205,7 @@ export class AuthenticationService {
         }
     }
 
-    getUserData() {
+    getLocalUserData() {
         const data = localStorage.getItem('user');
         if(!!data) {
             return JSON.parse(data);
@@ -182,8 +214,18 @@ export class AuthenticationService {
         }
     }
 
+    setLocalUserData(data: any) {
+        localStorage.setItem('client', JSON.stringify(data));
+    }
+
+    setLocalUserDataProp(prop: string, value: any) {
+        const data = this.getLocalUserData();
+        data[prop] = value;
+        this.setLocalUserData(data);
+    }
+
     async getCurrentUserDocument() {
-        const userData = this.getUserData();
+        const userData = this.getLocalUserData();
         const uid = userData.uid;
         const userDoc = await this.userService.getOne(uid);
         return userDoc;

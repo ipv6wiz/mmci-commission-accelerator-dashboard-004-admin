@@ -77,7 +77,7 @@ export default class AuthSignupV2Component implements OnInit{
                 agentData = this.extractLicenseData(data);
                 console.log('agentData: ', agentData);
                 if(createAccount) {
-                    this.authService.signUp(this.f?.['email']?.value, this.f?.['password']?.value, agentData)
+                    this.authService.signUp({email: this.f?.['email']?.value, password: this.f?.['password']?.value})
                         .then(() => {})
                         .catch((err) => {
                             throw new Error(err.message);

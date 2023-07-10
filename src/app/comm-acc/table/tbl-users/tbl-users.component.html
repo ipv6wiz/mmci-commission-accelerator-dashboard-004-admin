@@ -1,24 +1,122 @@
 <div class="col-md-12">
     <app-card cardTitle="Users (not Clients)" cardClass="tab-card tab-content" blockClass="nav-fill" >
+        <div *ngIf="!showForm">
+            <button (click)="toggleShowForm($event)">Add New User</button>
+        </div>
+        <div
+            *ngIf="showForm"
+            [@openClose]="isOpen ? 'open' : 'closed'"
+            (@openClose.start)="onAnimationEvent($event)"
+            (@openClose.done)="onAnimationEvent($event)"
+        >
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div style="width: 50%" >
+                            <h4 class="mb-3 f-w-400">Add New User</h4>
+                        </div>
+                        <div style="width: 50%" >
+                            <button style="float: right" (click)="toggleShowForm($event)">Close</button>
+                        </div>
+                    </div>
+
+                    <form
+                        [formGroup]="signupForm"
+                        (ngSubmit)="submitAddUser()"
+                      >
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon6"><i class="fa fa-user"></i></span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="First Name"
+                                formControlName="firstName"
+                                aria-label="firstName"
+                                aria-describedby="basic-addon6"
+                                [ngClass]="{ 'is-invalid': f?.['firstName'].touched && f?.['firstName'].errors }"
+                            />
+                            <div *ngIf="f?.['firstName'].touched && f?.['firstName'].errors" class="invalid-feedback">
+                                <div *ngIf="f?.['firstName'].errors.required">First Name is required</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon5"><i class="fa fa-user"></i></span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Last Name"
+                                formControlName="lastName"
+                                aria-label="lastName"
+                                aria-describedby="basic-addon2"
+                                [ngClass]="{ 'is-invalid': f?.['lastName'].touched && f?.['lastName'].errors }"
+                            />
+                            <div *ngIf="f?.['lastName'].touched && f?.['lastName'].errors" class="invalid-feedback">
+                                <div *ngIf="f?.['lastName'].errors.required">Last Name is required</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-envelope"></i></span>
+                            <input
+                                type="email"
+                                class="form-control"
+                                placeholder="Email address"
+                                formControlName="email"
+                                aria-label="email"
+                                aria-describedby="basic-addon2"
+                                [ngClass]="{ 'is-invalid': f?.['email'].touched && f?.['email'].errors }"
+                            />
+                            <div *ngIf="f?.['email'].touched && f?.['email'].errors" class="invalid-feedback">
+                                <div *ngIf="f?.['email'].errors.required">Email is required</div>
+                                <div *ngIf="f?.['email'].invalid">Valid Email Address Required</div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text" id="basic-addon3"><i class="fa fa-lock"></i></span>
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-control"
+                                formControlName="password"
+                                placeholder="Password"
+                                aria-label="password"
+                                aria-describedby="basic-addon3"
+                                [ngClass]="{ 'is-invalid': f?.['password'].touched && f?.['password'].errors }"
+                            />
+                            <span class="input-group-text" id="basic-addon-3" style="width: 38px" >
+                                <i class="fa fa-eye  password-show" id="toggleNewUserPassword" style="margin-right: -28px"></i>
+                            </span>
+                            <div *ngIf="f?.['password'].touched && f?.['password'].errors" class="invalid-feedback">
+                                <div *ngIf="f?.['password'].errors.required">Password is required</div>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-block mb-4">Add New User</button>
+                        </div>
+                        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <dx-data-grid
             id="usersDataGrid"
             [dataSource]="dataSource"
             [showBorders]="true"
             [rowAlternationEnabled]="true"
             remoteOperations="false"
+
         >
             <dxo-editing
                 mode="popup"
                 [allowUpdating]="true"
                 [allowDeleting]="true"
-                [allowAdding]="true"
+                [allowAdding]="false"
             ></dxo-editing>
             <dxo-selection mode="single"></dxo-selection>
             <dxi-column
                 dataField="photoURL"
                 [allowFiltering]="false"
                 [allowSorting]="false"
-                cellTemplate="cellTemplate"
+                cellTemplate="photoTemplate"
                 width="100"></dxi-column>
             <dxi-column dataField="displayName" dataType="string" width="auto" readonly="true"></dxi-column>
             <dxi-column dataField="email" dataType="string" width="auto" readonly="true"></dxi-column>
@@ -36,12 +134,12 @@
                    >
                 </dx-tag-box>
             </div>
-            <div *dxTemplate="let data of 'cellTemplate'">
+            <div *dxTemplate="let data of 'photoTemplate'">
                 <div *ngIf="data.value">
                     <img [src]="data.value" alt="Profile Picture" (error)="imgErrorHandler($event)" />
                 </div>
                 <div *ngIf="!data.value">
-                    <img alt="default" src="../../../../assets/images/user/default-user.png" />
+                    <img style="width: 96px" alt="default" src="../../../../assets/images/user/default-user.png" />
                 </div>
             </div>
         </dx-data-grid>

@@ -20,7 +20,7 @@ export default class VerifyEmailComponent implements OnInit {
     constructor(
         public authService: AuthenticationService
     ) {
-        this.user = this.authService.getUserData();
+        this.user = this.authService.getLocalUserData();
     }
     ngOnInit() {
 

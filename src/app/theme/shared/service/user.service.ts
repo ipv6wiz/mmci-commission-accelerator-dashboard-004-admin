@@ -5,6 +5,7 @@ import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
 import {map, take} from "rxjs/operators";
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -92,6 +93,11 @@ export class UserService {
         return this.usersRef.doc(id).set(data, {merge: true});
     }
 
+    /**
+     * @TODO: Soft delete in Comm-Acc to keep history
+     * @TODO: Delete from Firebase User List to prevent login
+     * @param id
+     */
     delete(id: string): Promise<void> {
         return this.usersRef.doc(id).delete();
     }

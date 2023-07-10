@@ -58,6 +58,7 @@ import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule,

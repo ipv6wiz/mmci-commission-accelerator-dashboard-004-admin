@@ -37,7 +37,7 @@ export class NavRightComponent implements DoCheck {
   constructor(public authService: AuthenticationService) {
     this.visibleUserList = false;
     this.chatMessage = false;
-    this.currentUser = this.authService.getUserData();
+    this.currentUser = this.authService.getLocalUserData();
     if(!!this.currentUser.photoURL) {
         this.currentUserImage = this.currentUser.photoURL;
     } else {
