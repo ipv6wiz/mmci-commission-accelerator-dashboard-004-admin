@@ -54,7 +54,7 @@
               "node_modules/@angular/cdk/overlay-prebuilt.css",
               "node_modules/flatpickr/dist/flatpickr.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/devextreme/dist/css/dx.dark.css"
+              "node_modules/devextreme/dist/css/dx.light.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

@@ -1,18 +1,21 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService, UserService} from "../../../theme/shared/service";
 import CustomStore from "devextreme/data/custom_store";
 import {lastValueFrom} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
 import {OptionsService} from "../../../theme/shared/service/options.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AnimationEvent, trigger} from "@angular/animations";
+import {DxFormComponent} from "devextreme-angular";
+import Validator from 'devextreme/ui/validator';
+import notify from 'devextreme/ui/notify';
+import {User} from "../../../theme/shared/entities/user.interface";
 
 
 @Component({
   selector: 'app-tbl-users',
     standalone: true,
-    imports: [CommonModule, SharedModule,],
+    imports: [CommonModule, SharedModule],
     animations: [    trigger('openClose', [
         // ...
     ]),],
@@ -20,17 +23,65 @@ import {AnimationEvent, trigger} from "@angular/animations";
   styleUrls: ['./tbl-users.component.scss']
 })
 export class TblUsersComponent implements OnInit{
+    // @ts-ignore
+    @ViewChild(DxFormComponent, { static: false }) newUserForm:DxFormComponent;
     dataSource: any;
     rolesDataSource: any;
-    signupForm!: FormGroup;
+    public newUser: User = {} as User;
+    namePattern: any = /^[^0-9]+$/;
+    passwordOptions: any = {
+        mode: 'password',
+        onValueChanged: () => {
+            let editor = this.newUserForm.instance.getEditor('ConfirmPassword');
+            if (editor && editor.option('value')) {
+                let instance = Validator.getInstance(editor.element()) as Validator;
+                let valid = instance.validate();
+            }
+        },
+        buttons: [
+            {
+                name: 'password',
+                location: 'after',
+                options: {
+                    icon: 'assets/images/icons/eye.png',
+                    type: 'default',
+                    onClick: () => this.changePasswordMode('Password'),
+                },
+            },
+        ],
+    };
+
+    confirmOptions: any = {
+        mode: 'password',
+        buttons: [
+            {
+                name: 'password',
+                location: 'after',
+                options: {
+                    icon: 'assets/images/icons/eye.png',
+                    type: 'default',
+                    onClick: () => this.changePasswordMode('ConfirmPassword'),
+                },
+            },
+        ],
+    };
+
+    buttonOptions: any = {
+        text: 'Register',
+        type: 'success',
+        useSubmitBehavior: true,
+    };
+
     error = '';
     showForm: boolean = false;
     isOpen: boolean = false;
     formVisible: boolean = false;
+
+
     constructor(
         private authService: AuthenticationService,
         private optionsService: OptionsService,
-        private formBuilder: FormBuilder,
+
     ) {
         this.dataSource = new CustomStore({
             key: 'uid',
@@ -56,69 +107,63 @@ export class TblUsersComponent implements OnInit{
         });
     }
 
+    onFormSubmit (e: any) {
+        notify({
+            message: 'You have submitted the form',
+            position: {
+                my: 'center top',
+                at: 'center top',
+            },
+        }, 'success', 3000);
+
+        e.preventDefault();
+
+        console.log('onFormSubmit - newUser: ', this.newUser)
+    };
+
+    changePasswordMode(name: string) {
+        let editor = this.newUserForm.instance.getEditor(name);
+        if(editor) {
+            editor.option(
+                'mode',
+                editor.option('mode') === 'text' ? 'password' : 'text',
+            );
+        }
+    };
+
+    passwordComparison() {
+        this.newUserForm.instance.option('formData').Password;
+    }
+
+    checkComparison() {
+        return true;
+    }
+
+    updateNewUserRoles(e: any) {
+        console.log('updateNewUserRoles - e: ', e);
+    }
+
 
     onAnimationEvent(event: AnimationEvent) {
         // console.log('onAnimationEvent: ', event);
         if(event.phaseName === 'start') {
-            const togglePassword = document.querySelector('#toggleNewUserPassword');
-            const password = document.querySelector('#password');
-            // console.log('onAnimationEvent - togglePassword: ', togglePassword);
-            // console.log('onAnimationEvent - password element: ', password);
-            togglePassword?.addEventListener('click', () => {
-                // console.log('togglePassword - clicked');
-                // toggle the type attribute
-                const type = password?.getAttribute('type') === 'password' ? 'text' : 'password';
-                password?.setAttribute('type', type);
-                // toggle the icon
-                togglePassword.classList.toggle('fa-eye-slash');
-            });
+
         }
     }
 
     ngOnInit(){
-        this.signupForm = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required],
 
-        });
 
     }
 
-    get f() {
-        return this.signupForm.controls;
-    }
 
     submitAddUser() {
         console.log('submitAddUser');
-        if (this.signupForm.invalid) {
-            console.log('submitAddUser - form Invalid');
-            return;
-        }
-        console.log('submitAddUser - form valid');
-        this.authService.signUp({
-            email: this.f?.['email']?.value,
-            password: this.f?.['password']?.value,
-            firstName: this.f?.['firstName'].value,
-            lastName: this.f?.['lastName'].value,
-            roles: this.f?.['roles'].value,
-            defaultPage: this.f?.['defaultPage'].value
-        })
-            .then(() => {})
-            .catch((err) => {
-                throw new Error(err.message);
-            })
+
     }
 
     toggleShowForm(e:any) {
         this.showForm = !this.showForm;
-        // if(this.showForm) {
-        //     const togglePassword = document.querySelector('#toggleNewUserPassword');
-        //     const password = document.querySelector('#password');
-        //     console.log('toggleShowForm - togglePassword: ', togglePassword);
-        //     console.log('toggleShowForm - password element: ', password);
-        // }
     }
 
     updateRoles(event: any, cellInfo: any) {

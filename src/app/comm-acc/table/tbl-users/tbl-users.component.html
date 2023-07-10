@@ -19,81 +19,75 @@
                             <button style="float: right" (click)="toggleShowForm($event)">Close</button>
                         </div>
                     </div>
+                    <div class="row">
+                        <form action="/dashboard/users" (submit)="onFormSubmit($event)">
+                            <dx-form
+                            id="newUserForm"
+                            [formData]="newUser"
+                            [readOnly]="false"
+                            [showColonAfterLabel]="true"
+                            [showValidationSummary]="true"
+                            validationGroup="clientData"
+                            >
+                                <dxi-item dataField="firstName" caption="First Name">
+                                    <dxi-validation-rule type="required" message="Your First name is required"></dxi-validation-rule>
+                                    <dxi-validation-rule type="pattern" [pattern]="namePattern" message="Do not use digits in the First Name"></dxi-validation-rule>
+                                </dxi-item>
+                                <dxi-item dataField="lastName" >
+                                    <dxi-validation-rule type="required" message="Your Last name is required"></dxi-validation-rule>
+                                    <dxi-validation-rule type="pattern" [pattern]="namePattern" message="Do not use digits in the Last Name"></dxi-validation-rule>
+                                </dxi-item>
+                                <dxi-item dataField="Email">
+                                    <dxi-validation-rule type="required" message="Email is required">
+                                    </dxi-validation-rule>
+                                    <dxi-validation-rule type="email" message="Email is invalid">
+                                    </dxi-validation-rule>
 
-                    <form
-                        [formGroup]="signupForm"
-                        (ngSubmit)="submitAddUser()"
-                      >
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon6"><i class="fa fa-user"></i></span>
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="First Name"
-                                formControlName="firstName"
-                                aria-label="firstName"
-                                aria-describedby="basic-addon6"
-                                [ngClass]="{ 'is-invalid': f?.['firstName'].touched && f?.['firstName'].errors }"
-                            />
-                            <div *ngIf="f?.['firstName'].touched && f?.['firstName'].errors" class="invalid-feedback">
-                                <div *ngIf="f?.['firstName'].errors.required">First Name is required</div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon5"><i class="fa fa-user"></i></span>
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Last Name"
-                                formControlName="lastName"
-                                aria-label="lastName"
-                                aria-describedby="basic-addon2"
-                                [ngClass]="{ 'is-invalid': f?.['lastName'].touched && f?.['lastName'].errors }"
-                            />
-                            <div *ngIf="f?.['lastName'].touched && f?.['lastName'].errors" class="invalid-feedback">
-                                <div *ngIf="f?.['lastName'].errors.required">Last Name is required</div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon2"><i class="fa fa-envelope"></i></span>
-                            <input
-                                type="email"
-                                class="form-control"
-                                placeholder="Email address"
-                                formControlName="email"
-                                aria-label="email"
-                                aria-describedby="basic-addon2"
-                                [ngClass]="{ 'is-invalid': f?.['email'].touched && f?.['email'].errors }"
-                            />
-                            <div *ngIf="f?.['email'].touched && f?.['email'].errors" class="invalid-feedback">
-                                <div *ngIf="f?.['email'].errors.required">Email is required</div>
-                                <div *ngIf="f?.['email'].invalid">Valid Email Address Required</div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-text" id="basic-addon3"><i class="fa fa-lock"></i></span>
-                            <input
-                                type="password"
-                                id="password"
-                                class="form-control"
-                                formControlName="password"
-                                placeholder="Password"
-                                aria-label="password"
-                                aria-describedby="basic-addon3"
-                                [ngClass]="{ 'is-invalid': f?.['password'].touched && f?.['password'].errors }"
-                            />
-                            <span class="input-group-text" id="basic-addon-3" style="width: 38px" >
-                                <i class="fa fa-eye  password-show" id="toggleNewUserPassword" style="margin-right: -28px"></i>
-                            </span>
-                            <div *ngIf="f?.['password'].touched && f?.['password'].errors" class="invalid-feedback">
-                                <div *ngIf="f?.['password'].errors.required">Password is required</div>
-                            </div>
-                        </div>
-                        <div class="d-grid">
-                            <button class="btn btn-primary btn-block mb-4">Add New User</button>
-                        </div>
-                        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
-                    </form>
+                                </dxi-item>
+                                <dxi-item dataField="Password" [editorOptions]="passwordOptions">
+                                    <dxi-validation-rule type="required" message="Password is required">
+                                    </dxi-validation-rule>
+                                </dxi-item>
+                                <dxi-item
+                                    name="ConfirmPassword"
+                                    editorType="dxTextBox"
+                                    [editorOptions]="confirmOptions"
+                                >
+                                    <dxo-label text="Confirm Password"> </dxo-label>
+                                    <dxi-validation-rule
+                                        type="required"
+                                        message="Confirm Password is required"
+                                    >
+                                    </dxi-validation-rule>
+                                    <dxi-validation-rule
+                                        type="compare"
+                                        [comparisonTarget]="passwordComparison"
+                                        message="Password and Confirm Password do not match"
+                                    >
+                                    </dxi-validation-rule>
+                                </dxi-item>
+                                <dxi-item dataField="roles">
+                                    <dx-tag-box
+                                        [dataSource]="rolesDataSource"
+                                        displayExpr="key"
+                                        valueExpr="value"
+                                        [value]=""
+                                        [hideSelectedItems]="true"
+                                        (onValueChanged)="updateNewUserRoles($event)"
+                                    >
+                                    </dx-tag-box>
+                                </dxi-item>
+                                <dxi-item
+                                    itemType="button"
+                                    horizontalAlignment="left"
+                                    [buttonOptions]="buttonOptions"
+                                >
+                                </dxi-item>
+                            </dx-form>
+                        </form>
+                    </div>
+
+
                 </div>
             </div>
         </div>
