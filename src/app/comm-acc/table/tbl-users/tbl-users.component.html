@@ -66,16 +66,11 @@
                                     >
                                     </dxi-validation-rule>
                                 </dxi-item>
-                                <dxi-item dataField="roles">
-                                    <dx-tag-box
-                                        [dataSource]="rolesDataSource"
-                                        displayExpr="key"
-                                        valueExpr="value"
-                                        [value]=""
-                                        [hideSelectedItems]="true"
-                                        (onValueChanged)="updateNewUserRoles($event)"
-                                    >
-                                    </dx-tag-box>
+                                <dxi-item
+                                    dataField="roles"
+                                    editorType="dxTagBox"
+                                    [editorOptions]="tagBoxOptions"
+                                >
                                 </dxi-item>
                                 <dxi-item
                                     itemType="button"
@@ -86,8 +81,6 @@
                             </dx-form>
                         </form>
                     </div>
-
-
                 </div>
             </div>
         </div>

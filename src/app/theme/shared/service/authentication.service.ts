@@ -192,14 +192,9 @@ export class AuthenticationService {
             return this.userService.create(this.userData);
         } else {
             console.log('SetUserData - userDoc: ', userDoc);
-            this.userData = {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                photoURL: user.photoURL,
-                emailVerified: user.emailVerified,
-                lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toString(),
-            };
+            this.userData.firstName = userDoc.firstName || '';
+            this.userData.lastName = userDoc.lastName || '';
+            this.userData.displayName = userDoc.displayName || `${userDoc.firstName} ${userDoc.lastName}`;
             localStorage.setItem('user', JSON.stringify(this.userData));
             return this.userService.update(this.userData.uid, this.userData)
         }
@@ -215,7 +210,7 @@ export class AuthenticationService {
     }
 
     setLocalUserData(data: any) {
-        localStorage.setItem('client', JSON.stringify(data));
+        localStorage.setItem('user', JSON.stringify(data));
     }
 
     setLocalUserDataProp(prop: string, value: any) {
@@ -247,8 +242,6 @@ export class AuthenticationService {
             .then((result) => {
                 this.SetUserData(result.user)
                     .then(() => {
-                        const user = JSON.stringify(result.user);
-                        localStorage.setItem('user', user);
                         // console.log(`AuthLogin - SetUserData - res: ${user}`);
                         const userDoc = this.getCurrentUserDocument()
                             .then((doc) => {

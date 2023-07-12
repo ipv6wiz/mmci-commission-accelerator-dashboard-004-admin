@@ -10,6 +10,8 @@ import {DxFormComponent} from "devextreme-angular";
 import Validator from 'devextreme/ui/validator';
 import notify from 'devextreme/ui/notify';
 import {User} from "../../../theme/shared/entities/user.interface";
+import DevExpress from "devextreme";
+import ValueChangedEvent = DevExpress.ui.dxTagBox.ValueChangedEvent;
 
 
 @Component({
@@ -33,9 +35,13 @@ export class TblUsersComponent implements OnInit{
         mode: 'password',
         onValueChanged: () => {
             let editor = this.newUserForm.instance.getEditor('ConfirmPassword');
-            if (editor && editor.option('value')) {
-                let instance = Validator.getInstance(editor.element()) as Validator;
-                let valid = instance.validate();
+            if(editor) {
+                const optionValue = editor.option('value');
+                const editorElement = editor.element();
+                if(optionValue) {
+                    let instance = Validator.getInstance(editorElement) as Validator;
+                    let valid = instance.validate();
+                }
             }
         },
         buttons: [
@@ -72,6 +78,19 @@ export class TblUsersComponent implements OnInit{
         useSubmitBehavior: true,
     };
 
+
+    tagBoxOptions: any = {
+        // @ts-ignore
+        dataSource: this.rolesDataSource,
+        displayExpr: 'key',
+        valueExpr: 'value',
+        hideSelectedItems: true,
+        onValueChanged: (e: any) => {
+            console.log('updateNewUserRoles - e: ', e);
+        }
+
+    };
+
     error = '';
     showForm: boolean = false;
     isOpen: boolean = false;
@@ -105,6 +124,7 @@ export class TblUsersComponent implements OnInit{
                 return this.optionsService.getOptionsByType('Role');
             }
         });
+        this.tagBoxOptions.dataSource = this.rolesDataSource;
     }
 
     onFormSubmit (e: any) {
@@ -118,7 +138,8 @@ export class TblUsersComponent implements OnInit{
 
         e.preventDefault();
 
-        console.log('onFormSubmit - newUser: ', this.newUser)
+        console.log('onFormSubmit - newUser: ', this.newUser);
+        return this.authService.signUp(this.newUser);
     };
 
     changePasswordMode(name: string) {
@@ -131,10 +152,11 @@ export class TblUsersComponent implements OnInit{
         }
     };
 
-    passwordComparison() {
-        this.newUserForm.instance.option('formData').Password;
-    }
+    passwordComparison = () => this.newUserForm.instance.option('formData').Password;
 
+    /**
+     * Used by terms & conditions checkbox
+     */
     checkComparison() {
         return true;
     }

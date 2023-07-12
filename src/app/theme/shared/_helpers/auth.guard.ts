@@ -3,10 +3,17 @@ import {Router,  ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree} from '@an
 
 import { AuthenticationService } from '../service';
 import {Observable} from "rxjs";
+import {JwtService} from "../service/jwt.service";
+import {AlertService} from "../service/alert.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard  {
-  constructor(private router: Router, private authService: AuthenticationService) {}
+  constructor(
+      private router: Router,
+      private authService: AuthenticationService,
+      private jwtService: JwtService,
+      private alertService: AlertService
+      ) {}
 
     // getRoutes(){
     //   const routes = this.router.config;
@@ -21,20 +28,31 @@ export class AuthGuard  {
       } else {
           // console.log('Route Url: ', route.url);
           // console.log('Route Data Roles: ',route.data['roles']);
-          return this.authService.getCurrentUserRoles()
-              .then((roles) => {
-                  // console.log('User Roles: ', roles);
-                  if(roles.indexOf('SuperAdmin') !== -1) {
-                      return true;
-                  } else {
-                      const okRole = (!!route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
-                      // console.log('okRole: ', okRole);
-                      return okRole;
-                  }
-              })
-              .catch((err) => {
-                  throw new Error(err.message);
-              });
+          // get user from localstorage and check the token expiration
+          // If expired navigate to signin
+          const clientData = this.authService.getLocalUserData();
+          if(this.jwtService.isExpired(clientData.idToken)) {
+              console.log('----> Token Expired');
+              this.alertService.error('Token Expired: Please Login');
+              this.authService.logout();
+              // this.router.navigate(['auth/signin-v2'], { queryParams: { returnUrl: state.url } });
+              return false;
+          } else {
+              return this.authService.getCurrentUserRoles()
+                  .then((roles) => {
+                      // console.log('User Roles: ', roles);
+                      if (roles.indexOf('SuperAdmin') !== -1) {
+                          return true;
+                      } else {
+                          const okRole = (!!route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
+                          // console.log('okRole: ', okRole);
+                          return okRole;
+                      }
+                  })
+                  .catch((err) => {
+                      throw new Error(err.message);
+                  });
+          }
       }
   }
 

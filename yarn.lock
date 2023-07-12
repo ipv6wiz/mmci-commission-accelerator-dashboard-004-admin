@@ -3967,6 +3967,13 @@ angular-html-parser@^4.0.1:
   dependencies:
     tslib "^2.5.0"
 
+angular-jwt-updated@^16.0.1:
+  version "16.0.1"
+  resolved "https://registry.yarnpkg.com/angular-jwt-updated/-/angular-jwt-updated-16.0.1.tgz#0ad31652b66396433214df853bab54893a241d06"
+  integrity sha512-KRUOVD8BojERI3Gq8bdnm5zhQYN5PgsP1ba+z11tcMotCSDPsUIudD9OuyTHNqFFRH/IA8A5a8mTzmScQdh6oA==
+  dependencies:
+    tslib "^2.0.0"
+
 angular-notifier@^12.0.0:
   version "12.0.0"
   resolved "https://registry.npmjs.org/angular-notifier/-/angular-notifier-12.0.0.tgz"
