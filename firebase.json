@@ -1,4 +1,26 @@
 {
+    "hosting": [
+        {
+            "site": "comm-acc-dash-002-admin",
+            "public": "dist",
+            "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+            ],
+            "rewrites": [
+                {
+                    "source": "**",
+                    "destination": "/index.html"
+                }
+            ]
+        },
+        {
+            "target": "full-version",
+            "source": ".",
+            "frameworksBackend": {}
+        }
+    ],
   "storage": {
     "rules": "storage.rules"
   },
