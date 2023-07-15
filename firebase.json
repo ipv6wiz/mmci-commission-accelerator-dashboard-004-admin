@@ -14,11 +14,6 @@
                     "destination": "/index.html"
                 }
             ]
-        },
-        {
-            "target": "full-version",
-            "source": ".",
-            "frameworksBackend": {}
         }
     ],
   "storage": {
