@@ -107,9 +107,6 @@ export class TblUsersComponent implements OnInit{
             load: (): any => {
                 return lastValueFrom(this.authService.userService.getAll(), {defaultValue: []});
             },
-            insert: values => {
-                return this.authService.signUpNewUser(values);
-            },
             update: (key, values) => {
                 return this.authService.userService.update(key, values);
             },

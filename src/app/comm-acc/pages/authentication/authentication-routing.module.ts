@@ -13,19 +13,10 @@ const routes: Routes = [
             loadComponent: () => import('./verify-email/verify-email.component')
         },
       {
-        path: 'registration',
-        title: AppSiteConfig.siteName,
-          loadComponent: () => import('./auth-registration/auth-registration.component')
-      },
-      {
         path: 'signin-v2',
         title: AppSiteConfig.siteName,
         loadComponent: () => import('./auth-signin-v2/auth-signin-v2.component')
       },
-        {
-            path: 'signup-v2',
-            loadComponent: () => import('./auth-signup-v2/auth-signup-v2.component')
-        },
       {
         path: 'reset-password-v2',
         title: AppSiteConfig.siteName,
