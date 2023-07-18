@@ -161,7 +161,7 @@ export class AuthenticationService {
         provider.addScope('profile');
         const result = await this.AuthLogin(provider);
         console.log('GoogleAuth - result: ', result);
-        await this.router.navigate(['dashboard/analytics']);
+        // await this.router.navigate(['dashboard/analytics']);
     }
 
     /* Setting up user data when sign in with username/password,
