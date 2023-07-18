@@ -10,7 +10,9 @@ import {map, take} from "rxjs/operators";
 export class UserService {
     private dbPath: string = '/users';
     usersRef: AngularFirestoreCollection<User>
-  constructor( private afs: AngularFirestore) {
+  constructor(
+      private afs: AngularFirestore,
+      private http: HttpClient) {
       this.usersRef = afs.collection(this.dbPath);
   }
 
