@@ -108,7 +108,7 @@ export class TblUsersComponent implements OnInit{
                 return lastValueFrom(this.authService.userService.getAll(), {defaultValue: []});
             },
             insert: values => {
-                return this.authService.signUp(values);
+                return this.authService.signUpNewUser(values);
             },
             update: (key, values) => {
                 return this.authService.userService.update(key, values);
@@ -139,7 +139,7 @@ export class TblUsersComponent implements OnInit{
         e.preventDefault();
 
         console.log('onFormSubmit - newUser: ', this.newUser);
-        return this.authService.signUp(this.newUser);
+        return this.authService.signUpNewUser(this.newUser);
     };
 
     changePasswordMode(name: string) {

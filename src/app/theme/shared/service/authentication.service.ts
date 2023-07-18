@@ -16,6 +16,7 @@ export class AuthenticationService {
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
   userData: any;
+  apiUrl: string = environment.apiUrl;
   returnUrl = '';
 
   constructor(
@@ -39,25 +40,26 @@ export class AuthenticationService {
      * NO self signup
      * @param values
      */
-  signUp(values: any) {
+  signUpNewUser(values: any) {
       const {email, password, firstName, lastName, roles} = values;
-      return this.afAuth
-          .createUserWithEmailAndPassword(email, password)
-          .then((result) => {
-              /* Call the SendVerificaitonMail() function when new user sign
-              up and returns promise */
-              this.SetUserData(result.user, {firstName, lastName, roles})
-                  .then(() => {
-                      this.SendVerificationMail()
-                          .then(() => {
-                              this.router.navigate(['auth/verify-email-address']);
-                          });
-                  });
-          })
-          .catch((error) => {
-              console.log('Caught signUp Error');
-              throw new Error(error.message);
-          });
+
+      // return this.afAuth
+      //     .createUserWithEmailAndPassword(email, password)
+      //     .then((result) => {
+      //         /* Call the SendVerificaitonMail() function when new user sign
+      //         up and returns promise */
+      //         this.SetUserData(result.user, {firstName, lastName, roles})
+      //             .then(() => {
+      //                 this.SendVerificationMail()
+      //                     .then(() => {
+      //                         this.router.navigate(['auth/verify-email-address']);
+      //                     });
+      //             });
+      //     })
+      //     .catch((error) => {
+      //         console.log('Caught signUp Error');
+      //         throw new Error(error.message);
+      //     });
   }
 
     // Send email verification when new user signs up
@@ -153,12 +155,13 @@ export class AuthenticationService {
      * @TODO:  Need to get the record to set the defaultPage
      * @constructor
      */
-    GoogleAuth() {
-        return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-            console.log('GoogleAuth - res: ', res);
-
-            this.router.navigate(['dashboard/analytics']);
-        });
+    async GoogleAuth() {
+        const provider = new auth.GoogleAuthProvider();
+        provider.addScope('email');
+        provider.addScope('profile');
+        const result = await this.AuthLogin(provider);
+        console.log('GoogleAuth - result: ', result);
+        await this.router.navigate(['dashboard/analytics']);
     }
 
     /* Setting up user data when sign in with username/password,

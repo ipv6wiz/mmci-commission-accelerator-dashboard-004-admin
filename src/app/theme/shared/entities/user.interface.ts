@@ -9,4 +9,5 @@ export interface User {
   roles?: string[];
   token?: string;
   defaultPage?: string; //landing page when user logs in
+  fireUserRecord: any;
 }

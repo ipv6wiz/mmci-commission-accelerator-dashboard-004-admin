@@ -5,14 +5,19 @@ import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
 import {map, take} from "rxjs/operators";
+import {environment} from "../../../../environments/environment";
+import {ApiResponse} from "../dtos/api-response.dto";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
     private dbPath: string = '/users';
-    usersRef: AngularFirestoreCollection<User>
+    usersRef: AngularFirestoreCollection<User>;
+    apiUrl: string = environment.apiUrl;
+    fireUserRecord: any;
   constructor(
       private afs: AngularFirestore,
-      private http: HttpClient) {
+      private http: HttpClient
+  ) {
       this.usersRef = afs.collection(this.dbPath);
   }
 
@@ -83,6 +88,17 @@ export class UserService {
             .catch((err) => {
                 console.log(`Error retrieving Document with id ${id} and msg: ${err.message}`);
             });
+    }
+
+    createFireUser(values: any) {
+        this.http.post(`${this.apiUrl}users`, values).subscribe({
+            next: (response: any) => {
+                this.fireUserRecord = response.data.fireUserRecord;
+            },
+            error: (err) => {
+
+            }
+        });
     }
 
     create(user: User): any {
