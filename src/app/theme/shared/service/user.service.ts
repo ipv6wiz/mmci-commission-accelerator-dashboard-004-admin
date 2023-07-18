@@ -5,7 +5,6 @@ import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
 import {map, take} from "rxjs/operators";
-import {AuthenticationService} from "./authentication.service";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {

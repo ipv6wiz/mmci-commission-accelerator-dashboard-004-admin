@@ -40,13 +40,13 @@ export class AuthenticationService {
      * @param values
      */
   signUp(values: any) {
-      const {email, password, firstName, lastName} = values;
+      const {email, password, firstName, lastName, roles} = values;
       return this.afAuth
           .createUserWithEmailAndPassword(email, password)
           .then((result) => {
               /* Call the SendVerificaitonMail() function when new user sign
               up and returns promise */
-              this.SetUserData(result.user, {firstName, lastName})
+              this.SetUserData(result.user, {firstName, lastName, roles})
                   .then(() => {
                       this.SendVerificationMail()
                           .then(() => {
@@ -165,7 +165,7 @@ export class AuthenticationService {
    sign up with username/password and sign in with social auth
    provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
     async SetUserData(user: any, data: any = {}) {
-        const {firstName, lastName} = data;
+        const {firstName, lastName, roles} = data;
         console.log('SetUserData - user: ', user);
         const userDoc = await this.userService.getOne(user.uid);
         const idToken = await user.getIdToken();
@@ -183,12 +183,13 @@ export class AuthenticationService {
         };
         if(userDoc === null ) {
             console.log('New User');
-            this.userData.roles = ['PendingUser'];
             this.userData.status = 'pending';
             this.userData.defaultPage = '/dashboard/';
             this.userData.firstName = firstName;
             this.userData.lastName = lastName;
             this.setLocalUserData(this.userData);
+            this.userData.roles = roles || [];
+            this.userData.roles.push('PendingUser');
             return this.userService.create(this.userData);
         } else {
             console.log('SetUserData - userDoc: ', userDoc);
