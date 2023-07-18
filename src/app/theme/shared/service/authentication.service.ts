@@ -173,7 +173,7 @@ export class AuthenticationService {
         const userDoc = await this.userService.getOne(user.uid);
         const idToken = await user.getIdToken();
         const accessToken = user.auth.currentUser.accessToken;
-        console.log('SetClientData - idToken: ', idToken);
+        // console.log('SetClientData - idToken: ', idToken);
         this.userData = {
             uid: user.uid,
             email: user.email,
