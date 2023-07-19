@@ -1,0 +1,20 @@
+<div class="col-md-12">
+    <app-card cardTitle="Clients (not Users)" cardClass="tab-card tab-content" blockClass="nav-fill" >
+        <dx-data-grid
+            id="clientsDataGrid"
+            [dataSource]="dataSource"
+            [showBorders]="true"
+            [rowAlternationEnabled]="true"
+            remoteOperations="false"
+        >
+            <dxo-editing
+                mode="popup"
+                [allowUpdating]="false"
+                [allowDeleting]="false"
+                [allowAdding]="false"
+            ></dxo-editing>
+            <dxo-selection mode="single"></dxo-selection>
+
+        </dx-data-grid>
+    </app-card>
+</div>

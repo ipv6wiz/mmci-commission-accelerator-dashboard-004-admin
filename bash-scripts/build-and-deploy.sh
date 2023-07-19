@@ -47,6 +47,6 @@ ng build --aot --configuration "production"
 firebase deploy --only hosting
 git add .
 git status
-git commit -m "Deployed Version $PV"
+git commit -m "Deployed Version $VER"
 git push
 

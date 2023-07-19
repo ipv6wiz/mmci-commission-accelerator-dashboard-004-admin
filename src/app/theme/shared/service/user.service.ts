@@ -12,7 +12,7 @@ import {ApiResponse} from "../dtos/api-response.dto";
 export class UserService {
     private dbPath: string = '/users';
     usersRef: AngularFirestoreCollection<User>;
-    apiUrl: string = environment.apiUrl;
+    fakeApiUrl: string = environment.fakeApiUrl;
     fireUserRecord: any;
   constructor(
       private afs: AngularFirestore,
@@ -91,7 +91,7 @@ export class UserService {
     }
 
     createFireUser(values: any) {
-        this.http.post(`${this.apiUrl}users`, values).subscribe({
+        this.http.post(`${this.fakeApiUrl}users`, values).subscribe({
             next: (response: any) => {
                 this.fireUserRecord = response.data.fireUserRecord;
             },

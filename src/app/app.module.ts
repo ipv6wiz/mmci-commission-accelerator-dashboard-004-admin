@@ -36,6 +36,7 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
 import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
+import { TblClientsComponent } from './comm-acc/table/tbl-clients/tbl-clients.component';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
         NavItemComponent,
         NavCollapseComponent,
         NavGroupComponent,
+        TblClientsComponent,
     ],
     imports: [
         BrowserModule,

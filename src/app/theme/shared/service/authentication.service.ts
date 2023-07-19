@@ -16,7 +16,7 @@ export class AuthenticationService {
   private userSubject: BehaviorSubject<User | null>;
   public user: Observable<User | null>;
   userData: any;
-  apiUrl: string = environment.apiUrl;
+  fakeApiUrl: string = environment.fakeApiUrl;
   returnUrl = '';
 
   constructor(
