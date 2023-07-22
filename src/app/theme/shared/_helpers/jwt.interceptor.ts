@@ -4,25 +4,25 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../service';
+import {UerLocalDto} from "../entities/uer-local.dto";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService) {}
 
   intercept(request: HttpRequest<string>, next: HttpHandler): Observable<HttpEvent<string>> {
     // add auth header with jwt if user is logged in and request is to the api url
-    // const user = this.authenticationService['userValue'];
-    // const isLoggedIn = user?.token;
-    // console.log('Intercept - URL: ', request.url);
-    // const isApiUrl = request.url.startsWith(environment.fakeApiUrl);
-    // if (isLoggedIn && isApiUrl) {
-    //   request = request.clone({
-    //     setHeaders: {
-    //       Authorization: `Bearer ${user.token}`
-    //     }
-    //   });
-    // }
-
+    if( this.authService.isLoggedIn) {
+        const user: UerLocalDto | null = this.authService.getLocalUserData();
+        const isApiUrl = request.url.startsWith(environment.gcpCommAccApiUrl);
+        if(isApiUrl && user) {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${user.idToken}`
+                }
+            });
+        }
+    }
     return next.handle(request);
   }
 }
