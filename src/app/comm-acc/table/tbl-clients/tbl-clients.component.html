@@ -14,7 +14,21 @@
                 [allowAdding]="false"
             ></dxo-editing>
             <dxo-selection mode="single"></dxo-selection>
-
+            <dxi-column dataField="displayName" dataType="string" width="auto" readonly="true"></dxi-column>
+            <dxi-column dataField="email" dataType="string" width="auto" readonly="true"></dxi-column>
+            <dxi-column dataField="emailVerified" width="auto" dataType="boolean"></dxi-column>
+            <dxi-column dataField="roles" editCellTemplate="tagBoxEditor"></dxi-column>
+            <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+                <dx-tag-box
+                    [dataSource]="rolesDataSource"
+                    displayExpr="key"
+                    valueExpr="value"
+                    [value]="cellInfo.value"
+                    [hideSelectedItems]="true"
+                    (onValueChanged)="updateRoles($event, cellInfo)"
+                >
+                </dx-tag-box>
+            </div>
         </dx-data-grid>
     </app-card>
 </div>

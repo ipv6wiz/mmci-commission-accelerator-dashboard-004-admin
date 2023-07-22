@@ -16,6 +16,18 @@ import {ClientService} from "../../../theme/shared/service/client.service";
 })
 export class TblClientsComponent {
     dataSource: any;
+    rolesDataSource: any;
+    tagBoxOptions: any = {
+        // @ts-ignore
+        dataSource: this.rolesDataSource,
+        displayExpr: 'key',
+        valueExpr: 'value',
+        hideSelectedItems: true,
+        onValueChanged: (e: any) => {
+            console.log('updateNewUserRoles - e: ', e);
+        }
+
+    };
 
     constructor(
         private authService: AuthenticationService,
@@ -29,5 +41,20 @@ export class TblClientsComponent {
             },
 
         });
+
+        this.rolesDataSource = new CustomStore({
+            key: 'uid',
+            load: (): any => {
+                return this.optionsService.getOptionsByType('Role');
+            }
+        });
+        this.tagBoxOptions.dataSource = this.rolesDataSource;
+    }
+
+
+    updateRoles(event: any, cellInfo: any) {
+        console.log('updateRoles - event: ', event);
+        console.log('updateRoles - cellInfo: ', cellInfo);
+        cellInfo.setValue(event.value);
     }
 }
