@@ -37,7 +37,16 @@ export class TblClientsComponent {
         this.dataSource = new CustomStore({
             key: 'uid',
             load: ():any => {
-                return lastValueFrom(this.clientsService.getAll(), {defaultValue: []})
+                lastValueFrom(this.clientsService.getAll(), {defaultValue: []})
+            .then((response: any) => {
+                    console.log('datasource - load - clients: ', response.data.clients);
+                    // @ts-ignore
+                    return response.data.clients;
+                })
+                    .catch((err) => {
+                        console.log('dataSource - load - error: ', err.message);
+                        return [];
+                    })
             },
 
         });

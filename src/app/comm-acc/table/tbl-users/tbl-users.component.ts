@@ -12,7 +12,6 @@ import notify from 'devextreme/ui/notify';
 import {User} from "../../../theme/shared/entities/user.interface";
 import DevExpress from "devextreme";
 import ValueChangedEvent = DevExpress.ui.dxTagBox.ValueChangedEvent;
-import {ApiResponse} from "../../../theme/shared/dtos/api-response.dto";
 
 
 @Component({
@@ -106,12 +105,8 @@ export class TblUsersComponent implements OnInit{
         this.dataSource = new CustomStore({
             key: 'uid',
             load: (): any => {
-                lastValueFrom(this.authService.userService.getAll(), {defaultValue: []})
-                    .then((response: any) => {
-                        // @ts-ignore
-                        return response.data.clients;
-                    })
 
+                return lastValueFrom(this.authService.userService.getAll(), {defaultValue: []});
             },
             update: (key, values) => {
                 return this.authService.userService.update(key, values);
