@@ -10,13 +10,14 @@ import {SharedModule} from "../../../theme/shared/shared.module";
   styleUrls: ['./client-verify.component.scss']
 })
 export class ClientVerifyComponent implements OnInit {
-    // @Input() clientData: any = {data: 'Some Data'};
+    @Input() clientData: any = {data: 'Some Data'};
 
     constructor() {}
 
     ngOnInit() {
-        console.log('ClientVerifyComponent - clientData: ');
+        console.log('ClientVerifyComponent - clientData: ', this.clientData);
     }
 
 
+    protected readonly JSON = JSON;
 }

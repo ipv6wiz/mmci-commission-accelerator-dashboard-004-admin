@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemeRtlVComponent } from './theme-rtl-v.component';
+import ThemeRtlVComponent from './theme-rtl-v.component';
 
 describe('ThemeRtlVComponent', () => {
   let component: ThemeRtlVComponent;

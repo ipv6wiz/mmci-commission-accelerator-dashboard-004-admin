@@ -15,7 +15,9 @@ export class JwtInterceptor implements HttpInterceptor {
     if( this.authService.isLoggedIn) {
         const user: UerLocalDto | null = this.authService.getLocalUserData();
         const isApiUrl = request.url.startsWith(environment.gcpCommAccApiUrl);
+        console.log('JwtInterceptor - isApiUrl: ', isApiUrl);
         if(isApiUrl && user) {
+            console.log('JwtInterceptor - adding Bearer ');
             request = request.clone({
                 setHeaders: {
                     Authorization: `Bearer ${user.idToken}`

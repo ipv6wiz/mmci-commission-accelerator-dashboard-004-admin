@@ -36,6 +36,7 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
 import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
+import {LoggerModule} from "ngx-logger";
 
 
 @NgModule({
@@ -72,7 +73,12 @@ import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
         HttpClientModule,
-
+        LoggerModule.forRoot({
+            serverLoggingUrl: `${environment.gcpCommAccApiUrl}logit`,
+            level: environment.logLevel,
+            serverLogLevel: 3,
+            disableConsoleLogging: environment.hideConsole
+        })
     ],
     providers: [
         {provide: ErrorHandler, useClass: GlobalErrorHandler},

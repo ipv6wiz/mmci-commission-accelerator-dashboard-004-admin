@@ -1,1 +1,2 @@
-<p>client-verify works! </p>
+<p>client-verify works! {{JSON.stringify(clientData)}}</p>
+<div *ngIf="clientData" >{{clientData.uid}}</div>

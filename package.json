@@ -1,6 +1,6 @@
 {
   "name": "comm-acc-dash-002-admin",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "author": "MMCI",
   "scripts": {
     "ng": "ng",
@@ -80,6 +80,7 @@
     "ngx-chips": "^3.0.0",
     "ngx-color-picker": "^14.0.0",
     "ngx-editor": "^15.3.0",
+    "ngx-logger": "^5.0.12",
     "ngx-mask": "^16.0.3",
     "ngx-quill": "^22.0.0",
     "ngx-scrollbar": "^12.0.0",

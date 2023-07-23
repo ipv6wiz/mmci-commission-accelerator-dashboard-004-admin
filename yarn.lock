@@ -7984,6 +7984,14 @@ ngx-editor@^15.3.0:
     prosemirror-view "1.30.1"
     tslib "^2.3.0"
 
+ngx-logger@^5.0.12:
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/ngx-logger/-/ngx-logger-5.0.12.tgz#387feec5e4e951b3c44789eab6e0c30df255371c"
+  integrity sha512-4kTtPvxQoV2ka6pigtvkbtaLKpMYWqZm7Slu0YQVcwzBKoVR2K+oLmMVcA50S6kCxkZXq7iKcrXUKR2vhMXPqQ==
+  dependencies:
+    tslib "^2.3.0"
+    vlq "^1.0.0"
+
 ngx-mask@^16.0.3:
   version "16.0.3"
   resolved "https://registry.npmjs.org/ngx-mask/-/ngx-mask-16.0.3.tgz"
@@ -10270,6 +10278,11 @@ vite@4.3.1:
     rollup "^3.20.2"
   optionalDependencies:
     fsevents "~2.3.2"
+
+vlq@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vlq/-/vlq-1.0.1.tgz#c003f6e7c0b4c1edd623fd6ee50bbc0d6a1de468"
+  integrity sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==
 
 void-elements@^2.0.0:
   version "2.0.1"

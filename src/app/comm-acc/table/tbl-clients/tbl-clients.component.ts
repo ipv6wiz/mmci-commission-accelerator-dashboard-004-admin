@@ -6,6 +6,7 @@ import {OptionsService} from "../../../theme/shared/service/options.service";
 import CustomStore from "devextreme/data/custom_store";
 import {lastValueFrom} from "rxjs";
 import {ClientService} from "../../../theme/shared/service/client.service";
+import {NGXLogger} from "ngx-logger";
 
 
 @Component({
@@ -17,7 +18,7 @@ import {ClientService} from "../../../theme/shared/service/client.service";
 })
 export class TblClientsComponent {
 
-    clientDataFromGrid: any;
+    private clientDataFromGrid: any;
     dataSource: any;
     rolesDataSource: any;
     verifyIconVisible: boolean = true;
@@ -29,7 +30,7 @@ export class TblClientsComponent {
         valueExpr: 'value',
         hideSelectedItems: true,
         onValueChanged: (e: any) => {
-            console.log('updateNewUserRoles - e: ', e);
+            this.logger.log('updateNewUserRoles - e: ', e);
         }
 
     };
@@ -40,17 +41,18 @@ export class TblClientsComponent {
         private authService: AuthenticationService,
         private optionsService: OptionsService,
         private clientsService: ClientService,
+        private logger: NGXLogger
     ) {
         this.dataSource = new CustomStore({
             key: 'uid',
             load: ():any => {
                 return lastValueFrom(this.clientsService.getAll(), {defaultValue: []})
                     .then((response: any) => {
-                        // console.log('datasource - load - clients: ', response.data.clients);
+                        // this.logger.log('datasource - load - clients: ', response.data.clients);
                         return response.data.clients;
                     })
                     .catch((err) => {
-                        console.log('dataSource - load - error: ', err.message);
+                        this.logger.log('dataSource - load - error: ', err.message);
                         return [];
                     })
             },
@@ -64,28 +66,23 @@ export class TblClientsComponent {
             }
         });
         this.tagBoxOptions.dataSource = this.rolesDataSource;
-        this.clientVerifySelected = new EventEmitter<any>();
-        console.log('constructor - clientVerifySelected: ', this.clientVerifySelected)
+        this.verifyClientClick = this.verifyClientClick.bind(this);
+        // this.clientVerifySelected = new EventEmitter<any>();
+        // this.logger.log('constructor - clientVerifySelected: ', this.clientVerifySelected)
     }
 
-    doVerifyClientEvent() {
-        console.log('emitVerifyClientEvent - data: ', this.clientDataFromGrid);
-        console.log('emitVerifyClientEvent - clientVerifySelected: ', this.clientVerifySelected)
-    }
-
-    verifyClientEvent(e: any) {
-        e.stopPropagation();
-        this.clientDataFromGrid = e.row.data;
-        console.log('verifyClient - data: ', this.clientDataFromGrid);
-        console.log('verifyClientEvent - clientVerifySelected: ', this.clientVerifySelected);
-        // this.doVerifyClientEvent();
-        // this.clientSelected.emit(this.clientDataFromGrid);
+    verifyClientClick(e: any) {
+        const clonedItem = { ...e.row.data};
+        e.event.preventDefault();
+        console.log('verifyClientEvent - clonedItem: ', clonedItem);
+        this.clientDataFromGrid = clonedItem;
+        this.clientVerifySelected.emit(this.clientDataFromGrid);
     }
 
 
     updateRoles(event: any, cellInfo: any) {
-        console.log('updateRoles - event: ', event);
-        console.log('updateRoles - cellInfo: ', cellInfo);
+        this.logger.log('updateRoles - event: ', event);
+        this.logger.log('updateRoles - cellInfo: ', cellInfo);
         cellInfo.setValue(event.value);
     }
 }
