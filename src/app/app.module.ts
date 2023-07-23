@@ -56,6 +56,7 @@ import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
         NavItemComponent,
         NavCollapseComponent,
         NavGroupComponent,
+
     ],
     imports: [
         BrowserModule,

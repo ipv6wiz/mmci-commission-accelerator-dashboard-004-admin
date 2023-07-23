@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
 import {AuthenticationService} from "../../../theme/shared/service";
@@ -6,6 +6,7 @@ import {OptionsService} from "../../../theme/shared/service/options.service";
 import CustomStore from "devextreme/data/custom_store";
 import {lastValueFrom} from "rxjs";
 import {ClientService} from "../../../theme/shared/service/client.service";
+
 
 @Component({
   selector: 'app-tbl-clients',
@@ -15,8 +16,12 @@ import {ClientService} from "../../../theme/shared/service/client.service";
   styleUrls: ['./tbl-clients.component.scss']
 })
 export class TblClientsComponent {
+
+    clientDataFromGrid: any;
     dataSource: any;
     rolesDataSource: any;
+    verifyIconVisible: boolean = true;
+    verifyIconDisabled: boolean = false;
     tagBoxOptions: any = {
         // @ts-ignore
         dataSource: this.rolesDataSource,
@@ -29,18 +34,19 @@ export class TblClientsComponent {
 
     };
 
+    @Output() clientVerifySelected: EventEmitter<any> = new EventEmitter();
+
     constructor(
         private authService: AuthenticationService,
         private optionsService: OptionsService,
-        private clientsService: ClientService
+        private clientsService: ClientService,
     ) {
         this.dataSource = new CustomStore({
             key: 'uid',
             load: ():any => {
                 return lastValueFrom(this.clientsService.getAll(), {defaultValue: []})
                     .then((response: any) => {
-                        console.log('datasource - load - clients: ', response.data.clients);
-                        // @ts-ignore
+                        // console.log('datasource - load - clients: ', response.data.clients);
                         return response.data.clients;
                     })
                     .catch((err) => {
@@ -58,6 +64,22 @@ export class TblClientsComponent {
             }
         });
         this.tagBoxOptions.dataSource = this.rolesDataSource;
+        this.clientVerifySelected = new EventEmitter<any>();
+        console.log('constructor - clientVerifySelected: ', this.clientVerifySelected)
+    }
+
+    doVerifyClientEvent() {
+        console.log('emitVerifyClientEvent - data: ', this.clientDataFromGrid);
+        console.log('emitVerifyClientEvent - clientVerifySelected: ', this.clientVerifySelected)
+    }
+
+    verifyClientEvent(e: any) {
+        e.stopPropagation();
+        this.clientDataFromGrid = e.row.data;
+        console.log('verifyClient - data: ', this.clientDataFromGrid);
+        console.log('verifyClientEvent - clientVerifySelected: ', this.clientVerifySelected);
+        // this.doVerifyClientEvent();
+        // this.clientSelected.emit(this.clientDataFromGrid);
     }
 
 

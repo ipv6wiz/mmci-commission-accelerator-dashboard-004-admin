@@ -14,10 +14,20 @@
                 [allowAdding]="false"
             ></dxo-editing>
             <dxo-selection mode="single"></dxo-selection>
+            <dxi-column type="buttons" [width]="110">
+                <dxi-button
+                    hint="Verify"
+                    icon="copy"
+                    [visible]="verifyIconVisible"
+                    [disabled]="verifyIconDisabled"
+                    [onClick]="verifyClientEvent"
+                ></dxi-button>
+            </dxi-column>
             <dxi-column dataField="displayName" dataType="string" width="auto" readonly="true"></dxi-column>
             <dxi-column dataField="email" dataType="string" width="auto" readonly="true"></dxi-column>
             <dxi-column dataField="emailVerified" width="auto" dataType="boolean"></dxi-column>
             <dxi-column dataField="roles" editCellTemplate="tagBoxEditor"></dxi-column>
+            <dxi-column dataField="status" dataType="string"></dxi-column>
             <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
                 <dx-tag-box
                     [dataSource]="rolesDataSource"
