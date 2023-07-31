@@ -1,2 +1,7 @@
 <p>client-verify works! {{JSON.stringify(clientData)}}</p>
 <div *ngIf="clientData" >{{clientData.uid}}</div>
+<div id="clientVerifyAccordion">
+    <dx-accordion
+        #clientVerifyAccordion
+    ></dx-accordion>
+</div>

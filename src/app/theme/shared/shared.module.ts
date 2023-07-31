@@ -31,7 +31,7 @@ import {
   NgbDatepickerModule,
   NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
-import {DxDataGridModule, DxFormModule, DxTagBoxModule} from "devextreme-angular";
+import {DxAccordionModule, DxDataGridModule, DxFormModule, DxTagBoxModule} from "devextreme-angular";
 
 const bootstrap = [
   NgbDropdownModule,
@@ -59,7 +59,8 @@ const bootstrap = [
     NgClickOutsideDirective,
     DxDataGridModule,
     DxTagBoxModule,
-    DxFormModule
+    DxFormModule,
+    DxAccordionModule
   ],
   exports: [
     CommonModule,
@@ -79,7 +80,8 @@ const bootstrap = [
     NgClickOutsideDirective,
     DxDataGridModule,
     DxTagBoxModule,
-    DxFormModule
+    DxFormModule,
+    DxAccordionModule
   ],
   declarations: [DataFilterPipe, TodoListRemoveDirective, TodoCardCompleteDirective, SpinnerComponent]
 })

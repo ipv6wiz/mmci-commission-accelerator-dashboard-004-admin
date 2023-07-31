@@ -10,6 +10,6 @@ export class ClientService {
   constructor(private http: HttpClient) { }
 
     getAll() {
-      return this.http.get<any[]>(`${this.apiUrl}clients`);
+      return this.http.get<any[]>(`${this.apiUrl}clients/dg`);
     }
 }
