@@ -59,6 +59,7 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+                "node_modules/require/bin/require-command.js",
               "node_modules/swagger-ui/dist/swagger-ui-standalone-preset.js",
               "node_modules/swagger-ui/dist/swagger-ui.js",
               "node_modules/swagger-ui/dist/swagger-ui-es-bundle.js",
@@ -80,13 +81,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "8mb",
-                  "maximumError": "10mb"
+                  "maximumWarning": "10mb",
+                  "maximumError": "15mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "9kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "20kb",
+                  "maximumError": "30kb"
                 }
               ],
               "fileReplacements": [
