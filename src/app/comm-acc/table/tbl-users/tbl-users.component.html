@@ -123,7 +123,7 @@
             </div>
             <div *dxTemplate="let data of 'photoTemplate'">
                 <div *ngIf="data.value">
-                    <img [src]="data.value" alt="Profile Picture" (error)="imgErrorHandler($event)" />
+                    <img style="width: 96px" [src]="data.value" alt="Profile Picture" (error)="imgErrorHandler($event)" />
                 </div>
                 <div *ngIf="!data.value">
                     <img style="width: 96px" alt="default" src="../../../../assets/images/user/default-user.png" />
