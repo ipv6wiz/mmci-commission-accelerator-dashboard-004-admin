@@ -59,7 +59,7 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-                "node_modules/require/bin/require-command.js",
+
               "node_modules/swagger-ui/dist/swagger-ui-standalone-preset.js",
               "node_modules/swagger-ui/dist/swagger-ui.js",
               "node_modules/swagger-ui/dist/swagger-ui-es-bundle.js",
