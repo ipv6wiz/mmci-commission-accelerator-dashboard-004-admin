@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
-import {TblOptionsComponent} from "../../table/tbl-options/tbl-options.component";
+import TblOptionsComponent from "../../table/tbl-options/tbl-options.component";
 
 @Component({
   selector: 'app-dash-admin',

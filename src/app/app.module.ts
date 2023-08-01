@@ -39,6 +39,7 @@ import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
 import {LoggerModule} from "ngx-logger";
 
 
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -57,6 +58,7 @@ import {LoggerModule} from "ngx-logger";
         NavItemComponent,
         NavCollapseComponent,
         NavGroupComponent,
+
 
     ],
     imports: [

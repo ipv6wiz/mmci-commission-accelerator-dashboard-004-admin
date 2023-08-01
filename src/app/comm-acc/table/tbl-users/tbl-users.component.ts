@@ -24,7 +24,7 @@ import ValueChangedEvent = DevExpress.ui.dxTagBox.ValueChangedEvent;
   templateUrl: './tbl-users.component.html',
   styleUrls: ['./tbl-users.component.scss']
 })
-export class TblUsersComponent implements OnInit{
+export default class TblUsersComponent implements OnInit{
     // @ts-ignore
     @ViewChild(DxFormComponent, { static: false }) newUserForm:DxFormComponent;
     dataSource: any;

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
-import {TblUsersComponent} from "../../table/tbl-users/tbl-users.component";
+import TblUsersComponent from "../../table/tbl-users/tbl-users.component";
 
 @Component({
   selector: 'app-dash-users',

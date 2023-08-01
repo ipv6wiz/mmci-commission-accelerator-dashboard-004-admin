@@ -9,12 +9,12 @@ import {DxDataGridModule} from "devextreme-angular";
 
 @Component({
   selector: 'app-tbl-options',
-    standalone: true,
-    imports: [CommonModule,SharedModule],
+  standalone: true,
+  imports: [CommonModule,SharedModule],
   templateUrl: './tbl-options.component.html',
   styleUrls: ['./tbl-options.component.scss']
 })
-export class TblOptionsComponent {
+export default class TblOptionsComponent {
     dataSource: any = {};
     constructor(private optionsService: OptionsService) {
         this.dataSource = new CustomStore({

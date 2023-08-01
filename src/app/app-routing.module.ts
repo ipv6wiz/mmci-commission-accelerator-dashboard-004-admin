@@ -26,6 +26,12 @@ const routes: Routes = [
           data: {roles: ['UsersAdmin', 'FundsAdmin', 'ClientsAdmin']}
       },
       {
+          path: 'lists',
+          loadChildren: () => import('./comm-acc/lists/lists.module').then((module) => module.ListsModule),
+          canActivate: [AuthGuard],
+          data: {roles: ['UsersAdmin', 'FundsAdmin', 'ClientsAdmin']}
+      },
+      {
         path: 'layout',
         loadChildren: () => import('./comm-acc/pages/layout/layout.module').then((module) => module.LayoutModule),
           canActivate: [AuthGuard]
