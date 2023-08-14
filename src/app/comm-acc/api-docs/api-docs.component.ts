@@ -12,21 +12,14 @@ import {environment} from "../../../environments/environment";
   templateUrl: './api-docs.component.html',
   styleUrls: ['./api-docs.component.scss']
 })
-export default class ApiDocsComponent implements OnInit, AfterViewInit {
+export default class ApiDocsComponent implements  AfterViewInit {
     // @ts-ignore
     @ViewChild('swagger') swaggerDom: ElementRef<HTMLDivElement>
     private  apiUrl = environment.gcpCommAccApiUrl;
     title: string = 'Hello';
     constructor() {}
 
-    ngOnInit() {
-
-    }
-
     ngAfterViewInit() {
-        this.swaggerDom.nativeElement.innerText = 'Dummy data';
-
-
         const swagConfig: SwaggerUIOptions = {
             url: `${this.apiUrl}api-docs-json`,
             requestInterceptor: (request: any) => {
@@ -53,16 +46,6 @@ export default class ApiDocsComponent implements OnInit, AfterViewInit {
             dom_id: 'swagger',
             domNode: this.swaggerDom.nativeElement,
             deepLinking: true,
-
-            // presets: [
-            //     // @ts-ignore
-            //     SwaggerUI.presets.apis,
-            //     SwaggerUIStandalonePreset
-            // ],
-            // plugins: [
-            //     // @ts-ignore
-            //     SwaggerUI.plugins.DownloadUrl
-            // ],
 
         };
         console.log('ApiDocsComponent - ngAfterViewInit - swagConfig: ', JSON.stringify(swagConfig));
