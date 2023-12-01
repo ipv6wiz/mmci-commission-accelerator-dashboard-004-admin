@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
 import {DxAccordionModule} from "devextreme-angular";
@@ -14,13 +14,22 @@ import {NGXLogger} from "ngx-logger";
   templateUrl: './client-verify.component.html',
   styleUrls: ['./client-verify.component.scss']
 })
-export class ClientVerifyComponent implements OnInit {
+export class ClientVerifyComponent implements OnInit, OnChanges {
     @Input() clientData: any = {data: 'Some Data'};
     verifyDataSource: any;
 
     constructor(private clientsService: ClientService, private logger: NGXLogger) {}
 
     ngOnInit() {
+
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes['clientData']) {
+            this.loadClientVerifyData();
+        }
+    }
+    loadClientVerifyData() {
         console.log('ClientVerifyComponent - clientData: ', this.clientData);
         this.verifyDataSource = new CustomStore({
             load: ():any => {
