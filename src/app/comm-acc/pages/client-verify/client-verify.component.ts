@@ -35,6 +35,7 @@ export class ClientVerifyComponent implements OnInit, OnChanges {
             load: ():any => {
                 return lastValueFrom(this.clientsService.getClientVerification(this.clientData.uid), {defaultValue: []})
                     .then((response: any) => {
+                        console.log('loadClientVerifyData - items: ', response.data.items);
                         return response.data.items;
                     })
                     .catch((err) => {
