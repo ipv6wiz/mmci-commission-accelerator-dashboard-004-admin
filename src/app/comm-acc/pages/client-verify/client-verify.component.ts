@@ -25,7 +25,7 @@ export class ClientVerifyComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if(changes['clientData']) {
+        if(changes['clientData'] && this.clientData !== undefined) {
             this.loadClientVerifyData();
         }
     }
