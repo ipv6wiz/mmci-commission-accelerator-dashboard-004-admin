@@ -9,27 +9,49 @@
         [selectedItems]="[]"
     >
         <div *dxTemplate="let item of 'title'">
-            <h1>{{ item.key}}</h1>
+            <h2>{{ item.key}}</h2>
         </div>
         <div *dxTemplate="let item of 'item'">
             <section>
                 <div class="row">
-                    <h2>Research Data</h2>
-                    <hr>
-                </div>
-                <div class="row">
-                    Data: {{item.value['researchData']['data']}}
+                    <table class="verifyDataTable">
+                        <tr>
+                            <td>
+                                Research Data
+                            </td>
+                            <td>
+                                {{item.value['researchData']['data']}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Client Entered Data
+                            </td>
+                            <td>
+                                {{item.value['clientEnteredData']['data']}}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </section>
-            <section>
-                <div class="row">
-                    <h2>Client Entered Data</h2>
-                    <hr>
-                </div>
-                <div class="row">
-                    Data: {{item.value['clientEnteredData']['data']}}
-                </div>
-            </section>
+<!--            <section>-->
+<!--                <div class="row">-->
+<!--                    <h3>Research Data</h3>-->
+<!--                    <hr>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    Data: {{item.value['researchData']['data']}}-->
+<!--                </div>-->
+<!--            </section>-->
+<!--            <section>-->
+<!--                <div class="row">-->
+<!--                    <h3>Client Entered Data</h3>-->
+<!--                    <hr>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    Data: {{item.value['clientEnteredData']['data']}}-->
+<!--                </div>-->
+<!--            </section>-->
         </div>
     </dx-accordion>
 </div>
