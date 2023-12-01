@@ -1,5 +1,4 @@
 <!--<p>client-verify works! {{JSON.stringify(clientData)}}</p>-->
-<div *ngIf="clientData" >{{clientData.uid}}</div>
 <div id="clientVerifyAccordion">
     <dx-accordion
         #clientVerifyAccordion
@@ -16,7 +15,7 @@
                 <div class="row">
                     <table class="verifyDataTable">
                         <tr>
-                            <td>
+                            <td style="width: 25%">
                                 Research Data
                             </td>
                             <td>
@@ -24,7 +23,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td style="width: 25%">
                                 Client Entered Data
                             </td>
                             <td>
@@ -34,24 +33,6 @@
                     </table>
                 </div>
             </section>
-<!--            <section>-->
-<!--                <div class="row">-->
-<!--                    <h3>Research Data</h3>-->
-<!--                    <hr>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    Data: {{item.value['researchData']['data']}}-->
-<!--                </div>-->
-<!--            </section>-->
-<!--            <section>-->
-<!--                <div class="row">-->
-<!--                    <h3>Client Entered Data</h3>-->
-<!--                    <hr>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                    Data: {{item.value['clientEnteredData']['data']}}-->
-<!--                </div>-->
-<!--            </section>-->
         </div>
     </dx-accordion>
 </div>
