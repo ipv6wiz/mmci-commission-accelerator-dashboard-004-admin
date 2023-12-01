@@ -21,6 +21,7 @@ export class TblClientsComponent {
     private clientDataFromGrid: any;
     dataSource: any;
     rolesDataSource: any;
+    verifyDataSource: any;
     verifyIconVisible: boolean = true;
     verifyIconDisabled: boolean = false;
     tagBoxOptions: any = {
@@ -56,7 +57,6 @@ export class TblClientsComponent {
                         return [];
                     })
             },
-
         });
 
         this.rolesDataSource = new CustomStore({

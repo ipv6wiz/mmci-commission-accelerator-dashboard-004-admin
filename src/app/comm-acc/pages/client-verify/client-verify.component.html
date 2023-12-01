@@ -1,7 +1,35 @@
-<p>client-verify works! {{JSON.stringify(clientData)}}</p>
+<!--<p>client-verify works! {{JSON.stringify(clientData)}}</p>-->
 <div *ngIf="clientData" >{{clientData.uid}}</div>
 <div id="clientVerifyAccordion">
     <dx-accordion
         #clientVerifyAccordion
-    ></dx-accordion>
+        [dataSource]="verifyDataSource"
+        [multiple]="false"
+        [animationDuration]="300"
+        [selectedItems]="[verifyDataSource[0]]"
+    >
+        <div *dxTemplate="let item of 'title'">
+            <h1>{{ item.key}}</h1>
+        </div>
+        <div *dxtemplate="let item of 'item'">
+            <section>
+                <div class="row">
+                    <h2>Research Data</h2>
+                    <hr>
+                </div>
+                <div class="row">
+                    Data: {{item.researchData.data}}
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <h2>Client Entered Data</h2>
+                    <hr>
+                </div>
+                <div class="row">
+                    Data: {{item.clientEnteredData.data}}
+                </div>
+            </section>
+        </div>
+    </dx-accordion>
 </div>

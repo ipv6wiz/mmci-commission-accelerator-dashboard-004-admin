@@ -2,6 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
 import {DxAccordionModule} from "devextreme-angular";
+import CustomStore from "devextreme/data/custom_store";
+import {ClientService} from "../../../theme/shared/service/client.service";
+import {lastValueFrom} from "rxjs";
+import {NGXLogger} from "ngx-logger";
 
 @Component({
   selector: 'app-client-verify',
@@ -12,11 +16,24 @@ import {DxAccordionModule} from "devextreme-angular";
 })
 export class ClientVerifyComponent implements OnInit {
     @Input() clientData: any = {data: 'Some Data'};
+    verifyDataSource: any;
 
-    constructor() {}
+    constructor(private clientsService: ClientService, private logger: NGXLogger) {}
 
     ngOnInit() {
         console.log('ClientVerifyComponent - clientData: ', this.clientData);
+        this.verifyDataSource = new CustomStore({
+            load: ():any => {
+                return lastValueFrom(this.clientsService.getClientVerification(this.clientData.uid), {defaultValue: []})
+                    .then((response: any) => {
+                        return response.data.items;
+                    })
+                    .catch((err) => {
+                        this.logger.log('verifyDataSource - load - error: ', err.message);
+                        return [];
+                    })
+            }
+        });
     }
 
 
