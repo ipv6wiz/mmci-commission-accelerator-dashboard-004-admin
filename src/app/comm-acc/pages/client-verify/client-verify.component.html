@@ -6,19 +6,19 @@
         [dataSource]="verifyDataSource"
         [multiple]="false"
         [animationDuration]="300"
-        [selectedItems]="[verifyDataSource[0]]"
+        [selectedItems]="[]"
     >
         <div *dxTemplate="let item of 'title'">
             <h1>{{ item.key}}</h1>
         </div>
-        <div *dxtemplate="let item of 'item'">
+        <div *dxTemplate="let item of 'item'">
             <section>
                 <div class="row">
                     <h2>Research Data</h2>
                     <hr>
                 </div>
                 <div class="row">
-                    Data: {{item.researchData.data}}
+                    Data: {{item.value.researchData.data}}
                 </div>
             </section>
             <section>
@@ -27,7 +27,7 @@
                     <hr>
                 </div>
                 <div class="row">
-                    Data: {{item.clientEnteredData.data}}
+                    Data: {{item.value.clientEnteredData.data}}
                 </div>
             </section>
         </div>
