@@ -1,0 +1,24 @@
+<div *ngIf="loading" style="text-align: center">
+    <h3>Checking for uploaded files</h3>
+</div>
+<div>
+    <dx-file-manager
+        id="fileManager"
+        [fileSystemProvider]="fileItems"
+        height="450"
+        (onContentReady)="doRefresh()"
+        (onInitialized)="fmInit()"
+        (onToolbarItemClick)="toolbarClick($event)"
+    >
+        <dxo-permissions
+            [create]="false"
+            [copy]="false"
+            [move]="false"
+            [delete]="false"
+            [rename]="false"
+            [upload]="false"
+            [download]="false"
+        >
+        </dxo-permissions>
+    </dx-file-manager>
+</div>

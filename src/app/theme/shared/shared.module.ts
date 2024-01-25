@@ -32,6 +32,7 @@ import {
   NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
 import {DxAccordionModule, DxDataGridModule, DxFormModule, DxTagBoxModule} from "devextreme-angular";
+import {FooterComponent} from "./components/footer/footer.component";
 
 const bootstrap = [
   NgbDropdownModule,
@@ -68,6 +69,7 @@ const bootstrap = [
     ReactiveFormsModule,
     CardComponent,
     BreadcrumbComponent,
+    FooterComponent,
     ModalModule,
     GalleryModule,
     DataFilterPipe,
@@ -83,6 +85,12 @@ const bootstrap = [
     DxFormModule,
     DxAccordionModule
   ],
-  declarations: [DataFilterPipe, TodoListRemoveDirective, TodoCardCompleteDirective, SpinnerComponent]
+  declarations: [
+      DataFilterPipe,
+      TodoListRemoveDirective,
+      TodoCardCompleteDirective,
+      SpinnerComponent,
+      FooterComponent
+  ]
 })
 export class SharedModule {}
