@@ -26,7 +26,7 @@ export class AuthenticationService {
       @Inject(LOCALE_ID) public locale: string
   ) {
     // eslint-disable-next-line
-    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.userSubject = new BehaviorSubject(JSON.parse(sessionStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();
   }
 
@@ -84,6 +84,8 @@ export class AuthenticationService {
             });
     }
 
+
+
   async login(email: string, password: string, returnUrl: string) {
       return this.afAuth
           .signInWithEmailAndPassword(email, password)
@@ -103,7 +105,7 @@ export class AuthenticationService {
                                     const {defaultPage} = doc;
                                     console.log('You have been successfully logged in!: ', this.isLoggedIn);
                                     console.log('login - userData:', this.userData);
-                                    localStorage.setItem('user', JSON.stringify(this.userData));
+                                    sessionStorage.setItem('user', JSON.stringify(this.userData));
                                     console.log('login - returnUrl: ', returnUrl);
                                     console.log('login - defaultPage: ', defaultPage);
                                     if (!returnUrl) {
@@ -132,7 +134,7 @@ export class AuthenticationService {
       this.afAuth.signOut()
           .then(() => {
               console.log('Logout');
-              localStorage.removeItem('user');
+              sessionStorage.removeItem('user');
               // console.log('Logout - userdata: ', JSON.stringify(this.getUserData()));
               this.userSubject.unsubscribe();
               return this.router.navigate(['/auth/signin-v2']);
@@ -146,7 +148,7 @@ export class AuthenticationService {
 
     // Returns true when user is looged in and email is verified
     get isLoggedIn(): boolean {
-        const user = JSON.parse(localStorage.getItem('user')!);
+        const user = JSON.parse(sessionStorage.getItem('user')!);
         // console.log(`isLoggedIn - user: ${JSON.stringify(user)}`);
         return user !== null && user.emailVerified !== false;
     }
@@ -199,13 +201,13 @@ export class AuthenticationService {
             this.userData.firstName = userDoc.firstName || '';
             this.userData.lastName = userDoc.lastName || '';
             this.userData.displayName = userDoc.displayName || `${userDoc.firstName} ${userDoc.lastName}`;
-            localStorage.setItem('user', JSON.stringify(this.userData));
+            sessionStorage.setItem('user', JSON.stringify(this.userData));
             return this.userService.update(this.userData.uid, this.userData)
         }
     }
 
     getLocalUserData() {
-        const data = localStorage.getItem('user');
+        const data = sessionStorage.getItem('user');
         if(!!data) {
             return JSON.parse(data);
         } else {
@@ -213,8 +215,18 @@ export class AuthenticationService {
         }
     }
 
+    getLocalUserDataProp(prop: string): any {
+        const data = this.getLocalUserData();
+        if(!!data) {
+            if(!!data[prop]) {
+                return data[prop];
+            }
+        }
+        return null;
+    }
+
     setLocalUserData(data: any) {
-        localStorage.setItem('user', JSON.stringify(data));
+        sessionStorage.setItem('user', JSON.stringify(data));
     }
 
     setLocalUserDataProp(prop: string, value: any) {

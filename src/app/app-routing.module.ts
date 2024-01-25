@@ -146,7 +146,13 @@ const routes: Routes = [
         loadChildren: () => import('./comm-acc/pages/maintenance/maintenance.module').then((module) => module.MaintenanceModule)
       }
     ]
-  }
+  },
+    {
+        path: '**',
+        redirectTo: '/auth/signin-v2',
+        pathMatch: 'full',
+        title: AppSiteConfig.siteName
+    },
 ];
 
 @NgModule({

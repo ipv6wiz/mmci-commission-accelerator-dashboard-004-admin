@@ -1,4 +1,4 @@
-export interface UerLocalDto {
+export interface UserLocalDto {
     accessToken: string;
     displayName: string;
     email: string;

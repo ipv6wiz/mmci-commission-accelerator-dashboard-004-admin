@@ -25,14 +25,14 @@ export default class ApiDocsComponent implements  AfterViewInit {
             requestInterceptor: (request: any) => {
                 console.log('request:'+JSON.stringify(request));
                 let addAuth = (request['url'].indexOf('/login') == -1);
-                const user = localStorage.getItem('user');
+                const user = sessionStorage.getItem('user');
                 console.log('requestInterceptor - user: ', user);
                 if(user) {
                     let currentUser = JSON.parse(user);
                     if (currentUser && currentUser.idToken && addAuth) {
                         request['headers']['Authorization'] = 'Bearer ' + currentUser.idToken;
                     } else {
-                        console.log("No localstorage");
+                        console.log("No sessionStorage");
                     }
                     console.log('request-modified:'+JSON.stringify(request));
                     request['headers']['Cache-Control'] = 'no-store no-cache';

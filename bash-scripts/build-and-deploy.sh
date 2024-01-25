@@ -1,6 +1,16 @@
 #!/bin/bash
 cd ..
-VER_TYPE=$1
+while getopts v:m: flag
+do
+    case "${flag}" in
+    v) VER_TYPE=${OPTARG};;
+    m) MSG=${OPTARG};;
+    *) ;;
+    esac
+done
+if [ -z "$VER_TYPE" ]; then
+    VER_TYPE="PATCH"
+fi
 echo "Version type: $VER_TYPE"
 PV=$(grep -Po "(?<=\"version\": \").*?(?=\")" package.json)
 echo "package.json Last Version: $PV"
@@ -42,11 +52,12 @@ fi
 VER="$FIRST"."$SECOND"."$THIRD"
 echo "New Version: $VER"
 sed -i -E 's/"version": "(.*)"/"version": "'$VER'"/' package.json
+git add .
+git status
+git commit -m "Deployed Version $VER. $MSG"
+git push
 pwd
 ng build --aot --configuration "production"
 firebase deploy --only hosting
-git add .
-git status
-git commit -m "Deployed Version $VER"
-git push
+echo "New Version: $VER"
 
