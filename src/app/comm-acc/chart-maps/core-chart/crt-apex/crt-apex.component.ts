@@ -63,8 +63,8 @@ export default class CrtApexComponent implements OnInit, OnDestroy {
   lastDate!: number;
   // eslint-disable-next-line
   data: any;
-  intervalSub: string | number | NodeJS.Timer | undefined;
-  intervalMain: string | number | NodeJS.Timer | undefined;
+  intervalSub: string | number | NodeJS.Timeout | undefined;
+  intervalMain: string | number | NodeJS.Timeout | undefined;
 
   @ViewChild('chart1') chart!: ChartComponent;
   line1CAC!: Partial<ChartOptions>;

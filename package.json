@@ -1,6 +1,6 @@
 {
   "name": "comm-acc-dash-002-admin",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "author": "MMCI",
   "scripts": {
     "ng": "ng",
@@ -46,7 +46,7 @@
     "angular-notifier": "^12.0.0",
     "angularx-flatpickr": "^7.3.0",
     "apexcharts": "^3.40.0",
-    "bootstrap": "^5.2.3",
+    "bootstrap": "=5.2.3",
     "chart.js": "^4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "datatables.net": "^1.13.4",
