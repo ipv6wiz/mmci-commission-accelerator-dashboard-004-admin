@@ -4697,13 +4697,6 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha512-S2Hw0TtNkMJhIabBwIojKL9YHO5T0n5eNqWJ7Lrlel/zDbftQpxpapi8tZs3X1HWa+u+QeydGmzzNU0m09+Rcg==
 
-angular-archwizard@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/angular-archwizard/-/angular-archwizard-7.0.0.tgz#1e60950bef58dcb0b508303574627de3ee7b52e5"
-  integrity sha512-2yLRWGOjNx4U++awtEmaHmJyJANQ8gUlBHbH4fWHJ0V16gT0SOiM+tg1L2Tpfg+RvFkz02+MltJichJvFwce5w==
-  dependencies:
-    tslib "^2.0.0"
-
 angular-calendar@^0.31.0:
   version "0.31.0"
   resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.31.0.tgz#adf71a2078021b1893d14a87a4e0efda67a1312a"
@@ -8159,7 +8152,7 @@ jose@^4.14.6:
   resolved "https://registry.yarnpkg.com/jose/-/jose-4.15.4.tgz#02a9a763803e3872cf55f29ecef0dfdcc218cc03"
   integrity sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==
 
-jquery@>=1.7, jquery@^3.7.0:
+jquery@>=1.7, jquery@^3.7.1:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
   integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
@@ -11722,12 +11715,12 @@ swagger-client@^3.25.0:
     traverse "~0.6.6"
     undici "^5.24.0"
 
-swagger-ui-dist@^5.2.0:
+swagger-ui-dist@^5.11.1:
   version "5.11.1"
   resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.11.1.tgz#ecd2151beee96e0c16ab08ce2f6b262035ca7049"
   integrity sha512-H0oTRHqAfuyjNBLILhS9OwC0WN/xyfNJQtRBR35AnLY34A5W107zRhLQMzL47uuH87+f+RwxCMeLvNFOdyZ+Tg==
 
-swagger-ui@^5.2.0:
+swagger-ui@^5.11.1:
   version "5.11.1"
   resolved "https://registry.yarnpkg.com/swagger-ui/-/swagger-ui-5.11.1.tgz#4f544ba0d40dc4585132be2baeba17865e94fec5"
   integrity sha512-nekSD49dDoxcAMEdHpP9sFFAQA4r6YTroxvWTJVdIFyLK0ZRON9oiLbWxhguOYryeGkI1vcLOBYfAGMNVgVxYw==

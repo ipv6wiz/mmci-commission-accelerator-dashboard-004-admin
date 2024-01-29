@@ -13,7 +13,6 @@ export class CleanVerifyItemNamePipe implements PipeTransform {
         for(let w = 0; w < words.length; w++){
             words[w] = words[w].charAt(0).toUpperCase()+words[w].slice(1);
         }
-        const newTxt: string = words.join(joiner);
-        return newTxt;
+        return words.join(joiner);
     }
 }

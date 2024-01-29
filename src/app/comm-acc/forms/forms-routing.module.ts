@@ -22,11 +22,6 @@ const routes: Routes = [
         path: 'masking',
         loadComponent: () => import('./form-masking/form-masking.component')
       },
-      // todo: waiting for pr complete after update this package https://github.com/madoar/angular-archwizard/pull/389
-      {
-        path: 'wizard',
-        loadComponent: () => import('./form-wizard/form-wizard.component')
-      },
       {
         path: 'picker',
         loadComponent: () => import('./form-picker/form-picker.component')
