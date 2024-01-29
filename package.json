@@ -1,6 +1,6 @@
 {
   "name": "comm-acc-dash-002-admin",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "author": "MMCI",
   "scripts": {
     "ng": "ng",

@@ -6,11 +6,12 @@ import CustomStore from "devextreme/data/custom_store";
 import {ClientService} from "../../../theme/shared/service/client.service";
 import {lastValueFrom} from "rxjs";
 import {NGXLogger} from "ngx-logger";
+import {CleanVerifyItemNamePipe} from "../../../theme/shared/pipes/clean-verify-item-name.pipe";
 
 @Component({
   selector: 'app-client-verify',
   standalone: true,
-    imports: [CommonModule, SharedModule, DxAccordionModule],
+    imports: [CommonModule, SharedModule, DxAccordionModule, CleanVerifyItemNamePipe],
   templateUrl: './client-verify.component.html',
   styleUrls: ['./client-verify.component.scss']
 })
