@@ -376,7 +376,6 @@ export default class CrtHighChartComponent {
       {
         type: 'pie',
         name: 'Brands',
-        colorByPoint: true,
         data: [
           {
             name: 'Chrome',
@@ -437,7 +436,6 @@ export default class CrtHighChartComponent {
       {
         type: 'pie',
         name: 'Brands',
-        colorByPoint: true,
         size: '90%',
         innerSize: '60%',
         data: [

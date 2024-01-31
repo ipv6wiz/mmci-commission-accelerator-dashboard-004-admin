@@ -1,7 +1,7 @@
 {
     "hosting": [
         {
-            "site": "comm-acc-dash-002-admin",
+            "site": "comm-acc-dash-004-admin",
             "public": "dist",
             "ignore": [
                 "firebase.json",

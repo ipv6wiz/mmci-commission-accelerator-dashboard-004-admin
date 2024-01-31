@@ -47,19 +47,18 @@
               "src/fake-data"
             ],
             "styles": [
-              "src/styles.scss",
+              "./src/styles.scss",
               "./node_modules/swagger-ui/dist/swagger-ui.css",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/sweetalert2/src/sweetalert2.scss",
-              "node_modules/sweetalert2/dist/sweetalert2.min.css",
-              "node_modules/@angular/cdk/overlay-prebuilt.css",
-              "node_modules/flatpickr/dist/flatpickr.css",
+              "./node_modules/ngx-toastr/toastr.css",
+              "./node_modules/sweetalert2/src/sweetalert2.scss",
+              "./node_modules/sweetalert2/dist/sweetalert2.min.css",
+              "./node_modules/@angular/cdk/overlay-prebuilt.css",
+              "./node_modules/flatpickr/dist/flatpickr.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/devextreme/dist/css/dx.light.css"
+              "./node_modules/devextreme/dist/css/dx.light.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-
               "node_modules/swagger-ui/dist/swagger-ui-standalone-preset.js",
               "node_modules/swagger-ui/dist/swagger-ui.js",
               "node_modules/swagger-ui/dist/swagger-ui-es-bundle.js",
@@ -113,10 +112,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "full-version:build:production"
+              "buildTarget": "full-version:build:production"
             },
             "development": {
-              "browserTarget": "full-version:build:development",
+              "buildTarget": "full-version:build:development",
                 "disableHostCheck": true
             }
           },
@@ -128,7 +127,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "full-version:build"
+            "buildTarget": "full-version:build"
           }
         },
         "test": {

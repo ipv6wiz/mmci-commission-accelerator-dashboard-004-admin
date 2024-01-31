@@ -1,5 +1,5 @@
 // angular import
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // project import
@@ -56,7 +56,7 @@ export default class BasicModalComponent {
     );
   }
 
-  OpenMdo(content15: ElementRef) {
+  OpenMdo(content15: TemplateRef<any>) {
     this.modalService.open(content15, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -67,7 +67,7 @@ export default class BasicModalComponent {
     );
   }
 
-  OpenFat(content16: ElementRef) {
+  OpenFat(content16: TemplateRef<any>) {
     this.modalService.open(content16, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -78,7 +78,7 @@ export default class BasicModalComponent {
     );
   }
 
-  OpenBootstrap(content17: ElementRef) {
+  OpenBootstrap(content17: TemplateRef<any>) {
     this.modalService.open(content17, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
