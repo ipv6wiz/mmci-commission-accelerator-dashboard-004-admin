@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../theme/shared/shared.module";
-// import SwaggerUI,  {SwaggerUIOptions } from 'swagger-ui';
-import { SwaggerConfigs, SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
+import SwaggerUI,  {SwaggerUIOptions } from 'swagger-ui';
+// import { SwaggerConfigs, SwaggerUIBundle, SwaggerUIStandalonePreset } from 'swagger-ui-dist';
 import {environment} from "../../../environments/environment";
 @Component({
   selector: 'app-api-docs',
@@ -19,7 +19,7 @@ export default class ApiDocsComponent implements  AfterViewInit {
     constructor() {}
 
     ngAfterViewInit() {
-        const swagConfig: SwaggerConfigs = {
+        const swagConfig: SwaggerUIOptions = {
             url: `${this.apiUrl}api-docs-json`,
             requestInterceptor: (request: any) => {
                 console.log('request:'+JSON.stringify(request));
@@ -45,11 +45,11 @@ export default class ApiDocsComponent implements  AfterViewInit {
             dom_id: 'swagger',
             domNode: this.swaggerDom.nativeElement,
             deepLinking: true,
-            presets: [SwaggerUIBundle['presets'].apis, SwaggerUIStandalonePreset],
-            layout: 'StandaloneLayout'
+            // presets: [SwaggerUIBundle['presets'].apis, SwaggerUIStandalonePreset],
+            // layout: 'StandaloneLayout'
         };
         console.log('ApiDocsComponent - ngAfterViewInit - swagConfig: ', JSON.stringify(swagConfig));
-        // SwaggerUI(swagConfig);
-        SwaggerUIBundle(swagConfig)
+        SwaggerUI(swagConfig);
+        // SwaggerUIBundle(swagConfig)
     }
 }
