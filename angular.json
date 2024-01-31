@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+
             "allowedCommonJsDependencies": [
               "lodash",
               "lodash-es",
@@ -58,6 +59,9 @@
               "./node_modules/devextreme/dist/css/dx.light.css"
             ],
             "scripts": [
+              "node_modules/swagger-ui/dist/swagger-ui-standalone-preset.js",
+              "node_modules/swagger-ui/dist/swagger-ui.js",
+              "node_modules/swagger-ui/dist/swagger-ui-es-bundle.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/quill/dist/quill.js",
               "node_modules/datatables.net/js/jquery.dataTables.js",
