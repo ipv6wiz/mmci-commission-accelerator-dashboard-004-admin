@@ -1,0 +1,51 @@
+<div class="col-md-12">
+  <app-card cardTitle="Clients (not Users)" cardClass="tab-card tab-content" blockClass="nav-fill" >
+    <table
+      mat-table
+      [dataSource]="clientDataSource" multiTemplateDataRows="true"
+      class="mat-elevation-z8"
+    >
+      @for (column of clientColumnsToDisplay; track column) {
+        <ng-container matColumnDef="{{column}}">
+          <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+          <td mat-cell *matCellDef="let client"> {{client[column]}} </td>
+        </ng-container>
+      }
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <td mat-cell *matCellDef="let client">
+          @if(client.roles.indexOf('CLIENT-PENDING-REGISTRATION') === -1) {
+            <button mat-icon-button aria-label="expand row" [id]="client.uid" (click)="onExpandRow($event, client)">
+              @if (expandedClient === client) {
+                <mat-icon>keyboard_arrow_up</mat-icon>
+              } @else {
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              }
+            </button>
+          }
+        </td>
+      </ng-container>
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let client" [attr.colspan]="columnsToDisplayWithExpand.length">
+          <div class="example-client-detail"
+               [@detailExpand]="client === expandedClient ? 'expanded' : 'collapsed'">
+            <div class="example-client-diagram">
+              @if(client === expandedClient) {
+                <app-client-verify-mat [clientData]="clientVerifyData"></app-client-verify-mat>
+              }
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr mat-row *matRowDef="let client; columns: columnsToDisplayWithExpand;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedClient === client"
+
+      >
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+  </app-card>
+</div>

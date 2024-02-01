@@ -25,7 +25,7 @@ export class TblClientsComponent {
     verifyIconVisible: boolean = true;
     verifyIconDisabled: boolean = false;
     tagBoxOptions: any = {
-        // @ts-ignore
+        // @ts-expect-error dataSource may be empty
         dataSource: this.rolesDataSource,
         displayExpr: 'key',
         valueExpr: 'value',

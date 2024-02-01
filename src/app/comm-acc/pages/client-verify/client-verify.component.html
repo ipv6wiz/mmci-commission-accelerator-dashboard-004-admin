@@ -8,7 +8,10 @@
         [selectedItems]="[]"
     >
         <div *dxTemplate="let item of 'title'">
+          <div style="width: 100%">
             <h2>{{ item.key | cleanVerifyItemName}}</h2>
+            <span>Status</span>
+          </div>
         </div>
         <div *dxTemplate="let item of 'item'">
             <section>

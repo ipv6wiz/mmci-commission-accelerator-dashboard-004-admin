@@ -1,0 +1,36 @@
+<mat-accordion>
+  @for (item of verifyDataSource; track $index) {
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2>{{ item.key | cleanVerifyItemName}}</h2>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{verifyStatus[item.status]}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <section>
+        <div class="row">
+          <table class="verifyDataTable">
+            <tr>
+              <td style="width: 25%">
+                Research Data
+              </td>
+              <td>
+                {{item.value['researchData']['data']}}
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 25%">
+                Client Entered Data
+              </td>
+              <td>
+                {{item.value['clientEnteredData']['data']}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </section>
+    </mat-expansion-panel>
+  }
+</mat-accordion>

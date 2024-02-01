@@ -9,6 +9,7 @@ import {ConsoleToggleService} from "./theme/shared/service/console-toggle.servic
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  title: string = 'Commission Accelerator'
   // constructor
   constructor(private router: Router, private consoleToggleService: ConsoleToggleService) {
       this.consoleToggleService.disableConsoleInProduction();
