@@ -1,12 +1,28 @@
+@if(loadingVerification) {
+  <section class="verification-load-spinner-section">
+    <h3>Loading Verification Data</h3>
+    <mat-progress-spinner
+      class="verification-load-spinner-margin"
+      [color]="loadSpinnerColor"
+      [mode]="loadSpinnerMode"
+      [diameter]="loadSpinnerDiameter"
+    ></mat-progress-spinner>
+  </section>
+} @else{
 <mat-accordion>
   @for (item of verifyDataSource; track $index) {
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <h2>{{ item.key | cleanVerifyItemName}}</h2>
+          <h4 class="verification-accord-h4">{{ item.key | cleanVerifyItemName}}</h4>
         </mat-panel-title>
         <mat-panel-description>
-          {{verifyStatus[item.status]}}
+          <i
+            class="bi {{verifyStatus[item.value['status']].icon}}"
+            [style.color]="verifyStatus[item.value['status']].iconColor"
+            [style.font-size]="'1.5rem'"
+          ></i>
+          {{verifyStatus[item.value['status']].status}}
         </mat-panel-description>
       </mat-expansion-panel-header>
       <section>
@@ -34,3 +50,4 @@
     </mat-expansion-panel>
   }
 </mat-accordion>
+}

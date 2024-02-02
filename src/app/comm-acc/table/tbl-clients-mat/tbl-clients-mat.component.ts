@@ -10,11 +10,22 @@ import { CardComponent } from '../../../theme/shared/components/card/card.compon
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ClientVerifyItemDto } from '../../../theme/shared/dtos/client-verify-item-dto';
 import { ClientVerifyMatComponent } from '../../pages/client-verify-mat/client-verify-mat.component';
+import {ProgressSpinnerMode, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ThemePalette } from '@angular/material/core';
+import { MatBoolDisplayPipe } from '../../../theme/shared/pipes/mat-bool-display.pipe';
 
 @Component({
   selector: 'app-tbl-clients-mat',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, CardComponent, ClientVerifyMatComponent],
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    CardComponent,
+    ClientVerifyMatComponent,
+    MatProgressSpinnerModule,
+    MatBoolDisplayPipe
+  ],
   templateUrl: './tbl-clients-mat.component.html',
   styleUrl: './tbl-clients-mat.component.scss',
   animations: [
@@ -32,9 +43,16 @@ export class TblClientsMatComponent implements OnInit{
   clientVerifyDataSource: any;
   rolesDataSource: any;
   clientColumnsToDisplay: string[] = ["displayName", "email", "emailVerified","roles", "status"];
+  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Verified', 'Roles', 'Process Status'];
   columnsToDisplayWithExpand = [...this.clientColumnsToDisplay, 'expand'];
   expandedClient: ClientVerifyItemDto | null = null;
   public clientVerifyData: any = null;
+  public loadingClients: boolean = true;
+  public loadingVerification: boolean = true;
+  public loadSpinnerColor: ThemePalette = 'primary';
+  public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate'
+  public loadSpinnerDiameter: string = '50'
+
 
   constructor(
     private optionsService: OptionsService,
@@ -44,6 +62,16 @@ export class TblClientsMatComponent implements OnInit{
     // this.verifyClientClick = this.verifyClientClick.bind(this);
     this.expandedClient = null;
     this.clientVerifyData = null;
+  }
+
+  isColumnTypeBool(data: any): boolean {
+    if(typeof data === 'string') {
+      const dx: string = data;
+      if(dx.toLowerCase() === 'true' || dx.toLowerCase() === 'false') {
+        return true;
+      }
+    }
+    return (typeof data === 'boolean');
   }
 
   onExpandRow(event: any, client: any) {
@@ -62,15 +90,21 @@ export class TblClientsMatComponent implements OnInit{
   }
 
   async ngOnInit() {
+    await this.refreshClientData();
+    // this.clientVerifyData = null;
+  }
+
+  async refreshClientData() {
+    this.loadingClients = true;
     await this.loadClientData();
     this.expandedClient = null;
-    // this.clientVerifyData = null;
   }
 
   private async loadClientData() {
     this.clientDataSource = await lastValueFrom(this.clientsService.getAll(), {defaultValue: []})
       .then((response: any) => {
         // this.logger.log('datasource - load - clients: ', response.data.clients);
+        this.loadingClients = false;
         return response.data.clients;
       })
       .catch((err) => {
@@ -90,4 +124,5 @@ export class TblClientsMatComponent implements OnInit{
     this.clientDataFromGrid = clonedItem;
     this.clientVerifySelected.emit(this.clientDataFromGrid);
   }
+
 }

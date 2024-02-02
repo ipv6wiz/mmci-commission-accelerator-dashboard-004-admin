@@ -45,3 +45,12 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-description-attribution {
   opacity: 0.5;
 }
+.client-load-spinner-section {
+  display: block;
+  text-align: center;
+  height: 90px;
+}
+
+.client-load-spinner-margin {
+  margin: auto;
+}
