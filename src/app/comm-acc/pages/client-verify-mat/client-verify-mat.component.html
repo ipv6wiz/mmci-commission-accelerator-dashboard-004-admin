@@ -45,18 +45,18 @@
           <h4 class="verification-accord-h4">{{ item.key | cleanVerifyItemName}}</h4>
         </mat-panel-title>
         <mat-panel-description>
-          <div class="row">
-            <div class="col">
-              <i
-                class="bi {{verifyStatus[item.value['status']].icon}}"
-                [style.color]="verifyStatus[item.value['status']].iconColor"
-                [style.font-size]="'1.5rem'"
-                [matTooltip]="verifyStatus[item.value['status']].hint"
-                matTooltipPosition="left"
-              ></i>
-            </div>
-            <div class="col"></div>
-          </div>
+          <span >
+                      <i
+                        class="bi {{verifyStatus[item.value['status']].icon}}"
+                        [style.color]="verifyStatus[item.value['status']].iconColor"
+                        [style.font-size]="'1.5rem'"
+                        [matTooltip]="verifyStatus[item.value['status']].hint"
+                        matTooltipPosition="left"
+                      ></i>
+          </span>
+
+
+
         </mat-panel-description>
       </mat-expansion-panel-header>
       <section>
@@ -69,14 +69,38 @@
               <td>
                 {{item.value['researchData']['data']}}
               </td>
+              <th style="width: 25%" rowspan="2">
+                <button type="button" class="btn btn-outline-success" style="margin-left: 15px" [disabled]="itemDisable('accept', item)">
+                  <i
+                    class="bi {{verifyStatus[4].icon}}"
+                    [style.color]="verifyStatus[4].iconColor"
+                    [style.font-size]="'1.0rem'"
+                    [matTooltip]="verifyStatus[4].hint"
+                    matTooltipPosition="left"
+                  ></i>
+                  Override Accept
+                </button>
+
+                <button type="button" class="btn btn-outline-danger" style=" margin-left: 15px" [disabled]="itemDisable('reject', item)">
+                  <i
+                    class="bi {{verifyStatus[5].icon}}"
+                    [style.color]="verifyStatus[5].iconColor"
+                    [style.font-size]="'1.0rem'"
+                    [matTooltip]="verifyStatus[5].hint"
+                    matTooltipPosition="left"
+                  ></i>
+                  Override Reject
+                </button>
+              </th>
             </tr>
             <tr>
               <td style="width: 25%">
                 Client Entered Data
               </td>
-              <td>
+              <td style="width: 50%">
                 {{item.value['clientEnteredData']['data']}}
               </td>
+
             </tr>
           </table>
         </div>

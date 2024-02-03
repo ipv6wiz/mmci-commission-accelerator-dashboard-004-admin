@@ -33,43 +33,43 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate'
   public loadSpinnerDiameter: string = '50'
   verifyStatus: any[] = [
-    {
+    { // 0
       status: 'Processing',
       hint: 'Verification item being processed',
       icon: 'bi-clipboard2-pulse-fill',
       iconColor: 'cornflowerblue'
     },
-    {
+    { // 1
       status: 'Auto Accept',
       hint: 'Client entered data exactly matches research data',
       icon: 'bi-check-circle-fill',
       iconColor: 'darkgreen'
     },
-    {
+    { // 2
       status: 'Auto Warn',
       hint: 'Client entered data almost matches research data, check & Override',
       icon: 'bi-exclamation-triangle-fill',
       iconColor: 'orange'
     },
-    {
+    { // 3
       status: 'Auto Reject',
       hint: 'Client entered data does not match research data, check & override',
       icon: 'bi-x-circle-fill',
       iconColor: 'red'
     },
-    {
+    { // 4
       status: 'Override Accept',
       hint: 'Data checked and deemed acceptable',
       icon: 'bi-clipboard2-check-fill',
       iconColor: 'darkgreen'
     },
-    {
+    { // 5
       status: 'Override Reject',
       hint: 'Data checked and deemed unacceptable',
       icon: 'bi-clipboard2-x-fill',
       iconColor: 'red'
     },
-    {
+    { // 6
       status: 'Request more Info',
       hint: 'Data checked & more information requested',
       icon: 'bi-info-circle-fill',
@@ -85,6 +85,15 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     // console.log('ClientVerifyComponent - ngOnInit - Just so this method does not feel lonely');
     this.verifyDataSource = [];
     this.verifyData = null;
+  }
+
+  itemDisable(btn: string, item: any): boolean {
+    if(btn == 'accept') {
+      return item.value['status'] === 1 || item.value['status'] === 4;
+    } else if(btn === 'reject') {
+      return item.value['status'] === 3 || item.value['status'] === 5;
+    }
+    return false;
   }
 
   async ngOnChanges(changes: SimpleChanges) {
