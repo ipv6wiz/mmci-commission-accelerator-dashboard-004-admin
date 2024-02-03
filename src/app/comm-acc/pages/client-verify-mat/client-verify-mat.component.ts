@@ -8,6 +8,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CleanVerifyItemNamePipe } from '../../../theme/shared/pipes/clean-verify-item-name.pipe';
 import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinnerModule, ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -17,7 +18,8 @@ import { MatProgressSpinnerModule, ProgressSpinnerMode } from '@angular/material
     MatExpansionModule,
     MatIconModule,
     CleanVerifyItemNamePipe,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltip
   ],
   templateUrl: './client-verify-mat.component.html',
   styleUrl: './client-verify-mat.component.scss'
@@ -80,16 +82,16 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log('ClientVerifyComponent - ngOnInit - Just so this method does not feel lonely');
+    // console.log('ClientVerifyComponent - ngOnInit - Just so this method does not feel lonely');
     this.verifyDataSource = [];
     this.verifyData = null;
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    console.log('ClientVerifyMatComponent - ngOnChanges - changes: ',changes);
-    console.log('ClientVerifyMatComponent - ngOnChanges - clientData: ', this.clientData);
-    console.log('ClientVerifyMatComponent - ngOnChanges - verifyData: ', this.verifyData);
-    console.log('ClientVerifyMatComponent - ngOnChanges - loading: ', this.loadingVerification);
+    // console.log('ClientVerifyMatComponent - ngOnChanges - changes: ',changes);
+    // console.log('ClientVerifyMatComponent - ngOnChanges - clientData: ', this.clientData);
+    // console.log('ClientVerifyMatComponent - ngOnChanges - verifyData: ', this.verifyData);
+    // console.log('ClientVerifyMatComponent - ngOnChanges - loading: ', this.loadingVerification);
     if(!this.loadingVerification) {
       if(this.clientData === null) {
         this.verifyData = null;
@@ -107,10 +109,10 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     }
   }
 
-  private async loadClientVerifyData() {
+  private async loadClientVerifyData(refresh: string = 'false') {
     console.log('>>>>>> loadClientVerifyData - enter <<<<<<');
 
-    this.verifyData = await lastValueFrom(this.clientsService.getClientVerification(this.clientData.uid), {defaultValue: []})
+    this.verifyData = await lastValueFrom(this.clientsService.getClientVerification(this.clientData.uid, refresh), {defaultValue: []})
       .then((response: any) => {
         console.log('loadClientVerifyData - items: ', response.data.items);
         this.loadingVerification = false;
@@ -120,6 +122,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         this.logger.log('verifyDataSource - load - error: ', err.message);
         return [];
       })
+  }
+
+  async refreshVerifcationData() {
+    this.loadingVerification = true;
+    await this.loadClientVerifyData('true');
+    this.verifyDataSource = this.verifyData.items;
   }
 
 }

@@ -42,8 +42,8 @@ export class TblClientsMatComponent implements OnInit{
   clientDataSource: any;
   clientVerifyDataSource: any;
   rolesDataSource: any;
-  clientColumnsToDisplay: string[] = ["displayName", "email", "emailVerified","roles", "status"];
-  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Verified', 'Roles', 'Process Status'];
+  clientColumnsToDisplay: string[] = ["displayName","emailVerified", "email", "roles", "status"];
+  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email Verified', 'Email',  'Roles', 'Process Status'];
   columnsToDisplayWithExpand = [...this.clientColumnsToDisplay, 'expand'];
   expandedClient: ClientVerifyItemDto | null = null;
   public clientVerifyData: any = null;
