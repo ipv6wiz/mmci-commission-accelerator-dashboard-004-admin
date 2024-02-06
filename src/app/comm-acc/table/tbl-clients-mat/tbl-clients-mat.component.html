@@ -28,7 +28,6 @@
           <th mat-header-cell *matHeaderCellDef> {{clientColumnNamesToDisplay[$index]}} </th>
             <td mat-cell *matCellDef="let client">
               @if(isColumnTypeBool(client[column])) {
-<!--                <mat-icon color="primary" fontIcon="{{client[column] | matBoolDisplay}}"></mat-icon>-->
                 <span>
                   <i class="bi {{client[column] | matBoolDisplay: 'bs' }}"></i>
                 </span>

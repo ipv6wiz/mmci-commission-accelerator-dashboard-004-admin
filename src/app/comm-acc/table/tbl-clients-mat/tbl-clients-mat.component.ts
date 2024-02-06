@@ -40,7 +40,6 @@ export class TblClientsMatComponent implements OnInit{
   @Output() clientVerifySelected: EventEmitter<any> = new EventEmitter();
   private clientDataFromGrid: any;
   clientDataSource: any;
-  clientVerifyDataSource: any;
   rolesDataSource: any;
   clientColumnsToDisplay: string[] = ["displayName","emailVerified", "email", "roles", "status"];
   clientColumnNamesToDisplay: string[] = ['Display Name', 'Email Verified', 'Email',  'Roles', 'Process Status'];
@@ -48,7 +47,6 @@ export class TblClientsMatComponent implements OnInit{
   expandedClient: ClientVerifyItemDto | null = null;
   public clientVerifyData: any = null;
   public loadingClients: boolean = true;
-  public loadingVerification: boolean = true;
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate'
   public loadSpinnerDiameter: string = '50'
