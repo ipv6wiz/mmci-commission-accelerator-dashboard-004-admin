@@ -9,6 +9,7 @@ import { CleanVerifyItemNamePipe } from '../../../theme/shared/pipes/clean-verif
 import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinnerModule, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTooltip } from '@angular/material/tooltip';
+import { FileManagerComponent } from '../../../theme/shared/components/file-manager/file-manager.component';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -19,7 +20,8 @@ import { MatTooltip } from '@angular/material/tooltip';
     MatIconModule,
     CleanVerifyItemNamePipe,
     MatProgressSpinnerModule,
-    MatTooltip
+    MatTooltip,
+    FileManagerComponent
   ],
   templateUrl: './client-verify-mat.component.html',
   styleUrl: './client-verify-mat.component.scss'
@@ -98,7 +100,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
     // console.log('ClientVerifyMatComponent - ngOnChanges - changes: ',changes);
-    // console.log('ClientVerifyMatComponent - ngOnChanges - clientData: ', this.clientData);
+    console.log('ClientVerifyMatComponent - ngOnChanges - clientData: ', this.clientData);
     // console.log('ClientVerifyMatComponent - ngOnChanges - verifyData: ', this.verifyData);
     // console.log('ClientVerifyMatComponent - ngOnChanges - loading: ', this.loadingVerification);
     if(!this.loadingVerification) {

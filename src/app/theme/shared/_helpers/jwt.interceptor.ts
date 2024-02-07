@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../service';
-import {UserLocalDto} from "../dtos/user-local.dto";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: AuthenticationService) {}
 
   intercept(request: HttpRequest<string>, next: HttpHandler): Observable<HttpEvent<string>> {
+    console.log('>>>>>>>>>>>>> JwtInterceptor <<<<<<<<<<<<<<<<<<<<<<<')
     // add auth header with jwt if user is logged in and request is to the api url
     if( this.authService.isLoggedIn) {
         const uid: string | null = this.authService.getLocalUserDataProp('uid');
