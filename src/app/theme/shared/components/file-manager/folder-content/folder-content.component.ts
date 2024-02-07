@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, signal, SimpleChanges,} from '@angular/core';
+import {Component,  Input, OnChanges,  SimpleChanges,} from '@angular/core';
 import {FileItem} from "../dtos/file-item.interface";
 import {newLeaf} from "../signals/file-item.signal";
 
@@ -9,10 +9,8 @@ import {newLeaf} from "../signals/file-item.signal";
   templateUrl: './folder-content.component.html',
   styleUrl: './folder-content.component.scss'
 })
-export class FolderContentComponent implements OnInit, OnChanges{
+export class FolderContentComponent implements  OnChanges{
   @Input() leaf!: FileItem;
-
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
 

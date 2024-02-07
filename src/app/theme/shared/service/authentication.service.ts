@@ -1,15 +1,16 @@
 ﻿import {Inject, Injectable, LOCALE_ID} from '@angular/core';
-import { formatDate } from '@angular/common';
+
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
 import { User } from '../entities/user.interface';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {UserService} from "./user.service";
 import * as auth from 'firebase/auth';
-import {DatePipe} from "@angular/common";
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -23,7 +24,8 @@ export class AuthenticationService {
       private router: Router,
       public afAuth: AngularFireAuth,
       public userService: UserService,
-      @Inject(LOCALE_ID) public locale: string
+      @Inject(LOCALE_ID) public locale: string,
+      private modal: MatDialog
   ) {
     // eslint-disable-next-line
     this.userSubject = new BehaviorSubject(JSON.parse(sessionStorage.getItem('user')!));
@@ -41,7 +43,7 @@ export class AuthenticationService {
      * @param values
      */
   signUpNewUser(values: any) {
-      const {email, password, firstName, lastName, roles} = values;
+      // const {email, password, firstName, lastName, roles} = values;
 
       // return this.afAuth
       //     .createUserWithEmailAndPassword(email, password)
@@ -131,6 +133,8 @@ export class AuthenticationService {
   }
 
   logout() {
+    console.log('logout - openDialogs: ',this.modal.openDialogs);
+    this.modal.openDialogs.forEach((modal)=> modal.close());
       this.afAuth.signOut()
           .then(() => {
               console.log('Logout');
@@ -208,7 +212,7 @@ export class AuthenticationService {
 
     getLocalUserData() {
         const data = sessionStorage.getItem('user');
-        if(!!data) {
+        if(data) {
             return JSON.parse(data);
         } else {
             return null;
@@ -217,8 +221,8 @@ export class AuthenticationService {
 
     getLocalUserDataProp(prop: string): any {
         const data = this.getLocalUserData();
-        if(!!data) {
-            if(!!data[prop]) {
+        if(data) {
+            if(data[prop]) {
                 return data[prop];
             }
         }
@@ -244,7 +248,7 @@ export class AuthenticationService {
 
     async getCurrentUserRoles(): Promise<string[]> {
         const userDoc = await this.getCurrentUserDocument();
-        if(!!userDoc) {
+        if(userDoc) {
             return userDoc.roles;
         } else  {
             return ['guest'];
@@ -259,7 +263,7 @@ export class AuthenticationService {
                 this.SetUserData(result.user)
                     .then(() => {
                         // console.log(`AuthLogin - SetUserData - res: ${user}`);
-                        const userDoc = this.getCurrentUserDocument()
+                        this.getCurrentUserDocument()
                             .then((doc) => {
                                 const {defaultPage} = doc;
                                 console.log('You have been successfully logged in!: ', this.isLoggedIn);

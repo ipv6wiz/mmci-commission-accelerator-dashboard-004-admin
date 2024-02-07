@@ -1,10 +1,11 @@
-import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { Component, EventEmitter, HostListener, Inject, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { ModalData } from '../dtos/modal-data.interface';
 import { SafePipe } from '../helpers/pipes/safe.pipe';
 import { StorageService } from '../../../service/storage.service';
 import { NgOptimizedImage } from '@angular/common';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { detailsLostFocus } from '../signals/details-lost-focus.signal';
 
 @Component({
   selector: 'app-file-display',
@@ -14,15 +15,21 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
   styleUrl: './file-display.component.scss'
 })
 export class FileDisplayComponent implements OnInit, OnChanges {
+
   item: any;
   itemUrl: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ModalData,
-    private storageService: StorageService
+    private storageService: StorageService,
+    public modal: MatDialog
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('FileDisplayComponent - changes: ', changes)
+  }
+  @HostListener('mouseleave')
+  lostFocus() {
+    detailsLostFocus.set('lost');
   }
 
   ngOnInit() {

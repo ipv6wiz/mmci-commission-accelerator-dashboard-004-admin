@@ -62,6 +62,10 @@ export class TblClientsMatComponent implements OnInit{
     this.clientVerifyData = null;
   }
 
+  lostFocus() {
+    console.log('TblClientsMatComponent >>>>>>>>>>>> lostFocus <<<<<<<<<<<<<<<<<<<<')
+  }
+
   isColumnTypeBool(data: any): boolean {
     if(typeof data === 'string') {
       const dx: string = data;

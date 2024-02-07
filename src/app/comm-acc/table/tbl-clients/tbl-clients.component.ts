@@ -79,6 +79,10 @@ export class TblClientsComponent {
         this.clientVerifySelected.emit(this.clientDataFromGrid);
     }
 
+    lostFocus() {
+        console.log('TblClientsComponent >>>>>>>>>>>> lostFocus <<<<<<<<<<<<<<<<<<<<')
+    }
+
 
     updateRoles(event: any, cellInfo: any) {
         this.logger.log('updateRoles - event: ', event);
