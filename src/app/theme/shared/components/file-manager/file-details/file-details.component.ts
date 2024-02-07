@@ -1,26 +1,20 @@
 import {
-  AfterViewInit,
+
   Component,
   effect, EffectRef,
-  EventEmitter,
+
   OnChanges,
   OnInit,
-  Output,
+
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {FileItem} from "../dtos/file-item.interface";
 import {newLeaf} from "../signals/file-item.signal";
 import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable, MatTableModule
 } from "@angular/material/table";
-import {Observable, Subject} from "rxjs";
+import { Subject} from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
 import { FileDisplayComponent } from '../file-display/file-display.component';
 
@@ -44,7 +38,7 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   columnsToDisplay: string[] = ['name', 'size'];
   columnNamesToDisplay: string[] = [];
 
-  constructor(public modal: MatDialog,) {
+  constructor(public modal: MatDialog) {
     this.newFile = effect(() => {
       const nf = newLeaf();
       console.log('FileDetailsComponent - newLeaf effect - nf: ', nf);
@@ -58,7 +52,11 @@ export class FileDetailsComponent implements OnChanges, OnInit {
     this.modal.open(FileDisplayComponent, {
       data: {
         fileItem
-      }
+      },
+      maxWidth:900,
+      minHeight: 300,
+      minWidth: 300,
+      closeOnNavigation: true
     })
   }
 
