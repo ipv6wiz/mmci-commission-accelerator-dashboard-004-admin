@@ -55,7 +55,7 @@ sed -i -E 's/"version": "(.*)"/"version": "'$VER'"/' package.json
 git add .
 git status
 git commit -m "Deployed Version $VER. $MSG"
-git push
+git push -u origin main
 pwd
 ng build --aot --configuration "production"
 firebase deploy --only hosting

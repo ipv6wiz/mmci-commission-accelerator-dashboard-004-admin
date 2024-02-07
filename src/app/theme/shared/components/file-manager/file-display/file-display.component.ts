@@ -20,24 +20,30 @@ export class FileDisplayComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: ModalData,
     private sanitizer: DomSanitizer,
     private storageService: StorageService
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
+    console.log('FileDisplayComponent - ngOnInit')
     if(this.data.fileItem.downloadLink !== undefined) {
+      console.log('FileDisplayComponent - ngOnInit downloadLink: ', this.data.fileItem.downloadLink);
       // const link = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.fileItem.downloadLink);
       const link = this.data.fileItem.downloadLink;
       this.storageService.getFileFromLink(link).subscribe({
         next: (item) => {
           // this.item = this.sanitizer.bypassSecurityTrustResourceUrl(item);
-          this.item = item;
-          this.itemUrl = 'data:image/jpg;base64, ' + this.item;
+          console.log('FileDisplayComponent - getFileFromLink - item: ', item);
+          const arrayBufferView = new Uint8Array(item);
+          const blob = new Blob([arrayBufferView], {type: "image/jpg"});
+          const urlCreator =  window.URL || window.webkitURL;
+          this.itemUrl = urlCreator.createObjectURL( blob );
         },
         error: (err) => {
           console.log('FileDisplayComponent - getFileFromLink - error: ', err)
         }
       })
     }
-
   }
 
 }

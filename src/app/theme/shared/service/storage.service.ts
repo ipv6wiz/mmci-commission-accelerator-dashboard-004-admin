@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable } from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import { FileItem } from '../components/file-manager/dtos/file-item.interface';
@@ -94,7 +94,9 @@ export class StorageService {
   }
 
   getFileFromLink(link: string): Observable<any> {
-    return this.http.get<any>(link);
+    const headers: HttpHeaders = new HttpHeaders({'Accept': 'image/*'})
+    // @ts-expect-error because of options
+    return this.http.get<any>(link, {headers: headers, responseType: 'arraybuffer'});
   }
 
   listFiles(bucketName: string): Observable<ApiResponse> {

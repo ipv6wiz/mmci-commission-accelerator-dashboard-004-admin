@@ -3,6 +3,8 @@ import {ErrorObjInterface} from "../entities/error-obj.interface";
 import {AlertService} from "../service/alert.service";
 import {NGXLogger} from "ngx-logger";
 
+//         {provide: ErrorHandler, useClass: GlobalErrorHandler},
+
 @Injectable()
 export class GlobalErrorHandler extends ErrorHandler {
     constructor(private alertService: AlertService, private logger: NGXLogger) {

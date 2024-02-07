@@ -37,9 +37,6 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
 import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
 import {LoggerModule} from "ngx-logger";
-import {CleanVerifyItemNamePipe} from "./theme/shared/pipes/clean-verify-item-name.pipe";
-
-
 
 @NgModule({
     declarations: [
@@ -84,7 +81,7 @@ import {CleanVerifyItemNamePipe} from "./theme/shared/pipes/clean-verify-item-na
         })
     ],
     providers: [
-        {provide: ErrorHandler, useClass: GlobalErrorHandler},
+
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
         fakeBackendProvider,
