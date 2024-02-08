@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
-import {TblClientsComponent} from "../../table/tbl-clients/tbl-clients.component";
 import { ClientVerifyMatComponent } from '../../pages/client-verify-mat/client-verify-mat.component';
 import { TblClientsMatComponent } from '../../table/tbl-clients-mat/tbl-clients-mat.component';
 
@@ -11,7 +10,6 @@ import { TblClientsMatComponent } from '../../table/tbl-clients-mat/tbl-clients-
   imports: [
     CommonModule,
     SharedModule,
-    TblClientsComponent,
     ClientVerifyMatComponent,
     TblClientsMatComponent
   ],

@@ -12,7 +12,6 @@ import { SafePipe } from '../helpers/pipes/safe.pipe';
 import { StorageService } from '../../../service/storage.service';
 import { NgOptimizedImage } from '@angular/common';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { detailsLostFocus } from '../signals/details-lost-focus.signal';
 import { MatButton } from '@angular/material/button';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -54,19 +53,19 @@ export class FileDisplayComponent implements OnInit, OnChanges {
       iconColor: 'red'
     },
     { // 4
-      status: 'Override Accept',
+      status: 'Accept',
       hint: 'Data checked and deemed acceptable',
       icon: 'bi-clipboard2-check-fill',
       iconColor: 'darkgreen'
     },
     { // 5
-      status: 'Override Reject',
+      status: 'Reject',
       hint: 'Data checked and deemed unacceptable',
       icon: 'bi-clipboard2-x-fill',
       iconColor: 'red'
     },
     { // 6
-      status: 'Request more Info',
+      status: 'Request New File',
       hint: 'Data checked & more information requested',
       icon: 'bi-info-circle-fill',
       iconColor: 'orange'
@@ -82,11 +81,17 @@ export class FileDisplayComponent implements OnInit, OnChanges {
     console.log('FileDisplayComponent - changes: ', changes)
   }
 
+  acceptRejectRequestBtnClick(event: any, kind: string) {
+
+  }
+
   itemDisable(btn: string, item: any): boolean {
     if(btn == 'accept') {
       return item['verifyStatus'] === 1 || item['verifyStatus'] === 4;
     } else if(btn === 'reject') {
       return item['verifyStatus'] === 3 || item['verifyStatus'] === 5;
+    } else if(btn === 'request') {
+      return false;
     }
     return false;
   }
@@ -98,7 +103,6 @@ export class FileDisplayComponent implements OnInit, OnChanges {
       const link = this.data.fileItem.downloadLink;
       this.storageService.getFileFromLink(link).subscribe({
         next: (item) => {
-          detailsLostFocus.set('has');
           console.log('FileDisplayComponent - getFileFromLink - item: ', item);
           const arrayBufferView = new Uint8Array(item);
           if(this.data.fileItem.fileType === 'pdf') {

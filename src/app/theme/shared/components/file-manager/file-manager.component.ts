@@ -61,7 +61,7 @@ export class FileManagerComponent implements OnChanges{
   };
 
   treeControl = new NestedTreeControl<FileItem>(node => node.items);
-  dataSource = new MatTreeNestedDataSource<FileItem>();
+  dataSource: MatTreeNestedDataSource<FileItem> = new MatTreeNestedDataSource<FileItem>();
   hasChild = (_: number, node: FileItem) => !!node.items && node.items.length > 0;
   isLeaf = (_: number, node: FileItem) => !!node.items && node.items.length === 0;
 
@@ -77,6 +77,7 @@ export class FileManagerComponent implements OnChanges{
       bucket = this.bucket;
     }
     this.dataSource.data = await this.storageService.getFileList(bucket);
+    this.treeControl.expand(this.dataSource.data[0]);
   }
 
   ngOnChanges(changes: SimpleChanges) {

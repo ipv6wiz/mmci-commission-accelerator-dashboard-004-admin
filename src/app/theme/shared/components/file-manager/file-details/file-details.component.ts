@@ -17,7 +17,6 @@ import {
 import { Subject} from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
 import { FileDisplayComponent } from '../file-display/file-display.component';
-import { detailsLostFocus } from '../signals/details-lost-focus.signal';
 
 @Component({
   selector: 'app-file-details',
@@ -32,7 +31,7 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   @ViewChild('fileDetails') fileDetailsTable!: MatTable<any>;
   files: FileItem[] = [];
   newFile: EffectRef;
-  detailsFocus: EffectRef;
+
 
   private filesSubject = new Subject<FileItem[]>();
   dataSource$ = this.filesSubject.asObservable();
@@ -47,14 +46,7 @@ export class FileDetailsComponent implements OnChanges, OnInit {
       this.files = nf;
       console.log('FileDetailsComponent - newLeaf effect - files: ', this.files)
     });
-    this.detailsFocus = effect(() => {
-      const focusState = detailsLostFocus();
-      console.log('FileDetailsComponent - focusState: ', focusState);
-      if(focusState === 'lost') {
-        console.log('=======> WOULD HAVE CLOSED THE DIALOG <==========')
-        // this.modal.closeAll();
-      }
-    });
+
   }
 
   openFileDisplayModal(fileItem: FileItem) {
@@ -65,11 +57,8 @@ export class FileDetailsComponent implements OnChanges, OnInit {
         fileItem
       },
       maxWidth:900,
-      minHeight: 300,
-      maxHeight: 800,
       minWidth: 300,
-      closeOnNavigation: true,
-      autoFocus: 'first-tabbable',
+      maxHeight: 800,
       id: 'file-details-display-modal'
     })
   }

@@ -1,6 +1,12 @@
 <div #fileDetailsDiv id="fileDetailsDiv"   >
 <mat-toolbar color="antiquewhite">
-  <button type="button" class="btn btn-outline-success" style="margin-left: 15px" [disabled]="itemDisable('accept', data.fileItem)">
+  <button
+    type="button"
+    class="btn btn-outline-success"
+    style="margin-left: 15px"
+    [disabled]="itemDisable('accept', data.fileItem)"
+    (click)="acceptRejectRequestBtnClick($event, 'accept')"
+  >
     <i
       class="bi {{verifyStatus[4].icon}}"
       [style.color]="verifyStatus[4].iconColor"
@@ -8,10 +14,16 @@
       [matTooltip]="verifyStatus[4].hint"
       matTooltipPosition="left"
     ></i>
-    Override Accept
+    {{verifyStatus[4].status}}
   </button>
 
-  <button type="button" class="btn btn-outline-danger" style=" margin-left: 15px" [disabled]="itemDisable('reject', data.fileItem)">
+  <button
+    type="button"
+    class="btn btn-outline-danger"
+    style=" margin-left: 15px"
+    [disabled]="itemDisable('reject', data.fileItem)"
+    (click)="acceptRejectRequestBtnClick($event, 'reject')"
+  >
     <i
       class="bi {{verifyStatus[5].icon}}"
       [style.color]="verifyStatus[5].iconColor"
@@ -19,8 +31,26 @@
       [matTooltip]="verifyStatus[5].hint"
       matTooltipPosition="left"
     ></i>
-    Override Reject
+    {{verifyStatus[5].status}}
   </button>
+
+  <button
+    type="button"
+    class="btn btn-outline-warning"
+    style=" margin-left: 15px"
+    [disabled]="itemDisable('request', data.fileItem)"
+    (click)="acceptRejectRequestBtnClick($event, 'request')"
+  >
+    <i
+      class="bi {{verifyStatus[6].icon}}"
+      [style.color]="verifyStatus[6].iconColor"
+      [style.font-size]="'1.0rem'"
+      [matTooltip]="verifyStatus[6].hint"
+      matTooltipPosition="left"
+    ></i>
+    {{verifyStatus[6].status}}
+  </button>
+
   <span class="example-spacer"></span>
   <button
     style="background-color: transparent; border: 0; "
