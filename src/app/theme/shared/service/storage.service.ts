@@ -5,7 +5,6 @@ import {environment} from '../../../../environments/environment';
 import { FileItem } from '../components/file-manager/dtos/file-item.interface';
 import { BucketSmallListInterface } from '../components/file-manager/dtos/bucket-small-list.interface';
 import { ApiResponse } from '../dtos/api-response.dto';
-import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +66,7 @@ export class StorageService {
             el.meta = item.meta;
             el.fileType = el.name.split('.')[1];
             el.downloadLink = this.makeDownloadLink(bucket, el.folder, el.name);
+            el.verifyStatus = 0;
           } else {
             el.isDirectory = true;
             el.expanded = false;

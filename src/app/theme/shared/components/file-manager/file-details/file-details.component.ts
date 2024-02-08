@@ -49,23 +49,28 @@ export class FileDetailsComponent implements OnChanges, OnInit {
     });
     this.detailsFocus = effect(() => {
       const focusState = detailsLostFocus();
+      console.log('FileDetailsComponent - focusState: ', focusState);
       if(focusState === 'lost') {
-        this.modal.closeAll();
+        console.log('=======> WOULD HAVE CLOSED THE DIALOG <==========')
+        // this.modal.closeAll();
       }
     });
   }
 
   openFileDisplayModal(fileItem: FileItem) {
     // console.log('openFileDisplayModal - item.bucket: ', fileItem.downloadLink);
-    detailsLostFocus.set('has');
+
     this.modal.open(FileDisplayComponent, {
       data: {
         fileItem
       },
       maxWidth:900,
       minHeight: 300,
+      maxHeight: 800,
       minWidth: 300,
-      closeOnNavigation: true
+      closeOnNavigation: true,
+      autoFocus: 'first-tabbable',
+      id: 'file-details-display-modal'
     })
   }
 

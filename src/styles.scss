@@ -112,3 +112,7 @@ File: style.css
 .test {
   color: cornflowerblue;
 }
+
+.cdk-overlay-container {
+  z-index: 10000 !important;
+}

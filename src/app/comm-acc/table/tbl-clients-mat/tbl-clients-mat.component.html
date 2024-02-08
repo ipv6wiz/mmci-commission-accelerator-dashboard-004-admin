@@ -44,9 +44,9 @@
           @if(client.roles.indexOf('CLIENT-PENDING-REGISTRATION') === -1) {
             <button mat-icon-button aria-label="expand row" [id]="client.uid" (click)="onExpandRow($event, client)">
               @if (expandedClient === client) {
-                <mat-icon>keyboard_arrow_up</mat-icon>
+                <mat-icon fontIcon="keyboard_arrow_up"></mat-icon>
               } @else {
-                <mat-icon>keyboard_arrow_down</mat-icon>
+                <mat-icon fontIcon="keyboard_arrow_down"></mat-icon>
               }
             </button>
           }

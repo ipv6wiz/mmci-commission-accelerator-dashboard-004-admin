@@ -1,21 +1,57 @@
+<div #fileDetailsDiv id="fileDetailsDiv"   >
+<mat-toolbar color="antiquewhite">
+  <button type="button" class="btn btn-outline-success" style="margin-left: 15px" [disabled]="itemDisable('accept', data.fileItem)">
+    <i
+      class="bi {{verifyStatus[4].icon}}"
+      [style.color]="verifyStatus[4].iconColor"
+      [style.font-size]="'1.0rem'"
+      [matTooltip]="verifyStatus[4].hint"
+      matTooltipPosition="left"
+    ></i>
+    Override Accept
+  </button>
 
-<h2 mat-dialog-title>{{ data.fileItem.name }}</h2>
+  <button type="button" class="btn btn-outline-danger" style=" margin-left: 15px" [disabled]="itemDisable('reject', data.fileItem)">
+    <i
+      class="bi {{verifyStatus[5].icon}}"
+      [style.color]="verifyStatus[5].iconColor"
+      [style.font-size]="'1.0rem'"
+      [matTooltip]="verifyStatus[5].hint"
+      matTooltipPosition="left"
+    ></i>
+    Override Reject
+  </button>
+  <span class="example-spacer"></span>
+  <button
+    style="background-color: transparent; border: 0; "
+    [mat-dialog-close]="true"
+  >
+    <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+  </button>
+</mat-toolbar>
+  <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
+    <h3 >{{ data.fileItem.name }}</h3>
+  </div>
+
 
   @if(['jpg', 'jpeg', 'png'].includes( data.fileItem.fileType )) {
-    <p style="text-align: center;margin-top: 0; margin-bottom: 0">
-      <img [src]="itemUrl" alt="" height="250"/>
+    <p style="text-align: center; margin-top: 0; margin-bottom: 20px">
+      <img [src]="itemUrl" alt="" height="250" />
     </p>
   }
   @if(data.fileItem.fileType === 'pdf') {
-    <pdf-viewer
-      [zoom]="1"
-      [zoom-scale]="'page-fit'"
-      [original-size]="false"
-      [src]="item"
-      style="max-width: 850px; height: 800px; width: 800px"
-    ></pdf-viewer>
-  }
+    <div id="pdf-viewer-div">
+      <pdf-viewer
+        [zoom]="1"
+        [zoom-scale]="'page-fit'"
+        [original-size]="false"
+        [src]="item"
+        style="max-width: 850px; height: 800px; width: 800px"
 
+      ></pdf-viewer>
+    </div>
+  }
+</div>
 
 
 
