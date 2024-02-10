@@ -1,4 +1,5 @@
-import { FileItem } from '../../../entities/file-item.class';
+import { FileItem } from './file-item.interface';
+
 
 export interface FileVerifyStatusDto {
   action: string;
