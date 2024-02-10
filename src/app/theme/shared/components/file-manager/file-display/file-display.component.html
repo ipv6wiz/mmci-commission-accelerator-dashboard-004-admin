@@ -5,7 +5,7 @@
     class="btn btn-outline-success"
     style="margin-left: 15px"
     [disabled]="itemDisable('accept', data.fileItem)"
-    (click)="acceptRejectRequestBtnClick($event, 'accept')"
+    (click)="acceptRejectRequestBtnClick($event, 'accept', data.fileItem)"
   >
     <i
       class="bi {{verifyStatus[4].icon}}"
@@ -22,7 +22,7 @@
     class="btn btn-outline-danger"
     style=" margin-left: 15px"
     [disabled]="itemDisable('reject', data.fileItem)"
-    (click)="acceptRejectRequestBtnClick($event, 'reject')"
+    (click)="acceptRejectRequestBtnClick($event, 'reject', data.fileItem)"
   >
     <i
       class="bi {{verifyStatus[5].icon}}"
@@ -39,7 +39,7 @@
     class="btn btn-outline-warning"
     style=" margin-left: 15px"
     [disabled]="itemDisable('request', data.fileItem)"
-    (click)="acceptRejectRequestBtnClick($event, 'request')"
+    (click)="acceptRejectRequestBtnClick($event, 'request', data.fileItem)"
   >
     <i
       class="bi {{verifyStatus[6].icon}}"

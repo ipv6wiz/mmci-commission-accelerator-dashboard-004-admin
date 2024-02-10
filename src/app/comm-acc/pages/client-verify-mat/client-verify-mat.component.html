@@ -56,6 +56,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <section>
+        @if(item.key !== 'CLIENT_DOCUMENTS') {
         <div class="row">
           <table class="verifyDataTable">
             <tr>
@@ -96,16 +97,19 @@
               <td style="width: 50%">
                 {{item.value['clientEnteredData']['data']}}
               </td>
-
             </tr>
           </table>
         </div>
+        } @else if (item.key === 'CLIENT_DOCUMENTS') {
+          <p>Documents require visual verification.</p>
+          <p>Use Client Files Manager below to view documents and take action.</p>
+        }
       </section>
     </mat-expansion-panel>
   }
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title><h3>Client Files</h3></mat-panel-title>
+      <mat-panel-title><h4 class="verification-accord-h4">Client Registration Files Manager</h4></mat-panel-title>
     </mat-expansion-panel-header>
     <app-file-manager [bucket]="clientData.bucket"></app-file-manager>
   </mat-expansion-panel>
