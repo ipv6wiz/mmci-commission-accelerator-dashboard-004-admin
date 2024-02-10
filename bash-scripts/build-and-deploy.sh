@@ -57,7 +57,12 @@ git status
 git commit -m "Deployed Version $VER. $MSG"
 git push -u origin main
 pwd
-ng build --aot --configuration "production"
+# Check the exit code of the build command
+if ! ng build --aot --configuration "production"; then
+    # The build failed
+    echo "Angular build failed"
+    exit 1
+fi
 firebase deploy --only hosting
 echo "New Version: $VER"
 
