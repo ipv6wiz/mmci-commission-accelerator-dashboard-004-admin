@@ -1,7 +1,7 @@
-export interface FileItem {
+export interface FileItemX {
     name: string;
     isDirectory: boolean;
     size?: number;
     dateCreated?: string;
-    items?: FileItem[];
+    items?: FileItemX[];
 }

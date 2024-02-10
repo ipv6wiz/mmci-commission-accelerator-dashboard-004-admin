@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, effect, EffectRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ClientService } from '../../../theme/shared/service/client.service';
 import { NGXLogger } from 'ngx-logger';
 import { lastValueFrom } from 'rxjs';
@@ -10,6 +10,10 @@ import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinnerModule, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTooltip } from '@angular/material/tooltip';
 import { FileManagerComponent } from '../../../theme/shared/components/file-manager/file-manager.component';
+import {
+  fileVerifyStatusSignal
+} from '../../../theme/shared/components/file-manager/signals/file-verify-status.signal';
+import { FileVerifyStatusDto } from '../../../theme/shared/components/file-manager/dtos/file-verify-status.dto';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -32,8 +36,9 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   verifyData: any;
   loadingVerification: boolean = false;
   public loadSpinnerColor: ThemePalette = 'primary';
-  public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate'
-  public loadSpinnerDiameter: string = '50'
+  public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
+  public loadSpinnerDiameter: string = '50';
+  private fileVerifyStatusRef: EffectRef;
   verifyStatus: any[] = [
     { // 0
       status: 'Processing',
@@ -81,6 +86,10 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
 
   constructor(private clientsService: ClientService, private logger: NGXLogger) {
     console.log('ClientVerifyMatComponent - constructor');
+    this.fileVerifyStatusRef = effect(() => {
+      const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
+      console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`)
+    });
   }
 
   ngOnInit() {
