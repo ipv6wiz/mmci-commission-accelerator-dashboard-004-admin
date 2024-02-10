@@ -88,7 +88,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     console.log('ClientVerifyMatComponent - constructor');
     this.fileVerifyStatusRef = effect(() => {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
-      console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`)
+      if(fvs.item) {
+        console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
+      } else {
+        console.log(`fileVerifyStatusSignal - NO ITEM`);
+      }
+
     });
   }
 

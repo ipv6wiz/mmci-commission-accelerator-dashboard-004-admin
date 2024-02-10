@@ -50,6 +50,15 @@
     ></i>
     {{verifyStatus[6].status}}
   </button>
+  <span>
+    File Status: <i
+    class="bi {{verifyStatus[data.fileItem.verifyStatus].icon}}"
+    [style.color]="verifyStatus[data.fileItem.verifyStatus].iconColor"
+    [style.font-size]="'1.0rem'"
+    [matTooltip]="verifyStatus[data.fileItem.verifyStatus].hint"
+    matTooltipPosition="right"
+  ></i>
+  </span>
 
   <span class="example-spacer"></span>
   <button

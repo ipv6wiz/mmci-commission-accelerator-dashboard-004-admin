@@ -32,7 +32,7 @@ export class FileDisplayComponent implements OnInit, OnChanges {
   verifyStatus: any[] = [
     { // 0
       status: 'Processing',
-      hint: 'Verification item being processed',
+      hint: 'File Action needed',
       icon: 'bi-clipboard2-pulse-fill',
       iconColor: 'cornflowerblue'
     },
@@ -84,6 +84,21 @@ export class FileDisplayComponent implements OnInit, OnChanges {
   }
 
   acceptRejectRequestBtnClick(event: any, kind: string, item: FileItem) {
+    // base verifyStatus off of kind
+    switch(kind) {
+      case 'accept':
+        item.verifyStatus = 4;
+        break;
+      case 'reject':
+        item.verifyStatus = 5;
+        break;
+      case 'request':
+        item.verifyStatus = 6;
+        break;
+      default:
+        item.verifyStatus = 0;
+        break;
+    }
     fileVerifyStatusSignal.set({action: kind, item});
   }
 
