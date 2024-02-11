@@ -2,7 +2,7 @@ export interface FileItem {
   id: string;
   name: string;
   expanded: boolean;
-  folder?: string;
+  folder: string;
   isDirectory: boolean;
   level: number;
   fileType?: string;

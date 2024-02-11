@@ -170,6 +170,8 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     console.log('updateClientDocsStatus - docIndex: ', docIndex);
     console.log('updateClientDocsStatus - item: ', item);
     console.log('updateClientDocsStatus - verifyItem: ', verifyItem);
+    verifyItem.value.researchData.data[item.folder].status = item.verifyStatus;
+    console.log('updateClientDocsStatus - updated status: ', verifyItem.value.researchData.data[item.folder]);
   }
 
   // async saveRegistrantData() {
