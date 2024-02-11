@@ -56,19 +56,19 @@ export class FileDisplayComponent implements OnInit, OnChanges {
     },
     { // 4
       status: 'Accept',
-      hint: 'Data checked and deemed acceptable',
+      hint: 'File checked and deemed acceptable',
       icon: 'bi-clipboard2-check-fill',
       iconColor: 'darkgreen'
     },
     { // 5
       status: 'Reject',
-      hint: 'Data checked and deemed unacceptable',
+      hint: 'File checked and deemed unacceptable',
       icon: 'bi-clipboard2-x-fill',
       iconColor: 'red'
     },
     { // 6
       status: 'Request New File',
-      hint: 'Data checked & more information requested',
+      hint: 'File checked & new file requested',
       icon: 'bi-info-circle-fill',
       iconColor: 'orange'
     }

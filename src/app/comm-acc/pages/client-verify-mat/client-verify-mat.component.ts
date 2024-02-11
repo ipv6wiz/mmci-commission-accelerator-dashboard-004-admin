@@ -90,6 +90,10 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
       if(fvs.item) {
         console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
+        // set doc file upload status
+        // set Client Documents status based on composite of individual file verify Status
+        console.log('verifyDataSource datatype : ', typeof this.verifyDataSource);
+
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
       }
@@ -153,6 +157,15 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     this.loadingVerification = true;
     await this.loadClientVerifyData('true');
     this.verifyDataSource = this.verifyData.items;
+  }
+
+  updateClientDocsStatus() {
+    const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
+    console.log('updateClientDocsStatus - docIndex: ', docIndex);
+  }
+
+  findItemIndex(key: string): number {
+    return this.verifyDataSource.findIndex((item) => item.key === key);
   }
 
 }
