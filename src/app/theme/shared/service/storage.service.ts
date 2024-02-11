@@ -24,6 +24,7 @@ export class StorageService {
     const rootItem: FileItem = {
       level: 0,
       expanded: false,
+      folder: '/',
       name: '/',
       id: 'root',
       isDirectory: true,

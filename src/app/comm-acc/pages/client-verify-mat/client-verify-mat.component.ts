@@ -167,12 +167,27 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   updateClientDocsStatus(item: FileItem) {
     const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
     const verifyItem = this.verifyDataSource[docIndex];
-    console.log('updateClientDocsStatus - docIndex: ', docIndex);
-    console.log('updateClientDocsStatus - item: ', item);
-    console.log('updateClientDocsStatus - verifyItem: ', verifyItem);
-    verifyItem.value.researchData.data[item.folder].status = item.verifyStatus;
-    console.log('updateClientDocsStatus - updated status: ', verifyItem.value.researchData.data[item.folder]);
+    const folderProp = this.convertToCamelCase(item.folder);
+    verifyItem.value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
+    console.log('updateClientDocsStatus - updated status: ', verifyItem.value['researchData']['data'][folderProp]);
+
   }
+
+  convertToCamelCase(str: string, sep: string = '-'): string {
+    const newStr = this.autoCapitalize(str, sep, '', true);
+    console.log('convertToCameCase - newStr: ', newStr);
+    return newStr;
+  }
+
+  private autoCapitalize(text: string, sep: string = ' ', joiner: string = ' ', ignoreFirst: boolean = false): string {
+    const words: string[] = text.split(sep);
+    const startIndex = (ignoreFirst) ? 1 : 0;
+    for(let w = startIndex; w < words.length; w++){
+      words[w] = words[w].charAt(0).toUpperCase()+words[w].slice(1);
+    }
+    return words.join(joiner);
+  }
+
 
   // async saveRegistrantData() {
   //   try {
