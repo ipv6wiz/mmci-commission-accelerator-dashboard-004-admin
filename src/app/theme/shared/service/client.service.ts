@@ -14,7 +14,4 @@ export class ClientService {
       return this.http.get<any[]>(`${this.apiUrl}clients/dg`);
     }
 
-    getClientVerification(clientId: string, refresh: string = 'false'): Observable<any[]> {
-      return this.http.get<any[]>(`${this.apiUrl}client-verify/verify/${clientId}?returnType=array&refresh=${refresh}`);
-    }
 }

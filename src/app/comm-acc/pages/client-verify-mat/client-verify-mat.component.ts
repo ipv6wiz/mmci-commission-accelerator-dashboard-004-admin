@@ -14,6 +14,7 @@ import {
   fileVerifyStatusSignal
 } from '../../../theme/shared/components/file-manager/signals/file-verify-status.signal';
 import { FileVerifyStatusDto } from '../../../theme/shared/components/file-manager/dtos/file-verify-status.dto';
+import { ClientVerifyService } from '../../../theme/shared/service/client-verify.service';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -84,7 +85,10 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     }
   ];
 
-  constructor(private clientsService: ClientService, private logger: NGXLogger) {
+  constructor(
+    private clientsService: ClientService,
+    private clientVerifyService: ClientVerifyService,
+    private logger: NGXLogger) {
     console.log('ClientVerifyMatComponent - constructor');
     this.fileVerifyStatusRef = effect(() => {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
@@ -141,7 +145,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   private async loadClientVerifyData(refresh: string = 'false') {
     console.log('>>>>>> loadClientVerifyData - enter <<<<<<');
 
-    this.verifyData = await lastValueFrom(this.clientsService.getClientVerification(this.clientData.uid, refresh), {defaultValue: []})
+    this.verifyData = await lastValueFrom(this.clientVerifyService.getClientVerification(this.clientData.uid, refresh), {defaultValue: []})
       .then((response: any) => {
         console.log('loadClientVerifyData - items: ', response.data.items);
         this.loadingVerification = false;
@@ -153,7 +157,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       })
   }
 
-  async refreshVerifcationData() {
+  async refreshVerificationData() {
     this.loadingVerification = true;
     await this.loadClientVerifyData('true');
     this.verifyDataSource = this.verifyData.items;
