@@ -15,6 +15,7 @@ import {
 } from '../../../theme/shared/components/file-manager/signals/file-verify-status.signal';
 import { FileVerifyStatusDto } from '../../../theme/shared/components/file-manager/dtos/file-verify-status.dto';
 import { ClientVerifyService } from '../../../theme/shared/service/client-verify.service';
+import { FileItem } from '../../../theme/shared/components/file-manager/dtos/file-item.interface';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -97,7 +98,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         // set doc file upload status
         // set Client Documents status based on composite of individual file verify Status
         console.log('verifyDataSource datatype : ', typeof this.verifyDataSource);
-        this.updateClientDocsStatus();
+        this.updateClientDocsStatus(fvs.item);
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
       }
@@ -163,10 +164,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     this.verifyDataSource = this.verifyData.items;
   }
 
-  updateClientDocsStatus() {
+  updateClientDocsStatus(item: FileItem) {
     const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
+    const verifyItem = this.verifyDataSource[docIndex];
     console.log('updateClientDocsStatus - docIndex: ', docIndex);
-
+    console.log('updateClientDocsStatus - item: ', item);
+    console.log('updateClientDocsStatus - verifyItem: ', verifyItem);
   }
 
   // async saveRegistrantData() {
