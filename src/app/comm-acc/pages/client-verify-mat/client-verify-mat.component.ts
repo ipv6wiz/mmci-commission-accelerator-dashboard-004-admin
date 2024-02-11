@@ -93,7 +93,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         // set doc file upload status
         // set Client Documents status based on composite of individual file verify Status
         console.log('verifyDataSource datatype : ', typeof this.verifyDataSource);
-
+        this.updateClientDocsStatus();
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
       }
@@ -162,7 +162,21 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   updateClientDocsStatus() {
     const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
     console.log('updateClientDocsStatus - docIndex: ', docIndex);
+
   }
+
+  // async saveRegistrantData() {
+  //   try {
+  //     if(!this.registrant.agentDreData) {
+  //       this.registrant.agentDreData = this.dreLicenseData;
+  //     }
+  //     const response = await this.regService.saveRegForm(this.registrant);
+  //     console.log('saveRegistrantData - response: ', response);
+  //     return response;
+  //   } catch (e: any) {
+  //     throw new Error(e.message);
+  //   }
+  // }
 
   findItemIndex(key: string): number {
     return this.verifyDataSource.findIndex((item) => item.key === key);
