@@ -20,4 +20,8 @@ export class ClientVerifyService {
     return this.http.put<ApiResponse>(`${this.apiUrl}client-verify/verify/status/item/${clientId}`, item);
   }
 
+  updateClientVerifyDocItem(clientId: string, item: any): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${this.apiUrl}client-verify/verify/status/item/doc/${clientId}`, item);
+  }
+
 }

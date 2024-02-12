@@ -16,6 +16,7 @@ import {
 import { FileVerifyStatusDto } from '../../../theme/shared/components/file-manager/dtos/file-verify-status.dto';
 import { ClientVerifyService } from '../../../theme/shared/service/client-verify.service';
 import { FileItem } from '../../../theme/shared/components/file-manager/dtos/file-item.interface';
+import { HelpersService } from '../../../theme/shared/service/helpers.service';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -87,7 +88,8 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   ];
 
   constructor(
-    private clientsService: ClientService,
+    private helpers: HelpersService,
+    private clientService: ClientService,
     private clientVerifyService: ClientVerifyService,
     private logger: NGXLogger) {
     console.log('ClientVerifyMatComponent - constructor');
@@ -95,11 +97,11 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
       if(fvs.item) {
         console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
-        this.updateClientDocsStatus(fvs).then();
+        this.updateClientVerifyDocStatus(fvs).then();
+        this.updateClientDocItem(fvs).then();
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
       }
-
     });
   }
 
@@ -161,16 +163,16 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     this.verifyDataSource = this.verifyData.items;
   }
 
-  async updateClientDocsStatus(fvs: FileVerifyStatusDto) {
+  async updateClientVerifyDocStatus(fvs: FileVerifyStatusDto) {
     const item: FileItem | undefined = fvs.item;
     const clientId: string | undefined = fvs.clientId;
     if(item && clientId) {
       const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
       const verifyItem = this.verifyDataSource[docIndex];
-      const folderProp = this.convertToCamelCase(item.folder);
+      const folderProp = this.helpers.convertToCamelCase(item.folder);
       verifyItem.value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
       console.log('updateClientDocsStatus - updated status: ', verifyItem.value['researchData']['data'][folderProp]);
-      const updateResponse = await lastValueFrom(this.clientVerifyService.updateClientVerifyItem(clientId, item))
+      const updateResponse = await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, item))
         .then((response: any) => {
           return response.data;
         })
@@ -180,24 +182,23 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         });
       console.log('updateClientDocsStatus - updateResponse: ', updateResponse);
     }
-
   }
 
-  convertToCamelCase(str: string, sep: string = '-'): string {
-    const newStr = this.autoCapitalize(str, sep, '', true);
-    console.log('convertToCameCase - newStr: ', newStr);
-    return newStr;
-  }
-
-  private autoCapitalize(text: string, sep: string = ' ', joiner: string = ' ', ignoreFirst: boolean = false): string {
-    const words: string[] = text.split(sep);
-    const startIndex = (ignoreFirst) ? 1 : 0;
-    for(let w = startIndex; w < words.length; w++){
-      words[w] = words[w].charAt(0).toUpperCase()+words[w].slice(1);
+  async updateClientDocItem(fvs: FileVerifyStatusDto) {
+    const item: FileItem | undefined = fvs.item;
+    const clientId: string | undefined = fvs.clientId;
+    if(item && clientId) {
+      const updateResponse = await lastValueFrom(this.clientService.updateClientDocItem(clientId, item))
+        .then((response: any) => {
+          return response.data;
+        })
+        .catch((err) => {
+          this.logger.log('updateClientDocItem - error: ', err.message);
+          return null;
+        });
+      console.log('updateClientDocItem - updateResponse: ', updateResponse);
     }
-    return words.join(joiner);
   }
-
 
   // async saveRegistrantData() {
   //   try {
