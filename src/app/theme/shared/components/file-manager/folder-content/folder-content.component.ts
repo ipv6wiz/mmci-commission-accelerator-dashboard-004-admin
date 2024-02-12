@@ -11,6 +11,7 @@ import {newLeaf} from "../signals/file-item.signal";
 })
 export class FolderContentComponent implements  OnChanges{
   @Input() leaf!: FileItem;
+  @Input() clientId!: string;
 
   ngOnChanges(changes: SimpleChanges) {
 

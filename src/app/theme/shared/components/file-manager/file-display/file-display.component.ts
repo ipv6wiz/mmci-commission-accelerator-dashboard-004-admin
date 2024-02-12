@@ -99,7 +99,7 @@ export class FileDisplayComponent implements OnInit, OnChanges {
         item.verifyStatus = 0;
         break;
     }
-    fileVerifyStatusSignal.set({action: kind, item});
+    fileVerifyStatusSignal.set({clientId: this.data.clientId, action: kind, item});
   }
 
   itemDisable(btn: string, item: any): boolean {

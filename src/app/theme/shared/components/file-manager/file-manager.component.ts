@@ -54,6 +54,7 @@ import { StorageService } from '../../service/storage.service';
 })
 export class FileManagerComponent implements OnChanges{
   @Input() bucket: string = '';
+  @Input() clientId: string = '';
   resizingEvent = {
     isResizing: false,
     startingCursorX: 0,

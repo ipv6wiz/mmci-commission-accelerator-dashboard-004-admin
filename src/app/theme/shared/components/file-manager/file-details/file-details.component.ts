@@ -1,7 +1,7 @@
 import {
 
   Component,
-  effect, EffectRef,
+  effect, EffectRef, Input,
 
   OnChanges,
   OnInit,
@@ -28,6 +28,7 @@ import { FileDisplayComponent } from '../file-display/file-display.component';
   styleUrl: './file-details.component.scss'
 })
 export class FileDetailsComponent implements OnChanges, OnInit {
+  @Input() clientId: string = '';
   @ViewChild('fileDetails') fileDetailsTable!: MatTable<any>;
   files: FileItem[] = [];
   newFile: EffectRef;
@@ -54,6 +55,7 @@ export class FileDetailsComponent implements OnChanges, OnInit {
 
     this.modal.open(FileDisplayComponent, {
       data: {
+        clientId: this.clientId,
         fileItem
       },
       maxWidth:900,

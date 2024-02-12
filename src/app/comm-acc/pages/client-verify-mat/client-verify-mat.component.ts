@@ -95,10 +95,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
       if(fvs.item) {
         console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
-        // set doc file upload status
-        // set Client Documents status based on composite of individual file verify Status
-        console.log('verifyDataSource datatype : ', typeof this.verifyDataSource);
-        this.updateClientDocsStatus(fvs.item);
+        this.updateClientDocsStatus(fvs).then();
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
       }
@@ -164,12 +161,25 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     this.verifyDataSource = this.verifyData.items;
   }
 
-  updateClientDocsStatus(item: FileItem) {
-    const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
-    const verifyItem = this.verifyDataSource[docIndex];
-    const folderProp = this.convertToCamelCase(item.folder);
-    verifyItem.value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
-    console.log('updateClientDocsStatus - updated status: ', verifyItem.value['researchData']['data'][folderProp]);
+  async updateClientDocsStatus(fvs: FileVerifyStatusDto) {
+    const item: FileItem | undefined = fvs.item;
+    const clientId: string | undefined = fvs.clientId;
+    if(item && clientId) {
+      const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
+      const verifyItem = this.verifyDataSource[docIndex];
+      const folderProp = this.convertToCamelCase(item.folder);
+      verifyItem.value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
+      console.log('updateClientDocsStatus - updated status: ', verifyItem.value['researchData']['data'][folderProp]);
+      const updateResponse = await lastValueFrom(this.clientVerifyService.updateClientVerifyItem(clientId, item))
+        .then((response: any) => {
+          return response.data;
+        })
+        .catch((err) => {
+          this.logger.log('updateClientDocsStatus - error: ', err.message);
+          return null;
+        });
+      console.log('updateClientDocsStatus - updateResponse: ', updateResponse);
+    }
 
   }
 
