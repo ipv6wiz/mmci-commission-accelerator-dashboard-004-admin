@@ -5,6 +5,7 @@ import {environment} from '../../../../environments/environment';
 import { FileItem } from '../components/file-manager/dtos/file-item.interface';
 import { BucketSmallListInterface } from '../components/file-manager/dtos/bucket-small-list.interface';
 import { ApiResponse } from '../dtos/api-response.dto';
+import { FileCustomMetadataDto } from '../components/file-manager/dtos/file-custom-metadata.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,21 +17,47 @@ export class StorageService {
   constructor(private http: HttpClient) {}
 
    async getFileList(bucket: string): Promise<FileItem[]> {
-    const fileObj = await lastValueFrom(
-      this.listFiles(bucket),
-      {defaultValue: {statusCode: 400, msg: 'Default Value - should never be seen', data: null}});
-    const fileItems: FileItem[] = this.processFileList(fileObj.data.list, bucket);
-    console.log('getFileList - fileItems: ', fileItems);
-    const rootItem: FileItem = {
-      level: 0,
-      expanded: false,
-      folder: '/',
-      name: '/',
-      id: 'root',
-      isDirectory: true,
-      items: fileItems
+     const rootItem: FileItem = {
+       level: 0,
+       verifyStatus: 0,
+       expanded: false,
+       folder: '/',
+       name: '/',
+       id: 'root',
+       isDirectory: true,
+       items: []
+     }
+     try {
+       const fileObj = await lastValueFrom(
+         this.listFiles(bucket),
+         {defaultValue: {statusCode: 400, msg: 'Default Value - should never be seen', data: null}});
+       const fileItems: FileItem[] = this.processFileList(fileObj.data.list, bucket);
+       console.log('getFileList - fileItems: ', fileItems);
+       rootItem.items = fileItems;
+     } catch (e: any) {
+       console.log('getFileList - error - message: ', e.message);
+     }
+     return [rootItem];
+  }
+
+  async setFileStatus(bucketName: string, folderName: string, fileName: string, customMeta: FileCustomMetadataDto) {
+    try {
+      const respObj = await lastValueFrom(this.updateFileCustomMetadata(bucketName, folderName, fileName, customMeta));
+      if(respObj.statusCode === 200) {
+        return true;
+      } else {
+        throw new Error('Error setting custom meta data')
+      }
+    } catch (e: any) {
+      throw new Error(e.message);
     }
-    return [rootItem];
+  }
+
+  updateFileCustomMetadata(bucketName: string, folderName: string, fileName: string, newMeta: any): Observable<ApiResponse> {
+    if(!fileName.includes('/')) {
+      fileName = `${folderName}/${fileName}`;
+    }
+    return this.http.put<any>( `${this.apiUrl}bucket/file/metadata/${bucketName}/${fileName}`, newMeta);
   }
 
   private makeDownloadLink(bucketName: string, folderName: string, fileName: string): string {

@@ -83,7 +83,7 @@ export class FileDisplayComponent implements OnInit, OnChanges {
     console.log('FileDisplayComponent - changes: ', changes)
   }
 
-  acceptRejectRequestBtnClick(event: any, kind: string, item: FileItem) {
+  async acceptRejectRequestBtnClick(event: any, kind: string, item: FileItem) {
     // base verifyStatus off of kind
     switch(kind) {
       case 'accept':
@@ -99,7 +99,12 @@ export class FileDisplayComponent implements OnInit, OnChanges {
         item.verifyStatus = 0;
         break;
     }
+    const newMeta = {
+      ...item.meta.metadata
+    };
+    newMeta.verifyStatus = item.verifyStatus;
     fileVerifyStatusSignal.set({clientId: this.data.clientId, action: kind, item});
+    await this.storageService.setFileStatus(this.data.bucket, item.folder, item.name, newMeta);
   }
 
   itemDisable(btn: string, item: any): boolean {
@@ -116,11 +121,11 @@ export class FileDisplayComponent implements OnInit, OnChanges {
   ngOnInit() {
     console.log('FileDisplayComponent - ngOnInit')
     if(this.data.fileItem.downloadLink !== undefined) {
-      console.log('FileDisplayComponent - ngOnInit downloadLink: ', this.data.fileItem.downloadLink);
+      // console.log('FileDisplayComponent - ngOnInit downloadLink: ', this.data.fileItem.downloadLink);
       const link = this.data.fileItem.downloadLink;
       this.storageService.getFileFromLink(link).subscribe({
         next: (item) => {
-          console.log('FileDisplayComponent - getFileFromLink - item: ', item);
+          console.log('=======>>>>>>>  FileDisplayComponent - getFileFromLink - item: ', item);
           const arrayBufferView = new Uint8Array(item);
           if(this.data.fileItem.fileType === 'pdf') {
             this.item = arrayBufferView;

@@ -17,6 +17,7 @@ import {
 import { Subject} from "rxjs";
 import { MatDialog } from '@angular/material/dialog';
 import { FileDisplayComponent } from '../file-display/file-display.component';
+import { HelpersService } from '../../../service/helpers.service';
 
 @Component({
   selector: 'app-file-details',
@@ -29,6 +30,8 @@ import { FileDisplayComponent } from '../file-display/file-display.component';
 })
 export class FileDetailsComponent implements OnChanges, OnInit {
   @Input() clientId: string = '';
+  @Input() docInfo: any;
+  @Input() bucket: string = '';
   @ViewChild('fileDetails') fileDetailsTable!: MatTable<any>;
   files: FileItem[] = [];
   newFile: EffectRef;
@@ -40,7 +43,10 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   columnsToDisplay: string[] = ['name', 'size'];
   columnNamesToDisplay: string[] = [];
 
-  constructor(public modal: MatDialog) {
+  constructor(
+    public modal: MatDialog,
+    private helpers: HelpersService
+    ) {
     this.newFile = effect(() => {
       const nf = newLeaf();
       console.log('FileDetailsComponent - newLeaf effect - nf: ', nf);
@@ -51,10 +57,11 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   }
 
   openFileDisplayModal(fileItem: FileItem) {
-    // console.log('openFileDisplayModal - item.bucket: ', fileItem.downloadLink);
+    // const folderProp = this.helpers.convertToCamelCase(fileItem.folder);
 
     this.modal.open(FileDisplayComponent, {
       data: {
+        bucket: this.bucket,
         clientId: this.clientId,
         fileItem
       },

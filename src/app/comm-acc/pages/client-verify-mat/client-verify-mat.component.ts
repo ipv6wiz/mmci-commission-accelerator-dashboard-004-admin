@@ -37,6 +37,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   @Input() clientData: any = null;
   verifyDataSource: any[] = [];
   verifyData: any;
+  verifyDocInfo: any;
   loadingVerification: boolean = false;
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
@@ -128,16 +129,20 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     if(!this.loadingVerification) {
       if(this.clientData === null) {
         this.verifyData = null;
+        this.verifyDocInfo = null;
       } else if(changes['clientData'].currentValue !== null) {
-        if(!this.verifyData ) {
+        if(!this.verifyData || this.clientData.uid !== this.verifyData.clientId) {
           this.loadingVerification = true;
           await this.loadClientVerifyData();
           this.verifyDataSource = this.verifyData.items;
-        } else if(this.clientData.uid !== this.verifyData.clientId) {
-          this.loadingVerification = true;
-          await this.loadClientVerifyData();
-          this.verifyDataSource = this.verifyData.items;
+          const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
+          this.verifyDocInfo = this.verifyDataSource[docIndex].value['researchData']['data'];
         }
+        // else if(this.clientData.uid !== this.verifyData.clientId) {
+        //   this.loadingVerification = true;
+        //   await this.loadClientVerifyData();
+        //   this.verifyDataSource = this.verifyData.items;
+        // }
       }
     }
   }
@@ -168,11 +173,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     const clientId: string | undefined = fvs.clientId;
     if(item && clientId) {
       const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
-      const verifyItem = this.verifyDataSource[docIndex];
       const folderProp = this.helpers.convertToCamelCase(item.folder);
-      verifyItem.value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
-      console.log('updateClientDocsStatus - updated status: ', verifyItem.value['researchData']['data'][folderProp]);
-      const updateResponse = await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, item))
+      this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
+      console.log('updateClientDocsStatus - updated status: ', this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]);
+      const infoItem = this.verifyDataSource[docIndex].value['researchData']['data'][folderProp];
+      console.log('updateClientVerifyDocStatus - infoItem: ', infoItem);
+      const updateResponse = await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, infoItem))
         .then((response: any) => {
           return response.data;
         })
@@ -184,9 +190,20 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     }
   }
 
+  // private convertFileItemToInfoItem(fileItem: FileItem): ClientDocInfoItemDto {
+  //   const infoItem: ClientDocInfoItemDto = {
+  //     fileName: fileItem.name,
+  //     folder: fileItem.folder,
+  //     status: fileItem.verifyStatus,
+  //
+  //   }
+  // }
+
   async updateClientDocItem(fvs: FileVerifyStatusDto) {
     const item: FileItem | undefined = fvs.item;
     const clientId: string | undefined = fvs.clientId;
+    console.log('updateClientDocItem - clientId: ', clientId);
+    console.log('updateClientDocItem - item: ', item);
     if(item && clientId) {
       const updateResponse = await lastValueFrom(this.clientService.updateClientDocItem(clientId, item))
         .then((response: any) => {

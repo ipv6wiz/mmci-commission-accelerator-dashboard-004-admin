@@ -10,6 +10,6 @@ export interface FileItem {
   dateCreated?: string;
   meta?: any;
   downloadLink?: string;
-  verifyStatus?: number;
+  verifyStatus: number;
   items: FileItem[];
 }
