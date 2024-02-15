@@ -1,4 +1,16 @@
 <table mat-table #fileDetails [dataSource]="files" class="mat-elevation-z8">
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let file">
+      <i
+        class="bi {{verifyStatus[file.meta.metadata.verifyStatus || 0].icon}}"
+        [style.color]="verifyStatus[file.meta.metadata.verifyStatus || 0].iconColor"
+        [style.font-size]="'2.0rem'"
+        [matTooltip]="verifyStatus[file.meta.metadata.verifyStatus || 0].hint"
+        matTooltipPosition="right"
+      ></i>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
     <td mat-cell *matCellDef="let file">

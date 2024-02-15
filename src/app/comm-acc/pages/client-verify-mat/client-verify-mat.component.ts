@@ -173,7 +173,8 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     const clientId: string | undefined = fvs.clientId;
     if(item && clientId) {
       const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
-      const folderProp = this.helpers.convertToCamelCase(item.folder);
+      // const folderProp = this.helpers.convertToCamelCase(item.folder);
+      const folderProp = item.meta.metadata.ctrlName;
       this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
       console.log('updateClientDocsStatus - updated status: ', this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]);
       const infoItem = this.verifyDataSource[docIndex].value['researchData']['data'][folderProp];
