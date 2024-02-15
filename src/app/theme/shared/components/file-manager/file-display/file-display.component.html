@@ -52,10 +52,10 @@
   </button>
   <span style="padding-left: 15px">
     File Status: <i
-    class="bi {{verifyStatus[data.fileItem.verifyStatus || 0].icon}}"
-    [style.color]="verifyStatus[data.fileItem.verifyStatus || 0].iconColor"
+    class="bi {{verifyStatus[data.fileItem.meta.metadata.verifyStatus || 0].icon}}"
+    [style.color]="verifyStatus[data.fileItem.meta.metadata.verifyStatus || 0].iconColor"
     [style.font-size]="'2.0rem'"
-    [matTooltip]="verifyStatus[data.fileItem.verifyStatus || 0].hint"
+    [matTooltip]="verifyStatus[data.fileItem.meta.metadata.verifyStatus || 0].hint"
     matTooltipPosition="right"
   ></i>
   </span>
