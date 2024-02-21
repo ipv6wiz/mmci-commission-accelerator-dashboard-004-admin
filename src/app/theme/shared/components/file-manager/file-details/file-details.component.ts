@@ -102,8 +102,6 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   }
 
   openFileDisplayModal(fileItem: FileItem) {
-    // const folderProp = this.helpers.convertToCamelCase(fileItem.folder);
-
     this.modal.open(FileDisplayComponent, {
       data: {
         docInfo: this.docInfo,

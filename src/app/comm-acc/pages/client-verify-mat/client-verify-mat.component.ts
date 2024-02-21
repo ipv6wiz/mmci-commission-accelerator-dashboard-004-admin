@@ -94,12 +94,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     private clientVerifyService: ClientVerifyService,
     private logger: NGXLogger) {
     console.log('ClientVerifyMatComponent - constructor');
-    this.fileVerifyStatusRef = effect(() => {
+    this.fileVerifyStatusRef = effect(async () => {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
       if(fvs.item) {
         console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
-        this.updateClientVerifyDocStatus(fvs).then();
-        this.updateClientDocItem(fvs).then();
+        await this.updateClientVerifyDocStatus(fvs);
+        await this.updateClientDocItem(fvs)
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
       }
@@ -166,6 +166,8 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     this.loadingVerification = true;
     await this.loadClientVerifyData('true');
     this.verifyDataSource = this.verifyData.items;
+    const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
+    this.updateClientDocumentsVerifyStatus(docIndex);
   }
 
   async updateClientVerifyDocStatus(fvs: FileVerifyStatusDto) {
@@ -178,16 +180,35 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       console.log('updateClientDocsStatus - updated status: ', this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]);
       const infoItem = this.verifyDataSource[docIndex].value['researchData']['data'][folderProp];
       console.log('updateClientVerifyDocStatus - infoItem: ', infoItem);
-      const updateResponse = await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, infoItem))
+      const allDocsOk = this.updateClientDocumentsVerifyStatus(docIndex);
+      await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, infoItem, allDocsOk))
         .then((response: any) => {
+          console.log('updateClientDocsStatus - response: ', response);
           return response.data;
         })
         .catch((err) => {
           this.logger.log('updateClientDocsStatus - error: ', err.message);
           return null;
         });
-      console.log('updateClientDocsStatus - updateResponse: ', updateResponse);
+      this.updateClientDocumentsVerifyStatus(docIndex);
     }
+  }
+
+  updateClientDocumentsVerifyStatus(docIndex: number) {
+    let allDocsOk: boolean = true;
+    const docs = this.verifyDataSource[docIndex].value['researchData']['data'];
+    const keys = Object.keys(docs);
+    console.log('==========>>>>>>>  docs - keys: ', keys);
+    keys.forEach((key: any) => {
+      const item = docs[key];
+      // console.log(`=======>>>>> item - ctrlName: ${item.ctrlName} - status: ${item.status}`);
+      if(allDocsOk) {
+        allDocsOk = item.status === 4;
+      }
+      // console.log(`=======>>>>> allDockOK: ${allDocsOk ? 'TRUE' : 'FALSE'}`)
+    });
+    this.verifyDataSource[docIndex].value['status'] = allDocsOk ? 4 : 5; // 4 = Override Accept, 5 = Override Reject
+    return allDocsOk;
   }
 
   // private convertFileItemToInfoItem(fileItem: FileItem): ClientDocInfoItemDto {

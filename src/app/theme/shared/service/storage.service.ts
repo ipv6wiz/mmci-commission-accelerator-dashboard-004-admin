@@ -54,10 +54,7 @@ export class StorageService {
   }
 
   updateFileCustomMetadata(bucketName: string, folderName: string, fileName: string, newMeta: any): Observable<ApiResponse> {
-    if(!fileName.includes('/')) {
-      fileName = `${folderName}/${fileName}`;
-    }
-    return this.http.put<any>( `${this.apiUrl}bucket/file/metadata/${bucketName}/${fileName}`, newMeta);
+    return this.http.put<any>( `${this.apiUrl}bucket/file/metadata/${bucketName}/${folderName}/${fileName}`, newMeta);
   }
 
   private makeDownloadLink(bucketName: string, folderName: string, fileName: string): string {
