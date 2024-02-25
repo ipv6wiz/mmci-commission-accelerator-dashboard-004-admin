@@ -1,4 +1,4 @@
-import { Component, effect, EffectRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, effect, EffectRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ClientService } from '../../../theme/shared/service/client.service';
 import { NGXLogger } from 'ngx-logger';
 import { lastValueFrom } from 'rxjs';
@@ -17,6 +17,9 @@ import { FileVerifyStatusDto } from '../../../theme/shared/components/file-manag
 import { ClientVerifyService } from '../../../theme/shared/service/client-verify.service';
 import { FileItem } from '../../../theme/shared/components/file-manager/dtos/file-item.interface';
 import { HelpersService } from '../../../theme/shared/service/helpers.service';
+import { MatFormField } from '@angular/material/form-field';
+import { SharedModule } from '../../../theme/shared/shared.module';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -28,13 +31,17 @@ import { HelpersService } from '../../../theme/shared/service/helpers.service';
     CleanVerifyItemNamePipe,
     MatProgressSpinnerModule,
     MatTooltip,
-    FileManagerComponent
+    FileManagerComponent,
+    MatFormField,
+    SharedModule,
+    MatInput
   ],
   templateUrl: './client-verify-mat.component.html',
   styleUrl: './client-verify-mat.component.scss'
 })
 export class ClientVerifyMatComponent implements OnInit, OnChanges {
   @Input() clientData: any = null;
+  @ViewChild('adminInput') adminInput!: MatInput
   verifyDataSource: any[] = [];
   verifyData: any;
   verifyDocInfo: any;
@@ -85,6 +92,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       hint: 'Data checked & more information requested',
       icon: 'bi-info-circle-fill',
       iconColor: 'orange'
+    },
+    { // 7
+      status: 'Admin Override',
+      hint: 'Admin entered data takes precedence',
+      icon: 'bi-keyboard-fill',
+      iconColor: 'orange'
     }
   ];
 
@@ -115,7 +128,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   itemDisable(btn: string, item: any): boolean {
     if(btn == 'accept') {
       return item.value['status'] === 1 || item.value['status'] === 4;
-    } else if(btn === 'reject') {
+    } else if(btn === 'reject' || btn === 'enter') {
       return item.value['status'] === 3 || item.value['status'] === 5;
     }
     return false;
@@ -145,6 +158,40 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         // }
       }
     }
+  }
+
+  adminDataEntryEdit(event: any, item:any) {
+    console.log('adminDataEntryEdit - event: ', event);
+    const itemIndex = this.findItemIndex(item.key);
+    this.verifyDataSource[itemIndex].value['adminEnteredData']['editable'] = true;
+    console.log('adminDataEntryEdit - item: ', this.verifyDataSource[itemIndex].value['adminEnteredData']);
+    console.log('adminDataEntryEdit - adminInput: ', this.adminInput);
+    this.adminInput.focus();
+
+    // this.adminInput.focused = true;
+  }
+
+  adminDataEntrySave(event: any, item:any) {
+    console.log('adminDataEntrySave - event: ', event);
+    const itemIndex = this.findItemIndex(item.key);
+    this.verifyDataSource[itemIndex].value['adminEnteredData']['editable'] = false;
+    console.log('adminDataEntrySave - item: ', this.verifyDataSource[itemIndex].value['adminEnteredData']);
+    this.adminInput.focused = false;
+  }
+
+  adminDataEntry(event: any, item: any) {
+    console.log('adminDataEntry - event: ', event);
+    const itemIndex = this.findItemIndex(item.key);
+    if(!item.value['adminEnteredData']) {
+      const adminInfo = {
+        source: 'Admin entered data',
+        infoType: item.key,
+        data: 'My Placeholder',
+        editable: false
+      }
+      this.verifyDataSource[itemIndex].value['adminEnteredData'] = adminInfo;
+    }
+    console.log('adminDataEntry - item: ', this.verifyDataSource[itemIndex].value);
   }
 
   private async loadClientVerifyData(refresh: string = 'false') {
