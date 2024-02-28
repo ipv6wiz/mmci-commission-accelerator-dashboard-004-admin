@@ -42,14 +42,15 @@ export class TblClientsMatComponent implements OnInit{
   clientDataSource: any;
   rolesDataSource: any;
   clientColumnsToDisplay: string[] = ["displayName","emailVerified", "email", "roles", "status"];
-  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email Verified', 'Email',  'Roles', 'Process Status'];
-  columnsToDisplayWithExpand = [...this.clientColumnsToDisplay, 'expand'];
+  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Address',  'Roles', 'Process Status'];
+  columnsToDisplayWithExpand = [...this.clientColumnsToDisplay,  'expand'];
   expandedClient: ClientVerifyItemDto | null = null;
   public clientVerifyData: any = null;
   public loadingClients: boolean = true;
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate'
   public loadSpinnerDiameter: string = '50'
+
 
 
   constructor(
@@ -60,6 +61,7 @@ export class TblClientsMatComponent implements OnInit{
     // this.verifyClientClick = this.verifyClientClick.bind(this);
     this.expandedClient = null;
     this.clientVerifyData = null;
+
   }
 
   lostFocus() {
@@ -126,5 +128,9 @@ export class TblClientsMatComponent implements OnInit{
     this.clientDataFromGrid = clonedItem;
     this.clientVerifySelected.emit(this.clientDataFromGrid);
   }
+
+  // async updateClient(clientId: string, clientData: any){
+  //
+  // }
 
 }

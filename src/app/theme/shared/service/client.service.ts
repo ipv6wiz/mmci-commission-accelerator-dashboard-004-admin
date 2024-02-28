@@ -15,7 +15,16 @@ export class ClientService {
       return this.http.get<ApiResponse>(`${this.apiUrl}clients/dg`);
     }
 
+    getOne(clientId: string): Observable<ApiResponse> {
+      return this.http.get<ApiResponse>(`${this.apiUrl}client/${clientId}`)
+    }
+
     updateClientDocItem(clientId: string, docItem: any): Observable<ApiResponse> {
       return this.http.put<ApiResponse>(`${this.apiUrl}client/doc/${clientId}`, docItem);
     }
+
+    updateClient(clientId: string, data: any): Observable<ApiResponse> {
+      return this.http.put<ApiResponse>(`${this.apiUrl}client/${clientId}`, data);
+    }
+
 }

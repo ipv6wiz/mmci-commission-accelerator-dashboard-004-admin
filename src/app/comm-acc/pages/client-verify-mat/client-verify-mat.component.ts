@@ -20,6 +20,9 @@ import { HelpersService } from '../../../theme/shared/service/helpers.service';
 import { MatFormField } from '@angular/material/form-field';
 import { SharedModule } from '../../../theme/shared/shared.module';
 import { MatInput } from '@angular/material/input';
+import {
+  clientVerifyStatusSignal
+} from '../../../theme/shared/components/file-manager/signals/clientVerifyStatus.signal';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -50,6 +53,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
   public loadSpinnerDiameter: string = '50';
   private fileVerifyStatusRef: EffectRef;
+  private clientVerifyStatusRef: EffectRef;
   verifyStatus: any[] = [
     { // 0
       status: 'Processing',
@@ -101,6 +105,8 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     }
   ];
 
+  private verifyStatusAcceptLst: number[] = [1,4,7];
+
   constructor(
     private helpers: HelpersService,
     private clientService: ClientService,
@@ -112,9 +118,21 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       if(fvs.item) {
         console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
         await this.updateClientVerifyDocStatus(fvs);
-        await this.updateClientDocItem(fvs)
+        await this.updateClientDocItem(fvs);
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
+      }
+    });
+    this.clientVerifyStatusRef = effect(async () => {
+      const vsm = clientVerifyStatusSignal();
+      const overallStatus = vsm.overall;
+      console.log('clientVerifyStatus - verifyStatusMap: ', vsm.statusMap);
+      console.log('clientVerifyStatus - overallStatus: ', overallStatus);
+      console.log('clientVerifyStatus - effect - clientData: ', this.clientData);
+      if(vsm.statusMap.size > 0) {
+        if(vsm.overall && !this.clientData.roles.includes('CLIENT-VERIFIED')) {
+          await this.clientUpdateRole(vsm.clientId, 'CLIENT-VERIFIED');
+        }
       }
     });
   }
@@ -150,14 +168,33 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
           this.verifyDataSource = this.verifyData.items;
           const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
           this.verifyDocInfo = this.verifyDataSource[docIndex].value['researchData']['data'];
+          const statusMap = this.populateClientVerifyStatusMap();
+          clientVerifyStatusSignal.set({statusMap, overall: this.calcClientOverallVerifyStatus(statusMap), clientId: this.clientData.uid });
         }
-        // else if(this.clientData.uid !== this.verifyData.clientId) {
-        //   this.loadingVerification = true;
-        //   await this.loadClientVerifyData();
-        //   this.verifyDataSource = this.verifyData.items;
-        // }
       }
     }
+  }
+
+  calcClientOverallVerifyStatus(statusMap: Map<string, boolean>): boolean {
+    const smi = statusMap.values();
+    let overall = true;
+    for(const v of smi) {
+      if(overall && !v) {
+        overall = v;
+        break;
+      }
+    }
+    return overall;
+  }
+
+  populateClientVerifyStatusMap() {
+    const verifyStatusMap = new Map<string, boolean>();
+    this.verifyDataSource.forEach((item) => {
+      const status = this.verifyStatusAcceptLst.includes(item.value.status);
+      verifyStatusMap.set(item.key, status);
+    });
+    console.log('populateClientVerifyStatusMap - verifyStatusMap; ', verifyStatusMap);
+    return verifyStatusMap;
   }
 
   adminDataEntryEdit(event: any, item:any) {
@@ -215,7 +252,13 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     this.verifyDataSource = this.verifyData.items;
     const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
     this.updateClientDocumentsVerifyStatus(docIndex);
+    const statusMap = this.populateClientVerifyStatusMap()
+    clientVerifyStatusSignal.set({statusMap, overall: this.calcClientOverallVerifyStatus(statusMap), clientId: this.clientData.uid });
   }
+
+  // async setClientRoleBasedOnVerification(allDocsOk: boolean) {
+  //
+  // }
 
   async updateClientVerifyDocStatus(fvs: FileVerifyStatusDto) {
     const item: FileItem | undefined = fvs.item;
@@ -231,7 +274,11 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, infoItem, allDocsOk))
         .then((response: any) => {
           console.log('updateClientDocsStatus - response: ', response);
-          return response.data;
+          if(response.statusCode === 200) {
+            return response.data;
+          } else {
+            throw new Error(response.msg);
+          }
         })
         .catch((err) => {
           this.logger.log('updateClientDocsStatus - error: ', err.message);
@@ -240,6 +287,39 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       this.updateClientDocumentsVerifyStatus(docIndex);
     }
   }
+
+  async clientUpdateRole(clientId: string, role: string) {
+    const data = {roles: [role], status: this.setClientStatus(role)}
+    await lastValueFrom(this.clientService.updateClient(clientId, data))
+      .then((response: any) => {
+        if(response.statusCode === 200) {
+          return response.data
+        }  else {
+          throw new Error(response.msg);
+        }
+      })
+      .catch((err: any) => {
+        this.logger.log('clientUpdateRole - error: ', err.message);
+        return null;
+      });
+  }
+
+  setClientStatus(role: string): string {
+    let status: string = '';
+    switch(role) {
+      case 'CLIENT-PENDING-REGISTRATION':
+        status = 'Client Pending Registration';
+        break;
+      case 'CLIENT-PENDING-VERIFICATION':
+        status = 'Client Pending Verification';
+        break;
+      case 'CLIENT-VERIFIED':
+        status = 'Client Verified'
+        break;
+    }
+    return status;
+  }
+
 
   updateClientDocumentsVerifyStatus(docIndex: number) {
     let allDocsOk: boolean = true;
