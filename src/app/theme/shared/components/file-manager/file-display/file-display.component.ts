@@ -104,8 +104,8 @@ export class FileDisplayComponent implements OnInit, OnChanges {
     };
     newMeta.verifyStatus = item.verifyStatus;
     this.data.fileItem.meta.metadata.verifyStatus = item.verifyStatus;
-    fileVerifyStatusSignal.set({clientId: this.data.clientId, action: kind, item});
     await this.storageService.setFileStatus(this.data.bucket, item.folder, item.name, newMeta);
+    fileVerifyStatusSignal.set({clientId: this.data.clientId, action: kind, item});
   }
 
   itemDisable(btn: string, item: any): boolean {

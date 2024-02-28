@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, effect, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,6 +13,7 @@ import { ClientVerifyMatComponent } from '../../pages/client-verify-mat/client-v
 import {ProgressSpinnerMode, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
 import { MatBoolDisplayPipe } from '../../../theme/shared/pipes/mat-bool-display.pipe';
+import { clientRefreshSignal } from '../../../theme/shared/components/file-manager/signals/client-refresh.signal';
 
 @Component({
   selector: 'app-tbl-clients-mat',
@@ -50,6 +51,7 @@ export class TblClientsMatComponent implements OnInit{
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate'
   public loadSpinnerDiameter: string = '50'
+  private clientVerifyStatusRef: any;
 
 
 
@@ -61,7 +63,13 @@ export class TblClientsMatComponent implements OnInit{
     // this.verifyClientClick = this.verifyClientClick.bind(this);
     this.expandedClient = null;
     this.clientVerifyData = null;
-
+    this.clientVerifyStatusRef = effect(() => {
+      console.log('********----> TblClientsMatComponent - effect - clientVerifyStatusSignal')
+      const crs = clientRefreshSignal();
+      if(crs.refresh) {
+        this.refreshClientData().then();
+      }
+    });
   }
 
   lostFocus() {

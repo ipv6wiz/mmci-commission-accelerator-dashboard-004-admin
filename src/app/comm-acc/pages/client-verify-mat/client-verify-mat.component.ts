@@ -23,6 +23,7 @@ import { MatInput } from '@angular/material/input';
 import {
   clientVerifyStatusSignal
 } from '../../../theme/shared/components/file-manager/signals/clientVerifyStatus.signal';
+import { clientRefreshSignal } from '../../../theme/shared/components/file-manager/signals/client-refresh.signal';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -115,7 +116,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     console.log('ClientVerifyMatComponent - constructor');
     this.fileVerifyStatusRef = effect(async () => {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
-      if(fvs.item) {
+      if(fvs.action !== 'none' && fvs.item) {
         console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
         await this.updateClientVerifyDocStatus(fvs);
         await this.updateClientDocItem(fvs);
@@ -133,11 +134,14 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         console.log('clientVerifyStatusSignal - effect - vsm.statusMap.size: ', vsm.statusMap.size);
         console.log('clientVerifyStatusSignal - effect - roles: ', this.clientData.roles);
         if(vsm.overall && !this.clientData.roles.includes('CLIENT-VERIFIED')) {
-          console.log('clientVerifyStatusSignal - effect - about to update');
+          console.log('clientVerifyStatusSignal - effect - about to update to CLIENT-VERIFIED');
           await this.clientUpdateRole(vsm.clientId, 'CLIENT-VERIFIED');
-        } else if(!vsm.overall && !this.clientData.roles.includes('CLIENT-PENDING-VERIFICATION')) {
+        }
+        else if(!vsm.overall && !this.clientData.roles.includes('CLIENT-PENDING-VERIFICATION')) {
+          console.log('clientVerifyStatusSignal - effect - about to update to CLIENT-PENDING-VERIFICATION');
           await this.clientUpdateRole(vsm.clientId, 'CLIENT-PENDING-VERIFICATION');
         }
+
       }
     });
   }
@@ -158,10 +162,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    // console.log('ClientVerifyMatComponent - ngOnChanges - changes: ',changes);
     console.log('ClientVerifyMatComponent - ngOnChanges - clientData: ', this.clientData);
-    // console.log('ClientVerifyMatComponent - ngOnChanges - verifyData: ', this.verifyData);
-    // console.log('ClientVerifyMatComponent - ngOnChanges - loading: ', this.loadingVerification);
     if(!this.loadingVerification) {
       if(this.clientData === null) {
         this.verifyData = null;
@@ -173,14 +174,18 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
           this.verifyDataSource = this.verifyData.items;
           const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
           this.verifyDocInfo = this.verifyDataSource[docIndex].value['researchData']['data'];
-          const statusMap = this.populateClientVerifyStatusMap();
-          clientVerifyStatusSignal.set({statusMap, overall: this.calcClientOverallVerifyStatus(statusMap), clientId: this.clientData.uid });
+          this.setClientVerifyStatusSignal(this.clientData.uid)
         }
       }
     }
   }
 
-  calcClientOverallVerifyStatus(statusMap: Map<string, boolean>): boolean {
+  private setClientVerifyStatusSignal(clientId: string) {
+    const statusMap = this.populateClientVerifyStatusMap();
+    clientVerifyStatusSignal.set({statusMap, overall: this.calcClientOverallVerifyStatus(statusMap), clientId });
+  }
+
+  private calcClientOverallVerifyStatus(statusMap: Map<string, boolean>): boolean {
     const smi = statusMap.values();
     let overall = true;
     for(const v of smi) {
@@ -192,7 +197,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     return overall;
   }
 
-  populateClientVerifyStatusMap() {
+  private populateClientVerifyStatusMap() {
     const verifyStatusMap = new Map<string, boolean>();
     this.verifyDataSource.forEach((item) => {
       const status = this.verifyStatusAcceptLst.includes(item.value.status);
@@ -257,39 +262,39 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     this.verifyDataSource = this.verifyData.items;
     const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
     this.updateClientDocumentsVerifyStatus(docIndex);
-    const statusMap = this.populateClientVerifyStatusMap()
-    clientVerifyStatusSignal.set({statusMap, overall: this.calcClientOverallVerifyStatus(statusMap), clientId: this.clientData.uid });
+    this.setClientVerifyStatusSignal(this.clientData.uid);
   }
 
-  // async setClientRoleBasedOnVerification(allDocsOk: boolean) {
-  //
-  // }
-
   async updateClientVerifyDocStatus(fvs: FileVerifyStatusDto) {
+    console.log('>>>>>>>> Enter updateClientVerifyDocStatus <<<<<<<<<<<')
     const item: FileItem | undefined = fvs.item;
     const clientId: string | undefined = fvs.clientId;
     if(item && clientId) {
       const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
-      const folderProp = item.meta.metadata.ctrlName;
-      this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
-      console.log('updateClientDocsStatus - updated status: ', this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]);
-      const infoItem = this.verifyDataSource[docIndex].value['researchData']['data'][folderProp];
-      console.log('updateClientVerifyDocStatus - infoItem: ', infoItem);
-      const allDocsOk = this.updateClientDocumentsVerifyStatus(docIndex);
-      await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, infoItem, allDocsOk))
-        .then((response: any) => {
-          console.log('updateClientDocsStatus - response: ', response);
-          if(response.statusCode === 200) {
-            return response.data;
-          } else {
-            throw new Error(response.msg);
-          }
-        })
-        .catch((err) => {
-          this.logger.log('updateClientDocsStatus - error: ', err.message);
-          return null;
-        });
-      this.updateClientDocumentsVerifyStatus(docIndex);
+      if(docIndex !== -1) {
+        const folderProp = item.meta.metadata.ctrlName;
+        this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]['status'] = item.verifyStatus;
+        console.log('updateClientDocsStatus - updated status: ', this.verifyDataSource[docIndex].value['researchData']['data'][folderProp]);
+        const infoItem = this.verifyDataSource[docIndex].value['researchData']['data'][folderProp];
+        console.log('updateClientVerifyDocStatus - infoItem: ', infoItem);
+        const allDocsOk = this.updateClientDocumentsVerifyStatus(docIndex);
+        await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, infoItem, allDocsOk))
+          .then((response: any) => {
+            console.log('updateClientDocsStatus - response: ', response);
+            if(response.statusCode === 200) {
+              return response.data;
+            } else {
+              throw new Error(response.msg);
+            }
+          })
+          .catch((err) => {
+            this.logger.log('updateClientDocsStatus - error: ', err.message);
+            return null;
+          });
+        this.updateClientDocumentsVerifyStatus(docIndex);
+      } else {
+        console.log('@@@@@@@@---> CLIENT_DOCUMENTS NOT Found');
+      }
     }
   }
 
@@ -298,8 +303,10 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     await lastValueFrom(this.clientService.updateClient(clientId, data))
       .then((response: any) => {
         if(response.statusCode === 200) {
+          clientRefreshSignal.set({refresh: true, clientId});
           return response.data
         }  else {
+          clientRefreshSignal.set({refresh: false, clientId});
           throw new Error(response.msg);
         }
       })
@@ -333,24 +340,13 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     console.log('==========>>>>>>>  docs - keys: ', keys);
     keys.forEach((key: any) => {
       const item = docs[key];
-      // console.log(`=======>>>>> item - ctrlName: ${item.ctrlName} - status: ${item.status}`);
       if(allDocsOk) {
         allDocsOk = item.status === 4;
       }
-      // console.log(`=======>>>>> allDockOK: ${allDocsOk ? 'TRUE' : 'FALSE'}`)
     });
     this.verifyDataSource[docIndex].value['status'] = allDocsOk ? 4 : 5; // 4 = Override Accept, 5 = Override Reject
     return allDocsOk;
   }
-
-  // private convertFileItemToInfoItem(fileItem: FileItem): ClientDocInfoItemDto {
-  //   const infoItem: ClientDocInfoItemDto = {
-  //     fileName: fileItem.name,
-  //     folder: fileItem.folder,
-  //     status: fileItem.verifyStatus,
-  //
-  //   }
-  // }
 
   async updateClientDocItem(fvs: FileVerifyStatusDto) {
     const item: FileItem | undefined = fvs.item;
@@ -360,7 +356,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     if(item && clientId) {
       const updateResponse = await lastValueFrom(this.clientService.updateClientDocItem(clientId, item))
         .then((response: any) => {
-          return response.data;
+          if(response.statusCode === 200) {
+            this.setClientVerifyStatusSignal(clientId);
+            return response;
+          } else {
+            throw Error(response.msg);
+          }
         })
         .catch((err) => {
           this.logger.log('updateClientDocItem - error: ', err.message);
@@ -370,20 +371,8 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     }
   }
 
-  // async saveRegistrantData() {
-  //   try {
-  //     if(!this.registrant.agentDreData) {
-  //       this.registrant.agentDreData = this.dreLicenseData;
-  //     }
-  //     const response = await this.regService.saveRegForm(this.registrant);
-  //     console.log('saveRegistrantData - response: ', response);
-  //     return response;
-  //   } catch (e: any) {
-  //     throw new Error(e.message);
-  //   }
-  // }
-
   findItemIndex(key: string): number {
+    console.log('~~~~~~----> findItemIndex - verifyDataSource: ', this.verifyDataSource);
     return this.verifyDataSource.findIndex((item) => item.key === key);
   }
 
