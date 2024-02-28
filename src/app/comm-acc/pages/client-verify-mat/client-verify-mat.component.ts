@@ -130,8 +130,13 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       console.log('clientVerifyStatus - overallStatus: ', overallStatus);
       console.log('clientVerifyStatus - effect - clientData: ', this.clientData);
       if(vsm.statusMap.size > 0) {
+        console.log('clientVerifyStatusSignal - effect - vsm.statusMap.size: ', vsm.statusMap.size);
+        console.log('clientVerifyStatusSignal - effect - roles: ', this.clientData.roles);
         if(vsm.overall && !this.clientData.roles.includes('CLIENT-VERIFIED')) {
+          console.log('clientVerifyStatusSignal - effect - about to update');
           await this.clientUpdateRole(vsm.clientId, 'CLIENT-VERIFIED');
+        } else if(!vsm.overall && !this.clientData.roles.includes('CLIENT-PENDING-VERIFICATION')) {
+          await this.clientUpdateRole(vsm.clientId, 'CLIENT-PENDING-VERIFICATION');
         }
       }
     });
