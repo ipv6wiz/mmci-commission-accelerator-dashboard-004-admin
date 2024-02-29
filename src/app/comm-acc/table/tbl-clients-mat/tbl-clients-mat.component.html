@@ -32,17 +32,38 @@
                   <i class="bi {{client[column] | matBoolDisplay: 'bs' }}"></i>
                 </span>
               } @else {
-                {{ client[column] }}
+                {{ client[column] || 'Not Set Yet' }}
               }
             </td>
         </ng-container>
       }
 
       <ng-container matColumnDef="expand">
-        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">Actions</th>
         <td mat-cell *matCellDef="let client">
+          @if(client['roles'].indexOf('CLIENT-VERIFIED') !== -1) {
+            <button
+              mat-icon-button
+              aria-label="set credit limit"
+              matTooltip="Set/modify Credit Limit"
+              matTooltipPosition="left"
+              (click)="openCreditLimitModal(client)"
+            >
+              <i
+                class="bi bi-currency-dollar"
+                [style.color]="'darkgreen'"
+              ></i>
+            </button>
+          }
           @if(client.roles.indexOf('CLIENT-PENDING-REGISTRATION') === -1) {
-            <button mat-icon-button aria-label="expand row" [id]="client.uid" (click)="onExpandRow($event, client)">
+            <button
+              mat-icon-button
+              aria-label="expand row"
+              matTooltip="Show Verification"
+              matTooltipPosition="left"
+              [id]="client.uid"
+              (click)="onExpandRow($event, client)"
+            >
               @if (expandedClient === client) {
                 <mat-icon fontIcon="keyboard_arrow_up"></mat-icon>
               } @else {

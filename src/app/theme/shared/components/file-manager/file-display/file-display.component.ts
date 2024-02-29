@@ -7,7 +7,7 @@ import {
 
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
-import { ModalData } from '../dtos/modal-data.interface';
+import { FileModalData } from '../dtos/modal-data.interface';
 import { SafePipe } from '../helpers/pipes/safe.pipe';
 import { StorageService } from '../../../service/storage.service';
 import { NgOptimizedImage } from '@angular/common';
@@ -74,7 +74,7 @@ export class FileDisplayComponent implements OnInit, OnChanges {
     }
   ];
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ModalData,
+    @Inject(MAT_DIALOG_DATA) public data: FileModalData,
     private storageService: StorageService,
     public modal: MatDialog,
   ) {}

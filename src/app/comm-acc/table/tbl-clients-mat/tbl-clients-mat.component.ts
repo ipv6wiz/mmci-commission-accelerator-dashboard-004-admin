@@ -14,6 +14,9 @@ import {ProgressSpinnerMode, MatProgressSpinnerModule } from '@angular/material/
 import { ThemePalette } from '@angular/material/core';
 import { MatBoolDisplayPipe } from '../../../theme/shared/pipes/mat-bool-display.pipe';
 import { clientRefreshSignal } from '../../../theme/shared/components/file-manager/signals/client-refresh.signal';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { CreditLimitComponent } from '../../../theme/shared/components/credit-limit/credit-limit.component';
 
 @Component({
   selector: 'app-tbl-clients-mat',
@@ -25,7 +28,8 @@ import { clientRefreshSignal } from '../../../theme/shared/components/file-manag
     CardComponent,
     ClientVerifyMatComponent,
     MatProgressSpinnerModule,
-    MatBoolDisplayPipe
+    MatBoolDisplayPipe,
+    MatTooltip
   ],
   templateUrl: './tbl-clients-mat.component.html',
   styleUrl: './tbl-clients-mat.component.scss',
@@ -42,8 +46,8 @@ export class TblClientsMatComponent implements OnInit{
   private clientDataFromGrid: any;
   clientDataSource: any;
   rolesDataSource: any;
-  clientColumnsToDisplay: string[] = ["displayName","emailVerified", "email", "roles", "status"];
-  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Address',  'Roles', 'Process Status'];
+  clientColumnsToDisplay: string[] = ["displayName","emailVerified", "email", "status", "creditLimit.limit"];
+  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Address', 'Process Status', 'Credit Limit'];
   columnsToDisplayWithExpand = [...this.clientColumnsToDisplay,  'expand'];
   expandedClient: ClientVerifyItemDto | null = null;
   public clientVerifyData: any = null;
@@ -58,6 +62,7 @@ export class TblClientsMatComponent implements OnInit{
   constructor(
     private optionsService: OptionsService,
     private clientsService: ClientService,
+    public modal: MatDialog,
     private logger: NGXLogger
   ) {
     // this.verifyClientClick = this.verifyClientClick.bind(this);
@@ -74,6 +79,14 @@ export class TblClientsMatComponent implements OnInit{
 
   lostFocus() {
     console.log('TblClientsMatComponent >>>>>>>>>>>> lostFocus <<<<<<<<<<<<<<<<<<<<')
+  }
+
+  openCreditLimitModal(client:any) {
+    this.modal.open(CreditLimitComponent, {
+      data: {
+        client
+      }
+    });
   }
 
   isColumnTypeBool(data: any): boolean {

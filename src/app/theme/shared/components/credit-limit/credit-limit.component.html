@@ -1,0 +1,24 @@
+<div #creditLimitForm id="creditLimitForm">
+  <mat-toolbar color="antiquewhite">
+    <span class="example-spacer"></span>
+    <button
+      style="background-color: transparent; border: 0; "
+      [mat-dialog-close]="true"
+    >
+      <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+    </button>
+  </mat-toolbar>
+  <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
+    <h3>Set/Modify Credit Limit for : {{data.client.displayName}}</h3>
+  </div>
+  <mat-dialog-content>
+    <p>
+      <mat-form-field appearance="fill">
+        <mat-label>Fill form field</mat-label>
+        <input matInput placeholder="Placeholder">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
+  </mat-dialog-content>
+</div>
