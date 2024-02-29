@@ -21,4 +21,13 @@ export class HelpersService {
     }
     return words.join(joiner);
   }
+
+  makeIsoDate(localDate: string, withTime: boolean = true): string {
+    const dateParts = localDate.split('/'); // 0=month, 1=day, 2=year
+    const isoParts: string[] = [];
+    isoParts.push(dateParts[2]);
+    isoParts.push(dateParts[0].padStart(2, '0'));
+    isoParts.push(dateParts[1].padStart(2, '0'));
+    return isoParts.join('-')+(withTime ? 'T00:00:00' : '');
+  }
 }

@@ -12,13 +12,51 @@
     <h3>Set/Modify Credit Limit for : {{data.client.displayName}}</h3>
   </div>
   <mat-dialog-content>
-    <p>
-      <mat-form-field appearance="fill">
-        <mat-label>Fill form field</mat-label>
-        <input matInput placeholder="Placeholder">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
+    <form [formGroup]="creditFormGroup" (submit)="onSubmit($event)">
+      @for(field of fields; track $index) {
+        <mat-form-field>
+          <mat-label>{{field['fieldLabel']}}</mat-label>
+          @if(!field['type'] || field['type'] === 'text') {
+              <input
+                matInput
+                placeholder="{{field['placeholder']}}"
+                [formControlName]="field['fcn']"
+                [required]="field['required']"
+                [mask]="field['mask'] || ''"
+                [autocapitalize]="field['autoCapitalize']"
+                (input)="fieldChange($event)"
+                id="{{'creditLimit-' + field['fcn'] }}"
+              >
+            }
+          @if(field['type'] === 'date') {
+            <ng-container >
+            <input
+              matInput
+              placeholder="{{field['placeholder']}}"
+              [formControlName]="field['fcn']"
+              [required]="field['required']"
+              [matDatepicker]="datePicker"
+              (dateChange)="onDateChange($event)"
+              [id]="field['pickerId']"
+              style="color: black"
+            >
+            <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <mat-datepicker disabled="false" #datePicker [startView]="field['startView']"></mat-datepicker>
+            </ng-container>
+          }
+          @if(field['type'] === 'currency'){
+            <input
+              matInput
+              placeholder="{{field['placeholder']}}"
+              [formControlName]="field['fcn']"
+              [required]="field['required']"
+              mask="separator"
+              thousandSeparator=","
+              prefix="$"
+            >
+          }
+        </mat-form-field>
+      }
+    </form>
   </mat-dialog-content>
 </div>

@@ -33,6 +33,14 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {DxAccordionModule, DxDataGridModule, DxFormModule, DxTagBoxModule} from "devextreme-angular";
 import {FooterComponent} from "./components/footer/footer.component";
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { DisableControlDirective } from './directive/disable-control.directive';
 
 const bootstrap = [
   NgbDropdownModule,
@@ -48,6 +56,14 @@ const bootstrap = [
 @NgModule({
   imports: [
     CommonModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
@@ -58,6 +74,8 @@ const bootstrap = [
     AlertComponent,
     bootstrap,
     NgClickOutsideDirective,
+    NgScrollbarModule,
+    AlertComponent,
     DxDataGridModule,
     DxTagBoxModule,
     DxFormModule,
@@ -65,16 +83,24 @@ const bootstrap = [
   ],
   exports: [
     CommonModule,
+    FooterComponent,
+    MatButtonModule,
+    MatTooltipModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
     CardComponent,
     BreadcrumbComponent,
-    FooterComponent,
     ModalModule,
     GalleryModule,
     DataFilterPipe,
     TodoListRemoveDirective,
     TodoCardCompleteDirective,
+    DisableControlDirective,
     SpinnerComponent,
     NgScrollbarModule,
     AlertComponent,
@@ -87,6 +113,7 @@ const bootstrap = [
   ],
   declarations: [
       DataFilterPipe,
+      DisableControlDirective,
       TodoListRemoveDirective,
       TodoCardCompleteDirective,
       SpinnerComponent,
