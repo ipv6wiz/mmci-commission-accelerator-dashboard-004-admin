@@ -1,5 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -10,6 +17,7 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
 import { HelpersService } from '../../service/helpers.service';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared.module';
+import { AuthenticationService } from '../../service';
 
 @Component({
   selector: 'app-credit-limit',
@@ -29,7 +37,8 @@ import { SharedModule } from '../../shared.module';
     MatDatepickerInput,
     MatDatepickerToggle,
     MatDatepicker,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogActions
   ],
   providers: [
     provideNgxMask()
@@ -45,6 +54,7 @@ export class CreditLimitComponent implements OnInit {
     public modal: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
+    private authService: AuthenticationService,
     private helpers: HelpersService
   ) {
     this.creditFormGroup = this.formBuilder.group({
@@ -78,6 +88,20 @@ export class CreditLimitComponent implements OnInit {
   }
 
   onSubmit(event:any) {
+    console.log('Credit limit Form Submit - event: ', event);
+    console.log('Credit limit Form Submit - limit: ',  this.creditFormGroup.controls['limit'].value);
+    console.log('Credit limit Form Submit - activeDate: ',  this.creditFormGroup.controls['activeDate'].value);
+    const user = this.authService.userValue;
+    const activeDate = this.creditFormGroup.controls['activeDate'].value;
+    const setDate = this.helpers.makeIsoDate(new Date(Date.now()).toLocaleDateString('us-CA'), false)
+    const creditLimitObj = {
+      limit: this.creditFormGroup.controls['limit'].value,
+      activeDate,
+      setDate,
+      setBy: user ?  user.uid : 'SYSTEM',
+      active: activeDate === setDate
+    }
+    console.log('----> onSubmit - creditLimitObj: ', creditLimitObj);
 
   }
 
@@ -96,6 +120,7 @@ export class CreditLimitComponent implements OnInit {
   onDateChange(event: any) {
     // console.log('******* >>> onDateChange - event: ', event);
     const date = event.value;
+    console.log('onDateChange - date: ', date);
     // const : string = event.target._formField.ngControl.control.name;
     // const ngControl = event.target.
     const ctrlId: string = event.targetElement.id;
@@ -103,13 +128,11 @@ export class CreditLimitComponent implements OnInit {
     const ctrlNameParts = ctrlId.split('-');
     const formControlName = ctrlNameParts[1];
     console.log(`******* >>> onDateChange - formGroup: ${this.creditFormGroup} - control: ${formControlName}`);
-      const localDate = date.toLocaleDateString();
-      // console.log('******* >>> onDateChange - date: ', localDate);
-      const isoDate = this.helpers.makeIsoDate(localDate);
-      // console.log('******* >>> onDateChange - isoDate: ', isoDate);
-      this.creditFormGroup.controls[formControlName].setValue(isoDate);
-      // console.log('onDateChange controls: ', this.f(stepIndex));
-
+    const localDate = date.toLocaleDateString('us-CA');
+    console.log('******* >>> onDateChange - date: ', localDate);
+    const isoDate = this.helpers.makeIsoDate(localDate, false);
+    // console.log('******* >>> onDateChange - isoDate: ', isoDate);
+    this.creditFormGroup.controls[formControlName].setValue(isoDate);
   }
 
 }

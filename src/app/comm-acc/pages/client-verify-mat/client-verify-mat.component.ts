@@ -24,6 +24,7 @@ import {
   clientVerifyStatusSignal
 } from '../../../theme/shared/components/file-manager/signals/clientVerifyStatus.signal';
 import { clientRefreshSignal } from '../../../theme/shared/components/file-manager/signals/client-refresh.signal';
+import { AuthenticationService } from '../../../theme/shared/service';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -112,6 +113,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     private helpers: HelpersService,
     private clientService: ClientService,
     private clientVerifyService: ClientVerifyService,
+    private authService: AuthenticationService,
     private logger: NGXLogger) {
     console.log('ClientVerifyMatComponent - constructor');
     this.fileVerifyStatusRef = effect(async () => {

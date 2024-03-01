@@ -55,7 +55,6 @@
               "./node_modules/sweetalert2/dist/sweetalert2.min.css",
               "./node_modules/@angular/cdk/overlay-prebuilt.css",
               "./node_modules/flatpickr/dist/flatpickr.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/devextreme/dist/css/dx.light.css"
             ],
             "scripts": [
