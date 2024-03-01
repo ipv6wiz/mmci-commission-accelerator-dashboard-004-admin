@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthenticationService, UserService} from "../../../theme/shared/service";
+import {AuthenticationService} from "../../../theme/shared/service";
 import CustomStore from "devextreme/data/custom_store";
 import {lastValueFrom} from "rxjs";
 import {CommonModule} from "@angular/common";
@@ -10,8 +10,6 @@ import {DxFormComponent} from "devextreme-angular";
 import Validator from 'devextreme/ui/validator';
 import notify from 'devextreme/ui/notify';
 import {User} from "../../../theme/shared/entities/user.interface";
-import DevExpress from "devextreme";
-import ValueChangedEvent = DevExpress.ui.dxTagBox.ValueChangedEvent;
 
 
 @Component({
@@ -25,8 +23,7 @@ import ValueChangedEvent = DevExpress.ui.dxTagBox.ValueChangedEvent;
   styleUrls: ['./tbl-users.component.scss']
 })
 export default class TblUsersComponent implements OnInit{
-    // @ts-ignore
-    @ViewChild(DxFormComponent, { static: false }) newUserForm:DxFormComponent;
+    @ViewChild(DxFormComponent, { static: false }) newUserForm!:DxFormComponent;
     dataSource: any;
     rolesDataSource: any;
     public newUser: User = {} as User;
@@ -34,13 +31,13 @@ export default class TblUsersComponent implements OnInit{
     passwordOptions: any = {
         mode: 'password',
         onValueChanged: () => {
-            let editor = this.newUserForm.instance.getEditor('ConfirmPassword');
+            const editor = this.newUserForm.instance.getEditor('ConfirmPassword');
             if(editor) {
                 const optionValue = editor.option('value');
                 const editorElement = editor.element();
                 if(optionValue) {
-                    let instance = Validator.getInstance(editorElement) as Validator;
-                    let valid = instance.validate();
+                    const instance = Validator.getInstance(editorElement) as Validator;
+                    const valid = instance.validate();
                 }
             }
         },
@@ -80,8 +77,7 @@ export default class TblUsersComponent implements OnInit{
 
 
     tagBoxOptions: any = {
-        // @ts-ignore
-        dataSource: this.rolesDataSource,
+        dataSource:  [],
         displayExpr: 'key',
         valueExpr: 'value',
         hideSelectedItems: true,
@@ -138,7 +134,7 @@ export default class TblUsersComponent implements OnInit{
 
         console.log('onFormSubmit - newUser: ', this.newUser);
         return this.authService.signUpNewUser(this.newUser);
-    };
+    }
 
     changePasswordMode(name: string) {
         let editor = this.newUserForm.instance.getEditor(name);
@@ -148,7 +144,7 @@ export default class TblUsersComponent implements OnInit{
                 editor.option('mode') === 'text' ? 'password' : 'text',
             );
         }
-    };
+    }
 
     passwordComparison = () => this.newUserForm.instance.option('formData').Password;
 

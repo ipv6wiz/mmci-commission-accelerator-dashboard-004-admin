@@ -18,6 +18,10 @@ import { HelpersService } from '../../service/helpers.service';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared.module';
 import { AuthenticationService } from '../../service';
+import { lastValueFrom } from 'rxjs';
+import { ClientService } from '../../service/client.service';
+import { ApiResponse } from '../../dtos/api-response.dto';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-credit-limit',
@@ -55,7 +59,9 @@ export class CreditLimitComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
-    private helpers: HelpersService
+    private clientService: ClientService,
+    private helpers: HelpersService,
+    private logger: NGXLogger
   ) {
     this.creditFormGroup = this.formBuilder.group({
       limit: ['', Validators.required],
@@ -87,7 +93,7 @@ export class CreditLimitComponent implements OnInit {
     console.log('CreditLimitComponent - modal - displayName: ', this.data.client.displayName);
   }
 
-  onSubmit(event:any) {
+  async onSubmit(event:any) {
     console.log('Credit limit Form Submit - event: ', event);
     console.log('Credit limit Form Submit - limit: ',  this.creditFormGroup.controls['limit'].value);
     console.log('Credit limit Form Submit - activeDate: ',  this.creditFormGroup.controls['activeDate'].value);
@@ -102,7 +108,19 @@ export class CreditLimitComponent implements OnInit {
       active: activeDate === setDate
     }
     console.log('----> onSubmit - creditLimitObj: ', creditLimitObj);
-
+    await lastValueFrom(this.clientService.updateClientCreditLimit(this.data.client.uid, creditLimitObj))
+      .then((response: ApiResponse) => {
+        console.log('updateClientCreditLimit - response: ', response);
+        if(response.statusCode === 200) {
+          return response.data;
+        } else {
+          throw new Error(response.msg);
+        }
+      })
+      .catch((err) => {
+        this.logger.log('updateClientCreditLimit - error: ', err.message);
+        return null;
+      });
   }
 
   fieldChange(event: any) {
@@ -115,6 +133,7 @@ export class CreditLimitComponent implements OnInit {
     const formControlName = ctrlNameParts[1];
     console.log('***** >>>>> fieldChange - formGroup: ', formGroup);
     console.log('***** >>>>> fieldChange - formControlName: ', formControlName);
+    console.log('***** >>>>> fieldChange - text: ', text);
   }
 
   onDateChange(event: any) {

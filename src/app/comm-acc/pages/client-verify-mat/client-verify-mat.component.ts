@@ -25,6 +25,7 @@ import {
 } from '../../../theme/shared/components/file-manager/signals/clientVerifyStatus.signal';
 import { clientRefreshSignal } from '../../../theme/shared/components/file-manager/signals/client-refresh.signal';
 import { AuthenticationService } from '../../../theme/shared/service';
+import { ApiResponse } from '../../../theme/shared/dtos/api-response.dto';
 
 @Component({
   selector: 'app-client-verify-mat',
@@ -281,7 +282,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         console.log('updateClientVerifyDocStatus - infoItem: ', infoItem);
         const allDocsOk = this.updateClientDocumentsVerifyStatus(docIndex);
         await lastValueFrom(this.clientVerifyService.updateClientVerifyDocItem(clientId, infoItem, allDocsOk))
-          .then((response: any) => {
+          .then((response: ApiResponse) => {
             console.log('updateClientDocsStatus - response: ', response);
             if(response.statusCode === 200) {
               return response.data;
