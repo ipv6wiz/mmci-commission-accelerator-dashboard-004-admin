@@ -17,6 +17,8 @@ import { clientRefreshSignal } from '../../../theme/shared/components/file-manag
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { CreditLimitComponent } from '../../../theme/shared/components/credit-limit/credit-limit.component';
+import { Client } from '../../../theme/shared/entities/client.interface';
+import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-tbl-clients-mat',
@@ -29,7 +31,11 @@ import { CreditLimitComponent } from '../../../theme/shared/components/credit-li
     ClientVerifyMatComponent,
     MatProgressSpinnerModule,
     MatBoolDisplayPipe,
-    MatTooltip
+    MatTooltip,
+    NgxMaskPipe
+  ],
+  providers: [
+    provideNgxMask()
   ],
   templateUrl: './tbl-clients-mat.component.html',
   styleUrl: './tbl-clients-mat.component.scss',
@@ -46,7 +52,10 @@ export class TblClientsMatComponent implements OnInit{
   private clientDataFromGrid: any;
   clientDataSource: any;
   rolesDataSource: any;
-  clientColumnsToDisplay: string[] = ["displayName","emailVerified", "email", "status", "creditLimit.limit"];
+  clientColumnsToDisplay: string[] = ["displayName","emailVerified", "email", "status", "limit"];
+  clientColumnsConfig: Map<string, any> = new Map<string, any>([
+    ['limit', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}]
+  ]);
   clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Address', 'Process Status', 'Credit Limit'];
   columnsToDisplayWithExpand = [...this.clientColumnsToDisplay,  'expand'];
   expandedClient: ClientVerifyItemDto | null = null;
@@ -130,7 +139,17 @@ export class TblClientsMatComponent implements OnInit{
       .then((response: any) => {
         // this.logger.log('datasource - load - clients: ', response.data.clients);
         this.loadingClients = false;
-        return response.data.clients;
+        const clientsRaw = response.data.clients || [];
+        const clients: Client[] = [];
+        clientsRaw.forEach((client: Client) => {
+          if(client['creditLimit']) {
+            if(client['creditLimit'].active) {
+              client.limit = client['creditLimit'].limit;
+            }
+          }
+          clients.push(client);
+        })
+        return clients;
       })
       .catch((err) => {
         this.logger.log('dataSource - load - error: ', err.message);

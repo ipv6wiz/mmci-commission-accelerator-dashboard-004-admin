@@ -12,7 +12,7 @@ import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
 import { HelpersService } from '../../service/helpers.service';
 import { CommonModule } from '@angular/common';
@@ -22,6 +22,16 @@ import { lastValueFrom } from 'rxjs';
 import { ClientService } from '../../service/client.service';
 import { ApiResponse } from '../../dtos/api-response.dto';
 import { NGXLogger } from 'ngx-logger';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import { UserNameLookupPipe } from '../../pipes/userNameLookup.pipe';
 
 @Component({
   selector: 'app-credit-limit',
@@ -42,7 +52,19 @@ import { NGXLogger } from 'ngx-logger';
     MatDatepickerToggle,
     MatDatepicker,
     ReactiveFormsModule,
-    MatDialogActions
+    MatDialogActions,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCell,
+    MatCellDef,
+    NgxMaskPipe,
+    UserNameLookupPipe,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatRow
   ],
   providers: [
     provideNgxMask()
@@ -53,6 +75,8 @@ import { NGXLogger } from 'ngx-logger';
 export class CreditLimitComponent implements OnInit {
   creditFormGroup: FormGroup;
   fields: any[] = [];
+  creditLimitHistoryColumnsToDisplay: string[] = ['limit', 'active', 'activeDate', 'setBy', 'setDate'];
+  creditLimitHistoryColumnNamesToDisplay: string[] = ['Limit', 'Active', 'Active Date', 'Set By', 'Date Set'];
 
   constructor(
     public modal: MatDialog,
@@ -91,6 +115,10 @@ export class CreditLimitComponent implements OnInit {
   ngOnInit() {
     console.log('CreditLimitComponent - modal - data: ', this.data);
     console.log('CreditLimitComponent - modal - displayName: ', this.data.client.displayName);
+    if(this.data.client['creditLimit']){
+      this.creditFormGroup.controls['limit'].setValue(this.data.client['creditLimit'].limit);
+      this.creditFormGroup.controls['activeDate'].setValue(this.data.client['creditLimit'].activeDate);
+    }
   }
 
   async onSubmit(event:any) {
@@ -98,8 +126,8 @@ export class CreditLimitComponent implements OnInit {
     console.log('Credit limit Form Submit - limit: ',  this.creditFormGroup.controls['limit'].value);
     console.log('Credit limit Form Submit - activeDate: ',  this.creditFormGroup.controls['activeDate'].value);
     const user = this.authService.userValue;
-    const activeDate = this.creditFormGroup.controls['activeDate'].value;
-    const setDate = this.helpers.makeIsoDate(new Date(Date.now()).toLocaleDateString('us-CA'), false)
+    const activeDate: string = this.creditFormGroup.controls['activeDate'].value.split('T')[0];
+    const setDate: string = this.helpers.makeIsoDate(new Date(Date.now()).toLocaleDateString(), false)
     const creditLimitObj = {
       limit: this.creditFormGroup.controls['limit'].value,
       activeDate,
@@ -147,11 +175,11 @@ export class CreditLimitComponent implements OnInit {
     const ctrlNameParts = ctrlId.split('-');
     const formControlName = ctrlNameParts[1];
     console.log(`******* >>> onDateChange - formGroup: ${this.creditFormGroup} - control: ${formControlName}`);
-    const localDate = date.toLocaleDateString('us-CA');
+    const localDate = date.toLocaleDateString();
     console.log('******* >>> onDateChange - date: ', localDate);
     const isoDate = this.helpers.makeIsoDate(localDate, false);
-    // console.log('******* >>> onDateChange - isoDate: ', isoDate);
-    this.creditFormGroup.controls[formControlName].setValue(isoDate);
+    console.log('******* >>> onDateChange - isoDate: ', isoDate);
+    this.creditFormGroup.controls[formControlName].setValue(isoDate+'T00:00:00');
   }
 
 }

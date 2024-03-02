@@ -27,7 +27,11 @@
         <ng-container matColumnDef="{{column}}">
           <th mat-header-cell *matHeaderCellDef> {{clientColumnNamesToDisplay[$index]}} </th>
             <td mat-cell *matCellDef="let client">
-              @if(isColumnTypeBool(client[column])) {
+              @if(clientColumnsConfig.has(column)){
+                @if(clientColumnsConfig.get(column).type === 'currency') {
+                  {{ (client[column] | mask: clientColumnsConfig.get(column).mask : {thousandSeparator:clientColumnsConfig.get(column).thousandSeparator, prefix: clientColumnsConfig.get(column).prefix}) || 'Not Active Yet' }}
+                }
+              }@else if(isColumnTypeBool(client[column])) {
                 <span>
                   <i class="bi {{client[column] | matBoolDisplay: 'bs' }}"></i>
                 </span>

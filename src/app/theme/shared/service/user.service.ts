@@ -7,9 +7,11 @@ import WhereFilterOp = firebase.firestore.WhereFilterOp;
 import {map, take} from "rxjs/operators";
 import {environment} from "../../../../environments/environment";
 import {ApiResponse} from "../dtos/api-response.dto";
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+    private apiUrl = environment.gcpCommAccApiUrl;
     private dbPath: string = '/users';
     usersRef: AngularFirestoreCollection<User>;
     fakeApiUrl: string = environment.fakeApiUrl;
@@ -52,7 +54,7 @@ export class UserService {
 
         const res = await this.usersRef.ref
             .where('status', opStr, opVal).get();
-        let data: any[] = [];
+        const data: any[] = [];
         res.docs.forEach(doc => {
             console.log('User Doc: ', doc);
             return data.push({id: doc.id, ...doc.data()});
@@ -75,18 +77,23 @@ export class UserService {
       );
   }
 
-    getOne(id: string): any {
-        return this.usersRef.doc(id).ref.get()
+  getUserName(userId: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}users/user/${userId}/name`);
+  }
+
+
+    getOne(userId: string): any {
+        return this.usersRef.doc(userId).ref.get()
             .then((doc) => {
                 if (doc.exists) {
                     return doc.data();
                 } else {
-                    console.log(`Doc with id ${id} does not exist`);
+                    console.log(`Doc with id ${userId} does not exist`);
                     return null;
                 }
             })
             .catch((err) => {
-                console.log(`Error retrieving Document with id ${id} and msg: ${err.message}`);
+                console.log(`Error retrieving Document with id ${userId} and msg: ${err.message}`);
             });
     }
 
@@ -96,7 +103,7 @@ export class UserService {
                 this.fireUserRecord = response.data.fireUserRecord;
             },
             error: (err) => {
-
+              console.log('Error message: ', err.message)
             }
         });
     }
