@@ -36,6 +36,10 @@ export class AuthenticationService {
     return this.userSubject.value;
   }
 
+  getLocalUser(): User {
+    return JSON.parse(sessionStorage.getItem('user')!);
+  }
+
     /**
      * Call this from the add user of the User DG
      * Users can only be created by certain roles

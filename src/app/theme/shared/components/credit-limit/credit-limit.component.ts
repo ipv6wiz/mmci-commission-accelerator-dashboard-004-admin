@@ -32,6 +32,7 @@ import {
   MatTable
 } from '@angular/material/table';
 import { UserNameLookupPipe } from '../../pipes/userNameLookup.pipe';
+import { clientRefreshSignal } from '../file-manager/signals/client-refresh.signal';
 
 @Component({
   selector: 'app-credit-limit',
@@ -117,7 +118,7 @@ export class CreditLimitComponent implements OnInit {
     console.log('CreditLimitComponent - modal - displayName: ', this.data.client.displayName);
     if(this.data.client['creditLimit']){
       this.creditFormGroup.controls['limit'].setValue(this.data.client['creditLimit'].limit);
-      this.creditFormGroup.controls['activeDate'].setValue(this.data.client['creditLimit'].activeDate);
+      this.creditFormGroup.controls['activeDate'].setValue(this.data.client['creditLimit'].activeDate + 'T00:00:00');
     }
   }
 
@@ -125,7 +126,7 @@ export class CreditLimitComponent implements OnInit {
     console.log('Credit limit Form Submit - event: ', event);
     console.log('Credit limit Form Submit - limit: ',  this.creditFormGroup.controls['limit'].value);
     console.log('Credit limit Form Submit - activeDate: ',  this.creditFormGroup.controls['activeDate'].value);
-    const user = this.authService.userValue;
+    const user = this.authService.getLocalUser();
     const activeDate: string = this.creditFormGroup.controls['activeDate'].value.split('T')[0];
     const setDate: string = this.helpers.makeIsoDate(new Date(Date.now()).toLocaleDateString(), false)
     const creditLimitObj = {
@@ -140,6 +141,7 @@ export class CreditLimitComponent implements OnInit {
       .then((response: ApiResponse) => {
         console.log('updateClientCreditLimit - response: ', response);
         if(response.statusCode === 200) {
+          clientRefreshSignal.set({refresh: true, clientId: this.data.client.uid});
           return response.data;
         } else {
           throw new Error(response.msg);
