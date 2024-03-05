@@ -4,6 +4,10 @@ import {arrayUnion, arrayRemove} from '@angular/fire/firestore'
 import {map, take} from "rxjs/operators";
 import {Options} from "../entities/options.interface";
 import {OptionValues} from "../entities/option-values.interface";
+import { Observable } from 'rxjs';
+import { ApiResponse } from '../dtos/api-response.dto';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 
 
@@ -11,90 +15,51 @@ import {OptionValues} from "../entities/option-values.interface";
   providedIn: 'root'
 })
 export class OptionsService {
+  private apiUrl = environment.gcpCommAccApiUrl;
   private dbPath = '/options';
-  optionsRef: AngularFirestoreCollection<Options>
-  constructor(private afs: AngularFirestore,) {
+  optionsRef: AngularFirestoreCollection<Options>;
+
+  constructor(
+    private afs: AngularFirestore,
+    private http: HttpClient
+    ) {
     this.optionsRef = afs.collection(this.dbPath);
   }
 
-  getAll() {
-    console.log('getAll called');
-
-      return this.optionsRef.snapshotChanges().pipe(
-      take(1),
-      map(changes =>
-        changes.map(c =>
-            // @ts-ignore
-          ({ id: c.payload.doc.id, ...c.payload.doc.data() })
-        )
-      )
-    );
+  getAll(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}options`);
   }
 
-  getOne(id: string): any {
-    return this.optionsRef.doc(id).ref.get().then((doc) => {
-      if (doc.exists) {
-        return doc.data();
-      } else {
-        console.log(`Doc with id ${id} does not exist`);
-        return null;
-      }
-    })
-      .catch((err) => {
-        console.log(`Error retrieving Document with id ${id} and msg: ${err.message()}`);
-        throw new Error('Invalid Option id');
-      });
+  getOneById(optionId: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}options/id/${optionId}`);
   }
 
-  getOptionsByType(type: string) {
-      console.log('getOptionsByType - called');
-      let data: any = [];
-      let docData: any;
-      return this.optionsRef.ref.where('type', '==', type).get()
-          .then((res) => {
-              if(res.docs.length > 0) {
-                  docData = res.docs[0].data();
-                  data = docData.values;
-                  console.log('Option Data: ', data);
-                  return data;
-              } else {
-                  throw new Error('Not found');
-              }
-          })
-          .catch((err) => {
-                console.log('Option Type not found');
-                throw new Error('Option Type not found');
-          });
+  getOptionsByType(type: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}options/type/${type}`);
   }
 
-  create(option: Options): any {
-    option.values = [];
-    return this.optionsRef.add({...option});
+  createOption(optionData: Options): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrl}`, optionData);
   }
 
-  update(id: string, data: any): Promise<void> {
-    return this.optionsRef.doc(id).update(data);
+  createOptionValue(optionId: string, valueData: OptionValues): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.apiUrl}options/value/${optionId}`, valueData);
   }
 
-  delete(id: string): Promise<void> {
-    return this.optionsRef.doc(id).delete();
+  updateOptionById(optionId: string, optionUpdateData: Options): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${this.apiUrl}options/id/${optionId}`, optionUpdateData);
   }
 
-  createValue(typeId: string, valueData: OptionValues): Promise<void> {
-    const addArrayItem = {values: arrayUnion(valueData)};
-    return this.update(typeId, addArrayItem);
+  updateOptionValue(optionId: string, key: string, optionValueData: OptionValues): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${this.apiUrl}options/value/${optionId}/${key}`, optionValueData);
   }
 
-  valueUpdate(typeId: string, key: any, valueData: OptionValues): Promise<void> {
-    return this.valueDelete(typeId, key).then(() => {
-      const updateArrayItem = {values: arrayUnion(valueData)};
-      return this.update(typeId, updateArrayItem);
-    });
+  deleteOptionById(optionId: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.apiUrl}options/id/${optionId}`);
   }
 
-  valueDelete(typeId: string, key: any) {
-    const deleteArrayItem ={values: arrayRemove(key)};
-    return this.update(typeId, deleteArrayItem);
+  deleteOptionValueById(optionId: string, key: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.apiUrl}options/value/${optionId}/${key}`);
   }
 
 }

@@ -20,7 +20,8 @@
     } @else{
     <table
       mat-table
-      [dataSource]="clientDataSource" multiTemplateDataRows="true"
+      [dataSource]="clientDataSource"
+      multiTemplateDataRows="true"
       class="mat-elevation-z8"
     >
       @for (column of clientColumnsToDisplay; track $index) {
