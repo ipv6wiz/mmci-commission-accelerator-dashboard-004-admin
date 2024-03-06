@@ -20,6 +20,8 @@ import { MatIconButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Options } from '../../../theme/shared/entities/options.interface';
 import { MatIcon } from '@angular/material/icon';
+import { TblOptionValuesMatComponent } from './tbl-option-values-mat/tbl-option-values-mat.component';
+import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-tbl-options-mat',
@@ -39,7 +41,9 @@ import { MatIcon } from '@angular/material/icon';
     MatHeaderRowDef,
     MatHeaderRow,
     MatRow,
-    MatRowDef
+    MatRowDef,
+    TblOptionValuesMatComponent,
+    MatToolbar
   ],
   templateUrl: './tbl-options-mat.component.html',
   styleUrl: './tbl-options-mat.component.scss',
@@ -59,9 +63,8 @@ export class TblOptionsMatComponent implements OnInit{
   optionsDataSource: any;
   optionColumnsToDisplay: string[] = ['type'];
   optionColumnNamesToDisplay: string[] = ['Type', 'Actions'];
-  optionColumnsToDisplayWithExpand: string[] = [...this.optionColumnsToDisplay, 'optionActions'];
-  valueColumnsToDisplay: string[] = ['key', 'value', 'sortOrder', 'displayValue'];
-  valueColumnNamesToDisplay: string[] = ['Key', 'Value', 'Sort Order', 'Display Value'];
+  optionColumnsToDisplayWithExpand: string[] = [...this.optionColumnsToDisplay, 'expand'];
+
   expandedOption: Options | null = null;
 
   constructor(
@@ -79,7 +82,6 @@ export class TblOptionsMatComponent implements OnInit{
   }
 
   onExpandRow(event: any, option: Options) {
-    event.stopPropagation();
     event.stopPropagation();
     console.log('onExpandRow - event: ', event);
     console.log('onExpandRow - option: ', option);
@@ -110,19 +112,6 @@ export class TblOptionsMatComponent implements OnInit{
     console.log('deleteOption - option: ', option);
   }
 
-  addOptionValue(event: any, option: Options, optionValue: OptionValues) {
-    console.log('addOptionValue - option: ', option);
-    console.log('addOptionValue - optionValue: ', optionValue);
-  }
 
-  editOptionValue(event: any, option: Options, optionValue: OptionValues) {
-    console.log('editOptionValue - option: ', option);
-    console.log('editOptionValue - optionValue: ', optionValue);
-  }
-
-  deleteOptionValue(event: any, option: Options, optionValue: OptionValues) {
-    console.log('deleteOptionValue - option: ', option);
-    console.log('deleteOptionValue - optionValue: ', optionValue);
-  }
 
 }

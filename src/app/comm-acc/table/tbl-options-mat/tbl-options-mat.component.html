@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <app-card cardTitle="Options (Dropdowns, etc.)" cardClass="tab-card tab-content" blockClass="nav-fill" >
-    <button type="button" class="btn btn-primary" style="margin-bottom: 10px" (click)="refreshOptionsList()"><i class="bi bi-arrow-repeat"></i>&nbsp;Refresh Options List</button>
+
     @if(loadingOptions) {
       <section class="option-load-spinner-section">
         <h3>Loading Options</h3>
@@ -12,6 +12,21 @@
         ></mat-progress-spinner>
       </section>
     } @else {
+      <mat-toolbar>
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="margin-bottom: 10px"
+          (click)="refreshOptionsList()">
+          <i class="bi bi-arrow-repeat"></i>&nbsp;Refresh Options List</button>
+        <span class="example-spacer"></span>
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="margin-bottom: 10px"
+          (click)="addOption($event)">
+          <i class="bi bi-plus-circle"></i>&nbsp;Add New Option Type</button>
+      </mat-toolbar>
       <table
         mat-table
         [dataSource]="optionsDataSource"
@@ -26,8 +41,8 @@
             </td>
           </ng-container>
         }
-        <ng-container matColumnDef="optionActions">
-          <th mat-header-cell *matHeaderCellDef aria-label="option row actions">Actions</th>
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">Actions</th>
           <td mat-cell *matCellDef="let option">
             <button
               mat-icon-button
@@ -67,6 +82,7 @@
                 <mat-icon fontIcon="keyboard_arrow_down"></mat-icon>
               }
             </button>
+
           </td>
         </ng-container>
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -75,51 +91,7 @@
             <div class="example-option-detail"
               [@detailExpand]="option === expandedOption ? 'expanded' : 'collapsed'">
               <div class="example-option-diagram-x">
-                <table
-                  mat-table
-                  [dataSource]="option.values"
-                  multiTemplateDataRows="true"
-                  class="mat-elevation-z8"
-                >
-                  @for(valueColumn of valueColumnsToDisplay; track $index) {
-                    <ng-container matColumnDef="{{valueColumn}}">
-                      <th mat-header-cell *matHeaderCellDef>{{ valueColumnNamesToDisplay[$index] }}</th>
-                      <td mat-cell *matCellDef="let value">
-                        {{value[valueColumn]}}
-                      </td>
-                    </ng-container>
-                  }
-                    <ng-container matColumnDef="valueActions">
-                      <th mat-header-cell *matHeaderCellDef aria-label="value row actions">Actions</th>
-                      <td mat-cell *matCellDef="let value">
-                        <button
-                          mat-icon-button
-                          aria-label="Edit Option Value"
-                          matTooltip="Edit Option Value"
-                          matTooltipPosition="left"
-                          (click)="editOptionValue($event, option, value)"
-                        >
-                          <i
-                            class="bi bi-pencil-fill"
-                            [style.color]="'darkgreen'"
-                          ></i>
-                        </button>
-                        <button
-                          mat-icon-button
-                          aria-label="Delete Option Value"
-                          matTooltip="Delete Option Value"
-                          matTooltipPosition="left"
-                          (click)="deleteOptionValue($event, option, value)"
-                        >
-                          <i
-                            class="bi bi-trash3-fill"
-                            [style.color]="'red'"
-                          ></i>
-                        </button>
-                      </td>
-                    </ng-container>
-
-                </table>
+                <app-tbl-option-values-mat  [values]="option.values" [option]="option" ></app-tbl-option-values-mat>
               </div>
             </div>
           </td>
@@ -130,9 +102,9 @@
           *matRowDef="let option; columns: optionColumnsToDisplayWithExpand;"
           class="example-option-row"
           [class.example-expanded-row]="expandedOption === option"
-          (click)="expandedOption = expandedOption === option ? null : option"
+
         ></tr>
-        <tr mat-row *matRowDef="let row; columns: valueColumnsToDisplay" class="example-detail-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
     }
   </app-card>
