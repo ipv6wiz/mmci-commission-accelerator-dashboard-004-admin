@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
-import {arrayUnion, arrayRemove} from '@angular/fire/firestore'
-import {map, take} from "rxjs/operators";
 import {Options} from "../entities/options.interface";
 import {OptionValues} from "../entities/option-values.interface";
 import { Observable } from 'rxjs';
@@ -9,22 +6,15 @@ import { ApiResponse } from '../dtos/api-response.dto';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class OptionsService {
   private apiUrl = environment.gcpCommAccApiUrl;
-  private dbPath = '/options';
-  optionsRef: AngularFirestoreCollection<Options>;
 
   constructor(
-    private afs: AngularFirestore,
     private http: HttpClient
-    ) {
-    this.optionsRef = afs.collection(this.dbPath);
-  }
+    ) {  }
 
   getAll(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.apiUrl}options`);

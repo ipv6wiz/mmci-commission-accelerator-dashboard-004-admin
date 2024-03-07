@@ -11,7 +11,7 @@
     class="btn btn-primary"
     style="margin-bottom: 10px"
     (click)="addOptionValue($event, option)">
-    <i class="bi bi-plus-circle"></i>&nbsp;Add New Option Type</button>
+    <i class="bi bi-plus-circle"></i>&nbsp;Add New Option Value</button>
 </mat-toolbar>
 
 <table
@@ -22,7 +22,7 @@
 >
   @for(valueColumn of valueColumnsToDisplay; track $index) {
     <ng-container matColumnDef="{{valueColumn}}">
-      <th mat-header-cell *matHeaderCellDef>{{ valueColumnNamesToDisplay[$index] }}</th>
+      <th mat-header-cell *matHeaderCellDef [style.background-color]="'black'" [style.color]="'white'" >{{ valueColumnNamesToDisplay[$index] }}</th>
       <td mat-cell *matCellDef="let value">
         {{value[valueColumn]}}
       </td>

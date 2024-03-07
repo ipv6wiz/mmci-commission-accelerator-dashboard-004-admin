@@ -1,0 +1,66 @@
+<div #optionTypeFormContainer id="optionTypeFormContainer">
+  <mat-toolbar color="antiquewhite">
+    <span class="example-spacer"></span>
+    <button
+      style="background-color: transparent; border: 0; "
+      [mat-dialog-close]="true"
+    >
+      <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+    </button>
+  </mat-toolbar>
+  <span class="example-spacer"></span>
+  <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
+    <h3>Add or Edit Option Type</h3>
+  </div>
+
+  <mat-dialog-content>
+    <form #optionTypeForm [formGroup]="optionTypeFormGroup" (submit)="onSubmit($event)">
+      @for(field of fields; track $index) {
+        <mat-form-field style="display: block; ">
+          <mat-label>{{field['fieldLabel']}}</mat-label>
+          @if(!field['type'] || field['type'] === 'text') {
+            <input
+              matInput
+              placeholder="{{field['placeholder']}}"
+              [formControlName]="field['fcn']"
+              [required]="field['required']"
+              [mask]="field['mask'] || ''"
+              [autocapitalize]="field['autoCapitalize']"
+              (input)="fieldChange($event)"
+              id="{{'optionType-' + field['fcn'] }}"
+            >
+          }
+          @if(field['type'] === 'date') {
+            <ng-container >
+              <input
+                matInput
+                placeholder="{{field['placeholder']}}"
+                [formControlName]="field['fcn']"
+                [required]="field['required']"
+                [matDatepicker]="datePicker"
+                (dateChange)="onDateChange($event)"
+                [id]="field['pickerId']"
+                style="color: black"
+              >
+              <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+              <mat-datepicker disabled="false" #datePicker [startView]="field['startView']"></mat-datepicker>
+            </ng-container>
+          }
+          @if(field['type'] === 'currency'){
+            <input
+              matInput
+              placeholder="{{field['placeholder']}}"
+              [formControlName]="field['fcn']"
+              [required]="field['required']"
+              mask="separator"
+              thousandSeparator=","
+              prefix="$"
+            >
+          }
+        </mat-form-field>
+      }
+      <button mat-button type="submit" [disabled]="!optionTypeFormGroup.valid || !optionTypeFormGroup.dirty" [mat-dialog-close]="true">Save</button>
+      <button mat-button [mat-dialog-close]="true">Cancel</button>
+    </form>
+  </mat-dialog-content>
+</div>

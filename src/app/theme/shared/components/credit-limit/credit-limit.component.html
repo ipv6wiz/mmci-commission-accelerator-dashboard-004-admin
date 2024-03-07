@@ -1,4 +1,4 @@
-<div #creditLimitForm id="creditLimitForm">
+<div #creditLimitFormContainer id="creditLimitFormContainer">
   <mat-toolbar color="antiquewhite">
     <span class="example-spacer"></span>
     <button
@@ -87,11 +87,11 @@
                     prefix="$"
                   >
                 }
-        </mat-form-field>
-      }
-      <button mat-button type="submit" [disabled]="!creditFormGroup.valid || !creditFormGroup.dirty" [mat-dialog-close]="true">Save</button>
-      <button mat-button [mat-dialog-close]="true">Cancel</button>
-    </form>
+            </mat-form-field>
+          }
+          <button mat-button type="submit" [disabled]="!creditFormGroup.valid || !creditFormGroup.dirty" [mat-dialog-close]="true">Save</button>
+          <button mat-button [mat-dialog-close]="true">Cancel</button>
+        </form>
       </div>
       <div class="tab-pane fade" id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="0">
         <table mat-table [dataSource]="data.client.creditLimits" class="mat-elevation-z8">
@@ -141,7 +141,4 @@
       </div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions>
-
-  </mat-dialog-actions>
 </div>

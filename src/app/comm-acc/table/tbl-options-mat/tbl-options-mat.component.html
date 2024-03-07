@@ -35,14 +35,14 @@
       >
         @for(optionColumn of optionColumnsToDisplay; track $index) {
           <ng-container matColumnDef="{{optionColumn}}">
-            <th mat-header-cell *matHeaderCellDef>{{optionColumnNamesToDisplay[$index]}}</th>
+            <th mat-header-cell *matHeaderCellDef [style.background-color]="'black'" [style.color]="'white'">{{optionColumnNamesToDisplay[$index]}}</th>
             <td mat-cell *matCellDef="let option">
               {{option[optionColumn]}}
             </td>
           </ng-container>
         }
         <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions">Actions</th>
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions" [style.background-color]="'black'" [style.color]="'white'">Actions</th>
           <td mat-cell *matCellDef="let option">
             <button
               mat-icon-button
@@ -106,6 +106,14 @@
         ></tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
+        <mat-paginator #paginator
+                       [length]="totalOptionCount"
+                       [pageSize]="2"
+                       [disabled]="'false'"
+                       [pageSizeOptions]="[2, 5, 10, 25, 50, 100]"
+                       showFirstLastButtons="showFirstLastButtons"
+                       (page)="onPageEvent($event)"
+        ></mat-paginator>
     }
   </app-card>
 </div>
