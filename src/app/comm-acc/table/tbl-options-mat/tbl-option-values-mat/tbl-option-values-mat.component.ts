@@ -41,6 +41,7 @@ export class TblOptionValuesMatComponent implements OnInit{
 
   valueColumnsToDisplay: string[] = ['key', 'value', 'sortOrder', 'displayValue'];
   valueColumnNamesToDisplay: string[] = ['Key', 'Value', 'Sort Order', 'Display Value'];
+  valueColumnsToDisplayWithExpand: string[] = [...this.valueColumnsToDisplay, 'valueActions'];
 
   constructor() {
   }

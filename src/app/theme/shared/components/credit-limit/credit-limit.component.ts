@@ -32,7 +32,7 @@ import {
   MatTable
 } from '@angular/material/table';
 import { UserNameLookupPipe } from '../../pipes/userNameLookup.pipe';
-import { clientRefreshSignal } from '../file-manager/signals/client-refresh.signal';
+import { clientRefreshSignal } from '../../signals/client-refresh.signal';
 
 @Component({
   selector: 'app-credit-limit',

@@ -57,7 +57,7 @@
       </button>
     </td>
   </ng-container>
-  <tr mat-header-row *matHeaderRowDef="valueColumnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: valueColumnsToDisplay" class="example-detail-row"></tr>
+  <tr mat-header-row *matHeaderRowDef="valueColumnsToDisplayWithExpand"></tr>
+  <tr mat-row *matRowDef="let row; columns: valueColumnsToDisplayWithExpand" class="example-detail-row"></tr>
 </table>
 

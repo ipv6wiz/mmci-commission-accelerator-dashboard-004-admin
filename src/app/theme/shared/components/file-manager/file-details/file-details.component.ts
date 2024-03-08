@@ -10,7 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {FileItem} from "../dtos/file-item.interface";
-import {newLeaf} from "../signals/file-item.signal";
+import {newLeaf} from "../../../signals/file-item.signal";
 import {
   MatTable, MatTableModule
 } from "@angular/material/table";

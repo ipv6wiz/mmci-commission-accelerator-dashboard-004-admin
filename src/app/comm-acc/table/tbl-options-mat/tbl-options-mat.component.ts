@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, effect, OnInit, ViewChild } from '@angular/core';
 import { CardComponent } from '../../../theme/shared/components/card/card.component';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
@@ -25,6 +25,8 @@ import { NGXLogger } from 'ngx-logger';
 import { MatDialog } from '@angular/material/dialog';
 import { TblOptionsFormMatComponent } from './tbl-options-form-mat/tbl-options-form-mat.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { optionTypeListChangeSignal } from '../../../theme/shared/signals/option-type-list-change.signal';
+import { User } from '../../../theme/shared/entities/user.interface';
 
 @Component({
   selector: 'app-tbl-options-mat',
@@ -78,7 +80,18 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
     private optionsService: OptionsService,
     public modal: MatDialog,
     private logger: NGXLogger
-  ) {  }
+  ) {
+    effect(async () => {
+      const optionTypeChange: {master: Options, masterId: string, update: boolean, user: User} = optionTypeListChangeSignal();
+      if(this.optionsDataSource) {
+        // const dsIndex: number = this.optionsDataSource.data.findIndex((item) => item.id === optionTypeChange.masterId);
+        // console.log('effect - dsIndex: ', dsIndex);
+        console.log('effect - master: ', optionTypeChange.master);
+        const response = await lastValueFrom( this.optionsService.updateOptionById(optionTypeChange.masterId, optionTypeChange.master));
+        console.log('effect - response: ', response);
+      }
+    });
+  }
 
   async ngOnInit() {
     console.log('ngOnInit');

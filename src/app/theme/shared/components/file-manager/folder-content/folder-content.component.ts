@@ -1,6 +1,6 @@
 import {Component,  Input, OnChanges,  SimpleChanges,} from '@angular/core';
 import {FileItem} from "../dtos/file-item.interface";
-import {newLeaf} from "../signals/file-item.signal";
+import {newLeaf} from "../../../signals/file-item.signal";
 
 @Component({
   selector: 'app-folder-content',

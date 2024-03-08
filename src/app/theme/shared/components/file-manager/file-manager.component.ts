@@ -11,7 +11,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { NestedTreeControl} from "@angular/cdk/tree";
-import {newLeaf} from "./signals/file-item.signal";
+import {newLeaf} from "../../signals/file-item.signal";
 
 import {
   MatNestedTreeNode,

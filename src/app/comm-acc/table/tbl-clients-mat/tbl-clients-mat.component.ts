@@ -13,7 +13,7 @@ import { ClientVerifyMatComponent } from '../../pages/client-verify-mat/client-v
 import {ProgressSpinnerMode, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
 import { MatBoolDisplayPipe } from '../../../theme/shared/pipes/mat-bool-display.pipe';
-import { clientRefreshSignal } from '../../../theme/shared/components/file-manager/signals/client-refresh.signal';
+import { clientRefreshSignal } from '../../../theme/shared/signals/client-refresh.signal';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { CreditLimitComponent } from '../../../theme/shared/components/credit-limit/credit-limit.component';

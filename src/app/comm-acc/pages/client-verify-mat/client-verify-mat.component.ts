@@ -12,7 +12,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { FileManagerComponent } from '../../../theme/shared/components/file-manager/file-manager.component';
 import {
   fileVerifyStatusSignal
-} from '../../../theme/shared/components/file-manager/signals/file-verify-status.signal';
+} from '../../../theme/shared/signals/file-verify-status.signal';
 import { FileVerifyStatusDto } from '../../../theme/shared/components/file-manager/dtos/file-verify-status.dto';
 import { ClientVerifyService } from '../../../theme/shared/service/client-verify.service';
 import { FileItem } from '../../../theme/shared/components/file-manager/dtos/file-item.interface';
@@ -22,8 +22,8 @@ import { SharedModule } from '../../../theme/shared/shared.module';
 import { MatInput } from '@angular/material/input';
 import {
   clientVerifyStatusSignal
-} from '../../../theme/shared/components/file-manager/signals/clientVerifyStatus.signal';
-import { clientRefreshSignal } from '../../../theme/shared/components/file-manager/signals/client-refresh.signal';
+} from '../../../theme/shared/signals/clientVerifyStatus.signal';
+import { clientRefreshSignal } from '../../../theme/shared/signals/client-refresh.signal';
 import { AuthenticationService } from '../../../theme/shared/service';
 import { ApiResponse } from '../../../theme/shared/dtos/api-response.dto';
 

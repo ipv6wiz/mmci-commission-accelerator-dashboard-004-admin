@@ -17,7 +17,7 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
 import { FileItem } from '../dtos/file-item.interface';
-import { fileVerifyStatusSignal } from '../signals/file-verify-status.signal';
+import { fileVerifyStatusSignal } from '../../../signals/file-verify-status.signal';
 
 @Component({
   selector: 'app-file-display',

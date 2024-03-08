@@ -11,6 +11,8 @@ import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { optionTypeListChangeSignal } from '../../../../theme/shared/signals/option-type-list-change.signal';
+import { Options } from '../../../../theme/shared/entities/options.interface';
 
 @Component({
   selector: 'app-tbl-options-form-mat',
@@ -117,10 +119,15 @@ export class TblOptionsFormMatComponent implements OnInit{
   async onSubmit(event: any) {
     console.log('Option Type Form Submit - event: ', event);
     console.log('Option Type Form Submit - type: ',  this.optionTypeFormGroup.controls['type'].value);
+    console.log('Option Type Form Submit - all values: ', this.optionTypeFormGroup.value);
+    const optFormKeys: string[] = Object.keys(this.optionTypeFormGroup.value) ;
+    const optTypeObj: Options = this.data.option;
+    optFormKeys.forEach((key) => {
+      optTypeObj[key as keyof Options] = this.optionTypeFormGroup.value[key];
+    })
     const user = this.authService.getLocalUser();
     console.log('Option Type Form Submit - user: ', user);
-    // Update dataSource at index
-    // update Options Collection at id
+    optionTypeListChangeSignal.set({master: optTypeObj, masterId: this.data.option.id, update: true, user});
   }
 
   fieldChange(event: any) {
