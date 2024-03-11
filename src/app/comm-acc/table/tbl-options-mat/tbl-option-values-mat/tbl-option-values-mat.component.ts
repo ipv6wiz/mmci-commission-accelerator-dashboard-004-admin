@@ -13,6 +13,8 @@ import { Options } from '../../../../theme/shared/entities/options.interface';
 import { MatIconButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatToolbar } from '@angular/material/toolbar';
+import { HelpersService } from '../../../../theme/shared/service/helpers.service';
+import { User } from '../../../../theme/shared/entities/user.interface';
 
 @Component({
   selector: 'app-tbl-option-values-mat',
@@ -38,12 +40,13 @@ import { MatToolbar } from '@angular/material/toolbar';
 export class TblOptionValuesMatComponent implements OnInit{
   @Input() values: OptionValues[] = [];
   @Input() option!: Options;
+  @Input() user!: User;
 
   valueColumnsToDisplay: string[] = ['key', 'value', 'sortOrder', 'displayValue'];
   valueColumnNamesToDisplay: string[] = ['Key', 'Value', 'Sort Order', 'Display Value'];
   valueColumnsToDisplayWithExpand: string[] = [...this.valueColumnsToDisplay, 'valueActions'];
 
-  constructor() {
+  constructor(protected helpers: HelpersService,) {
   }
 
   ngOnInit() {

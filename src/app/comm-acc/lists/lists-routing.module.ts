@@ -8,7 +8,8 @@ const routes: Routes = [
         children: [
             {
                 path: 'options',
-                loadComponent: () => import('../table/tbl-options-mat/tbl-options-mat.component').then(m => m.TblOptionsMatComponent),
+                loadComponent: () => import('../table/tbl-options-mat/tbl-options-mat.component')
+                  .then(m => m.TblOptionsMatComponent),
                 canActivate: [AuthGuard],
                 data: {roles: ['SuperAdmin']}
             },
@@ -21,6 +22,13 @@ const routes: Routes = [
             {
                 path: 'api-docs',
                 loadComponent: () => import('../api-docs/api-docs.component'),
+                canActivate: [AuthGuard],
+                data: {roles: ['SuperAdmin']}
+            },
+            {
+                path: 'escrow-companies',
+                loadComponent: () => import('../table/tbl-escrow-companies-mat/tbl-escrow-companies-mat.component')
+                  .then(m => m.TblEscrowCompaniesMatComponent),
                 canActivate: [AuthGuard],
                 data: {roles: ['SuperAdmin']}
             }

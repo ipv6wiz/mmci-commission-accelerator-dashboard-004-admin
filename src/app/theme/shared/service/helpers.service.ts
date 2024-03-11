@@ -30,4 +30,8 @@ export class HelpersService {
     isoParts.push(dateParts[1].padStart(2, '0'));
     return isoParts.join('-')+(withTime ? 'T00:00:00' : '');
   }
+
+  checkRoles(allowed: string[], userRoles: string[]): boolean {
+    return userRoles.some(value => allowed.includes(value));
+  }
 }

@@ -112,7 +112,7 @@ export class UserService {
         return this.usersRef.doc(user.uid).set(user, {merge: true});
         // return this.usersRef.add({...user});
     }
-    update(id: string, data: any): Promise<void> {
+    update(id: string, data: any): Promise<any> {
         console.log('userService - update - data: ', data);
         return this.usersRef.doc(id).set(data, {merge: true});
     }

@@ -4,14 +4,14 @@
     class="btn btn-primary"
     style="margin-bottom: 10px"
     (click)="refreshOptionValues()">
-    <i class="bi bi-arrow-repeat"></i>&nbsp;Refresh Options List</button>
+    <i class="bi bi-arrow-repeat"></i>&nbsp;Refresh Values List</button>
   <span class="example-spacer"></span>
   <button
     type="button"
     class="btn btn-primary"
     style="margin-bottom: 10px"
     (click)="addOptionValue($event, option)">
-    <i class="bi bi-plus-circle"></i>&nbsp;Add New Option Value</button>
+    <i class="bi bi-plus-circle"></i>&nbsp;Add New Value</button>
 </mat-toolbar>
 
 <table
@@ -29,7 +29,7 @@
     </ng-container>
   }
   <ng-container matColumnDef="valueActions">
-    <th mat-header-cell *matHeaderCellDef aria-label="value row actions">Actions</th>
+    <th mat-header-cell *matHeaderCellDef  [style.background-color]="'black'" [style.color]="'white'" aria-label="value row actions">Actions</th>
     <td mat-cell *matCellDef="let value">
       <button
         mat-icon-button
@@ -43,18 +43,20 @@
           [style.color]="'darkgreen'"
         ></i>
       </button>
-      <button
-        mat-icon-button
-        aria-label="Delete Option Value"
-        matTooltip="Delete Option Value"
-        matTooltipPosition="left"
-        (click)="deleteOptionValue($event, option, value)"
-      >
-        <i
-          class="bi bi-trash3-fill"
-          [style.color]="'red'"
-        ></i>
-      </button>
+      @if(helpers.checkRoles(['SuperAdmin', 'Admin'], user.roles)) {
+          <button
+            mat-icon-button
+            aria-label="Delete Option Value"
+            matTooltip="Delete Option Value"
+            matTooltipPosition="left"
+            (click)="deleteOptionValue($event, option, value)"
+          >
+            <i
+              class="bi bi-trash3-fill"
+              [style.color]="'red'"
+            ></i>
+          </button>
+      }
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="valueColumnsToDisplayWithExpand"></tr>

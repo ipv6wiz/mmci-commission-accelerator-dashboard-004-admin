@@ -196,21 +196,22 @@ export class AuthenticationService {
         };
         if(userDoc === null ) {
             console.log('New User');
-            this.userData.status = 'pending';
-            this.userData.defaultPage = '/dashboard/';
+            this.userData.status = 'User Pending Approval';
+            this.userData.defaultPage = '/pending-approval/';
             this.userData.firstName = firstName;
             this.userData.lastName = lastName;
             this.setLocalUserData(this.userData);
             this.userData.roles = roles || [];
-            this.userData.roles.push('PendingUser');
+            this.userData.roles.push('USER-PENDING-APPROVAL');
             return this.userService.create(this.userData);
         } else {
             console.log('SetUserData - userDoc: ', userDoc);
             this.userData.firstName = userDoc.firstName || '';
             this.userData.lastName = userDoc.lastName || '';
             this.userData.displayName = userDoc.displayName || `${userDoc.firstName} ${userDoc.lastName}`;
+            this.userData.roles = userDoc.roles;
             sessionStorage.setItem('user', JSON.stringify(this.userData));
-            return this.userService.update(this.userData.uid, this.userData)
+            // return this.userService.update(this.userData.uid, this.userData)
         }
     }
 

@@ -1,0 +1,72 @@
+<div class="col-md-12">
+  <app-card [cardTitle]="tableTitle" cardClass="tab-card tab-content" blockClass="nav-fill">
+
+    @if(loadingItems) {
+      <section class="items-load-spinner-section">
+        <h3>Loading {{tableTitle}}</h3>
+        <mat-progress-spinner
+          class="items-load-spinner-margin"
+          [color]="loadSpinnerColor"
+          [mode]="loadSpinnerMode"
+          [diameter]="loadSpinnerDiameter"
+        ></mat-progress-spinner>
+      </section>
+    } @else {
+      <mat-toolbar>
+        <button type="button" class="btn btn-primary" style="margin-bottom: 10px" (click)="refreshItemsList()">
+          <i class="bi bi-arrow-repeat"></i>
+          Refresh {{tableTitle}}
+        </button>
+        <span class="example-spacer"></span>
+        <button
+          type="button"
+          class="btn btn-primary"
+          style="margin-bottom: 10px"
+          (click)="addItem($event)">
+          <i class="bi bi-plus-circle"></i>&nbsp;Add New {{tableItemName}}</button>
+      </mat-toolbar>
+      <table
+        mat-table
+        [dataSource]="ecDataSource"
+        multiTemplateDataRows="true"
+        class="mat-elevation-z8"
+      >
+        @for(column of columnsToDisplay; track $index) {
+          <ng-container matColumnDef="{{column}}">
+            <th mat-header-cell *matHeaderCellDef>{{columnNamesToDisplay[$index]}}</th>
+              <td mat-cell *matCellDef="let item">
+                {{ item[column] || 'Not Set Yet'}}
+              </td>
+          </ng-container>
+        }
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">Actions</th>
+          <td mat-cell *matCellDef="let item">
+            <button
+              mat-icon-button
+              aria-label="Edit {{tableItemName}}"
+              matTooltip="Edit {{tableItemName}}"
+              matTooltipPosition="left"
+              (click)="editItem($event, item)"
+            >
+              <i
+                class="bi bi-pencil-fill"
+                [style.color]="'darkgreen'"
+              ></i>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithActions"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithActions"></tr>
+      </table>
+      <mat-paginator #paginator
+                     [length]="totalItemsCount"
+                     [pageSize]="5"
+                     [disabled]="'false'"
+                     [pageSizeOptions]="[ 5, 10, 25, 50, 100]"
+                     showFirstLastButtons="showFirstLastButtons"
+                     (page)="onPageEvent($event)"
+      ></mat-paginator>
+    }
+  </app-card>
+</div>

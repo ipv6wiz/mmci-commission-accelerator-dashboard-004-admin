@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, effect, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, effect, OnInit, ViewChild } from '@angular/core';
 import { CardComponent } from '../../../theme/shared/components/card/card.component';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
@@ -27,6 +27,8 @@ import { TblOptionsFormMatComponent } from './tbl-options-form-mat/tbl-options-f
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { optionTypeListChangeSignal } from '../../../theme/shared/signals/option-type-list-change.signal';
 import { User } from '../../../theme/shared/entities/user.interface';
+import { AuthenticationService } from '../../../theme/shared/service';
+import { HelpersService } from '../../../theme/shared/service/helpers.service';
 
 @Component({
   selector: 'app-tbl-options-mat',
@@ -76,11 +78,16 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
 
   expandedOption: Options | null = null;
 
+  user: User;
+
   constructor(
     private optionsService: OptionsService,
+    private authService: AuthenticationService,
+    protected helpers: HelpersService,
     public modal: MatDialog,
     private logger: NGXLogger
   ) {
+    this.user = this.authService.getLocalUser();
     effect(async () => {
       const optionTypeChange: {master: Options, masterId: string, update: boolean, user: User} = optionTypeListChangeSignal();
       if(this.optionsDataSource) {

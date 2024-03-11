@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {NavigationItem} from "../entities/navigation-item.interface";
-import firebase from "firebase/compat";
-import WhereFilterOp = firebase.firestore.WhereFilterOp;
 import {arrayUnion} from "@angular/fire/firestore";
 
 @Injectable({

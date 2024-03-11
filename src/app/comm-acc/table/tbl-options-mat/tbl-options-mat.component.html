@@ -56,18 +56,20 @@
                 [style.color]="'darkgreen'"
               ></i>
             </button>
-            <button
-              mat-icon-button
-              aria-label="Delete Option"
-              matTooltip="Delete Option"
-              matTooltipPosition="left"
-              (click)="deleteOption($event, option)"
-            >
-              <i
-                class="bi bi-trash3-fill"
-                [style.color]="'red'"
-              ></i>
-            </button>
+            @if(helpers.checkRoles(['SuperAdmin', 'Admin'], user.roles)) {
+              <button
+                mat-icon-button
+                aria-label="Delete Option"
+                matTooltip="Delete Option"
+                matTooltipPosition="left"
+                (click)="deleteOption($event, option)"
+              >
+                <i
+                  class="bi bi-trash3-fill"
+                  [style.color]="'red'"
+                ></i>
+              </button>
+            }
             <button
               mat-icon-button
               aria-label="expand row"
@@ -91,7 +93,7 @@
             <div class="example-option-detail"
               [@detailExpand]="option === expandedOption ? 'expanded' : 'collapsed'">
               <div class="example-option-diagram-x">
-                <app-tbl-option-values-mat  [values]="option.values" [option]="option" ></app-tbl-option-values-mat>
+                <app-tbl-option-values-mat  [values]="option.values" [option]="option" [user]="user" ></app-tbl-option-values-mat>
               </div>
             </div>
           </td>

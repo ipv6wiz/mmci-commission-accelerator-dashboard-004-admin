@@ -29,7 +29,7 @@ const routes: Routes = [
           path: 'lists',
           loadChildren: () => import('./comm-acc/lists/lists.module').then((module) => module.ListsModule),
           canActivate: [AuthGuard],
-          data: {roles: ['UsersAdmin', 'FundsAdmin', 'ClientsAdmin']}
+          data: {roles: ['UsersAdmin', 'FundsAdmin', 'ClientsAdmin', 'Admin']}
       },
       {
         path: 'layout',
