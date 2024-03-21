@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, effect, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
@@ -25,6 +25,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { TblEscrowCompanyFormMatComponent } from './tbl-escrow-company-form-mat/tbl-escrow-company-form-mat.component';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { NestedColumnPipe } from '../../../theme/shared/pipes/nested-column.pipe';
+import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
 
 @Component({
   selector: 'app-tbl-escrow-companies-mat',
@@ -77,6 +78,12 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
     private logger: NGXLogger,
     private ecService: EscrowCompanyService
   ) {
+    const refreshRef = effect(() => {
+      const dgrs = dataGridRefreshSignal();
+      if(dgrs.refresh && dgrs.dataType === 'escrowCompanies') {
+        this.refreshItemsList().then();
+      }
+    });
   }
 
   async ngOnInit() {
@@ -105,6 +112,7 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
   openItemUpdateFormModal(item: EscrowCompanyDto, index: number) {
     this.modal.open(TblEscrowCompanyFormMatComponent, {
       data: {
+        type: 'update',
         item,
         index
       }
@@ -113,7 +121,9 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
 
   openItemCreateFormModal() {
     this.modal.open(TblEscrowCompanyFormMatComponent, {
-      data: {}
+      data: {
+        type: 'new'
+      }
     });
   }
 
