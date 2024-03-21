@@ -1,4 +1,4 @@
-import {Address} from "../entities/address.interface";
+import {Address} from "../entities/address.class";
 import {EscrowCompanyOfficerEntity} from "../entities/escrow-company-officer.entity";
 
 export class EscrowCompanyDto {

@@ -1,4 +1,4 @@
-import {Address} from "./address.interface";
+import {Address} from "./address.class";
 import {Brokerage} from "./brokerage.interface";
 import {AgentPerformance} from "./agent-performance.interface";
 import {RegistrantSteps} from "./registrant-steps.interface";

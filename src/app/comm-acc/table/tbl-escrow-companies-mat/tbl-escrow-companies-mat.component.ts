@@ -24,6 +24,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { MatToolbar } from '@angular/material/toolbar';
 import { TblEscrowCompanyFormMatComponent } from './tbl-escrow-company-form-mat/tbl-escrow-company-form-mat.component';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { NestedColumnPipe } from '../../../theme/shared/pipes/nested-column.pipe';
 
 @Component({
   selector: 'app-tbl-escrow-companies-mat',
@@ -45,7 +46,8 @@ import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     MatRowDef,
     MatRow,
     MatPaginator,
-    NgxMaskPipe
+    NgxMaskPipe,
+    NestedColumnPipe
   ],
   providers: [
     provideNgxMask()
@@ -63,11 +65,11 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
   tableItemName: string = 'Escrow Company';
   ecDataSource!: MatTableDataSource<EscrowCompanyDto>;
   totalItemsCount: number = 0;
-  columnsToDisplay: string[] = ['companyName', 'companyAddress.line1'];
+  columnsToDisplay: string[] = ['companyName', 'companyPhone'];
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'actions'];
-  columnNamesToDisplay: string[] = ['Company', 'Address'];
+  columnNamesToDisplay: string[] = ['Company', 'Main Phone'];
   columnsConfig: Map<string, any> = new Map<string, any>([
-    ['companyPhone', {type: 'phone, '}]
+    ['companyPhone', {type: 'phone', mask: '(000) 000-0000'}]
     ]);
 
   constructor(
@@ -100,7 +102,7 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
     return response.data;
   }
 
-  openItemFormModal(item: EscrowCompanyDto, index: number) {
+  openItemUpdateFormModal(item: EscrowCompanyDto, index: number) {
     this.modal.open(TblEscrowCompanyFormMatComponent, {
       data: {
         item,
@@ -109,13 +111,19 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
     });
   }
 
-  addItem(event: any) {
+  openItemCreateFormModal() {
+    this.modal.open(TblEscrowCompanyFormMatComponent, {
+      data: {}
+    });
+  }
 
+  addItem(event: any) {
+    this.openItemCreateFormModal();
   }
 
   editItem(event: any, item: EscrowCompanyDto) {
-    const index = this.ecDataSource.data.findIndex((ecItem: EscrowCompanyDto) => item.companyName === ecItem.companyName);
-    this.openItemFormModal(item, index);
+    const index: number = this.ecDataSource.data.findIndex((ecItem: EscrowCompanyDto) => item.companyName === ecItem.companyName);
+    this.openItemUpdateFormModal(item, index);
   }
 
   onPageEvent(event: any) {

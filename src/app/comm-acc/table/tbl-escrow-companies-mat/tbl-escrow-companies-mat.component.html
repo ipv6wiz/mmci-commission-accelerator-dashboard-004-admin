@@ -35,7 +35,19 @@
           <ng-container matColumnDef="{{column}}">
             <th mat-header-cell *matHeaderCellDef>{{columnNamesToDisplay[$index]}}</th>
               <td mat-cell *matCellDef="let item">
-                {{ item[column] || 'Not Set Yet'}}
+                @if(column.indexOf('.') === -1) {
+                  @if(columnsConfig.get(column) && columnsConfig.get(column).mask) {
+                    {{ item[column] | mask: columnsConfig.get(column).mask || 'Not Set Yet'}}
+                  } @else {
+                    {{ item[column] || 'Not Set Yet'}}
+                  }
+                } @else {
+                  @if(columnsConfig.get(column) && columnsConfig.get(column).mask) {
+                    {{ item | nestedCol: column | mask: columnsConfig.get(column).mask || 'Not Set Yet'}}
+                  } @else {
+                    {{ (item | nestedCol: column) || 'To be Set'}}
+                  }
+                }
               </td>
           </ng-container>
         }
