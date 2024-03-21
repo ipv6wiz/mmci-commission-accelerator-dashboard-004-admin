@@ -1,0 +1,94 @@
+<div #mlsListFormContainer id="mlsListFormContainer">
+  <mat-toolbar color="antiquewhite">
+    <span class="example-spacer"></span>
+    <button
+      style="background-color: transparent; border: 0; "
+      [mat-dialog-close]="true"
+    >
+      <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+    </button>
+  </mat-toolbar>
+  <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
+    <h3>Add or Edit {{formTag}}</h3>
+  </div>
+  <mat-dialog-content>
+    <form [formGroup]="formGroup" (submit)="onSubmit($event)" >
+      @for(field of fields.values(); track $index) {
+        @if(!['address'].includes(field.type)){
+          <mat-form-field [ngStyle]="">
+            <mat-label>{{field.fieldLabel}}</mat-label>
+            @if(!field.type || field.type === 'text') {
+              <input
+                matInput
+                placeholder="{{field.placeholder}}"
+                formControlName="{{field.fcn}}"
+                [required]="field.required"
+                [mask]="field.mask || ''"
+                [autocapitalize]="field.autoCapitalize"
+                id="{{fieldIdPrefix + '-' + field.fcn }}"
+              >
+            }
+            @if(field['type'] === 'date'){
+              <ng-container>
+                <input
+                  matInput
+                  placeholder="{{field.placeholder}}"
+                  formControlName="{{field.fcn}}"
+                  [required]="field.required"
+                  [matDatepicker]="datePicker"
+                  (dateChange)="onDateChange($event)"
+                  [id]="field.pickerId"
+                  style="color: black"
+                >
+                <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                <mat-datepicker disabled="false" #datePicker [startView]="field.startView"></mat-datepicker>
+              </ng-container>
+            }
+            @if(field['type'] === 'currency'){
+              <input
+                matInput
+                placeholder="{{field.placeholder}}"
+                formControlName="{{field.fcn}}"
+                [required]="field.required"
+                mask="separator"
+                thousandSeparator=","
+                prefix="$"
+              >
+            }
+            @if(field['type'] === 'quantity'){
+              <input
+                matInput
+                placeholder="{{field.placeholder}}"
+                formControlName="{{field.fcn}}"
+                [required]="field.required"
+                mask="separator"
+                thousandSeparator=","
+              >
+            }
+            @if(field['type'] === 'select'){
+              <mat-select
+                [(value)]="field.fcn"
+                formControlName="{{field.fcn}}"
+                [required]="field.required"
+                placeholder="{{field.placeholder}}"
+              >
+                <div *ngFor="let option of field.options">
+                  <mat-option [value]="option.value">{{option.key}}</mat-option>
+                </div>
+              </mat-select>
+            }
+
+          </mat-form-field>
+        }
+        @if(field.type === 'address' && field.required){
+          <app-address-form
+            [addressFormGroup]="controls[field.fcn]"
+            [addrField]="fields.get(field['fcn'])"
+          ></app-address-form>
+        }
+      }
+      <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" [mat-dialog-close]="true">Save</button>
+      <button mat-button [mat-dialog-close]="true">Cancel</button>
+    </form>
+  </mat-dialog-content>
+</div>

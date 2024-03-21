@@ -1,83 +1,75 @@
 import { AfterViewChecked, Component, effect, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
+import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
-  MatTable,
+  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable,
   MatTableDataSource
 } from '@angular/material/table';
-import { EscrowCompanyDto } from '../../../theme/shared/dtos/escrow-company.dto';
-import { ListWithCountDto } from '../../../theme/shared/dtos/list-with-count.dto';
-import { ApiResponse } from '../../../theme/shared/dtos/api-response.dto';
-import { EscrowCompanyService } from '../../../theme/shared/service/escrow-company.service';
-import { lastValueFrom } from 'rxjs';
-import { NGXLogger } from 'ngx-logger';
+import { MlsListDto } from '../../../theme/shared/dtos/mls-list.dto';
 import { MatDialog } from '@angular/material/dialog';
+import { NGXLogger } from 'ngx-logger';
+import { MlsListService } from '../../../theme/shared/service/mls-list.service';
+import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
+import { ListWithCountDto } from '../../../theme/shared/dtos/list-with-count.dto';
+import { TblMlsListFormMatComponent } from './tbl-mls-list-form-mat/tbl-mls-list-form-mat.component';
 import { CardComponent } from '../../../theme/shared/components/card/card.component';
 import { MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
 import { MatToolbar } from '@angular/material/toolbar';
-import { TblEscrowCompanyFormMatComponent } from './tbl-escrow-company-form-mat/tbl-escrow-company-form-mat.component';
-import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { MatTooltip } from '@angular/material/tooltip';
 import { NestedColumnPipe } from '../../../theme/shared/pipes/nested-column.pipe';
-import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
+import { NgxMaskPipe } from 'ngx-mask';
 
 @Component({
-  selector: 'app-tbl-escrow-companies-mat',
+  selector: 'app-tbl-mls-list-mat',
   standalone: true,
   imports: [
     CardComponent,
-    MatProgressSpinner,
-    MatTable,
+    MatCell,
+    MatCellDef,
     MatColumnDef,
     MatHeaderCell,
-    MatHeaderCellDef,
-    MatCellDef,
-    MatCell,
-    MatIconButton,
-    MatTooltip,
-    MatToolbar,
-    MatHeaderRowDef,
     MatHeaderRow,
-    MatRowDef,
-    MatRow,
+    MatHeaderRowDef,
+    MatIconButton,
     MatPaginator,
+    MatProgressSpinner,
+    MatRow,
+    MatRowDef,
+    MatTable,
+    MatToolbar,
+    MatTooltip,
+    NestedColumnPipe,
     NgxMaskPipe,
-    NestedColumnPipe
+    MatHeaderCellDef
   ],
-  providers: [
-    provideNgxMask()
-  ],
-  templateUrl: './tbl-escrow-companies-mat.component.html',
-  styleUrl: './tbl-escrow-companies-mat.component.scss'
+  templateUrl: './tbl-mls-list-mat.component.html',
+  styleUrl: './tbl-mls-list-mat.component.scss'
 })
-export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked {
+export class TblMlsListMatComponent implements OnInit, AfterViewChecked {
   @ViewChild('paginator') paginator!: MatPaginator;
   loadingItems: boolean = true;
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
   public loadSpinnerDiameter: string = '50';
-  tableTitle: string = 'Escrow Companies';
-  tableItemName: string = 'Escrow Company';
-  dataSource!: MatTableDataSource<EscrowCompanyDto>;
-  dataTypeTag: string = 'escrowCompanies';
+  tableTitle: string = 'MLS List';
+  tableItemName: string = 'MLS List Item';
+  dataSource!: MatTableDataSource<MlsListDto>;
+  dataTypeTag: string = 'mlsList';
   totalItemsCount: number = 0;
-  columnsToDisplay: string[] = ['companyName', 'companyPhone'];
+  columnsToDisplay: string[] = ['mlsName'];
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'actions'];
-  columnNamesToDisplay: string[] = ['Company', 'Main Phone'];
-  columnsConfig: Map<string, any> = new Map<string, any>([
-    ['companyPhone', {type: 'phone', mask: '(000) 000-0000'}]
-    ]);
+  columnNamesToDisplay: string[] = ['MLS Name'];
+  columnsConfig: Map<string, any> = new Map<string, any>();
 
   constructor(
     public modal: MatDialog,
     private logger: NGXLogger,
-    private service: EscrowCompanyService
+    private service: MlsListService
   ) {
     effect(() => {
       const dgrs = dataGridRefreshSignal();
@@ -101,7 +93,7 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
     this.loadingItems = true;
     const itemsDataObj: ListWithCountDto = await this.loadItemsData();
     this.totalItemsCount = itemsDataObj.count;
-    this.dataSource = new MatTableDataSource<EscrowCompanyDto>(itemsDataObj.items);
+    this.dataSource = new MatTableDataSource<MlsListDto>(itemsDataObj.items);
     this.loadingItems = false;
   }
 
@@ -109,8 +101,8 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
     return  await this.service.loadAllItems();
   }
 
-  openItemUpdateFormModal(item: EscrowCompanyDto, index: number) {
-    this.modal.open(TblEscrowCompanyFormMatComponent, {
+  openItemUpdateFormModal(item: MlsListDto, index: number) {
+    this.modal.open(TblMlsListFormMatComponent, {
       data: {
         type: 'update',
         item,
@@ -120,7 +112,7 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
   }
 
   openItemCreateFormModal() {
-    this.modal.open(TblEscrowCompanyFormMatComponent, {
+    this.modal.open(TblMlsListFormMatComponent, {
       data: {
         type: 'new'
       }
@@ -131,8 +123,8 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
     this.openItemCreateFormModal();
   }
 
-  editItem(event: any, item: EscrowCompanyDto) {
-    const index: number = this.dataSource.data.findIndex((ecItem: EscrowCompanyDto) => item.companyName === ecItem.companyName);
+  editItem(event: any, item: MlsListDto) {
+    const index: number = this.dataSource.data.findIndex((ecItem: MlsListDto) => item.mlsName === ecItem.mlsName);
     this.openItemUpdateFormModal(item, index);
   }
 

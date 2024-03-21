@@ -31,6 +31,13 @@ const routes: Routes = [
                   .then(m => m.TblEscrowCompaniesMatComponent),
                 canActivate: [AuthGuard],
                 data: {roles: ['SuperAdmin']}
+            },
+            {
+                path: 'mls-list',
+                loadComponent: () => import('../table/tbl-mls-list-mat/tbl-mls-list-mat.component')
+                  .then(m => m.TblMlsListMatComponent),
+                canActivate: [AuthGuard],
+                data: {roles: ['SuperAdmin']}
             }
         ]
     }

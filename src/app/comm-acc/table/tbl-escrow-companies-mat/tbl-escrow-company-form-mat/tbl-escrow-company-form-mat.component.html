@@ -9,10 +9,10 @@
     </button>
   </mat-toolbar>
   <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
-    <h3>Add or Edit Escrow Company</h3>
+    <h3>Add or Edit {{formTag}}</h3>
   </div>
   <mat-dialog-content>
-    <form [formGroup]="escrowCompanyFormGroup" (submit)="onSubmit($event)" >
+    <form [formGroup]="formGroup" (submit)="onSubmit($event)" >
       @for(field of fields.values(); track $index) {
         @if(!['address'].includes(field.type)){
         <mat-form-field [ngStyle]="">
@@ -87,7 +87,7 @@
           ></app-address-form>
         }
       }
-      <button mat-button type="submit" [disabled]="!escrowCompanyFormGroup.valid || !escrowCompanyFormGroup.dirty" [mat-dialog-close]="true">Save</button>
+      <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" [mat-dialog-close]="true">Save</button>
       <button mat-button [mat-dialog-close]="true">Cancel</button>
     </form>
   </mat-dialog-content>

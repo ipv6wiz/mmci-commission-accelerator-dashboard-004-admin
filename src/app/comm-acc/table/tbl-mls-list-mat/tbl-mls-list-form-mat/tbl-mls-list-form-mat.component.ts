@@ -1,20 +1,21 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { MatToolbar } from '@angular/material/toolbar';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AuthenticationService } from '../../../../theme/shared/service';
-import { HelpersService } from '../../../../theme/shared/service/helpers.service';
-import { NGXLogger } from 'ngx-logger';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SharedModule } from '../../../../theme/shared/shared.module';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { AddressFormComponent } from '../../../../theme/shared/components/address-form/address-form.component';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FormFieldDto } from '../../../../theme/shared/dtos/form-field.dto';
+import { AuthenticationService } from '../../../../theme/shared/service';
+import { HelpersService } from '../../../../theme/shared/service/helpers.service';
 import { EscrowCompanyService } from '../../../../theme/shared/service/escrow-company.service';
+import { NGXLogger } from 'ngx-logger';
 import { dataGridRefreshSignal } from '../../../../theme/shared/signals/data-grid-refresh.signal';
+import { AddressFormComponent } from '../../../../theme/shared/components/address-form/address-form.component';
+import { MlsListService } from '../../../../theme/shared/service/mls-list.service';
 
 @Component({
-  selector: 'app-tbl-escrow-company-form-mat',
+  selector: 'app-tbl-mls-list-form-mat',
   standalone: true,
   imports: [
     MatDialogClose,
@@ -31,16 +32,16 @@ import { dataGridRefreshSignal } from '../../../../theme/shared/signals/data-gri
   providers: [
     provideNgxMask()
   ],
-  templateUrl: './tbl-escrow-company-form-mat.component.html',
-  styleUrl: './tbl-escrow-company-form-mat.component.scss'
+  templateUrl: './tbl-mls-list-form-mat.component.html',
+  styleUrl: './tbl-mls-list-form-mat.component.scss'
 })
-export class TblEscrowCompanyFormMatComponent implements OnInit{
+export class TblMlsListFormMatComponent implements OnInit{
   formGroup: FormGroup;
   fields: Map<string, FormFieldDto>;
   controls: {[p: string]: FormControl};
-  fieldIdPrefix: string = 'escrow';
-  dataTypeTag: string = 'escrowCompanies';
-  formTag: string = 'Escrow Company';
+  fieldIdPrefix: string = 'mlsList';
+  dataTypeTag: string = 'mlsList';
+  formTag: string = 'MLS List Item';
 
   constructor(
     public modal: MatDialog,
@@ -48,48 +49,27 @@ export class TblEscrowCompanyFormMatComponent implements OnInit{
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private helpers: HelpersService,
-    private service: EscrowCompanyService,
+    private service: MlsListService,
     private logger: NGXLogger
   ) {
-    console.log('constructor - data: ', this.data);
     const fieldsArr: FormFieldDto[] = this.populateFormFields();
     this.fields = new Map<string, FormFieldDto>(fieldsArr.map((obj: FormFieldDto) => [obj.fcn, obj]));
     this.controls = this.helpers.createControls(this.fields, this.data);
-    console.log('Escrow Form - constructor - controls: ', this.controls);
-    console.log('Escrow Form - constructor - typeof controls: ', typeof this.controls);
     this.formGroup = this.formBuilder.group(this.controls);
   }
 
   populateFormFields(): FormFieldDto[] {
     const fields: any[] = [];
     fields.push({
-      fieldLabel: 'Company Name',
-      placeholder:'Escrow Company Name',
-      fcn: 'companyName',
+      fieldLabel: 'MLS Name',
+      placeholder: 'MLS Name',
+      fcn: 'mlsName',
       autoCapitalize: 'words',
       type: 'text',
       required: true,
       disabled: false,
       validators: []
     });
-    fields.push({
-      fieldLabel: 'Company Phone',
-      placeholder:'Escrow Company Main Phone',
-      fcn: 'companyPhone',
-      type: 'text',
-      mask: '(000) 000-0000',
-      required: false,
-      disabled: false,
-      validators: [['pattern', '^[0-9]*$']]
-    });
-    // fields.push({
-    //   fieldLabel: 'Address',
-    //   type: 'address',
-    //   fcn: 'companyAddress',
-    //   addrObj: new Address(this.formBuilder, this.helpers, this.data.item['companyAddress']),
-    //   required: false,
-    //   disabled: false
-    // });
     return fields;
   }
 
@@ -102,13 +82,11 @@ export class TblEscrowCompanyFormMatComponent implements OnInit{
     console.log('onSubmit - values: ', this.formGroup.value);
     let response;
     if(this.data.type === 'new') {
-       response = await this.service.createItem(this.formGroup.value);
+      response = await this.service.createItem(this.formGroup.value);
     } else if(this.data.type === 'update') {
       response = await this.service.updateItem(this.data.item.id, this.formGroup.value);
     }
-
     dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag })
-
     console.log('onSubmit - response: ', response);
   }
 
