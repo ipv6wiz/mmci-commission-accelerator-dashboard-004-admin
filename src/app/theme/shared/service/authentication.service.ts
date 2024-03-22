@@ -4,37 +4,35 @@ import { Router } from '@angular/router';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { environment } from 'src/environments/environment';
 import { User } from '../entities/user.interface';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {UserService} from "./user.service";
 import * as auth from 'firebase/auth';
 import { MatDialog } from '@angular/material/dialog';
+import { UsersService } from './users.service';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private userSubject: BehaviorSubject<User | null>;
-  public user: Observable<User | null>;
+  // private userSubject: BehaviorSubject<User | null>;
+  // public user: Observable<User | null>;
   userData: any;
-  fakeApiUrl: string = environment.fakeApiUrl;
   returnUrl = '';
 
   constructor(
       private router: Router,
       public afAuth: AngularFireAuth,
-      public userService: UserService,
+      public userService: UsersService,
       @Inject(LOCALE_ID) public locale: string,
       private modal: MatDialog
   ) {
     // eslint-disable-next-line
-    this.userSubject = new BehaviorSubject(JSON.parse(sessionStorage.getItem('user')!));
-    this.user = this.userSubject.asObservable();
+    // this.userSubject = new BehaviorSubject(JSON.parse(sessionStorage.getItem('user')!));
+    // this.user = this.userSubject.asObservable();
   }
 
-  public get userValue() {
-    return this.userSubject.value;
-  }
+  // public get userValue() {
+  //   return this.userSubject.value;
+  // }
 
   getLocalUser(): User {
     return JSON.parse(sessionStorage.getItem('user')!);
@@ -46,6 +44,7 @@ export class AuthenticationService {
      * NO self signup
      * @param values
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   signUpNewUser(values: any) {
       // const {email, password, firstName, lastName, roles} = values;
 
@@ -115,7 +114,7 @@ export class AuthenticationService {
                                     console.log('login - returnUrl: ', returnUrl);
                                     console.log('login - defaultPage: ', defaultPage);
                                     if (!returnUrl) {
-                                        returnUrl = defaultPage;
+                                        returnUrl = defaultPage || '/dashboard/analytics';
                                     }
                                     return this.router.navigate([defaultPage]);
                                 })
@@ -144,7 +143,7 @@ export class AuthenticationService {
               console.log('Logout');
               sessionStorage.removeItem('user');
               // console.log('Logout - userdata: ', JSON.stringify(this.getUserData()));
-              this.userSubject.unsubscribe();
+              // this.userSubject.unsubscribe();
               return this.router.navigate(['/auth/signin-v2']);
           })
           .catch((err) => {
@@ -156,9 +155,18 @@ export class AuthenticationService {
 
     // Returns true when user is looged in and email is verified
     get isLoggedIn(): boolean {
-        const user = JSON.parse(sessionStorage.getItem('user')!);
+      const localUser: string | null = sessionStorage.getItem('user');
+      // console.log('isLoggedIn - localUser: ', localUser);
+      if(localUser === 'undefined' || localUser === null) {
+        // console.log('isLoggedIn - NOT logged In');
+        return false;
+      } else {
+        // console.log('isLoggedIn - should not be here is localUser undefined or null');
+        const user = JSON.parse(localUser!);
         // console.log(`isLoggedIn - user: ${JSON.stringify(user)}`);
         return user !== null && user.emailVerified !== false;
+      }
+
     }
 
     /**
@@ -169,8 +177,8 @@ export class AuthenticationService {
         const provider = new auth.GoogleAuthProvider();
         provider.addScope('email');
         provider.addScope('profile');
-        const result = await this.AuthLogin(provider);
-        console.log('GoogleAuth - result: ', result);
+        await this.AuthLogin(provider);
+        // console.log('GoogleAuth - result: ', result);
         // await this.router.navigate(['dashboard/analytics']);
     }
 
@@ -179,21 +187,25 @@ export class AuthenticationService {
    provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
     async SetUserData(user: any, data: any = {}) {
         const {firstName, lastName, roles} = data;
-        console.log('SetUserData - user: ', user);
-        const userDoc = await this.userService.getOne(user.uid);
+        // console.log('SetUserData - user: ', user);
         const idToken = await user.getIdToken();
         const accessToken = user.auth.currentUser.accessToken;
-        // console.log('SetClientData - idToken: ', idToken);
         this.userData = {
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            emailVerified: user.emailVerified,
-            idToken: idToken || '',
-            accessToken: accessToken || '',
-            lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toString(),
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          idToken: idToken || '',
+          accessToken: accessToken || '',
+          lastLogin: new Date(parseInt(user.metadata.lastLoginAt)).toString(),
+          userRecord: user
         };
+        sessionStorage.setItem('user', JSON.stringify(this.userData));
+        const userDoc = await this.userService.getOneItem(user.uid);
+
+        // console.log('SetClientData - idToken: ', idToken);
+
         if(userDoc === null ) {
             console.log('New User');
             this.userData.status = 'User Pending Approval';
@@ -205,13 +217,13 @@ export class AuthenticationService {
             this.userData.roles.push('USER-PENDING-APPROVAL');
             return this.userService.create(this.userData);
         } else {
-            console.log('SetUserData - userDoc: ', userDoc);
+            // console.log('SetUserData - userDoc: ', userDoc);
             this.userData.firstName = userDoc.firstName || '';
             this.userData.lastName = userDoc.lastName || '';
             this.userData.displayName = userDoc.displayName || `${userDoc.firstName} ${userDoc.lastName}`;
             this.userData.roles = userDoc.roles;
             sessionStorage.setItem('user', JSON.stringify(this.userData));
-            // return this.userService.update(this.userData.uid, this.userData)
+            return this.userService.updateItem(this.userData.uid, this.userData);
         }
     }
 
@@ -247,7 +259,7 @@ export class AuthenticationService {
     async getCurrentUserDocument() {
         const userData = this.getLocalUserData();
         const uid = userData.uid;
-        const userDoc = await this.userService.getOne(uid);
+        const userDoc = await this.userService.getOneItem(uid);
         // console.log('---> getCurrentUserDocument - userDoc: ', userDoc);
         return userDoc;
     }
@@ -256,7 +268,7 @@ export class AuthenticationService {
         const userDoc = await this.getCurrentUserDocument();
         if(userDoc) {
           // console.log('AuthenticationService - getCurrentUserRoles - roles: ', userDoc.roles);
-            return userDoc.roles;
+            return userDoc.roles || ['Guest'];
         } else  {
             return ['guest'];
         }
@@ -269,7 +281,7 @@ export class AuthenticationService {
             .then((result) => {
                 this.SetUserData(result.user)
                     .then(() => {
-                        // console.log(`AuthLogin - SetUserData - res: ${user}`);
+                        console.log(`AuthLogin - SetUserData - res: ${result.user}`);
                         this.getCurrentUserDocument()
                             .then((doc) => {
                                 const {defaultPage} = doc;

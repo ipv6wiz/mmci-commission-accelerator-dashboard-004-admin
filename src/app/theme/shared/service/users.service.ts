@@ -5,6 +5,7 @@ import { ListWithCountDto } from '../dtos/list-with-count.dto';
 import { ApiResponse } from '../dtos/api-response.dto';
 import { lastValueFrom, Observable } from 'rxjs';
 import { UserCreateDto } from '../dtos/user-create.dto';
+import { User } from '../entities/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,11 @@ export class UsersService {
     return response.data;
   }
 
+  async getOneItem(uid: string): Promise<User> {
+    const response: ApiResponse = await lastValueFrom(this.getOne(uid), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    return response.data;
+  }
+
   async updateItem(uid: string, data: UserCreateDto): Promise<any> {
     const response: ApiResponse = await lastValueFrom(this.update(uid, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
@@ -48,6 +54,10 @@ export class UsersService {
 
   getForSelect(): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.endPointUrl}/select`);
+  }
+
+  getOne(uid: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.endPointUrl}/user/${uid}`);
   }
 
   create(data: UserCreateDto): Observable<ApiResponse> {
