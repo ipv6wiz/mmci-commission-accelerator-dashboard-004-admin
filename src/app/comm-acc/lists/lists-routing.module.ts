@@ -15,9 +15,10 @@ const routes: Routes = [
             },
             {
                 path: 'users',
-                loadComponent: () => import('../table/tbl-users/tbl-users.component'),
+                loadComponent: () => import('../table/tbl-users-mat/tbl-users-mat.component')
+                  .then(m => m.TblUsersMatComponent),
                 canActivate: [AuthGuard],
-                data: {roles: ['UsersAdmin']}
+                data: {roles: ['SuperAdmin','UsersAdmin']}
             },
             {
                 path: 'api-docs',

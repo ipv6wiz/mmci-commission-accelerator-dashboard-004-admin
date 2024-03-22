@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Address } from '../entities/address.class';
-import { FormFieldDto } from '../dtos/form-field.dto';
+import {  FormControl, Validators } from '@angular/forms';
+import { MatFormFieldControl } from '@angular/material/form-field';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,16 @@ import { FormFieldDto } from '../dtos/form-field.dto';
 export class HelpersService {
 
   constructor() { }
+
+  isColumnTypeBool(data: any): boolean {
+    if(typeof data === 'string') {
+      const dx: string = data;
+      if(dx.toLowerCase() === 'true' || dx.toLowerCase() === 'false') {
+        return true;
+      }
+    }
+    return (typeof data === 'boolean');
+  }
 
   convertToCamelCase(str: string, sep: string = '-'): string {
     const newStr = this.autoCapitalize(str, sep, '', true);
@@ -57,8 +67,7 @@ export class HelpersService {
         console.log('processFields - address - addrObj: ', field.addrObj);
         controls.set(field.fcn, field.addrObj.getFormGroup());
       } else {
-        const control = new FormControl()
-        const ctrl:any[] = [];
+        const control: FormControl = new FormControl();
         const validators: any[] = [];
         const  valueObj: any = {};
         // console.log('createControls - value: ',obj[field.fcn as keyof typeof obj]);
@@ -89,7 +98,11 @@ export class HelpersService {
                 validators.push(Validators.minLength(val[1]));
                 break;
               case 'maxLength':
-                validators.push(Validators.maxLength(val[1]))
+                validators.push(Validators.maxLength(val[1]));
+                break;
+              case 'email':
+                validators.push(Validators.email);
+                break;
             }
           });
         }

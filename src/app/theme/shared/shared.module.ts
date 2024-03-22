@@ -31,7 +31,7 @@ import {
   NgbDatepickerModule,
   NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
-import {DxAccordionModule, DxDataGridModule, DxFormModule, DxTagBoxModule} from "devextreme-angular";
+
 import {FooterComponent} from "./components/footer/footer.component";
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -76,10 +76,7 @@ const bootstrap = [
     NgClickOutsideDirective,
     NgScrollbarModule,
     AlertComponent,
-    DxDataGridModule,
-    DxTagBoxModule,
-    DxFormModule,
-    DxAccordionModule
+
   ],
   exports: [
     CommonModule,
@@ -106,10 +103,7 @@ const bootstrap = [
     AlertComponent,
     bootstrap,
     NgClickOutsideDirective,
-    DxDataGridModule,
-    DxTagBoxModule,
-    DxFormModule,
-    DxAccordionModule
+
   ],
   declarations: [
       DataFilterPipe,

@@ -1,13 +1,13 @@
-export interface User {
+export interface UserDto {
   uid: string;
   email: string;
   displayName: string;
   firstName?: string;
   middleName?: string;
   lastName?: string;
-  photoURL: string;
-  emailVerified: boolean;
-  lastLogin: string;
+  photoURL?: string;
+  emailVerified?: boolean;
+  lastLogin?: string;
   disabled?: boolean;
   roles?: string[];
   token?: string;

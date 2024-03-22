@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { lastValueFrom, Observable } from 'rxjs';
-import { ApiResponse } from '../dtos/api-response.dto';
-import { EscrowCompanyDto } from '../dtos/escrow-company.dto';
 import { ListWithCountDto } from '../dtos/list-with-count.dto';
+import { ApiResponse } from '../dtos/api-response.dto';
+import { lastValueFrom, Observable } from 'rxjs';
+import { UserCreateDto } from '../dtos/user-create.dto';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EscrowCompanyService {
+export class UsersService {
   private readonly apiUrl = environment.gcpCommAccApiUrl;
-  private readonly endPoint: string = 'escrow-companies';
+  private readonly endPoint: string = 'users';
   private readonly endPointUrl: string;
 
   constructor(private http: HttpClient) {
     this.endPointUrl = `${this.apiUrl}${this.endPoint}`;
+    console.log('UsersService - endPointUrl: ', this.endPointUrl);
   }
 
   async loadAllItems(): Promise<ListWithCountDto> {
+    console.log('UsersService - loadAllItems');
     const response: ApiResponse = await lastValueFrom(this.getAll(), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    console.log('UsersService - loadAllItems - response: ', response);
     return response.data;
   }
 
@@ -28,17 +31,18 @@ export class EscrowCompanyService {
     return response.data;
   }
 
-  async updateItem(uid: string, data: EscrowCompanyDto): Promise<any> {
+  async updateItem(uid: string, data: UserCreateDto): Promise<any> {
     const response: ApiResponse = await lastValueFrom(this.update(uid, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
   }
 
-  async createItem(data: EscrowCompanyDto): Promise<any> {
+  async createItem(data: UserCreateDto): Promise<any> {
     const response: ApiResponse = await lastValueFrom(this.create(data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
   }
 
   getAll(): Observable<ApiResponse> {
+    console.log('UsersService - getAll');
     return this.http.get<ApiResponse>(`${this.endPointUrl}`);
   }
 
@@ -46,12 +50,11 @@ export class EscrowCompanyService {
     return this.http.get<ApiResponse>(`${this.endPointUrl}/select`);
   }
 
-  create(data: EscrowCompanyDto): Observable<ApiResponse> {
+  create(data: UserCreateDto): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.endPointUrl}`, data);
   }
 
-  update(uid: string, data: EscrowCompanyDto): Observable<ApiResponse> {
+  update(uid: string, data: UserCreateDto): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(`${this.endPointUrl}/${uid}`, data);
   }
-
 }

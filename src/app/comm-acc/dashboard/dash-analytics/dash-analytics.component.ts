@@ -108,7 +108,6 @@ export default class DashAnalyticsComponent {
           type: 'horizontal',
           opacityFrom: 1,
           opacityTo: 1,
-          stops: [0, 100]
         }
       },
       grid: {
@@ -214,7 +213,6 @@ export default class DashAnalyticsComponent {
           type: 'horizontal',
           opacityFrom: 1,
           opacityTo: 0.8,
-          stops: [0, 100, 100, 100]
         }
       },
       stroke: {

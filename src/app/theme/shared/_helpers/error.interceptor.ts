@@ -16,7 +16,9 @@ export class ErrorInterceptor implements HttpInterceptor {
       return next.handle(request).pipe(
           catchError((err: HttpErrorResponse) => {
               this.logger.info('Error Interceptor triggered status: ' + err.statusText + ' msg: ' + err.message);
+              // console.log(`Error Interceptor triggered status: ${err.status} msg: ${err.message} URL: ${err.url}`);
             if ([401, 403].includes(err.status)) {
+              // console.log('ErrorInterceptor - catchError - status: ', err.status);
               // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
               this.authenticationService['logout']();
             }

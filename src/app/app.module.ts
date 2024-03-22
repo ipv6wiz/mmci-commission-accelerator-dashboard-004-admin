@@ -1,5 +1,5 @@
 // Angular Import
-import {ErrorHandler, NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +24,7 @@ import { NavGroupComponent } from './theme/layout/admin/navigation/nav-content/n
 import { NavItemComponent } from './theme/layout/admin/navigation/nav-content/nav-item/nav-item.component';
 import { SharedModule } from './theme/shared/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { fakeBackendProvider } from 'src/app/theme/shared/_helpers';
+
 import { JwtInterceptor, ErrorInterceptor } from 'src/app/theme/shared/_helpers';
 
 // third party
@@ -35,7 +35,7 @@ import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
-import {GlobalErrorHandler} from "./theme/shared/_helpers/global-error-handler";
+
 import {LoggerModule} from "ngx-logger";
 
 @NgModule({
@@ -84,7 +84,6 @@ import {LoggerModule} from "ngx-logger";
 
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-        fakeBackendProvider,
         AuthenticationService
     ],
     exports: [],

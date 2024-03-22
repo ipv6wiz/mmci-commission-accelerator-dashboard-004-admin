@@ -248,12 +248,14 @@ export class AuthenticationService {
         const userData = this.getLocalUserData();
         const uid = userData.uid;
         const userDoc = await this.userService.getOne(uid);
+        // console.log('---> getCurrentUserDocument - userDoc: ', userDoc);
         return userDoc;
     }
 
     async getCurrentUserRoles(): Promise<string[]> {
         const userDoc = await this.getCurrentUserDocument();
         if(userDoc) {
+          // console.log('AuthenticationService - getCurrentUserRoles - roles: ', userDoc.roles);
             return userDoc.roles;
         } else  {
             return ['guest'];

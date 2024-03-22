@@ -40,11 +40,11 @@ export class AuthGuard  {
           } else {
               return this.authService.getCurrentUserRoles()
                   .then((roles) => {
-                      // console.log('User Roles: ', roles);
+                      // console.log('canActivate - User Roles: ', roles);
                       if (roles.indexOf('SuperAdmin') !== -1) {
                           return true;
                       } else {
-                          const okRole = (!!route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
+                          const okRole = (route.data['roles']) ? route.data['roles'].some((r: string) => roles.includes(r)) : false;
                           // console.log('okRole: ', okRole);
                           return okRole;
                       }
