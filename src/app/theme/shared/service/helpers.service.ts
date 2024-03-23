@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {  FormControl, Validators } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
-
+import { FormFieldDto } from '../dtos/form-field.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +46,10 @@ export class HelpersService {
   checkRoles(allowed: string[], userRoles: string[]): boolean {
     return userRoles.some(value => allowed.includes(value));
   }
+
+  // createChips(fields: FormFieldDto[]): Map<string, string[]> {
+  //
+  // }
 
   createControls(fields: Map<string, any>, obj: any, objType: string = 'item'): {[p: string]: FormControl} {
     let controls: Map<string, any> = new Map<string, any>();

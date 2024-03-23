@@ -8,12 +8,16 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FormFieldDto } from '../../../../theme/shared/dtos/form-field.dto';
 import { AuthenticationService } from '../../../../theme/shared/service';
 import { HelpersService } from '../../../../theme/shared/service/helpers.service';
-import { EscrowCompanyService } from '../../../../theme/shared/service/escrow-company.service';
+
 import { NGXLogger } from 'ngx-logger';
 import { dataGridRefreshSignal } from '../../../../theme/shared/signals/data-grid-refresh.signal';
 import { AddressFormComponent } from '../../../../theme/shared/components/address-form/address-form.component';
-import { MatCheckbox } from '@angular/material/checkbox';
+import {  MatCheckboxModule } from '@angular/material/checkbox';
 import { UsersService } from '../../../../theme/shared/service/users.service';
+import {  MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-tbl-users-form-mat',
@@ -29,7 +33,11 @@ import { UsersService } from '../../../../theme/shared/service/users.service';
     MatOption,
     NgxMaskDirective,
     AddressFormComponent,
-    MatCheckbox
+    MatCheckboxModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocomplete,
+    MatAutocompleteTrigger
   ],
   providers: [
     provideNgxMask()
@@ -44,6 +52,10 @@ export class TblUsersFormMatComponent implements OnInit{
   fieldIdPrefix: string = 'user';
   dataTypeTag: string = 'users';
   formTag: string = 'User';
+
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  roles: string[] = ['UsersAdmin', 'Admin', 'ClientsAdmin', 'FundsAdmin'];
+  chipsAvailable: Map<string, string[]> = new Map<string, string[]>([]);
 
   constructor(
     public modal: MatDialog,
@@ -114,30 +126,34 @@ export class TblUsersFormMatComponent implements OnInit{
       disabled: false,
       validators: [['email']]
     });
-    // fields.push({
-    //   fieldLabel: 'Email Verified',
-    //   placeholder:'Email Verified',
-    //   fcn: 'emailVerified',
-    //   type: 'boolean',
-    //   required: true,
-    //   disabled: false,
-    //   validators: []
-    // });
-    // fields.push({
-    //   fieldLabel: 'Roles',
-    //   placeholder:'Role',
-    //   fcn: 'roles',
-    //   type: 'chips',
-    //   required: true,
-    //   disabled: false,
-    //   validators: []
-    // });
+    fields.push({
+      fieldLabel: 'Email Verified',
+      placeholder:'Email Verified',
+      fcn: 'emailVerified',
+      type: 'boolean',
+      required: true,
+      disabled: false,
+      validators: []
+    });
+    fields.push({
+      fieldLabel: 'Roles',
+      placeholder:'Role',
+      fcn: 'roles',
+      values: 'Option:Roles',
+      type: 'chips',
+      required: true,
+      disabled: false,
+      validators: []
+    });
 
     return fields;
   }
 
   ngOnInit() {
     console.log('ngOnInit - data: ', this.data);
+    const fcn: string = 'roles';
+    const roles: string[] = this.formGroup.controls[fcn].value;
+    console.log('ngOnInit - roles: ', roles);
   }
 
   async onSubmit(event: any) {
@@ -178,6 +194,19 @@ export class TblUsersFormMatComponent implements OnInit{
         }
       }
     }
+  }
+
+  addChip(event: any) {
+    console.log('addChip - event: ', event);
+    event.chipInput!.clear();
+  }
+
+  selectChip(event: any){
+    console.log('selectChip - event: ', event);
+  }
+
+  removeChip(chip: string) {
+    console.log('removeChip - chip: ', chip);
   }
 
 }
