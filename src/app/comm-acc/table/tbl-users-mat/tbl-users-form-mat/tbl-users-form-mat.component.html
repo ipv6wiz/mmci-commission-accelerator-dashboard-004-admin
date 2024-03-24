@@ -11,7 +11,18 @@
   <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
     <h3>Add or Edit {{formTag}}</h3>
   </div>
-  <mat-dialog-content>
+  @if(loadingForm) {
+    <section class="items-load-spinner-section">
+      <h3>Loading User Form</h3>
+      <mat-progress-spinner
+        class="items-load-spinner-margin"
+        [color]="loadSpinnerColor"
+        [mode]="loadSpinnerMode"
+        [diameter]="loadSpinnerDiameter"
+      ></mat-progress-spinner>
+    </section>
+  } @else {
+    <mat-dialog-content>
     <form [formGroup]="formGroup" (submit)="onSubmit($event)" >
       @for(field of fields.values(); track $index) {
         @if(!['address'].includes(field.type)){
@@ -85,27 +96,14 @@
               ></mat-checkbox>
             }
             @if(field.type === 'chips'){
-              <mat-chip-grid #ChipsGrid formControlName="{{field.fcn}}">
-                @for(chip of formGroup.controls[field.fcn].value; track chip){
-                  <mat-chip-row (removed)="removeChip(chip)">
-                    {{chip}}
-                    <button matChipRemove aria-label="'remove ' + role">
-                      <mat-icon>cancel</mat-icon>
-                    </button>
-                  </mat-chip-row>
-                }
-              </mat-chip-grid>
-              <input placeholder="Choose..."
-                     [matChipInputFor]="ChipsGrid"
-                     [matAutocomplete]="auto"
-                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                     (matChipInputTokenEnd)="addChip($event)"
-              />
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectChip($event)">
-                @for (role of roles; track role) {
-                  <mat-option [value]="role">{{role}}</mat-option>
-                }
-              </mat-autocomplete>
+              <input matInput hidden="hidden" />
+              <app-chip-list
+                [formGroup]="formGroup"
+                [currChips]="formGroup.controls[field.fcn].value"
+                [field]="field"
+                [validChips]="roles"
+                (chipListChange)="chipListChange($event)"
+              ></app-chip-list>
             }
           </mat-form-field>
         }
@@ -113,6 +111,7 @@
           <app-address-form
             [addressFormGroup]="controls[field.fcn]"
             [addrField]="fields.get(field['fcn'])"
+
           ></app-address-form>
         }
       }
@@ -120,4 +119,5 @@
       <button mat-button [mat-dialog-close]="true">Cancel</button>
     </form>
   </mat-dialog-content>
+  }
 </div>

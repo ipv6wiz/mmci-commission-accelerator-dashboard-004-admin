@@ -17,7 +17,11 @@ import { UsersService } from '../../../../theme/shared/service/users.service';
 import {  MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ChipListComponent } from '../../../../theme/shared/components/chip-list/chip-list.component';
+import { OptionsService } from '../../../../theme/shared/service/options.service';
+import { ListWithCountDto } from '../../../../theme/shared/dtos/list-with-count.dto';
+import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-tbl-users-form-mat',
@@ -37,7 +41,9 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
     MatChipsModule,
     MatIconModule,
     MatAutocomplete,
-    MatAutocompleteTrigger
+    MatAutocompleteTrigger,
+    ChipListComponent,
+    MatProgressSpinner
   ],
   providers: [
     provideNgxMask()
@@ -46,16 +52,17 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
   styleUrl: './tbl-users-form-mat.component.scss'
 })
 export class TblUsersFormMatComponent implements OnInit{
-  formGroup: FormGroup;
-  fields: Map<string, FormFieldDto>;
-  controls: {[p: string]: FormControl};
+  formGroup!: FormGroup;
+  fields!: Map<string, FormFieldDto>;
+  controls!: {[p: string]: FormControl};
   fieldIdPrefix: string = 'user';
   dataTypeTag: string = 'users';
   formTag: string = 'User';
-
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  roles: string[] = ['UsersAdmin', 'Admin', 'ClientsAdmin', 'FundsAdmin'];
-  chipsAvailable: Map<string, string[]> = new Map<string, string[]>([]);
+  roles: string[] = [];
+  loadingForm: boolean = true;
+  public loadSpinnerColor: ThemePalette = 'primary';
+  public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
+  public loadSpinnerDiameter: string = '50';
 
   constructor(
     public modal: MatDialog,
@@ -64,15 +71,37 @@ export class TblUsersFormMatComponent implements OnInit{
     private authService: AuthenticationService,
     private helpers: HelpersService,
     private service: UsersService,
+    private optionsService: OptionsService,
     private logger: NGXLogger
   ) {
     console.log('constructor - data: ', this.data);
     const fieldsArr: FormFieldDto[] = this.populateFormFields();
     this.fields = new Map<string, FormFieldDto>(fieldsArr.map((obj: FormFieldDto) => [obj.fcn, obj]));
     this.controls = this.helpers.createControls(this.fields, this.data);
-    console.log('Escrow Form - constructor - controls: ', this.controls);
-    console.log('Escrow Form - constructor - typeof controls: ', typeof this.controls);
+    // console.log('Escrow Form - constructor - controls: ', this.controls);
+    // console.log('Escrow Form - constructor - typeof controls: ', typeof this.controls);
     this.formGroup = this.formBuilder.group(this.controls);
+    this.loadRolesList().then(() => {
+      this.loadingForm = false;
+    });
+
+  }
+
+  ngOnInit() {
+    console.log('ngOnInit - data: ', this.data);
+  }
+
+  async loadRolesList() {
+    const rolesObj: ListWithCountDto = await this.optionsService.loadValuesItemsForSelect('Roles');
+    console.log('loadRolesList - rolesObj: ', rolesObj);
+    rolesObj.items.forEach((item:any) => {this.roles.push(item.value)});
+  }
+
+  chipListChange(event: {key: string, value: any} ) {
+    // console.log('chipListChange - event: ', event);
+    this.formGroup.controls[event.key].setValue(event.value);
+    // console.log('chipListChange - fcn - value: ', this.formGroup.controls[event.key].value);
+    this.formGroup.controls[event.key].markAsDirty();
   }
 
   populateFormFields(): FormFieldDto[] {
@@ -149,12 +178,7 @@ export class TblUsersFormMatComponent implements OnInit{
     return fields;
   }
 
-  ngOnInit() {
-    console.log('ngOnInit - data: ', this.data);
-    const fcn: string = 'roles';
-    const roles: string[] = this.formGroup.controls[fcn].value;
-    console.log('ngOnInit - roles: ', roles);
-  }
+
 
   async onSubmit(event: any) {
     console.log('onSubmit - event: ', event);

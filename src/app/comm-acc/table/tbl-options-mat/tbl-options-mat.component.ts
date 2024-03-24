@@ -29,6 +29,7 @@ import { optionTypeListChangeSignal } from '../../../theme/shared/signals/option
 import { User } from '../../../theme/shared/entities/user.interface';
 import { AuthenticationService } from '../../../theme/shared/service';
 import { HelpersService } from '../../../theme/shared/service/helpers.service';
+import { ListWithCountDto } from '../../../theme/shared/dtos/list-with-count.dto';
 
 @Component({
   selector: 'app-tbl-options-mat',
@@ -113,9 +114,9 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
 
   async refreshOptionsList() {
     this.loadingOptions = true;
-    const optionsDataObj: {options: Options[], count: number } = await this.loadOptionsData();
+    const optionsDataObj: ListWithCountDto = await this.loadOptionsData();
     this.totalOptionCount = optionsDataObj.count;
-    this.optionsDataSource = new MatTableDataSource<Options>(optionsDataObj.options);
+    this.optionsDataSource = new MatTableDataSource<Options>(optionsDataObj.items);
     console.log('ngOnInit - optionsDataSource - data: ', this.optionsDataSource.data);
     this.loadingOptions = false;
     this.expandedOption = null;
@@ -134,9 +135,8 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
     console.log('onExpandRow - expandedClient (after): ', this.expandedOption);
   }
 
-  async loadOptionsData(): Promise<{options: Options[], count: number }> {
-    const response: ApiResponse = await  lastValueFrom(this.optionsService.getAll(), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
-    return response.data;
+  async loadOptionsData(): Promise<ListWithCountDto> {
+    return  await  this.optionsService.loadAllOptionItems();
   }
 
   openOptionFormModal(option: Options, index: number) {

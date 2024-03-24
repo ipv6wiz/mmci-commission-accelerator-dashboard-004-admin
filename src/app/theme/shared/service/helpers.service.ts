@@ -47,16 +47,12 @@ export class HelpersService {
     return userRoles.some(value => allowed.includes(value));
   }
 
-  // createChips(fields: FormFieldDto[]): Map<string, string[]> {
-  //
-  // }
-
   createControls(fields: Map<string, any>, obj: any, objType: string = 'item'): {[p: string]: FormControl} {
     let controls: Map<string, any> = new Map<string, any>();
     if (obj && objType === 'item') {
       obj = obj.item;
     }
-    console.log('createControls - obj:', obj);
+    // console.log('createControls - obj:', obj);
     controls = this.processFields(fields, obj, controls);
     // return controls;
     return Object.fromEntries(controls.entries());
@@ -66,13 +62,13 @@ export class HelpersService {
     console.log('processFields - obj: ', obj);
     fields.forEach((field: any) => {
       if(['address'].includes(field['type'])) {
-        console.log('processFields - address - field.fcn: ', field.fcn);
-        console.log('processFields - address - addrObj: ', field.addrObj);
+        // console.log('processFields - address - field.fcn: ', field.fcn);
+        // console.log('processFields - address - addrObj: ', field.addrObj);
         controls.set(field.fcn, field.addrObj.getFormGroup());
       } else {
         const control: FormControl = new FormControl();
         const validators: any[] = [];
-        const  valueObj: any = {};
+        // const  valueObj: any = {};
         // console.log('createControls - value: ',obj[field.fcn as keyof typeof obj]);
         if(obj) {
           control.setValue(obj[field.fcn as keyof typeof obj])
@@ -84,7 +80,7 @@ export class HelpersService {
           control.disable() ;
           // valueObj['disabled'] = true;
         }
-        console.log('createControls - valueObj: ', valueObj);
+        // console.log('createControls - valueObj: ', valueObj);
 
         if(field.required) {
           validators.push(Validators.required);
@@ -92,7 +88,7 @@ export class HelpersService {
         }
         if(field.validators &&  field.validators.length > 0) {
           field.validators.forEach((val: any) => {
-            console.log('createControls - validators val: ', val);
+            // console.log('createControls - validators val: ', val);
             switch (val[0]) {
               case 'pattern':
                 validators.push(Validators.pattern(val[1]));
@@ -109,9 +105,7 @@ export class HelpersService {
             }
           });
         }
-        console.log('createControls - validators: ', validators);
-        // ctrl.push(valueObj);
-        // ctrl.push(validators);
+        // console.log('createControls - validators: ', validators);
         control.setValidators(validators)
         controls.set(field.fcn, control);
       }

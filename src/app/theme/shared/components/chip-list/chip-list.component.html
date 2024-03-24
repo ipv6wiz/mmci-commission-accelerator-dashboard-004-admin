@@ -1,0 +1,24 @@
+<div [formGroup]="formGroup">
+  <mat-chip-grid #ChipsGrid  formControlName="{{field.fcn}}">
+    @for(chip of currChips; track chip){
+      <mat-chip-row (removed)="removeChip(chip)">
+        {{chip}}
+        <button matChipRemove aria-label="'remove ' + chip">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
+  </mat-chip-grid>
+  <input placeholder="Choose..." #chipInput
+         [formControl]="chipCtrl"
+         [matChipInputFor]="ChipsGrid"
+         [matAutocomplete]="auto"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+         (matChipInputTokenEnd)="addChip($event)"
+  />
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectChip($event)">
+    @for (value of filteredChips | async; track value) {
+      <mat-option [value]="value">{{value}}</mat-option>
+    }
+  </mat-autocomplete>
+</div>
