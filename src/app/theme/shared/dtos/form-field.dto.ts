@@ -8,6 +8,8 @@ export interface FormFieldDto {
   required: boolean;
   disabled: boolean;
   validators: any[];
+  width: number; // percentage
+  rowCol: string;
   autoCapitalize?: string;
   mask?: string;
   addrObj?: Address;

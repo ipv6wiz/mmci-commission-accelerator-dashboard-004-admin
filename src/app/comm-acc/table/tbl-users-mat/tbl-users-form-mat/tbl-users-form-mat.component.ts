@@ -60,9 +60,11 @@ export class TblUsersFormMatComponent implements OnInit{
   formTag: string = 'User';
   roles: string[] = [];
   loadingForm: boolean = true;
-  public loadSpinnerColor: ThemePalette = 'primary';
-  public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
-  public loadSpinnerDiameter: string = '50';
+  loadSpinnerColor: ThemePalette = 'primary';
+  loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
+  loadSpinnerDiameter: string = '50';
+
+  rows: any[] = [];
 
   constructor(
     public modal: MatDialog,
@@ -76,6 +78,8 @@ export class TblUsersFormMatComponent implements OnInit{
   ) {
     console.log('constructor - data: ', this.data);
     const fieldsArr: FormFieldDto[] = this.populateFormFields();
+    console.log('constructor - fieldsArr: ', fieldsArr);
+    this.populateRows(fieldsArr);
     this.fields = new Map<string, FormFieldDto>(fieldsArr.map((obj: FormFieldDto) => [obj.fcn, obj]));
     this.controls = this.helpers.createControls(this.fields, this.data);
     // console.log('Escrow Form - constructor - controls: ', this.controls);
@@ -89,6 +93,21 @@ export class TblUsersFormMatComponent implements OnInit{
 
   ngOnInit() {
     console.log('ngOnInit - data: ', this.data);
+  }
+
+  populateRows(fieldsArr: FormFieldDto[]) {
+    // console.log('populateRows - fieldsArr: ', fieldsArr);
+    fieldsArr.forEach((field: FormFieldDto) => {
+      const rowColParts = field.rowCol.split('.');
+      const row: number = parseInt(rowColParts[0], 10);
+      const col: number = parseInt(rowColParts[1], 10);
+      // console.log(`row: ${row} col: ${col} rows.length: ${this.rows.length}`);
+      if(row > this.rows.length) {
+        this.rows.push([]);
+      }
+      this.rows[row - 1].push(field);
+    });
+    // console.log('populateRows - rows: ', this.rows);
   }
 
   async loadRolesList() {
@@ -114,7 +133,9 @@ export class TblUsersFormMatComponent implements OnInit{
       type: 'text',
       required: true,
       disabled: false,
-      validators: []
+      validators: [],
+      width: 33,
+      rowCol:'1.1'
     });
     fields.push({
       fieldLabel: 'Middle Name',
@@ -124,6 +145,8 @@ export class TblUsersFormMatComponent implements OnInit{
       type: 'text',
       required: false,
       disabled: false,
+      width: 33,
+      rowCol:'1.2',
       validators: []
     });
     fields.push({
@@ -134,6 +157,8 @@ export class TblUsersFormMatComponent implements OnInit{
       type: 'text',
       required: true,
       disabled: false,
+      width: 33,
+      rowCol:'1.3',
       validators: []
     });
     fields.push({
@@ -144,6 +169,8 @@ export class TblUsersFormMatComponent implements OnInit{
       autoCapitalize: 'words',
       required: true,
       disabled: false,
+      width: 33,
+      rowCol:'2.1',
       validators: []
     });
     fields.push({
@@ -153,6 +180,8 @@ export class TblUsersFormMatComponent implements OnInit{
       type: 'text',
       required: true,
       disabled: false,
+      width: 33,
+      rowCol:'2.2',
       validators: [['email']]
     });
     fields.push({
@@ -162,6 +191,8 @@ export class TblUsersFormMatComponent implements OnInit{
       type: 'boolean',
       required: true,
       disabled: false,
+      width: 33,
+      rowCol:'2.3',
       validators: []
     });
     fields.push({
@@ -172,8 +203,18 @@ export class TblUsersFormMatComponent implements OnInit{
       type: 'chips',
       required: true,
       disabled: false,
+      width: 100,
+      rowCol:'3.1',
       validators: []
     });
+    fields.sort((a,b) => {
+      if(a.rowCol < b.rowCol) {
+        return -1;
+      } else if(a.rowCol > b.rowCol) {
+        return 1;
+      }
+      return 0;
+    })
 
     return fields;
   }

@@ -24,96 +24,101 @@
   } @else {
     <mat-dialog-content>
     <form [formGroup]="formGroup" (submit)="onSubmit($event)" >
-      @for(field of fields.values(); track $index) {
-        @if(!['address'].includes(field.type)){
-          <mat-form-field [ngStyle]="">
-            <mat-label>{{field.fieldLabel}}</mat-label>
-            @if(!field.type || field.type === 'text') {
-              <input
-                matInput
-                placeholder="{{field.placeholder}}"
-                formControlName="{{field.fcn}}"
-                [required]="field.required"
-                [mask]="field.mask || ''"
-                [autocapitalize]="field.autoCapitalize"
-                (input)="onFieldChange($event)"
-                id="{{fieldIdPrefix + '-' + field.fcn }}"
-              >
-            }
-            @if(field.type === 'date'){
-              <ng-container>
-                <input
-                  matInput
-                  placeholder="{{field.placeholder}}"
-                  formControlName="{{field.fcn}}"
-                  [required]="field.required"
-                  [matDatepicker]="datePicker"
-                  (dateChange)="onDateChange($event)"
-                  [id]="field.pickerId"
-                  style="color: black"
-                >
-                <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-                <mat-datepicker disabled="false" #datePicker [startView]="field.startView"></mat-datepicker>
-              </ng-container>
-            }
-            @if(field.type === 'currency'){
-              <input
-                matInput
-                placeholder="{{field.placeholder}}"
-                formControlName="{{field.fcn}}"
-                [required]="field.required"
-                mask="separator"
-                thousandSeparator=","
-                prefix="$"
-              >
-            }
-            @if(field.type === 'quantity'){
-              <input
-                matInput
-                placeholder="{{field.placeholder}}"
-                formControlName="{{field.fcn}}"
-                [required]="field.required"
-                mask="separator"
-                thousandSeparator=","
-              >
-            }
-            @if(field.type === 'select'){
-              <mat-select
-                [(value)]="field.fcn"
-                formControlName="{{field.fcn}}"
-                [required]="field.required"
-                placeholder="{{field.placeholder}}"
-              >
-                <div *ngFor="let option of field.options">
-                  <mat-option [value]="option.value">{{option.key}}</mat-option>
-                </div>
-              </mat-select>
-            }
-            @if(field.type === 'boolean') {
-              <input hidden="hidden" matInput />
-              <mat-checkbox
-                formControlName="{{field.fcn}}"
-              ></mat-checkbox>
-            }
-            @if(field.type === 'chips'){
-              <input matInput hidden="hidden" />
-              <app-chip-list
-                [formGroup]="formGroup"
-                [currChips]="formGroup.controls[field.fcn].value"
-                [field]="field"
-                [validChips]="roles"
-                (chipListChange)="chipListChange($event)"
-              ></app-chip-list>
-            }
-          </mat-form-field>
-        }
-        @if(field.type === 'address' && field.required){
-          <app-address-form
-            [addressFormGroup]="controls[field.fcn]"
-            [addrField]="fields.get(field['fcn'])"
-
-          ></app-address-form>
-        }
+      @for(row of rows; track $index) {
+        <div class="row">
+           @for(field of row; track $index) {
+              <div class="col" [style.width]="'{{field.width}}%'">
+                @if(!['address'].includes(field.type)){
+                <mat-form-field [ngStyle]="">
+                  <mat-label>{{field.fieldLabel}}</mat-label>
+                    @if(!field.type || field.type === 'text') {
+                      <input
+                        matInput
+                        placeholder="{{field.placeholder}}"
+                        formControlName="{{field.fcn}}"
+                        [required]="field.required"
+                        [mask]="field.mask || ''"
+                        [autocapitalize]="field.autoCapitalize"
+                        (input)="onFieldChange($event)"
+                        id="{{fieldIdPrefix + '-' + field.fcn }}"
+                      >
+                    }
+                    @if(field.type === 'date'){
+                      <ng-container>
+                        <input
+                          matInput
+                          placeholder="{{field.placeholder}}"
+                          formControlName="{{field.fcn}}"
+                          [required]="field.required"
+                          [matDatepicker]="datePicker"
+                          (dateChange)="onDateChange($event)"
+                          [id]="field.pickerId"
+                          style="color: black"
+                        >
+                        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                        <mat-datepicker disabled="false" #datePicker [startView]="field.startView"></mat-datepicker>
+                      </ng-container>
+                    }
+                    @if(field.type === 'currency'){
+                      <input
+                        matInput
+                        placeholder="{{field.placeholder}}"
+                        formControlName="{{field.fcn}}"
+                        [required]="field.required"
+                        mask="separator"
+                        thousandSeparator=","
+                        prefix="$"
+                      >
+                    }
+                    @if(field.type === 'quantity'){
+                      <input
+                        matInput
+                        placeholder="{{field.placeholder}}"
+                        formControlName="{{field.fcn}}"
+                        [required]="field.required"
+                        mask="separator"
+                        thousandSeparator=","
+                      >
+                    }
+                    @if(field.type === 'select'){
+                      <mat-select
+                        [(value)]="field.fcn"
+                        formControlName="{{field.fcn}}"
+                        [required]="field.required"
+                        placeholder="{{field.placeholder}}"
+                      >
+                        <div *ngFor="let option of field.options">
+                          <mat-option [value]="option.value">{{option.key}}</mat-option>
+                        </div>
+                      </mat-select>
+                    }
+                    @if(field.type === 'boolean') {
+                      <input hidden="hidden" matInput />
+                      <mat-checkbox
+                        formControlName="{{field.fcn}}"
+                      ></mat-checkbox>
+                    }
+                    @if(field.type === 'chips'){
+                      <input matInput hidden="hidden" />
+                      <app-chip-list
+                        [formGroup]="formGroup"
+                        [currChips]="formGroup.controls[field.fcn].value"
+                        [field]="field"
+                        [validChips]="roles"
+                        (chipListChange)="chipListChange($event)"
+                      ></app-chip-list>
+                    }
+                  </mat-form-field>
+                }
+                @if(field.type === 'address' && field.required){
+                  <app-address-form
+                    [addressFormGroup]="controls[field.fcn]"
+                    [addrField]="fields.get(field['fcn'])"
+                  ></app-address-form>
+                }
+              </div>
+           }
+        </div>
       }
       <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" [mat-dialog-close]="true">Save</button>
       <button mat-button [mat-dialog-close]="true">Cancel</button>
