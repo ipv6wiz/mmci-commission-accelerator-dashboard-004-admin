@@ -8,11 +8,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { AuthenticationService } from 'src/app/theme/shared/service/authentication.service';
+import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-auth-signin-v2',
   standalone: true,
-  imports: [CommonModule, RouterModule, SharedModule],
+  imports: [CommonModule, RouterModule, SharedModule, MatProgressSpinner],
   templateUrl: './auth-signin-v2.component.html',
   styleUrls: ['./auth-signin-v2.component.scss']
 })
@@ -23,6 +25,9 @@ export default class AuthSigninV2Component implements OnInit {
 
   loginForm!: FormGroup;
   loading = false;
+  loadSpinnerColor: ThemePalette = 'primary';
+  loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
+  loadSpinnerDiameter: string = '50';
   submitted = false;
   error = '';
   alertType = '';
@@ -65,6 +70,11 @@ export default class AuthSigninV2Component implements OnInit {
     });
   }
 
+  googleLogin() {
+    this.loading = true;
+    this.authenticationService.GoogleAuth();
+  }
+
   // convenience getter for easy access to form fields
   get f() {
     return this.loginForm.controls;
@@ -87,7 +97,7 @@ export default class AuthSigninV2Component implements OnInit {
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard/analytics';
     this.authenticationService.login(this.f?.['username']?.value, this.f?.['password']?.value, returnUrl)
         .then(() => {
-
+            this.loading = false;
         })
         .catch((err) => {
             this.alertType = 'danger';

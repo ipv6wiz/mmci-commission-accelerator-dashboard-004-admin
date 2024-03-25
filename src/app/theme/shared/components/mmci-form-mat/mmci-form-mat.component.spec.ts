@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TblUsersFormMatComponent } from './tbl-users-form-mat.component';
+import { MmciFormMatComponent } from './mmci-form-mat.component';
 
-describe('TblUsersFormMatComponent', () => {
-  let component: TblUsersFormMatComponent;
-  let fixture: ComponentFixture<TblUsersFormMatComponent>;
+describe('MmciFormMatComponent', () => {
+  let component: MmciFormMatComponent;
+  let fixture: ComponentFixture<MmciFormMatComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TblUsersFormMatComponent]
+      imports: [MmciFormMatComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TblUsersFormMatComponent);
+    fixture = TestBed.createComponent(MmciFormMatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,7 +15,6 @@ import { NGXLogger } from 'ngx-logger';
 import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
 import { UsersService } from '../../../theme/shared/service/users.service';
 import { ListWithCountDto } from '../../../theme/shared/dtos/list-with-count.dto';
-import { TblUsersFormMatComponent } from './tbl-users-form-mat/tbl-users-form-mat.component';
 import { UserDto } from '../../../theme/shared/dtos/user.dto';
 import { CardComponent } from '../../../theme/shared/components/card/card.component';
 import { MatIconButton } from '@angular/material/button';
@@ -25,6 +24,7 @@ import { NestedColumnPipe } from '../../../theme/shared/pipes/nested-column.pipe
 import { NgxMaskPipe } from 'ngx-mask';
 import { MatBoolDisplayPipe } from '../../../theme/shared/pipes/mat-bool-display.pipe';
 import { NgStyle } from '@angular/common';
+import { TblUsersDialogFormMatComponent } from './tbl-users-dialog-form-mat/tbl-users-dialog-form-mat.component';
 
 @Component({
   selector: 'app-tbl-users-mat',
@@ -109,7 +109,7 @@ export class TblUsersMatComponent implements OnInit, AfterViewChecked{
   }
 
   openItemUpdateFormModal(item: UserDto, index: number) {
-    this.modal.open(TblUsersFormMatComponent, {
+    this.modal.open(TblUsersDialogFormMatComponent, {
       data: {
         type: 'update',
         item,
@@ -119,7 +119,7 @@ export class TblUsersMatComponent implements OnInit, AfterViewChecked{
   }
 
   openItemCreateFormModal() {
-    this.modal.open(TblUsersFormMatComponent, {
+    this.modal.open(TblUsersDialogFormMatComponent, {
       data: {
         type: 'new'
       }

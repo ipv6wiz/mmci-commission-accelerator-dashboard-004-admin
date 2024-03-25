@@ -10,6 +10,17 @@
         <h4 class="text-white font-weight-normal">
             Signin to your account and go to your dashboard</h4>
       </div>
+      @if(loading) {
+        <section class="items-load-spinner-section">
+          <h3>Loading Dashboard</h3>
+          <mat-progress-spinner
+            class="items-load-spinner-margin"
+            [color]="loadSpinnerColor"
+            [mode]="loadSpinnerMode"
+            [diameter]="loadSpinnerDiameter"
+          ></mat-progress-spinner>
+        </section>
+      }
         <app-footer></app-footer>
     </div>
     <div class="auth-side-form">
@@ -57,8 +68,8 @@
           <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
         </form>
         <div class="text-center">
-          <div class="saprator my-4"><span>OR</span></div>
-            <button type="button" class="btn googleBtn" (click)="authenticationService.GoogleAuth()">
+          <div class="separator my-4"><span>OR</span></div>
+            <button type="button" class="btn googleBtn" (click)="googleLogin()">
                 <i class="fab fa-google"></i>
                 Log in with Google
             </button>
