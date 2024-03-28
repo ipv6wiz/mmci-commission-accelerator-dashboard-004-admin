@@ -73,7 +73,7 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
   public loadSpinnerDiameter: string = '50';
   optionsDataSource!: MatTableDataSource<Options>;
   totalOptionCount: number = 0;
-  optionColumnsToDisplay: string[] = ['type'];
+  optionColumnsToDisplay: string[] = ['optionName'];
   optionColumnNamesToDisplay: string[] = ['Type', 'Actions'];
   optionColumnsToDisplayWithExpand: string[] = [...this.optionColumnsToDisplay, 'expand'];
 

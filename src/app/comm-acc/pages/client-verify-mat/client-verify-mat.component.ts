@@ -302,7 +302,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   }
 
   async clientUpdateRole(clientId: string, role: string) {
-    const data = {roles: [role], status: this.setClientStatus(role)}
+    const data = {roles: [role], status: this.setClientStatus(role), defaultPage: this.setClientDefaultPage(role)}
     await lastValueFrom(this.clientService.updateClient(clientId, data))
       .then((response: any) => {
         if(response.statusCode === 200) {
@@ -333,6 +333,22 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         break;
     }
     return status;
+  }
+
+  setClientDefaultPage(role: string): string {
+    let defaultPage: string = '';
+    switch(role) {
+      case 'CLIENT-PENDING-REGISTRATION':
+        defaultPage = '/re/reg-form';
+        break;
+      case 'CLIENT-PENDING-VERIFICATION':
+        defaultPage = '/reg/pending-verification';
+        break;
+      case 'CLIENT-VERIFIED':
+        defaultPage = '/admin/dashboard/analytics'
+        break;
+    }
+    return defaultPage;
   }
 
 

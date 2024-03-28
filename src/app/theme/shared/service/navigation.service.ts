@@ -17,7 +17,7 @@ export class NavigationService {
       // console.log('userRoles: ', userRoles);
     const res = await this.navRef.ref
         .where('roles', "array-contains-any", userRoles).get();
-    let data: any[] = [];
+    const data: any[] = [];
     if(userRoles.indexOf('SuperAdmin') !== -1) {
         // console.log('---->SuperAdmin<----');
         res.docs.forEach(doc => {
@@ -52,7 +52,7 @@ export class NavigationService {
   cleanNavTree(navTreeItem: NavigationItem, userRoles: string[]) {
       // console.log('navTreeItem: ', navTreeItem);
       // console.log('userRoles: ', userRoles);
-      const okRole = (!!navTreeItem.roles) ? navTreeItem.roles.some((r: string) => userRoles.includes(r)) : false;
+      const okRole = (navTreeItem.roles) ? navTreeItem.roles.some((r: string) => userRoles.includes(r)) : false;
       // console.log('okRole: ', okRole);
       if(!okRole) {
           return null;
@@ -60,7 +60,7 @@ export class NavigationService {
       if(okRole && navTreeItem.children && navTreeItem.children.length > 0) {
           let i = 0;
           while (i < navTreeItem.children.length) {
-              let res = this.cleanNavTree(navTreeItem.children[i], userRoles)
+              const res = this.cleanNavTree(navTreeItem.children[i], userRoles)
               if (res === null) {
                   navTreeItem.children.splice(i, 1);
               } else {

@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import {Observable} from "rxjs";
+import { HttpEventType } from '@angular/common/http';
 import {StorageService} from "../../service/storage.service";
 import {ApiResponse} from "../../dtos/api-response.dto";
 
 @Component({
-  selector: 'app-reg-file-upload',
-  templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+    selector: 'app-reg-file-upload',
+    templateUrl: './file-upload.component.html',
+    standalone: true,
+    styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
     @Input() bucket: string = '';
