@@ -32,7 +32,7 @@
                 @if(clientColumnsConfig.get(column).type === 'currency') {
                   {{ (client[column] | mask: clientColumnsConfig.get(column).mask : {thousandSeparator:clientColumnsConfig.get(column).thousandSeparator, prefix: clientColumnsConfig.get(column).prefix}) || 'Not Active Yet' }}
                 }
-              }@else if(isColumnTypeBool(client[column])) {
+              }@else if(helpers.isColumnTypeBool(client[column])) {
                 <span>
                   <i class="bi {{client[column] | matBoolDisplay: 'bs' }}"></i>
                 </span>

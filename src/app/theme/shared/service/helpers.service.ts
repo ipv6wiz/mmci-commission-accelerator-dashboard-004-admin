@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {  FormControl, Validators } from '@angular/forms';
+import { SelectDto } from '../dtos/select.dto';
 import { FormFieldDto } from '../dtos/form-field.dto';
 
 @Injectable({
@@ -17,6 +18,12 @@ export class HelpersService {
       }
     }
     return (typeof data === 'boolean');
+  }
+
+  isColumnTypeBoolNested(item: any, column: string): boolean {
+    const colParts = column.split('.');
+    const data = item[colParts[0]][colParts[1]];
+    return this.isColumnTypeBool(data);
   }
 
   convertToCamelCase(str: string, sep: string = '-'): string {
@@ -43,8 +50,78 @@ export class HelpersService {
     return isoParts.join('-')+(withTime ? 'T00:00:00' : '');
   }
 
+  dtoToObject(dto: any, obj: any): any {
+    const dtoKeys = Object.keys(dto);
+    dtoKeys.forEach((key: string) => {
+      obj[key] = dto[key];
+    });
+    return obj;
+  }
+
+  mapToKvpArray(items: Map<string, any>): any[] {
+    const itemsArray: any[] = [];
+    if(items){
+      items.forEach((value, key) => {
+        const elem: SelectDto = {
+          key,
+          value
+        }
+        itemsArray.push(elem)
+      })
+    }
+    return itemsArray;
+  }
+
+  mapToIterator(items: Map<string, any>): IterableIterator<any> {
+    return items.values()
+  }
+
+  mapToArray(items: Map<string, any>): any[] {
+    const arr: any[] = [];
+    items.forEach((item: any) => {
+      arr.push(item);
+    });
+    console.log('arr: ', arr);
+    return arr;
+  }
+
   checkRoles(allowed: string[], userRoles: string[]): boolean {
     return userRoles.some(value => allowed.includes(value));
+  }
+
+  populateRows(fieldsArr: FormFieldDto[]): any[] {
+    // console.log('populateRows - fieldsArr: ', fieldsArr);
+    const rows: any[] = [];
+    fieldsArr.sort((a: FormFieldDto,b: FormFieldDto): number => {
+      if(!a.rowCol || !b.rowCol) {
+        return 0;
+      }
+      if(a.rowCol < b.rowCol) {
+        return -1;
+      } else if(a.rowCol > b.rowCol) {
+        return 1;
+      }
+      return 0;
+    })
+    fieldsArr.forEach((field: FormFieldDto) => {
+      let row: number = 0;
+      let col: number = 0;
+      if(field.rowCol) {
+        const rowColParts = field.rowCol.split('.');
+        row = parseInt(rowColParts[0], 10);
+        col = parseInt(rowColParts[1], 10);
+      } else {
+        row++;
+      }
+      // const col: number = parseInt(rowColParts[1], 10);
+      console.log(`field: ${field.fcn} -  row: ${row} col: ${col} rows.length: ${rows.length}`);
+      if(row === rows.length + 1) {
+        // console.log('>>>>>>> populateRows - make a slot');
+        rows.push([]);
+      }
+      rows[row - 1].push(field);
+    });
+    return rows;
   }
 
   createControls(fields: Map<string, any>, obj: any, objType: string = 'item'): {[p: string]: FormControl} {

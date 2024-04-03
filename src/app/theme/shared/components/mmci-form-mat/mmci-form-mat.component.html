@@ -9,11 +9,11 @@
     </button>
   </mat-toolbar>
   <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
-    <h3>MMCI Form Add or Edit {{formTag}}</h3>
+    <h3>Add or Edit {{formTag}}</h3>
   </div>
   @if(loadingForm) {
     <section class="items-load-spinner-section">
-      <h3>Loading User Form</h3>
+      <h3>Loading {{formTag}} Form</h3>
       <mat-progress-spinner
         class="items-load-spinner-margin"
         [color]="loadSpinnerColor"
@@ -62,11 +62,13 @@
                     @if(field.type === 'currency'){
                       <input
                         matInput
+                        type="text"
                         placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
                         [required]="field.required"
                         mask="separator"
                         thousandSeparator=","
+                        decimalMarker="."
                         prefix="$"
                       >
                     }
@@ -78,18 +80,23 @@
                         [required]="field.required"
                         mask="separator"
                         thousandSeparator=","
+                        decimalMarker="."
                       >
                     }
                     @if(field.type === 'select'){
                       <mat-select
-                        [(value)]="field.fcn"
+                        placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
                         [required]="field.required"
-                        placeholder="{{field.placeholder}}"
+                        (selectionChange)="selectionChange($event)"
                       >
-                        <div *ngFor="let option of field.options">
-                          <mat-option [value]="option.value">{{option.key}}</mat-option>
-                        </div>
+                        @for(option of field.options; track $index) {
+                          <mat-option
+                            [value]="option.value"
+                          >
+                            {{option.key}}
+                          </mat-option>
+                        }
                       </mat-select>
                     }
                     @if(field.type === 'boolean') {

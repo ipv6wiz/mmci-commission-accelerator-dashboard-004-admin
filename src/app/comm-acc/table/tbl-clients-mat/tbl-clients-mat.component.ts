@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreditLimitComponent } from '../../../theme/shared/components/credit-limit/credit-limit.component';
 import { Client } from '../../../theme/shared/entities/client.interface';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { HelpersService } from '../../../theme/shared/service/helpers.service';
 
 @Component({
   selector: 'app-tbl-clients-mat',
@@ -71,6 +72,7 @@ export class TblClientsMatComponent implements OnInit{
   constructor(
     private optionsService: OptionsService,
     private clientsService: ClientService,
+    public helpers: HelpersService,
     public modal: MatDialog,
     private logger: NGXLogger
   ) {
@@ -96,16 +98,6 @@ export class TblClientsMatComponent implements OnInit{
         client
       }
     });
-  }
-
-  isColumnTypeBool(data: any): boolean {
-    if(typeof data === 'string') {
-      const dx: string = data;
-      if(dx.toLowerCase() === 'true' || dx.toLowerCase() === 'false') {
-        return true;
-      }
-    }
-    return (typeof data === 'boolean');
   }
 
   onExpandRow(event: any, client: any) {

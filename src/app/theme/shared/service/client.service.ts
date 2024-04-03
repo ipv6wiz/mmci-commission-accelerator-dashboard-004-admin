@@ -20,11 +20,11 @@ export class ClientService {
     }
 
     updateClientDocItem(clientId: string, docItem: any): Observable<ApiResponse> {
-      return this.http.put<ApiResponse>(`${this.apiUrl}client/doc/${clientId}`, docItem);
+      return this.http.put<ApiResponse>(`${this.apiUrl}client/${clientId}/doc`, docItem);
     }
 
     updateClientCreditLimit(clientId: string, creditLimitObj: any): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}client/credit/${clientId}`, creditLimitObj);
+    return this.http.put<ApiResponse>(`${this.apiUrl}client/${clientId}/credit`, creditLimitObj);
     }
 
     updateClient(clientId: string, data: any): Observable<ApiResponse> {

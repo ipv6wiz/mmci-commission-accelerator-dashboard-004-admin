@@ -46,10 +46,8 @@ export class TblEscrowCompanyFormMatComponent implements OnInit{
     public modal: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
     private helpers: HelpersService,
     private service: EscrowCompanyService,
-    private logger: NGXLogger
   ) {
     console.log('constructor - data: ', this.data);
     const fieldsArr: FormFieldDto[] = this.populateFormFields();

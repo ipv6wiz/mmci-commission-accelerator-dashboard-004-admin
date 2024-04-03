@@ -177,6 +177,7 @@ export class AuthenticationService {
         const provider = new auth.GoogleAuthProvider();
         provider.addScope('email');
         provider.addScope('profile');
+        console.log('>>>>>>>>>> GoogleAuth <<<<<<<<<<');
         await this.AuthLogin(provider);
         // console.log('GoogleAuth - result: ', result);
         // await this.router.navigate(['dashboard/analytics']);
@@ -187,7 +188,7 @@ export class AuthenticationService {
    provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
     async SetUserData(user: any, data: any = {}) {
         const {firstName, lastName, roles} = data;
-        // console.log('SetUserData - user: ', user);
+        console.log('>>>>>>> SetUserData - user: ', user);
         const idToken = await user.getIdToken();
         const accessToken = user.auth.currentUser.accessToken;
         this.userData = {
@@ -279,6 +280,7 @@ export class AuthenticationService {
         return this.afAuth
             .signInWithPopup(provider)
             .then((result) => {
+              console.log('AuthLogin - result.user: ', result.user);
                 this.SetUserData(result.user)
                     .then(() => {
                         console.log(`AuthLogin - SetUserData - res: ${result.user}`);

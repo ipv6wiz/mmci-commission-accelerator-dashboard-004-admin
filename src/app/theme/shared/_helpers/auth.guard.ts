@@ -30,8 +30,8 @@ export class AuthGuard  {
           // console.log('Route Data Roles: ',route.data['roles']);
           // get user from sessionStorage and check the token expiration
           // If expired navigate to signin
-          const clientData = this.authService.getLocalUserData();
-          if(this.jwtService.isExpired(clientData.idToken)) {
+          const userData = this.authService.getLocalUserData();
+          if(this.jwtService.isExpired(userData.idToken)) {
               console.log('----> Token Expired');
               this.alertService.error('Token Expired: Please Login');
               this.authService.logout();

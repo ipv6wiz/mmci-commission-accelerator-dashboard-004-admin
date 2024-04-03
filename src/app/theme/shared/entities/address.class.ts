@@ -7,7 +7,7 @@ export class Address {
   Address1!: string;
   Address2!: string;
   City!: string;
-  State!: string;
+  State: string;
   Zip5!: string;
   Zip4!: string;
 
@@ -18,7 +18,9 @@ export class Address {
   constructor(
     private fb: FormBuilder,
     private helpers: HelpersService,
-    addrObj: AddressDto) {
+    addrObj: AddressDto
+  ) {
+    this.State = 'CA';
     console.log('constructor - addrObj: ', addrObj);
     this.populateProps(addrObj);
     // this.fields = this.populateAddressFormFields();

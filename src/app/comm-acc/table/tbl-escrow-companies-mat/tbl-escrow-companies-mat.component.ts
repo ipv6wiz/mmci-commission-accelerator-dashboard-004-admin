@@ -13,9 +13,7 @@ import {
 } from '@angular/material/table';
 import { EscrowCompanyDto } from '../../../theme/shared/dtos/escrow-company.dto';
 import { ListWithCountDto } from '../../../theme/shared/dtos/list-with-count.dto';
-import { ApiResponse } from '../../../theme/shared/dtos/api-response.dto';
 import { EscrowCompanyService } from '../../../theme/shared/service/escrow-company.service';
-import { lastValueFrom } from 'rxjs';
 import { NGXLogger } from 'ngx-logger';
 import { MatDialog } from '@angular/material/dialog';
 import { CardComponent } from '../../../theme/shared/components/card/card.component';
