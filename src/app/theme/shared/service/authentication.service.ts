@@ -191,6 +191,7 @@ export class AuthenticationService {
         console.log('>>>>>>> SetUserData - user: ', user);
         const idToken = await user.getIdToken();
         const accessToken = user.auth.currentUser.accessToken;
+        console.log(`>>>>>>> SetUserData - idToken: ${idToken} - access token: ${accessToken}`);
         this.userData = {
           uid: user.uid,
           email: user.email,
