@@ -16,7 +16,7 @@ export class JwtInterceptor implements HttpInterceptor {
         const uid: string | null = this.authService.getLocalUserDataProp('uid');
         const token: string = this.authService.getLocalUserDataProp('accessToken');
         const isApiUrl = request.url.startsWith(environment.gcpCommAccApiUrl);
-        // console.log(`JwtInterceptor - isApiUrl: ${isApiUrl} URL: ${request.url} token: ${token}` );
+        console.log(`JwtInterceptor - isApiUrl: ${isApiUrl} URL: ${request.url} token: ${token}` );
         if(isApiUrl && !!uid) {
             // console.log('Should be using Bearer & HTTP Only Cookie');
             request = request.clone({
