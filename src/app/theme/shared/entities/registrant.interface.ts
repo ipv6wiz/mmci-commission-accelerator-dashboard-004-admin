@@ -1,4 +1,4 @@
-import {Address} from "./address.class";
+import {AddressClass} from "./address.class";
 import {Brokerage} from "./brokerage.interface";
 import {AgentPerformance} from "./agent-performance.interface";
 import {RegistrantSteps} from "./registrant-steps.interface";
@@ -13,7 +13,7 @@ export interface Registrant {
     dreNumber: string;
     dreState: string;
     cellPhone: string;
-    homeAddress: Address;
+    homeAddress: AddressClass;
     brokerage: Brokerage;
     performance: AgentPerformance;
     regSteps: RegistrantSteps;

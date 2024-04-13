@@ -1,4 +1,4 @@
-import {Address} from "./address.class";
+import {AddressClass} from "./address.class";
 import {Brokerage} from "./brokerage.interface";
 import {AgentPerformance} from "./agent-performance.interface";
 import { CreditLimitItemEntity } from './credit-limit-item.entity';
@@ -13,7 +13,7 @@ export interface Client {
     dreState: string;
     dreLicenseExpirationDate: Date;
     cellPhone: string;
-    homeAddress: Address;
+    homeAddress: AddressClass;
     brokerage: Brokerage;
     performance: AgentPerformance;
     creditLimit: CreditLimitItemEntity;

@@ -1,4 +1,4 @@
-import { Address } from '../entities/address.class';
+import { AddressClass } from '../entities/address.class';
 
 export interface FormFieldDto {
   fieldLabel: string;
@@ -12,7 +12,7 @@ export interface FormFieldDto {
   rowCol: string;
   autoCapitalize?: string;
   mask?: string;
-  addrObj?: Address;
+  addrObj?: AddressClass;
   pickerId?: string;
   startView?: 'month' | 'year' | 'multi-year';
   storedFormat?: string;

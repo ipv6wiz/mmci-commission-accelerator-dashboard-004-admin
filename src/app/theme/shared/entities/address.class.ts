@@ -3,7 +3,7 @@ import { HelpersService } from '../service/helpers.service';
 import { AddressDto } from '../dtos/address.dto';
 import { FormFieldDto } from '../dtos/form-field.dto';
 
-export class Address {
+export class AddressClass {
   Address1!: string;
   Address2!: string;
   City!: string;

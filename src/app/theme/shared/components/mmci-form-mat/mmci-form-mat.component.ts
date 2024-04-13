@@ -13,14 +13,14 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatToolbar } from '@angular/material/toolbar';
 import { NgForOf, NgStyle } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { FormFieldDto } from '../../dtos/form-field.dto';
+import { FormFieldDto } from './dtos/form-field.dto';
 import { ThemePalette } from '@angular/material/core';
 import { HelpersService } from '../../service/helpers.service';
 import { OptionsService } from '../../service/options.service';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { mmciFormSubmitSignal } from './signals/mmci-form-submit.signal';
-import { SelectDto } from '../../dtos/select.dto';
+import { SelectDto } from './dtos/select.dto';
 
 @Component({
   selector: 'app-mmci-form-mat',
@@ -93,7 +93,7 @@ export class MmciFormMatComponent implements OnInit{
     this.rows = this.helpers.populateRows(this.fieldsArr);
     this.fields = new Map<string, FormFieldDto>(this.fieldsArr.map((obj: FormFieldDto) => [obj.fcn, obj]));
     this.controls = this.helpers.createControls(this.fields, this.data);
-    // console.log('Escrow Form - constructor - controls: ', this.controls);
+    console.log('MMCI Form - constructor - controls: ', this.controls);
     // console.log('Escrow Form - constructor - typeof controls: ', typeof this.controls);
     this.formGroup = this.formBuilder.group(this.controls);
     this.chipsList = new Map<string, string[]>();
@@ -104,7 +104,7 @@ export class MmciFormMatComponent implements OnInit{
 
   unpackConfig() {
     this.config.forEach((item: SelectDto) => {
-      // @ts-expect-error maybe null
+      // @ts-ignore
       this[item.key] = item.value;
     });
   }
@@ -138,32 +138,37 @@ export class MmciFormMatComponent implements OnInit{
     mmciFormSubmitSignal.set({action: 'submit', formType: this.data.type, formData: this.formGroup.value});
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  selectionChange(event: MatSelectChange) {
-    // console.log('selectionChange - event: ', event);
-    // console.log('selectionChange - source: ', event.source);
-    // console.log('selectionChange - value: ', event.value);
-    // const ctrlName: string | number | null = event.source.ngControl.name;
-    // console.log('selectionChange - ctrlName: ', ctrlName);
-    // if(ctrlName) {
-    //   this.formGroup.controls[ctrlName].setValue('FRED');
-    //   const ctrlValue = this.formGroup.controls[ctrlName].value;
-    //   console.log('selectionChange - ctrlValue: ', ctrlValue);
-    // }
-  }
-
-  selectValueChange(event: any){
-    console.log('selectValueChange - event: ', event);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onDateChange(event: any) {
-    console.log('onDateChange');
+    console.log('onDateChange - event: ', event);
+    const date = event.value;
+    console.log('onDateChange - date: ', date);
+    const ctrlId: string = event.targetElement.id;
+    console.log('******* >>> onDateChange - ctrlId: ', ctrlId);
+    const ctrlNameParts = ctrlId.split('-');
+    const formGroup = ctrlNameParts[0];
+    const fcn = ctrlNameParts[1];
+    console.log(`******* >>> onDateChange - formGroup: ${formGroup} - control: ${fcn}`);
+    const localDate = date.toLocaleDateString();
+    // console.log('******* >>> onDateChange - date: ', localDate);
+    const isoDate = this.helpers.makeIsoDate(localDate);
+    // console.log('******* >>> onDateChange - isoDate: ', isoDate);
+    this.formGroup.controls[fcn].setValue(isoDate);
+  }
+
+  checkboxChange(event: any) {
+    console.log('checkboxChange - event: ', event);
+    const fieldNameParts = event.source.name.split('.');
+    console.log('checkboxChange - fcn: ', fieldNameParts[1]);
+    if(this.fields.has(fieldNameParts[1])) {
+      // @ts-ignore
+      this.fields.get(fieldNameParts[1]).hide = !event.checked;
+      console.log('checkboxChange - fcn - hide: ', this.fields.get(fieldNameParts[1]));
+    }
   }
 
   onFieldChange(event: any) {
     // console.log('***** >>>>> fieldChange - event: ', event);
-    // console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
+    console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
     const text = event.target.value;
     const ctrlId = event.target.id;
     const ctrlNameParts = ctrlId.split('-');
@@ -182,5 +187,29 @@ export class MmciFormMatComponent implements OnInit{
       }
     }
   }
-
 }
+
+// fields.push({
+//   fieldLabel: '',
+//   placeholder: '',
+//   fcn: '',
+//   type: '',
+//   required: true,
+//   disabled: false,
+//   validators: [],
+//   width: 0, // percentage
+//   rowCol: '',
+//   autoCapitalize: '',
+//   mask: '',
+//   addrObj: null,
+//   pickerId: '',
+//   startView: 'month',
+//   storedFormat: '',
+//   options: [],
+//   conditional: false, // if true precede the field with a checkbox
+//   defaultCondition: true, // render the field
+//   condFieldLabel: '',
+//   condPlaceholder: '',
+//   condFcn: '',
+//   condRequired: true,
+// });
