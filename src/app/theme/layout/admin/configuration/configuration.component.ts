@@ -25,7 +25,7 @@ export class ConfigurationComponent implements OnInit {
   isConfig!: boolean;
 
   scroll = (): void => {
-    if (this.headerFixedLayout === false) {
+    if (!this.headerFixedLayout) {
       (document.querySelector('#nav-ps-gradient-able') as HTMLElement).style.maxHeight = 'calc(100vh)';
       const el = document.querySelector('.pcoded-navbar.menupos-fixed') as HTMLElement;
       const scrollPosition = window.pageYOffset;

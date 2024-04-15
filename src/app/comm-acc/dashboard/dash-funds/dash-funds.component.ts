@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../theme/shared/shared.module";
+import { TblCommAdvancesComponent } from '../../table/tbl-comm-advances/tbl-comm-advances.component';
 
 @Component({
   selector: 'app-dash-funds',
     standalone: true,
-    imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, TblCommAdvancesComponent],
   templateUrl: './dash-funds.component.html',
   styleUrls: ['./dash-funds.component.scss']
 })

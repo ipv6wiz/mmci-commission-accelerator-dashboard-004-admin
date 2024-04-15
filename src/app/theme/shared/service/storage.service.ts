@@ -54,11 +54,11 @@ export class StorageService {
   }
 
   updateFileCustomMetadata(bucketName: string, folderName: string, fileName: string, newMeta: any): Observable<ApiResponse> {
-    return this.http.put<any>( `${this.apiUrl}bucket/file/metadata/${bucketName}/${folderName}/${fileName}`, newMeta);
+    return this.http.put<any>( `${this.apiUrl}/bucket/file/metadata/${bucketName}/${folderName}/${fileName}`, newMeta);
   }
 
   private makeDownloadLink(bucketName: string, folderName: string, fileName: string): string {
-    return `${this.apiUrl}bucket/download/file/${bucketName}/${folderName}/${fileName}?format=raw`;
+    return `${this.apiUrl}/bucket/download/file/${bucketName}/${folderName}/${fileName}?format=raw`;
   }
 
   private processFileList(files: BucketSmallListInterface[], bucket: string): FileItem[] {
@@ -110,7 +110,7 @@ export class StorageService {
     const body = {
       bucketName
     }
-    return this.http.post<any>(`${this.apiUrl}bucket/client/create`, body);
+    return this.http.post<any>(`${this.apiUrl}/bucket/client/create`, body);
   }
 
   getFile(bucketName: string, folderName: string, fileName: string, ): Observable<any> {
@@ -125,7 +125,7 @@ export class StorageService {
   }
 
   listFiles(bucketName: string): Observable<ApiResponse> {
-    return this.http.get<any>(`${this.apiUrl}bucket/list/small/${bucketName}`)
+    return this.http.get<any>(`${this.apiUrl}/bucket/list/small/${bucketName}`)
   }
 
   makeFileUploaderUrl(bucket: string, folder: string): string {

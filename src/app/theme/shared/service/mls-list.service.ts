@@ -15,7 +15,7 @@ export class MlsListService {
   private readonly endPointUrl: string;
 
   constructor(private http: HttpClient) {
-    this.endPointUrl = `${this.apiUrl}${this.endPoint}`;
+    this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
   }
 
   async loadAllItems(): Promise<ListWithCountDto> {

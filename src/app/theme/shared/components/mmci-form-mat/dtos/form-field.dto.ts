@@ -27,6 +27,7 @@ export interface FormFieldDto {
   condPlaceholder?: string;
   condFcn?: string;
   condRequired?: boolean;
+  condWidth?: number;
 }
 
 // fields.push({

@@ -38,7 +38,7 @@ export class NavRightComponent implements DoCheck {
     this.visibleUserList = false;
     this.chatMessage = false;
     this.currentUser = this.authService.getLocalUserData();
-    if(!!this.currentUser.photoURL) {
+    if(this.currentUser.photoURL) {
         this.currentUserImage = this.currentUser.photoURL;
     } else {
         this.currentUserImage = 'assets/images/user/avatar-1.jpg';

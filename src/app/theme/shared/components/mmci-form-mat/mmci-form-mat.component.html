@@ -27,21 +27,22 @@
         @for(row of rows; track $index) {
           <div class="row">
             @for(field of row; track $index) {
-              <div class="col" [style.width]="'{{field.width}}%'">
+              @if(field.conditional) {
+                <div class="col" [style.width]="'{{field.condWidth || 50}}%'">
+                  <mat-form-field>
+                    <mat-label [ngStyle]="{'margin-left.px': 40, 'margin-top.px': 15}" >{{field.condFieldLabel}}</mat-label>
+                    <input hidden="hidden" matInput />
+                    <mat-checkbox
+                      (change)="checkboxChange($event)"
+                      formControlName="{{field.condFcn}}"
+                      [required]="field.condRequired"
+                      name="{{field.condFcn}}.{{field.fcn}}"
+                    ></mat-checkbox>
+                  </mat-form-field>
+                </div>
+              }
+              <div class="col"   [style.width]="'{{field.width}}%'">
                 @if(!['address'].includes(field.type)){
-                  @if(field.conditional) {
-                    <mat-form-field>
-                      <mat-label [ngStyle]="{'margin-left.px': 40, 'margin-top.px': 15}" >{{field.condFieldLabel}}</mat-label>
-                      <input hidden="hidden" matInput />
-                      <mat-checkbox
-                        (change)="checkboxChange($event)"
-                        formControlName="{{field.condFcn}}"
-                        [required]="field.condRequired"
-                        name="{{field.condFcn}}.{{field.fcn}}"
-                      ></mat-checkbox>
-                    </mat-form-field>
-                  }
-
                   <mat-form-field [ngStyle]="{'display': fields.get(field.fcn)!.hide ? 'none': 'inline-flex'}">
                     <mat-label>{{field.fieldLabel}}</mat-label>
                     @if(!field.type || field.type === 'text') {

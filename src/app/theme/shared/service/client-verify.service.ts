@@ -13,15 +13,15 @@ export class ClientVerifyService {
   constructor(private http: HttpClient) { }
 
   getClientVerification(clientId: string, refresh: string = 'false'): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.apiUrl}client-verify/verify/${clientId}?returnType=array&refresh=${refresh}`);
+    return this.http.get<ApiResponse>(`${this.apiUrl}/client-verify/verify/${clientId}?returnType=array&refresh=${refresh}`);
   }
 
   updateClientVerifyItem(clientId: string, item: any): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}client-verify/verify/status/item/${clientId}`, item);
+    return this.http.put<ApiResponse>(`${this.apiUrl}/client-verify/verify/status/item/${clientId}`, item);
   }
 
   updateClientVerifyDocItem(clientId: string, item: any, allDocsOk: boolean): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}client-verify/verify/status/item/doc/${clientId}?allDocsOk=${allDocsOk}`, item);
+    return this.http.put<ApiResponse>(`${this.apiUrl}/client-verify/verify/status/item/doc/${clientId}?allDocsOk=${allDocsOk}`, item);
   }
 
 }

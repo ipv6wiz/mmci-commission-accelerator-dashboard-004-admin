@@ -1,0 +1,111 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{tableTitle}}</mat-card-title>
+  </mat-card-header>
+  @if(loadingAdvanceItems) {
+    <section class="items-load-spinner-section">
+      <h3>Loading {{tableTitle}}</h3>
+      <mat-progress-spinner
+        class="items-load-spinner-margin"
+        [color]="loadSpinnerColor"
+        [mode]="loadSpinnerMode"
+        [diameter]="loadSpinnerDiameter"
+      ></mat-progress-spinner>
+    </section>
+  } @else {
+      <mat-toolbar>
+        <button type="button" class="btn btn-primary" style="margin-bottom: 10px" (click)="refreshItemsList()">
+          <i class="bi bi-arrow-repeat"></i>
+          Refresh {{tableTitle}}
+        </button>
+        <span class="example-spacer"></span>
+<!--        <button-->
+<!--          type="button"-->
+<!--          class="btn btn-primary"-->
+<!--          style="margin-bottom: 10px"-->
+<!--          (click)="addItem()">-->
+<!--          <i class="bi bi-plus-circle"></i>&nbsp;Request New {{tableItemName}}</button>-->
+      </mat-toolbar>
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <i class="fa fa-home m-r-10"></i>
+              Pending
+            </ng-template>
+            <ng-template matTabContent>
+              <app-advances-dg
+                advanceStatus="pending"
+                [escrow]="escrow"
+                [mls]="mls"
+                [loadingItems]="loadingAdvanceItems"
+                [dgDataObj]="advancesByCategory.get('pending')"
+              ></app-advances-dg>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <i class="fa fa-key m-r-10"></i>
+              Current
+            </ng-template>
+            <ng-template matTabContent>
+              <app-advances-dg
+                advanceStatus="current"
+                [escrow]="escrow"
+                [mls]="mls"
+                [loadingItems]="loadingAdvanceItems"
+                [dgDataObj]="advancesByCategory.get('current')"
+              ></app-advances-dg>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <i class="fa fa-play-circle m-r-10"></i>
+              Paid
+            </ng-template>
+            <ng-template matTabContent>
+              <app-advances-dg
+                advanceStatus="paid"
+                [escrow]="escrow"
+                [mls]="mls"
+                [loadingItems]="loadingAdvanceItems"
+                [dgDataObj]="advancesByCategory.get('paid')"
+              ></app-advances-dg>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <i class="fa a-database m-r-10"></i>
+              Cleared
+            </ng-template>
+            <ng-template matTabContent>
+              <app-advances-dg
+                advanceStatus="cleared"
+                [escrow]="escrow"
+                [mls]="mls"
+                [loadingItems]="loadingAdvanceItems"
+                [dgDataObj]="advancesByCategory.get('cleared')"
+              ></app-advances-dg>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <i class="fa a-database m-r-10"></i>
+              Rejected
+            </ng-template>
+            <ng-template matTabContent>
+              <app-advances-dg
+                advanceStatus="rejected"
+                [escrow]="escrow"
+                [mls]="mls"
+                [loadingItems]="loadingAdvanceItems"
+                [dgDataObj]="advancesByCategory.get('rejected')"
+              ></app-advances-dg>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+  }
+</mat-card>
+
+

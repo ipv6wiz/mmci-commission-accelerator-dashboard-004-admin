@@ -18,7 +18,7 @@ export class AddressClass {
   constructor(
     private fb: FormBuilder,
     private helpers: HelpersService,
-    addrObj: AddressDto
+    addrObj: AddressDto = {} as AddressDto
   ) {
     this.State = 'CA';
     console.log('constructor - addrObj: ', addrObj);

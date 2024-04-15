@@ -20,7 +20,7 @@ export class OptionsService {
   constructor(
     private http: HttpClient
     ) {
-    this.endPointUrl = `${this.apiUrl}${this.endPoint}`;
+    this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
     console.log('OptionsService - endPointUrl: ', this.endPointUrl);
   }
 

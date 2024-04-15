@@ -14,7 +14,7 @@ export class UserService {
   ) {}
 
   getUserName(userId: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.apiUrl}users/user/${userId}/name`);
+    return this.http.get<ApiResponse>(`${this.apiUrl}/users/user/${userId}/name`);
   }
 
 }

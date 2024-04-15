@@ -16,7 +16,7 @@ export class UsersService {
   private readonly endPointUrl: string;
 
   constructor(private http: HttpClient) {
-    this.endPointUrl = `${this.apiUrl}${this.endPoint}`;
+    this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
     console.log('UsersService - endPointUrl: ', this.endPointUrl);
   }
 

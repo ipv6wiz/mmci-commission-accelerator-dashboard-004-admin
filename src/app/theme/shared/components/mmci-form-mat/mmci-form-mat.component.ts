@@ -104,7 +104,7 @@ export class MmciFormMatComponent implements OnInit{
 
   unpackConfig() {
     this.config.forEach((item: SelectDto) => {
-      // @ts-ignore
+      // @ts-expect-error item maybe undefined
       this[item.key] = item.value;
     });
   }
@@ -134,8 +134,34 @@ export class MmciFormMatComponent implements OnInit{
   async onSubmit(event: any) {
     console.log('onSubmit - event: ', event);
     console.log('onSubmit - values: ', this.formGroup.value);
-    // {action: 'submit', formType: 'new', formData: {}}
+    this.populateDefaultValues();
     mmciFormSubmitSignal.set({action: 'submit', formType: this.data.type, formData: this.formGroup.value});
+  }
+
+  populateDefaultValues() {
+    this.fields.forEach((field: FormFieldDto, key: string) => {
+      if(field.default) {
+        if(this.formGroup.controls[key].value == null || this.formGroup.controls[key].value === '') {
+          let value: any;
+          if(field.default.startsWith('#')) {
+            const fcn: string = field.default.substring(field.default.indexOf('#') + 1);
+            if(fcn.includes('.')) {
+              const fcnParts = fcn.split('.');
+              // console.log('fcnParts - ', fcnParts);
+              // console.log('formGroup.controls: ', this.formGroup.controls);
+              // @ts-expect-error value maybe undefined
+              value = this.formGroup.controls[fcnParts[0]].controls[fcnParts[1]].value;
+              // console.log('populateDefaultValues - value (after): ', value);
+            } else {
+              value = this.formGroup.controls[fcn].value;
+            }
+          } else {
+            value = field.default;
+          }
+          this.formGroup.controls[key].setValue(value);
+        }
+      }
+    });
   }
 
   onDateChange(event: any) {
@@ -160,7 +186,7 @@ export class MmciFormMatComponent implements OnInit{
     const fieldNameParts = event.source.name.split('.');
     console.log('checkboxChange - fcn: ', fieldNameParts[1]);
     if(this.fields.has(fieldNameParts[1])) {
-      // @ts-ignore
+      // @ts-expect-error value maybe undefined
       this.fields.get(fieldNameParts[1]).hide = !event.checked;
       console.log('checkboxChange - fcn - hide: ', this.fields.get(fieldNameParts[1]));
     }
