@@ -1,10 +1,18 @@
 {
   "hosting": {
     "source": ".",
+    "site": "mmci-comm-acc-dash-004-admin",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ],
     "frameworksBackend": {
       "region": "us-west1"
