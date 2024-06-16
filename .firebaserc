@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "comm-acc-app-project"
-  }
+  },
+        "targets": {},
+        "etags": {}
 }

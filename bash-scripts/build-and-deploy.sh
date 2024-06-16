@@ -64,5 +64,5 @@ if ! ng build --aot --configuration "production"; then
     exit 1
 fi
 firebase deploy --only hosting
-echo "New Version: $VER"
+echo "MMCI New Version: $VER"
 

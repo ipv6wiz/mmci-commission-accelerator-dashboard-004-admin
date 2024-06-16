@@ -9,8 +9,5 @@
     "frameworksBackend": {
       "region": "us-west1"
     }
-  },
-  "storage": {
-    "rules": "storage.rules"
   }
 }
