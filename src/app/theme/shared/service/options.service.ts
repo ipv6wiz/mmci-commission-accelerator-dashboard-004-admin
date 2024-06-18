@@ -6,8 +6,6 @@ import { ApiResponse } from '../dtos/api-response.dto';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { ListWithCountDto } from '../dtos/list-with-count.dto';
-import { User } from '../entities/user.interface';
-import { UserCreateDto } from '../dtos/user-create.dto';
 
 @Injectable({
   providedIn: 'root'

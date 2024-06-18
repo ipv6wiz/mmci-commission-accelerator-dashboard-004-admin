@@ -41,7 +41,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   ) {
     this.authAService.getCurrentUserRoles().then(roles => {
         this.currentUserRoles = roles;
-        this.navService.getAllFilteredByRole(this.currentUserRoles).then(nav => this.navigations = nav);
+        this.navService.loadUserNavigation(this.currentUserRoles).then(nav => this.navigations = nav);
     });
     this.gradientConfig = GradientConfig;
     this.windowWidth = window.innerWidth;
@@ -49,6 +49,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
     this.nextDisabled = '';
     this.scrollWidth = 0;
     this.contentWidth = 0;
+    console.log('NavContentComponent - constructor - end');
   }
 
   // life cycle event
@@ -60,6 +61,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
         (document.querySelector('#nav-ps-gradient-able') as HTMLElement).style.maxHeight = '100%';
       }, 500);
     }
+    console.log('NavContentComponent - ngOnInit - end');
   }
 
   ngAfterViewInit() {
@@ -67,6 +69,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       this.contentWidth = this.navbarContent.nativeElement.clientWidth;
       this.wrapperWidth = this.navbarWrapper.nativeElement.clientWidth;
     }
+    console.log('NavContentComponent - ngAfterViewInit - end');
   }
 
   // public method

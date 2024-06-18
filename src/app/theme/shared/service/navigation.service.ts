@@ -2,57 +2,49 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {NavigationItem} from "../entities/navigation-item.interface";
 import {arrayUnion} from "@angular/fire/firestore";
+import { environment } from '../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { ApiResponse } from '../dtos/api-response.dto';
+import { lastValueFrom, Observable } from 'rxjs';
+import { user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
-    private dbPath = '/navigation';
-    navRef: AngularFirestoreCollection<NavigationItem>;
-  constructor(private afs: AngularFirestore) {
-      this.navRef = afs.collection(this.dbPath);
+  private apiUrl = environment.gcpCommAccApiUrl;
+  private readonly endPoint: string = 'navigation';
+  private readonly endPointUrl: string;
+
+  constructor(private http: HttpClient) {
+    this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
+    console.log('OptionsService - endPointUrl: ', this.endPointUrl);
   }
 
-  async getAllFilteredByRole(userRoles: string[]) {
+  async loadUserNavigation(userRoles: string[]): Promise<any> {
+    const response: ApiResponse = await lastValueFrom(this.getAllFilteredByRoleForUser(userRoles), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    return response.data;
+  }
+
+  getAllFilteredByRoleForUser(userRoles: string[]): Observable<ApiResponse> {
       console.log('NavigationService - getAllFilteredByRole - userRoles: ', userRoles);
-      try {
-        const res = await this.navRef.ref
-          .where('roles', "array-contains-any", userRoles).get();
-        const data: any[] = [];
-        if(userRoles.indexOf('SuperAdmin') !== -1) {
-          // console.log('---->SuperAdmin<----');
-          res.docs.forEach(doc => {
-            data.push({...doc.data()});
-          });
-          console.log('SuperAdmin - data: ', data);
-        } else {
-          res.docs.forEach(doc => {
-            const navTree = doc.data();
-            const cleanTree = this.cleanNavTree(navTree, userRoles);
-            console.log('cleanTree: ', cleanTree);
-            data.push(cleanTree)
-          });
-        }
-        return data;
-      } catch (err: any) {
-        throw new Error(err.message);
-    }
+    return this.http.put<ApiResponse>(`${this.endPointUrl}`, {roles: userRoles});
 
   }
 
-  createMenuSection(section: NavigationItem) {
-      section.children = [];
-      return this.navRef.add({...section});
-  }
-
-  updateParent(parentId: string, data: any) {
-      return this.navRef.doc(parentId).update(data);
-  }
-
-  createMenuChild(parentId: string, childItem: NavigationItem) {
-      const addArrayItem = {children: arrayUnion(childItem)};
-      return this.updateParent(parentId, addArrayItem);
-  }
+  // createMenuSection(section: NavigationItem) {
+  //     section.children = [];
+  //     return this.navRef.add({...section});
+  // }
+  //
+  // updateParent(parentId: string, data: any) {
+  //     return this.navRef.doc(parentId).update(data);
+  // }
+  //
+  // createMenuChild(parentId: string, childItem: NavigationItem) {
+  //     const addArrayItem = {children: arrayUnion(childItem)};
+  //     return this.updateParent(parentId, addArrayItem);
+  // }
 
   cleanNavTree(navTreeItem: NavigationItem, userRoles: string[]) {
       // console.log('navTreeItem: ', navTreeItem);
