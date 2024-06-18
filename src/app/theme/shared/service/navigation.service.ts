@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {NavigationItem} from "../entities/navigation-item.interface";
-import {arrayUnion} from "@angular/fire/firestore";
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../dtos/api-response.dto';
 import { lastValueFrom, Observable } from 'rxjs';
-import { user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +25,7 @@ export class NavigationService {
 
   getAllFilteredByRoleForUser(userRoles: string[]): Observable<ApiResponse> {
       console.log('NavigationService - getAllFilteredByRole - userRoles: ', userRoles);
-    return this.http.put<ApiResponse>(`${this.endPointUrl}`, {roles: userRoles});
+    return this.http.put<ApiResponse>(`${this.endPointUrl}/user`, {roles: userRoles});
 
   }
 
