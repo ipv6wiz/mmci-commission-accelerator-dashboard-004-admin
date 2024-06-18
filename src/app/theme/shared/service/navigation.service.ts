@@ -15,24 +15,29 @@ export class NavigationService {
 
   async getAllFilteredByRole(userRoles: string[]) {
       console.log('NavigationService - getAllFilteredByRole - userRoles: ', userRoles);
-    const res = await this.navRef.ref
-        .where('roles', "array-contains-any", userRoles).get();
-    const data: any[] = [];
-    if(userRoles.indexOf('SuperAdmin') !== -1) {
-        // console.log('---->SuperAdmin<----');
-        res.docs.forEach(doc => {
+      try {
+        const res = await this.navRef.ref
+          .where('roles', "array-contains-any", userRoles).get();
+        const data: any[] = [];
+        if(userRoles.indexOf('SuperAdmin') !== -1) {
+          // console.log('---->SuperAdmin<----');
+          res.docs.forEach(doc => {
             data.push({...doc.data()});
-        });
-        // console.log('SuperAdmin - data: ', data);
-    } else {
-        res.docs.forEach(doc => {
+          });
+          console.log('SuperAdmin - data: ', data);
+        } else {
+          res.docs.forEach(doc => {
             const navTree = doc.data();
             const cleanTree = this.cleanNavTree(navTree, userRoles);
-            // console.log('cleanTree: ', cleanTree);
+            console.log('cleanTree: ', cleanTree);
             data.push(cleanTree)
-        });
+          });
+        }
+        return data;
+      } catch (err: any) {
+        throw new Error(err.message);
     }
-    return data;
+
   }
 
   createMenuSection(section: NavigationItem) {
