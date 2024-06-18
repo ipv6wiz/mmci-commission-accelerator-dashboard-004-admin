@@ -1,7 +1,3 @@
-import { ApplicationConfig } from '@angular/core';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-
-  ]
+export class AppConfig {
+  version: string = '0.0.125';
 }
