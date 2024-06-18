@@ -32,8 +32,6 @@ import { ToastrModule } from 'ngx-toastr';
 import {environment} from "../environments/environment";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFireModule} from "@angular/fire/compat";
-import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
-import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AuthenticationService} from "./theme/shared/service";
 
 import {LoggerModule} from "ngx-logger";
@@ -64,8 +62,6 @@ import {LoggerModule} from "ngx-logger";
         BrowserAnimationsModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
-        AngularFirestoreModule,
-        AngularFireStorageModule,
         AppRoutingModule,
         SharedModule,
         FormsModule,
