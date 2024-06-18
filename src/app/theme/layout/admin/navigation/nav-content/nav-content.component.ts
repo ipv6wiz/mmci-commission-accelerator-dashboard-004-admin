@@ -41,7 +41,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   ) {
     this.authAService.getCurrentUserRoles().then(roles => {
         this.currentUserRoles = roles;
-        this.navService.loadUserNavigation(this.currentUserRoles).then(nav => this.navigations = nav);
+        this.navService.loadUserNavigation(this.currentUserRoles).then(nav => this.navigations = nav.items);
     });
     this.gradientConfig = GradientConfig;
     this.windowWidth = window.innerWidth;
