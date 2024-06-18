@@ -40,7 +40,7 @@ export class BreadcrumbComponent {
       ) {
       this.authAService.getCurrentUserRoles().then(roles => {
           this.currentUserRoles = roles;
-          this.navService.getAllFilteredByRole(this.currentUserRoles).then(nav => this.navigations = nav);
+        this.navService.loadUserNavigation(this.currentUserRoles).then(nav => this.navigations = nav);
       });
     this.type = 'theme2';
     this.setBreadcrumb();
