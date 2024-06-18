@@ -20,6 +20,7 @@ export class NavigationService {
 
   async loadUserNavigation(userRoles: string[]): Promise<any> {
     const response: ApiResponse = await lastValueFrom(this.getAllFilteredByRoleForUser(userRoles), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    console.log('loadUserNavigation - data: ', response.data);
     return response.data;
   }
 
