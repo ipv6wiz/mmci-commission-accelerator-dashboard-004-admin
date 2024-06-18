@@ -14,7 +14,7 @@ export class NavigationService {
   }
 
   async getAllFilteredByRole(userRoles: string[]) {
-      // console.log('userRoles: ', userRoles);
+      console.log('NavigationService - getAllFilteredByRole - userRoles: ', userRoles);
     const res = await this.navRef.ref
         .where('roles', "array-contains-any", userRoles).get();
     const data: any[] = [];
