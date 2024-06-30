@@ -61,7 +61,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
 
   totalItemsCount: number = 0;
   columnsToDisplay: string[] = [
-    'client.displayName',
+    'currClient.displayName',
     'advanceStatus',
     'propertyAddress.Address1',
     'mlsId',
