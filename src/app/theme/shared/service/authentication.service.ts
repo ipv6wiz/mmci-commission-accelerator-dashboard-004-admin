@@ -2,8 +2,6 @@
 
 import { Router } from '@angular/router';
 
-import { BehaviorSubject, Observable } from 'rxjs';
-
 import { User } from '../entities/user.interface';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import * as auth from 'firebase/auth';
@@ -178,7 +176,7 @@ export class AuthenticationService {
         provider.addScope('email');
         provider.addScope('profile');
         console.log('>>>>>>>>>> GoogleAuth <<<<<<<<<<');
-        await this.AuthLogin(provider);
+        return await this.AuthLogin(provider);
         // console.log('GoogleAuth - result: ', result);
         // await this.router.navigate(['dashboard/analytics']);
     }

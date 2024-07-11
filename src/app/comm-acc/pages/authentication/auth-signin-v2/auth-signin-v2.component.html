@@ -8,7 +8,7 @@
         <img src="assets/images/auth/comm-acc-logo-001.png" alt="logo" class="img-fluid" />
           <h1 class="text-white my-4">Commission Accelerator Admin Dashboard</h1>
         <h4 class="text-white font-weight-normal">
-            Signin to your account and go to your dashboard</h4>
+            Sign In to your account and go to your dashboard</h4>
       </div>
       @if(loading) {
         <section class="items-load-spinner-section">
@@ -26,54 +26,52 @@
     <div class="auth-side-form">
       <div class="auth-content">
         <img src="assets/images/auth/comm-acc-logo-001-dark.png" alt="logo" class="img-fluid mb-4 d-block " />
-        <h3 class="mb-4 f-w-400">SignIn</h3>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-            <input
-              type="text"
-              placeholder="Enter Your Email Id"
-              formControlName="username"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f?.['username'].errors }"
-            />
-            <div *ngIf="submitted && f?.['username'].errors" class="invalid-feedback">
-              <div *ngIf="f.username.errors.required">Email Username is required</div>
-            </div>
-          </div>
-          <div class="input-group mb-4">
-            <span class="input-group-text" id="basic-addon2"><i class="fa fa-lock"></i></span>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter Your Password"
-              formControlName="password"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f?.['password'].errors }"
-            />
-            <i class="fa fa-eye  password-show" id="togglePassword"></i>
-            <div *ngIf="submitted && f?.['password'].errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">Password is required</div>
-            </div>
-          </div>
-          <div class="form-group text-start mt-2">
-            <div class="checkbox checkbox-primary d-inline">
-              <input type="checkbox" name="checkbox-p-1" id="checkbox-p-1"  />
-              <label for="checkbox-p-1" class="cr">Save credentials</label>
-            </div>
-          </div>
-          <div class="d-grid">
-            <button class="btn btn-block btn-primary mb-0">Signin</button>
-          </div>
-          <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
-        </form>
+        <h3 class="mb-4 f-w-400">Sign In</h3>
+<!--        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">-->
+<!--          <div class="input-group mb-3">-->
+<!--            <span class="input-group-text" id="basic-addon1"><i class="fa fa-envelope"></i></span>-->
+<!--            <input-->
+<!--              type="text"-->
+<!--              placeholder="Enter Your Email Id"-->
+<!--              formControlName="username"-->
+<!--              class="form-control"-->
+<!--              [ngClass]="{ 'is-invalid': submitted && f?.['username'].errors }"-->
+<!--            />-->
+<!--            <div *ngIf="submitted && f?.['username'].errors" class="invalid-feedback">-->
+<!--              <div *ngIf="f.username.errors.required">Email Username is required</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="input-group mb-4">-->
+<!--            <span class="input-group-text" id="basic-addon2"><i class="fa fa-lock"></i></span>-->
+<!--            <input-->
+<!--              type="password"-->
+<!--              id="password"-->
+<!--              placeholder="Enter Your Password"-->
+<!--              formControlName="password"-->
+<!--              class="form-control"-->
+<!--              [ngClass]="{ 'is-invalid': submitted && f?.['password'].errors }"-->
+<!--            />-->
+<!--            <i class="fa fa-eye  password-show" id="togglePassword"></i>-->
+<!--            <div *ngIf="submitted && f?.['password'].errors" class="invalid-feedback">-->
+<!--              <div *ngIf="f.password.errors.required">Password is required</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group text-start mt-2">-->
+<!--            <div class="checkbox checkbox-primary d-inline">-->
+<!--              <input type="checkbox" name="checkbox-p-1" id="checkbox-p-1"  />-->
+<!--              <label for="checkbox-p-1" class="cr">Save credentials</label>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="d-grid">-->
+<!--            <button class="btn btn-block btn-primary mb-0">Signin</button>-->
+<!--          </div>-->
+<!--          <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>-->
+<!--        </form>-->
         <div class="text-center">
-          <div class="separator my-4"><span>OR</span></div>
             <button type="button" class="btn googleBtn" (click)="googleLogin()">
                 <i class="fab fa-google"></i>
                 Log in with Google
             </button>
-          <p class="mb-2 text-muted">Forgot password? <a [routerLink]="['/auth/reset-password-v2']" class="f-w-400">Reset</a></p>
         </div>
       </div>
     </div>
