@@ -1,0 +1,172 @@
+<div #creditLimitFormContainer id="creditLimitFormContainer">
+  <mat-toolbar color="antiquewhite">
+    <span class="example-spacer"></span>
+    <button
+      style="background-color: transparent; border: 0; "
+      [mat-dialog-close]="true"
+    >
+      <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+    </button>
+  </mat-toolbar>
+  <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
+    <h3>Set/Modify Advance Limit for : {{data.client.displayName}}</h3>
+  </div>
+  <mat-dialog-content>
+<!--    <ul class="nav nav-tabs" id="creditLimitTabs-ul" role="tablist">-->
+<!--      <li class="nav-item" role="presentation">-->
+<!--        <button-->
+<!--          class="nav-link active"-->
+<!--          id="activeLimit-tab"-->
+<!--          data-bs-toggle="tab"-->
+<!--          data-bs-target="#active-credit-limit-pane"-->
+<!--          type="button"-->
+<!--          role="tab"-->
+<!--          aria-controls="active-credit-limit-pane"-->
+<!--          aria-selected="true"-->
+<!--        >-->
+<!--          Active Limit-->
+<!--        </button>-->
+<!--      </li>-->
+<!--      <li class="nav-item" role="presentation">-->
+<!--        <button-->
+<!--          class="nav-link "-->
+<!--          id="limitHistory-tab"-->
+<!--          data-bs-toggle="tab"-->
+<!--          data-bs-target="#credit-limit-history-pane"-->
+<!--          type="button"-->
+<!--          role="tab"-->
+<!--          aria-controls="credit-limit-history-pane"-->
+<!--          aria-selected="false"-->
+<!--        >-->
+<!--          Limit History-->
+<!--        </button>-->
+<!--      </li>-->
+<!--    </ul>-->
+    <nav>
+      <div class="nav nav-tabs" id="creditLimitTabs" role="tablist">
+        <button
+          class="nav-link active"
+          id="activeLimit-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#active-credit-limit-pane"
+          type="button"
+          role="tab"
+          aria-controls="active-credit-limit-pane"
+          aria-selected="true"
+        >
+          Active Limit
+        </button>
+        <button
+          class="nav-link "
+          id="limitHistory-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#credit-limit-history-pane"
+          type="button"
+          role="tab"
+          aria-controls="credit-limit-history-pane"
+          aria-selected="false"
+        >
+          Limit History
+        </button>
+      </div>
+    </nav>
+    <div class="tab-content" id="creditLimitTabContent">
+      <div class="tab-pane fade show active" id="active-credit-limit-pane" role="tabpanel" aria-labelledby="activeLimit-tab" tabindex="0">
+        <form #creditLimitForm [formGroup]="creditFormGroup" (submit)="onSubmit($event)">
+          @for(field of fields; track $index) {
+              <mat-form-field style="display: block; width: 50%">
+                <mat-label>{{field['fieldLabel']}}</mat-label>
+                @if(!field['type'] || field['type'] === 'text') {
+                  <input
+                    matInput
+                    placeholder="{{field['placeholder']}}"
+                    [formControlName]="field['fcn']"
+                    [required]="field['required']"
+                    [mask]="field['mask'] || ''"
+                    [autocapitalize]="field['autoCapitalize']"
+                    (input)="fieldChange($event)"
+                    id="{{'creditLimit-' + field['fcn'] }}"
+                  >
+                }
+                @if(field['type'] === 'date') {
+                  <ng-container >
+                  <input
+                    matInput
+                    placeholder="{{field['placeholder']}}"
+                    [formControlName]="field['fcn']"
+                    [required]="field['required']"
+                    [matDatepicker]="datePicker"
+                    (dateChange)="onDateChange($event)"
+                    [id]="field['pickerId']"
+                    style="color: black"
+                  >
+                  <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                  <mat-datepicker disabled="false" #datePicker [startView]="field['startView']"></mat-datepicker>
+                  </ng-container>
+                }
+                @if(field['type'] === 'currency'){
+                  <input
+                    matInput
+                    placeholder="{{field['placeholder']}}"
+                    [formControlName]="field['fcn']"
+                    [required]="field['required']"
+                    mask="separator"
+                    thousandSeparator=","
+                    prefix="$"
+                  >
+                }
+            </mat-form-field>
+          }
+          <button mat-button type="submit" [disabled]="!creditFormGroup.valid || !creditFormGroup.dirty" [mat-dialog-close]="true">Save</button>
+          <button mat-button [mat-dialog-close]="true">Cancel</button>
+        </form>
+      </div>
+      <div class="tab-pane fade " id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="0">
+        <table mat-table [dataSource]="data.client.creditLimits" class="mat-elevation-z8">
+          <ng-container matColumnDef="limit">
+            <th mat-header-cell *matHeaderCellDef>Limit</th>
+            <td mat-cell *matCellDef="let item">{{item.limit | mask: 'separator' : {thousandSeparator: ',', prefix: '$'} }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef>Active</th>
+            <td mat-cell *matCellDef="let item">
+              @if (item.active) {
+                <i
+                  class="bi bi-check-circle-fill"
+                  [style.color]="'darkgreen'"
+                  [style.font-size]="'1.0rem'"
+                ></i>
+              } @else {
+                <i
+                  class="bi bi-x-circle-fill"
+                  [style.color]="'red'"
+                  [style.font-size]="'1.0rem'"
+                ></i>
+              }
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="activeDate">
+            <th mat-header-cell *matHeaderCellDef>Active Date</th>
+            <td mat-cell *matCellDef="let item">{{item.activeDate}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="setBy">
+            <th mat-header-cell *matHeaderCellDef >Set By</th>
+            <td mat-cell *matCellDef="let item">{{item.setBy |  userNameLookup | async}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="setDate">
+            <th mat-header-cell *matHeaderCellDef>Date Set</th>
+            <td mat-cell *matCellDef="let item">{{item.setDate}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="creditLimitHistoryColumnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let row; columns: creditLimitHistoryColumnsToDisplay;"></tr>
+
+        </table>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

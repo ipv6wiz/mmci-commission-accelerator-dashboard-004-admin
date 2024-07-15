@@ -76,6 +76,7 @@ import { clientRefreshSignal } from '../../signals/client-refresh.signal';
 export class AdvanceLimitComponent implements OnInit {
   creditFormGroup: FormGroup;
   fields: any[] = [];
+  activeTab: number = 1;
   creditLimitHistoryColumnsToDisplay: string[] = ['limit', 'active', 'activeDate', 'setBy', 'setDate'];
   creditLimitHistoryColumnNamesToDisplay: string[] = ['Limit', 'Active', 'Active Date', 'Set By', 'Date Set'];
 
