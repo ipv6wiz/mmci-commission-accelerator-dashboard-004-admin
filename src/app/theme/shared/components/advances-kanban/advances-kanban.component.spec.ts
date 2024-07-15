@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreditLimitComponent } from './credit-limit.component';
+import { AdvancesKanbanComponent } from './advances-kanban.component';
 
-describe('CreditlimitComponent', () => {
-  let component: CreditLimitComponent;
-  let fixture: ComponentFixture<CreditLimitComponent>;
+describe('AdvancesKanbanComponent', () => {
+  let component: AdvancesKanbanComponent;
+  let fixture: ComponentFixture<AdvancesKanbanComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreditLimitComponent]
+      imports: [AdvancesKanbanComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CreditLimitComponent);
+    fixture = TestBed.createComponent(AdvancesKanbanComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

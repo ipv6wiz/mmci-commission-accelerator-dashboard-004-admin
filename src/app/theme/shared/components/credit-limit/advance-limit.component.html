@@ -9,7 +9,7 @@
     </button>
   </mat-toolbar>
   <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
-    <h3>Set/Modify Credit Limit for : {{data.client.displayName}}</h3>
+    <h3>Set/Modify Advance Limit for : {{data.client.displayName}}</h3>
   </div>
   <mat-dialog-content>
     <ul class="nav nav-tabs" id="creditLimitTabs" role="tablist">
@@ -93,7 +93,7 @@
           <button mat-button [mat-dialog-close]="true">Cancel</button>
         </form>
       </div>
-      <div class="tab-pane fade" id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="0">
+      <div class="tab-pane fade" id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="1">
         <table mat-table [dataSource]="data.client.creditLimits" class="mat-elevation-z8">
           <ng-container matColumnDef="limit">
             <th mat-header-cell *matHeaderCellDef>Limit</th>

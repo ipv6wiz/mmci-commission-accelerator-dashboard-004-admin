@@ -16,7 +16,7 @@ import { MatBoolDisplayPipe } from '../../../theme/shared/pipes/mat-bool-display
 import { clientRefreshSignal } from '../../../theme/shared/signals/client-refresh.signal';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
-import { CreditLimitComponent } from '../../../theme/shared/components/credit-limit/credit-limit.component';
+import { AdvanceLimitComponent } from '../../../theme/shared/components/credit-limit/advance-limit.component';
 import { Client } from '../../../theme/shared/entities/client.interface';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HelpersService } from '../../../theme/shared/service/helpers.service';
@@ -57,7 +57,7 @@ export class TblClientsMatComponent implements OnInit{
   clientColumnsConfig: Map<string, any> = new Map<string, any>([
     ['limit', {type: 'currency', mask: 'separator', thousandSeparator: ',', prefix: '$'}]
   ]);
-  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Address', 'Process Status', 'Credit Limit'];
+  clientColumnNamesToDisplay: string[] = ['Display Name', 'Email', 'Email Address', 'Process Status', 'Advance Limit'];
   columnsToDisplayWithExpand = [...this.clientColumnsToDisplay,  'expand'];
   expandedClient: ClientVerifyItemDto | null = null;
   public clientVerifyData: any = null;
@@ -93,7 +93,7 @@ export class TblClientsMatComponent implements OnInit{
   }
 
   openCreditLimitModal(client:any) {
-    this.modal.open(CreditLimitComponent, {
+    this.modal.open(AdvanceLimitComponent, {
       data: {
         client
       }
@@ -150,7 +150,7 @@ export class TblClientsMatComponent implements OnInit{
   }
 
   private async loadClientRolesData() {
-    this.rolesDataSource = await this.optionsService.getOptionsByType('ClientRole');
+    this.rolesDataSource = this.optionsService.getOptionsByType('ClientRole');
   }
 
   verifyClientClick(e: any) {

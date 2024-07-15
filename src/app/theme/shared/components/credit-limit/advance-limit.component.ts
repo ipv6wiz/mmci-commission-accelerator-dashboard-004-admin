@@ -70,10 +70,10 @@ import { clientRefreshSignal } from '../../signals/client-refresh.signal';
   providers: [
     provideNgxMask()
   ],
-  templateUrl: './credit-limit.component.html',
-  styleUrl: './credit-limit.component.scss'
+  templateUrl: './advance-limit.component.html',
+  styleUrl: './advance-limit.component.scss'
 })
-export class CreditLimitComponent implements OnInit {
+export class AdvanceLimitComponent implements OnInit {
   creditFormGroup: FormGroup;
   fields: any[] = [];
   creditLimitHistoryColumnsToDisplay: string[] = ['limit', 'active', 'activeDate', 'setBy', 'setDate'];
@@ -93,8 +93,8 @@ export class CreditLimitComponent implements OnInit {
       activeDate: [{value: '', disabled: true}, [Validators.required]]
     });
     this.fields.push({
-      fieldLabel: 'Credit Limit',
-      placeholder: 'Credit Limit',
+      fieldLabel: 'Advance Limit',
+      placeholder: 'Advance Limit',
       fcn: 'limit',
       type: 'currency',
       required: true,
@@ -114,8 +114,8 @@ export class CreditLimitComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('CreditLimitComponent - modal - data: ', this.data);
-    console.log('CreditLimitComponent - modal - displayName: ', this.data.client.displayName);
+    console.log('AdvanceLimitComponent - modal - data: ', this.data);
+    console.log('AdvanceLimitComponent - modal - displayName: ', this.data.client.displayName);
     if(this.data.client['creditLimit']){
       this.creditFormGroup.controls['limit'].setValue(this.data.client['creditLimit'].limit);
       this.creditFormGroup.controls['activeDate'].setValue(this.data.client['creditLimit'].activeDate + 'T00:00:00');
