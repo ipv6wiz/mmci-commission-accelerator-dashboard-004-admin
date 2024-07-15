@@ -12,10 +12,40 @@
     <h3>Set/Modify Advance Limit for : {{data.client.displayName}}</h3>
   </div>
   <mat-dialog-content>
-    <ul class="nav nav-tabs" id="creditLimitTabs" role="tablist">
-      <li class="nav-item" role="presentation">
+<!--    <ul class="nav nav-tabs" id="creditLimitTabs-ul" role="tablist">-->
+<!--      <li class="nav-item" role="presentation">-->
+<!--        <button-->
+<!--          class="nav-link active"-->
+<!--          id="activeLimit-tab"-->
+<!--          data-bs-toggle="tab"-->
+<!--          data-bs-target="#active-credit-limit-pane"-->
+<!--          type="button"-->
+<!--          role="tab"-->
+<!--          aria-controls="active-credit-limit-pane"-->
+<!--          aria-selected="true"-->
+<!--        >-->
+<!--          Active Limit-->
+<!--        </button>-->
+<!--      </li>-->
+<!--      <li class="nav-item" role="presentation">-->
+<!--        <button-->
+<!--          class="nav-link "-->
+<!--          id="limitHistory-tab"-->
+<!--          data-bs-toggle="tab"-->
+<!--          data-bs-target="#credit-limit-history-pane"-->
+<!--          type="button"-->
+<!--          role="tab"-->
+<!--          aria-controls="credit-limit-history-pane"-->
+<!--          aria-selected="false"-->
+<!--        >-->
+<!--          Limit History-->
+<!--        </button>-->
+<!--      </li>-->
+<!--    </ul>-->
+    <nav>
+      <div class="nav nav-tabs" id="creditLimitTabs" role="tablist">
         <button
-          class="nav-link "
+          class="nav-link active"
           id="activeLimit-tab"
           data-bs-toggle="tab"
           data-bs-target="#active-credit-limit-pane"
@@ -26,10 +56,8 @@
         >
           Active Limit
         </button>
-      </li>
-      <li class="nav-item" role="presentation">
         <button
-          class="nav-link active"
+          class="nav-link "
           id="limitHistory-tab"
           data-bs-toggle="tab"
           data-bs-target="#credit-limit-history-pane"
@@ -40,10 +68,10 @@
         >
           Limit History
         </button>
-      </li>
-    </ul>
+      </div>
+    </nav>
     <div class="tab-content" id="creditLimitTabContent">
-      <div class="tab-pane fade " id="active-credit-limit-pane" role="tabpanel" aria-labelledby="activeLimit-tab" tabindex="0">
+      <div class="tab-pane fade show active" id="active-credit-limit-pane" role="tabpanel" aria-labelledby="activeLimit-tab" tabindex="0">
         <form #creditLimitForm [formGroup]="creditFormGroup" (submit)="onSubmit($event)">
           @for(field of fields; track $index) {
               <mat-form-field style="display: block; width: 50%">
@@ -93,7 +121,7 @@
           <button mat-button [mat-dialog-close]="true">Cancel</button>
         </form>
       </div>
-      <div class="tab-pane fade show active" id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="1">
+      <div class="tab-pane fade " id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="0">
         <table mat-table [dataSource]="data.client.creditLimits" class="mat-elevation-z8">
           <ng-container matColumnDef="limit">
             <th mat-header-cell *matHeaderCellDef>Limit</th>
