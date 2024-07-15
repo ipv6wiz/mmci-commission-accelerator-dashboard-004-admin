@@ -43,7 +43,7 @@
       </li>
     </ul>
     <div class="tab-content" id="creditLimitTabContent">
-      <div class="tab-pane fade show active" id="active-credit-limit-pane" role="tabpanel" aria-labelledby="activeLimit-tab" tabindex="0">
+      <div class="tab-pane fade " id="active-credit-limit-pane" role="tabpanel" aria-labelledby="activeLimit-tab" tabindex="0">
         <form #creditLimitForm [formGroup]="creditFormGroup" (submit)="onSubmit($event)">
           @for(field of fields; track $index) {
               <mat-form-field style="display: block; width: 50%">
@@ -93,7 +93,7 @@
           <button mat-button [mat-dialog-close]="true">Cancel</button>
         </form>
       </div>
-      <div class="tab-pane fade" id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="1">
+      <div class="tab-pane fade show active" id="credit-limit-history-pane" role="tabpanel" aria-labelledby="limitHistory-tab" tabindex="1">
         <table mat-table [dataSource]="data.client.creditLimits" class="mat-elevation-z8">
           <ng-container matColumnDef="limit">
             <th mat-header-cell *matHeaderCellDef>Limit</th>
