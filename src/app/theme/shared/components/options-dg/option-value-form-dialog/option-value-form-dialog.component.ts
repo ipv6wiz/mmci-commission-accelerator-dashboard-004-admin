@@ -1,4 +1,4 @@
-import { Component, effect, Inject } from '@angular/core';
+import { Component, effect, Inject, OnInit } from '@angular/core';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { FormFieldDto } from '../../mmci-form-mat/dtos/form-field.dto';
 import { SelectDto } from '../../mmci-form-mat/dtos/select.dto';
@@ -15,7 +15,7 @@ import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-subm
   templateUrl: './option-value-form-dialog.component.html',
   styleUrl: './option-value-form-dialog.component.scss'
 })
-export class OptionValueFormDialogComponent {
+export class OptionValueFormDialogComponent implements OnInit {
   dataTypeTag: string = 'option-values';
   fieldsArr!: FormFieldDto[];
   formConfig!: SelectDto[];
@@ -36,6 +36,7 @@ export class OptionValueFormDialogComponent {
       {key: 'dataTypeTag', value: 'optionValues'},
       {key: 'formTag', value: 'Option Value'},
     ];
+
   }
 
   ngOnInit() {

@@ -14,9 +14,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { HelpersService } from '../../service/helpers.service';
 import { OptionTypeFormDialogComponent } from './option-type-form-dialog/option-type-form-dialog.component';
 import { MatIcon } from '@angular/material/icon';
-import {
-  TblOptionValuesMatComponent
-} from '../../../../comm-acc/table/tbl-options-mat/tbl-option-values-mat/tbl-option-values-mat.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { User } from '../../entities/user.interface';
 import { AuthenticationService } from '../../service';
@@ -36,7 +33,6 @@ import { OptionValuesDgComponent } from './option-values-dg/option-values-dg.com
     MatIconButton,
     DatePipe,
     MatIcon,
-    TblOptionValuesMatComponent,
     OptionValuesDgComponent
   ],
   providers: [
