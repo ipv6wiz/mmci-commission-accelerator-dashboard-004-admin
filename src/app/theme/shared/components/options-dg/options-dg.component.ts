@@ -13,6 +13,10 @@ import { OptionsEntity } from '../../entities/options.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { HelpersService } from '../../service/helpers.service';
 import { OptionTypeFormDialogComponent } from './option-type-form-dialog/option-type-form-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import {
+  TblOptionValuesMatComponent
+} from '../../../../comm-acc/table/tbl-options-mat/tbl-option-values-mat/tbl-option-values-mat.component';
 
 @Component({
   selector: 'app-options-dg',
@@ -26,7 +30,9 @@ import { OptionTypeFormDialogComponent } from './option-type-form-dialog/option-
     MatBoolDisplayPipe,
     MatTooltip,
     MatIconButton,
-    DatePipe
+    DatePipe,
+    MatIcon,
+    TblOptionValuesMatComponent
   ],
   providers: [
     provideNgxMask()
