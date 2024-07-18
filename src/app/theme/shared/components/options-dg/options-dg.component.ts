@@ -69,10 +69,6 @@ export class OptionsDgComponent implements OnInit, AfterViewChecked{
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'expand'];
   columnsConfig: Map<string, any> = new Map<string, any>();
 
-  optionColumnsToDisplay: string[] = ['optionName'];
-  optionColumnNamesToDisplay: string[] = ['Type', 'Actions'];
-  optionColumnsToDisplayWithExpand: string[] = [...this.optionColumnsToDisplay, 'expand'];
-
   expandedOption: OptionsEntity | null = null;
   user: User
 
@@ -141,6 +137,7 @@ export class OptionsDgComponent implements OnInit, AfterViewChecked{
     this.openItemUpdateFormModal(item, index);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   deleteItem(event: any, item: OptionsEntity) {
 
   }

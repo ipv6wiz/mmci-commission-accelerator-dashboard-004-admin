@@ -110,17 +110,19 @@ export class MmciFormMatComponent implements OnInit{
   }
 
   async loadChipsList(chipTypeArr: string[]) {
-    for(let i = 0; i < chipTypeArr.length; i++) {
-      const chipType = chipTypeArr[i];
-      console.log('loadChipsList - chipType: ', chipType);
-      const chipsObj: ListWithCountDto = await this.optionsService.loadValuesItemsForSelect(chipType);
-      console.log('loadChipsList - chipsObj: ', chipsObj);
-      // chipsObj.items.forEach((item:any) => {this.roles.push(item.value)});
-      const values: string[] = [];
-      chipsObj.items.forEach((item:any) => {
-        values.push(item.value);
-      });
-      this.chipsList.set(chipType, values)
+    if(chipTypeArr) {
+      for(let i = 0; i < chipTypeArr.length; i++) {
+        const chipType = chipTypeArr[i];
+        console.log('loadChipsList - chipType: ', chipType);
+        const chipsObj: ListWithCountDto = await this.optionsService.loadValuesItemsForSelect(chipType);
+        console.log('loadChipsList - chipsObj: ', chipsObj);
+        // chipsObj.items.forEach((item:any) => {this.roles.push(item.value)});
+        const values: string[] = [];
+        chipsObj.items.forEach((item:any) => {
+          values.push(item.value);
+        });
+        this.chipsList.set(chipType, values)
+      }
     }
   }
 

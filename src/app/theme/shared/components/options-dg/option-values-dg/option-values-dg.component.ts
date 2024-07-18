@@ -14,6 +14,8 @@ import {
 import { MatIconButton } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { OptionValueFormDialogComponent } from '../option-value-form-dialog/option-value-form-dialog.component';
 
 @Component({
   selector: 'app-option-values-dg',
@@ -45,15 +47,33 @@ export class OptionValuesDgComponent implements OnInit {
   valueColumnNamesToDisplay: string[] = ['Key', 'Value', 'Sort Order', 'Display Value'];
   valueColumnsToDisplayWithExpand: string[] = [...this.valueColumnsToDisplay, 'valueActions'];
 
-  constructor(protected helpers: HelpersService,) {
+  tableItemName: string = 'Option Value';
+  dataTypeTag: string = 'optionValue';
+  totalItemsCount: number = 0;
+
+
+  constructor(
+    public helpers: HelpersService,
+    public modal: MatDialog,
+    ) {
   }
 
   ngOnInit() {
     console.log('ngOnInit - values: ', this.values);
   }
 
+  openItemCreateFormModal() {
+    this.modal.open(OptionValueFormDialogComponent, {
+      data: {
+        type: 'new',
+        dataType: this.dataTypeTag,
+      }
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addOptionValue(event: any, option: OptionsEntity) {
-    console.log('addOptionValue - option: ', option);
+    this.openItemCreateFormModal();
   }
 
   editOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
