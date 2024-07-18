@@ -4,7 +4,7 @@
   multiTemplateDataRows="true"
   class="mat-elevation-z8"
 >
-  @for(column of columnsToDisplay; track $index) {
+  @for(column of columnsToDisplayWithActions; track $index) {
     <ng-container matColumnDef="{{column}}">
       <th mat-header-cell *matHeaderCellDef>{{columnNamesToDisplay[$index]}}</th>
       <td mat-cell *matCellDef="let item">
