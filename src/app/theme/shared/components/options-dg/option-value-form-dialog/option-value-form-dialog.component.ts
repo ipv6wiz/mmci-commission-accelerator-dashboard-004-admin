@@ -63,7 +63,7 @@ export class OptionValueFormDialogComponent implements OnInit {
         throw new Error(`Update Option Value failed: ${response.msg}`);
       }
     }
-    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
+    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag, dataId: formData.typeId});
   }
 
   populateFormFields(): FormFieldDto[] {

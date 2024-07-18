@@ -1,6 +1,14 @@
 import { signal } from '@angular/core';
 
-export const dataGridRefreshSignal = signal({
-  refresh: false,
-  dataType: ''}
+export interface DGRSInterface {
+  refresh: boolean;
+  dataType: string;
+  dataId?: string;
+}
+
+export const dataGridRefreshSignal = signal(
+  {
+    refresh: false,
+    dataType: ''
+  } as DGRSInterface
 );
