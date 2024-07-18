@@ -149,7 +149,7 @@ export class TblOptionsFormMatComponent implements OnInit{
     });
     return fields;
   }
-  
+
   fieldChange(event: any) {
     console.log(event);
   }

@@ -98,7 +98,7 @@ export class TblOptionsMatMmciComponent implements OnInit {
     this.loadingItems = true;
     this.optionItemsObj = await this.loadItemsData(sortBy);
     this.loadingItems = false;
-    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
+    // dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
