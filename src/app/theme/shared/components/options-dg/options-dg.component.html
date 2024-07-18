@@ -50,7 +50,7 @@
         aria-label="Edit Option"
         matTooltip="Edit Option"
         matTooltipPosition="left"
-        (click)="editOption($event, option)"
+        (click)="editItem($event, option)"
       >
         <i
           class="bi bi-pencil-fill"
@@ -63,7 +63,7 @@
           aria-label="Delete Option"
           matTooltip="Delete Option"
           matTooltipPosition="left"
-          (click)="deleteOption($event, option)"
+          (click)="deleteItem($event, option)"
         >
           <i
             class="bi bi-trash3-fill"
@@ -94,7 +94,7 @@
       <div class="example-option-detail"
            [@detailExpand]="option === expandedOption ? 'expanded' : 'collapsed'">
         <div class="example-option-diagram-x">
-          <app-tbl-option-values-mat  [values]="option.values" [option]="option" [user]="user" ></app-tbl-option-values-mat>
+          <app-option-value-dg  [values]="option.values" [option]="option" [user]="user" ></app-option-value-dg>
         </div>
       </div>
     </td>

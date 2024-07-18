@@ -17,6 +17,10 @@ import { MatIcon } from '@angular/material/icon';
 import {
   TblOptionValuesMatComponent
 } from '../../../../comm-acc/table/tbl-options-mat/tbl-option-values-mat/tbl-option-values-mat.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { User } from '../../entities/user.interface';
+import { AuthenticationService } from '../../service';
+import { OptionValuesDgComponent } from './option-values-dg/option-values-dg.component';
 
 @Component({
   selector: 'app-options-dg',
@@ -32,13 +36,21 @@ import {
     MatIconButton,
     DatePipe,
     MatIcon,
-    TblOptionValuesMatComponent
+    TblOptionValuesMatComponent,
+    OptionValuesDgComponent
   ],
   providers: [
     provideNgxMask()
   ],
   templateUrl: './options-dg.component.html',
-  styleUrl: './options-dg.component.scss'
+  styleUrl: './options-dg.component.scss',
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed,void', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class OptionsDgComponent implements OnInit, AfterViewChecked{
   @ViewChild('paginator') paginator!: MatPaginator;
@@ -57,10 +69,20 @@ export class OptionsDgComponent implements OnInit, AfterViewChecked{
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'expand'];
   columnsConfig: Map<string, any> = new Map<string, any>();
 
+  optionColumnsToDisplay: string[] = ['optionName'];
+  optionColumnNamesToDisplay: string[] = ['Type', 'Actions'];
+  optionColumnsToDisplayWithExpand: string[] = [...this.optionColumnsToDisplay, 'expand'];
+
+  expandedOption: OptionsEntity | null = null;
+  user: User
+
   constructor(
     public modal: MatDialog,
-    public helpers: HelpersService
-  ) {}
+    public helpers: HelpersService,
+    private authService: AuthenticationService
+  ) {
+    this.user = this.authService.getLocalUser();
+  }
 
   async ngOnInit() {
     await this.refreshItemsList();
@@ -119,9 +141,26 @@ export class OptionsDgComponent implements OnInit, AfterViewChecked{
     this.openItemUpdateFormModal(item, index);
   }
 
+  deleteItem(event: any, item: OptionsEntity) {
+
+  }
+
   onPageEvent(event: any) {
     console.log('onPageEvent - event: ', event);
     console.log('onPageEvent - dataSource - paginator: ', this.dataSource.paginator)
+  }
+
+  onExpandRow(event: any, option: OptionsEntity) {
+    event.stopPropagation();
+    console.log('onExpandRow - event: ', event);
+    console.log('onExpandRow - option: ', option);
+    console.log('onExpandRow - expandedClient (before): ', this.expandedOption);
+    if(this.expandedOption === null) {
+      this.expandedOption = option;
+    } else {
+      this.expandedOption = null;
+    }
+    console.log('onExpandRow - expandedClient (after): ', this.expandedOption);
   }
 
 }
