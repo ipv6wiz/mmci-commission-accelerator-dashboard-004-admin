@@ -15,7 +15,7 @@
 
   <mat-dialog-content>
     <form #optionTypeForm [formGroup]="optionTypeFormGroup" (submit)="onSubmit($event)">
-      @for(field of fields; track $index) {
+      @for(field of fieldsArr; track $index) {
         <mat-form-field style="display: block; ">
           <mat-label>{{field['fieldLabel']}}</mat-label>
           @if(!field['type'] || field['type'] === 'text') {

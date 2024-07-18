@@ -51,6 +51,7 @@ import { dataGridRefreshSignal } from '../../../../theme/shared/signals/data-gri
 export class TblOptionsFormMatComponent implements OnInit{
   fieldsArr!: FormFieldDto[];
   dataTypeTag: string = 'options';
+  optionTypeFormGroup!: FormGroup;
 
   constructor(
     public modal: MatDialog,
@@ -91,17 +92,17 @@ export class TblOptionsFormMatComponent implements OnInit{
 
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
-      fields.push({
-        fieldLabel: 'Type',
-        placeholder: 'Option Type - must be unique',
-        fcn: 'type',
-        type: 'text',
-        required: true,
-        disabled: false,
-        validators: [],
-        width: 50,
-        rowCol: '1.1'
-      });
+    fields.push({
+      fieldLabel: 'Type',
+      placeholder: 'Option Type - must be unique',
+      fcn: 'type',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '1.1'
+    });
     fields.push({
       fieldLabel: 'Data Type',
       placeholder: 'Data Type for the Option Values - default text',

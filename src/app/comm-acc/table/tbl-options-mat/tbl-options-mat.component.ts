@@ -56,12 +56,12 @@ import { ListWithCountDto } from '../../../theme/shared/dtos/list-with-count.dto
   templateUrl: './tbl-options-mat.component.html',
   styleUrl: './tbl-options-mat.component.scss',
   animations: [
-      trigger('detailExpand', [
-        state('collapsed,void', style({height: '0px', minHeight: '0'})),
-        state('expanded', style({height: '*'})),
-        transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-      ]),
-    ]
+    trigger('detailExpand', [
+      state('collapsed,void', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
   // @ts-expect-error not defined
@@ -109,7 +109,7 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     if(!this.loadingOptions && !this.optionsDataSource.paginator) {
-        this.optionsDataSource.paginator = this.paginator;
+      this.optionsDataSource.paginator = this.paginator;
     }
   }
 
