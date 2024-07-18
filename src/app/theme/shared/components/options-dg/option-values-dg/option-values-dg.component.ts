@@ -63,8 +63,8 @@ export class OptionValuesDgComponent implements OnInit {
     private service: OptionsService
     ) {
     effect(() => {
-      console.log('dataGridRefreshSignal - effect entered');
       const dgrs = dataGridRefreshSignal();
+      console.log('dataGridRefreshSignal - effect entered - dgrs: ', dgrs);
       if(dgrs.refresh && dgrs.dataType === this.dataTypeTag) {
         this.refreshItemsList(this.option.id).then(() => true);
       }
@@ -114,7 +114,7 @@ export class OptionValuesDgComponent implements OnInit {
   }
 
   async refreshItemsList(optionId: string) {
-    // console.log('OptionsDgComponent - refreshItemsList - entered');
+    console.log('OptionsDgComponent - refreshItemsList - entered - optionId: ', optionId);
     this.loadingItems = true;
     const response: ApiResponse = await this.service.getOneOptionItem(optionId);
     console.log('OptionValuesDgComponent - refreshItemsList - response: ', response);
