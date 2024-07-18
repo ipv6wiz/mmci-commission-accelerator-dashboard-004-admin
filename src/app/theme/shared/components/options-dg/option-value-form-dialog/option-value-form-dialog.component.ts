@@ -47,10 +47,10 @@ export class OptionValueFormDialogComponent implements OnInit {
 
   async onSubmit(event: any) {
     console.log('OptionValueFormDialogComponent - onSubmit - event: ', event);
-    console.log('OptionValueFormDialogComponent - onSubmit - typeId: ', this.data.data.optionId);
+    console.log('OptionValueFormDialogComponent - onSubmit - typeId: ', this.data.optionId);
     let response: ApiResponse;
     const formData = event.formData;
-    formData.typeId = this.data.data.optionId;
+    formData.typeId = this.data.optionId;
     if(event.formType === 'new') {
       response = await this.service.createOptionValueItem(formData.typeId, formData);
       if(response.statusCode !== 201) {
