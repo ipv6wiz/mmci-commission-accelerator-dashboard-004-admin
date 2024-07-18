@@ -75,9 +75,7 @@ export class OptionValuesDgComponent implements OnInit {
       data: {
         type: 'new',
         dataType: this.dataTypeTag,
-        data: {
-          optionId
-        }
+        optionId
       }
     });
   }
