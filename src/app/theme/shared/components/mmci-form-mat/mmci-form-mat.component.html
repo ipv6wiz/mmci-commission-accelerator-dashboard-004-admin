@@ -53,10 +53,20 @@
                         [required]="field.required"
                         [mask]="field.mask || ''"
                         [autocapitalize]="field.autoCapitalize"
-                        
+
                         (blur)="onFieldChange($event)"
                         id="{{fieldIdPrefix + '-' + field.fcn }}"
                       >
+                    }
+                    @if(field.type === 'textarea') {
+                      <textarea
+                        matInput
+                        placeholder="{{field.placeholder}}"
+                        formControlName="{{field.fcn}}"
+                        [required]="field.required"
+                        (input)="onFieldChange($event)"
+                        id="{{fieldIdPrefix + '-' + field.fcn }}"
+                      ></textarea>
                     }
                     @if(field.type === 'date'){
                       <ng-container>

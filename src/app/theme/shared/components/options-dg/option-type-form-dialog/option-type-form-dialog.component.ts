@@ -64,6 +64,17 @@ export class OptionTypeFormDialogComponent implements OnInit {
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
     fields.push({
+      fieldLabel: 'Option Name',
+      placeholder: 'Option Name - must be unique',
+      fcn: 'optionName',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '1.1'
+    });
+    fields.push({
       fieldLabel: 'Type',
       placeholder: 'Option Type - must be unique',
       fcn: 'type',
@@ -72,7 +83,7 @@ export class OptionTypeFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '1.1'
+      rowCol: '1.2'
     });
     fields.push({
       fieldLabel: 'Data Type',
@@ -83,7 +94,7 @@ export class OptionTypeFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '1.2'
+      rowCol: '2.1'
     });
     fields.push({
       fieldLabel: 'Slug',
@@ -94,7 +105,7 @@ export class OptionTypeFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '2.1'
+      rowCol: '2.2'
     });
     fields.push({
       fieldLabel: 'Description',
@@ -104,8 +115,8 @@ export class OptionTypeFormDialogComponent implements OnInit {
       required: false,
       disabled: false,
       validators: [],
-      width: 50,
-      rowCol: '2.2'
+      width: 100,
+      rowCol: '3.1'
     });
     fields.push({
       fieldLabel: 'Data',
@@ -116,7 +127,7 @@ export class OptionTypeFormDialogComponent implements OnInit {
       disabled: false,
       validators: [],
       width: 100,
-      rowCol: '3.1'
+      rowCol: '4.1'
     });
     return fields;
   }
