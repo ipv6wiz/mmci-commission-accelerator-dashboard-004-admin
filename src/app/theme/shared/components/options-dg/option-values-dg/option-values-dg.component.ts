@@ -17,6 +17,8 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { OptionValueFormDialogComponent } from '../option-value-form-dialog/option-value-form-dialog.component';
 import { dataGridRefreshSignal } from '../../../signals/data-grid-refresh.signal';
+import { OptionsService } from '../../../service/options.service';
+import { ApiResponse } from '../../../dtos/api-response.dto';
 
 @Component({
   selector: 'app-option-values-dg',
@@ -52,10 +54,13 @@ export class OptionValuesDgComponent implements OnInit {
   dataTypeTag: string = 'optionValue';
   totalItemsCount: number = 0;
 
+  loadingItems: boolean = false;
+
 
   constructor(
     public helpers: HelpersService,
     public modal: MatDialog,
+    private service: OptionsService
     ) {
     effect(() => {
       console.log('dataGridRefreshSignal - effect entered');
@@ -108,18 +113,15 @@ export class OptionValuesDgComponent implements OnInit {
     console.log('deleteOptionValue - optionValue: ', optionValue);
   }
 
-  async refreshItemsList() {
-    // // console.log('OptionsDgComponent - refreshItemsList - entered');
-    // this.loadingItems = true;
-    // // while(this.loadingItems) {
-    // if(this.dgDataObj) {
-    //   this.totalItemsCount = this.dgDataObj.count;
-    //   this.dataSource = new MatTableDataSource<OptionsEntity>(this.dgDataObj.items);
-    //   // console.log('OptionsDgComponent - refreshItemsList - items: ', this.advanceObj.items);
-    //   // console.log('OptionsDgComponent - refreshItemsList - count: ', this.advanceObj.count);
-    //   this.loadingItems = false;
-    // }
-    // }
-    // console.log('OptionsDgComponent - refreshItemsList - EXIT');
+  async refreshItemsList(optionId: string) {
+    // console.log('OptionsDgComponent - refreshItemsList - entered');
+    this.loadingItems = true;
+    const response: ApiResponse = await this.service.getOneOptionItem(optionId);
+    if(response.statusCode === 200) {
+      this.values = response.data.values;
+    } else {
+      throw new Error(response.msg);
+    }
+
   }
 }

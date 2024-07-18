@@ -34,9 +34,9 @@ export class OptionsService {
     return response.data;
   }
 
-  async getOneOptionItem(uid: string): Promise<OptionsEntity> {
+  async getOneOptionItem(uid: string): Promise<ApiResponse> {
     const response: ApiResponse = await lastValueFrom(this.getOneById(uid), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
-    return response.data;
+    return response;
   }
 
   async updateOptionItem(uid: string, data: OptionsEntity): Promise<ApiResponse> {
