@@ -66,7 +66,7 @@ export class OptionValuesDgComponent implements OnInit {
       console.log('dataGridRefreshSignal - effect entered');
       const dgrs = dataGridRefreshSignal();
       if(dgrs.refresh && dgrs.dataType === this.dataTypeTag) {
-        this.refreshItemsList().then(() => true);
+        this.refreshItemsList(this.option.id).then(() => true);
       }
     });
   }
