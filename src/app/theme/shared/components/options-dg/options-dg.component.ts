@@ -104,4 +104,18 @@ export class OptionsDgComponent implements OnInit, AfterViewChecked{
     });
   }
 
+  addItem() {
+    this.openItemCreateFormModal();
+  }
+
+  editItem(event: any, item: OptionsEntity) {
+    const index: number = this.dataSource.data.findIndex((optionItem: OptionsEntity) => item.id === optionItem.id);
+    this.openItemUpdateFormModal(item, index);
+  }
+
+  onPageEvent(event: any) {
+    console.log('onPageEvent - event: ', event);
+    console.log('onPageEvent - dataSource - paginator: ', this.dataSource.paginator)
+  }
+
 }
