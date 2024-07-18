@@ -54,7 +54,7 @@ export class OptionTypeFormDialogComponent implements OnInit {
       }
     } else if(event.formType === 'update') {
       response = await this.service.updateOptionItem(event.formData.id, event.formData);
-      if(response.statusCode !== 201) {
+      if(response.statusCode !== 200) {
         throw new Error(`Update Option Type failed: ${response.msg}`);
       }
     }

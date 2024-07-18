@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, effect, OnInit, ViewChild } from '@angular/core';
+import { Component, effect, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
