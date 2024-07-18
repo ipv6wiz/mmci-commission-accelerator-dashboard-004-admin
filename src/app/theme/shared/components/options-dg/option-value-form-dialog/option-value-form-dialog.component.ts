@@ -58,6 +58,7 @@ export class OptionValueFormDialogComponent implements OnInit {
       }
     } else if(event.formType === 'update') {
       response = await this.service.updateOptionValueItem(formData.typeId, formData.key, formData);
+      console.log('OptionValueFormDialogComponent - onSubmit - response: ', response);
       if(response.statusCode !== 200) {
         throw new Error(`Update Option Value failed: ${response.msg}`);
       }
