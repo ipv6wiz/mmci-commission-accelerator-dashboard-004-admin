@@ -53,7 +53,8 @@
                         [required]="field.required"
                         [mask]="field.mask || ''"
                         [autocapitalize]="field.autoCapitalize"
-                        (input)="onFieldChange($event)"
+                        
+                        (blur)="onFieldChange($event)"
                         id="{{fieldIdPrefix + '-' + field.fcn }}"
                       >
                     }
