@@ -117,6 +117,7 @@ export class OptionValuesDgComponent implements OnInit {
     // console.log('OptionsDgComponent - refreshItemsList - entered');
     this.loadingItems = true;
     const response: ApiResponse = await this.service.getOneOptionItem(optionId);
+    console.log('OptionValuesDgComponent - refreshItemsList - response: ', response);
     if(response.statusCode === 200) {
       this.values = response.data.values;
     } else {
