@@ -9,7 +9,7 @@ import {
   MatColumnDef,
   MatHeaderCell, MatHeaderCellDef,
   MatHeaderRow,
-  MatHeaderRowDef, MatRow, MatRowDef, MatTable, MatTableDataSource
+  MatHeaderRowDef, MatRow, MatRowDef, MatTable
 } from '@angular/material/table';
 import { MatIconButton } from '@angular/material/button';
 import { MatToolbar } from '@angular/material/toolbar';

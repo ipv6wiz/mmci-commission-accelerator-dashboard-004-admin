@@ -134,10 +134,10 @@ export class MmciFormMatComponent implements OnInit{
   }
 
   async onSubmit(event: any) {
-    console.log('onSubmit - event: ', event);
-    console.log('onSubmit - values: ', this.formGroup.value);
+    console.log('MmciFormMatComponent - onSubmit - event: ', event);
+    console.log('MmciFormMatComponent - onSubmit - values: ', this.formGroup.value);
     this.populateDefaultValues();
-    mmciFormSubmitSignal.set({action: 'submit', dataType: this.data.dataTypeTag, formType: this.data.type, formData: this.formGroup.value});
+    mmciFormSubmitSignal.set({action: 'submit', dataType: this.data.dataType, formType: this.data.type, formData: this.formGroup.value});
   }
 
   populateDefaultValues() {

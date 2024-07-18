@@ -66,6 +66,7 @@ export class TblClientsMatComponent implements OnInit{
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate'
   public loadSpinnerDiameter: string = '50'
   private clientVerifyStatusRef: any;
+  dataTypeTag:string =  'clients';
 
 
 
