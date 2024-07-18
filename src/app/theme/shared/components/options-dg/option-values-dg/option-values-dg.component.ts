@@ -87,9 +87,23 @@ export class OptionValuesDgComponent implements OnInit {
     this.openItemCreateFormModal(option.id);
   }
 
+  openItemUpdateFormModal(optionId: string, optionValue: OptionValues) {
+    this.modal.open(OptionValueFormDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: this.dataTypeTag,
+        data: {
+          optionId,
+          optionValue
+        }
+      }
+    });
+  }
+
   editOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
     console.log('editOptionValue - option: ', option);
     console.log('editOptionValue - optionValue: ', optionValue);
+    this.openItemUpdateFormModal(option.id, optionValue);
   }
 
   deleteOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
