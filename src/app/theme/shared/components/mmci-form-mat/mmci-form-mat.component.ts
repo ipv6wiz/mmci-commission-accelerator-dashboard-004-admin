@@ -85,7 +85,7 @@ export class MmciFormMatComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    // console.log('MmciFormMatComponent - ngOnInit - data: ', this.data);
+    console.log('MmciFormMatComponent - ngOnInit - data: ', this.data);
     // console.log('MmciFormMatComponent - ngOnInit - config: ', this.config);
     this.unpackConfig();
     // const fieldsArr: FormFieldDto[] = this.populateFormFields();
