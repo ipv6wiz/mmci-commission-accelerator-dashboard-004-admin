@@ -94,7 +94,7 @@
       <div class="example-option-detail"
            [@detailExpand]="option === expandedOption ? 'expanded' : 'collapsed'">
         <div class="example-option-diagram-x">
-          <app-option-value-dg  [values]="option.values" [option]="option" [user]="user" ></app-option-value-dg>
+          <app-option-values-dg  [values]="option.values" [option]="option" [user]="user" ></app-option-values-dg>
         </div>
       </div>
     </td>
@@ -108,8 +108,8 @@
 
   ></tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithActions"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithActions"></tr>
+<!--  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithActions"></tr>-->
+<!--  <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithActions"></tr>-->
 </table>
 <mat-paginator #paginator
                [length]="totalItemsCount"

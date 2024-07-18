@@ -16,7 +16,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-option-value-dg',
+  selector: 'app-option-values-dg',
   standalone: true,
   imports: [
     MatCell,
