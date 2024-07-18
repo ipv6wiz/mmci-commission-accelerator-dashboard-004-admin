@@ -16,7 +16,7 @@ import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-subm
   styleUrl: './option-value-form-dialog.component.scss'
 })
 export class OptionValueFormDialogComponent implements OnInit {
-  dataTypeTag: string = 'option-values';
+  dataTypeTag: string = 'optionValue';
   fieldsArr!: FormFieldDto[];
   formConfig!: SelectDto[];
 
@@ -33,7 +33,7 @@ export class OptionValueFormDialogComponent implements OnInit {
     });
     this.formConfig = [
       {key: 'fieldIdPrefix', value: 'optionValue'},
-      {key: 'dataTypeTag', value: 'optionValues'},
+      {key: 'dataTypeTag', value: 'optionValue'},
       {key: 'formTag', value: 'Option Value'},
     ];
 
