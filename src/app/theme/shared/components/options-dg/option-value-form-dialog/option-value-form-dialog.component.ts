@@ -45,7 +45,7 @@ export class OptionValueFormDialogComponent implements OnInit {
 
   async onSubmit(event: any) {
     console.log('OptionValueFormDialogComponent - onSubmit - event: ', event);
-    console.log('OptionValueFormDialogComponent - onSubmit - typeId: ', this.data.data.typeId);
+    console.log('OptionValueFormDialogComponent - onSubmit - typeId: ', this.data.data.optionId);
   }
 
   populateFormFields(): FormFieldDto[] {
