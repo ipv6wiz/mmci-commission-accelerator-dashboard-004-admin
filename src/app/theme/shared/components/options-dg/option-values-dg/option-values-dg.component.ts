@@ -70,18 +70,21 @@ export class OptionValuesDgComponent implements OnInit {
     console.log('ngOnInit - values: ', this.values);
   }
 
-  openItemCreateFormModal() {
+  openItemCreateFormModal(optionId: string) {
     this.modal.open(OptionValueFormDialogComponent, {
       data: {
         type: 'new',
         dataType: this.dataTypeTag,
+        data: {
+          optionId
+        }
       }
     });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addOptionValue(event: any, option: OptionsEntity) {
-    this.openItemCreateFormModal();
+    this.openItemCreateFormModal(option.id);
   }
 
   editOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
