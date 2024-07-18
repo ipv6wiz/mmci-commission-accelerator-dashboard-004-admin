@@ -33,7 +33,11 @@ export class OptionTypeFormDialogComponent implements OnInit {
         this.onSubmit(formSubmitSignal).then();
       }
     });
-    this.formConfig = [];
+    this.formConfig = [
+      {key: 'fieldIdPrefix', value: 'optionType'},
+      {key: 'dataTypeTag', value: 'options'},
+      {key: 'formTag', value: 'Option Type'},
+    ];
   }
 
   ngOnInit() {

@@ -31,7 +31,11 @@ export class OptionValueFormDialogComponent {
         this.onSubmit(formSubmitSignal).then();
       }
     });
-    this.formConfig = [];
+    this.formConfig = [
+      {key: 'fieldIdPrefix', value: 'optionValue'},
+      {key: 'dataTypeTag', value: 'optionValues'},
+      {key: 'formTag', value: 'Option Value'},
+    ];
   }
 
   ngOnInit() {
