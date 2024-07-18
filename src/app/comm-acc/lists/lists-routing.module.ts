@@ -8,8 +8,8 @@ const routes: Routes = [
         children: [
             {
                 path: 'options',
-                loadComponent: () => import('../table/tbl-options-mat/tbl-options-mat.component')
-                  .then(m => m.TblOptionsMatComponent),
+                loadComponent: () => import('../table/tbl-options-mat-mmci/tbl-options-mat-mmci.component')
+                  .then(m => m.TblOptionsMatMmciComponent),
                 canActivate: [AuthGuard],
                 data: {roles: ['SuperAdmin']}
             },

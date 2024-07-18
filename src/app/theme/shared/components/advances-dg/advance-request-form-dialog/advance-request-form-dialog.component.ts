@@ -44,7 +44,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
   ) {
     effect(() => {
       const formSubmitSignal = mmciFormSubmitSignal();
-      if(formSubmitSignal.action === 'submit') {
+      if(formSubmitSignal.dataType === this.dataTypeTag && formSubmitSignal.action === 'submit') {
         this.onSubmit(formSubmitSignal).then();
       }
     });

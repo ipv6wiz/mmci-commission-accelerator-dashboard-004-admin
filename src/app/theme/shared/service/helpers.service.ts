@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {  FormControl, Validators } from '@angular/forms';
-import { SelectDto } from '../dtos/select.dto';
-import { FormFieldDto } from '../dtos/form-field.dto';
+import { FormControl, Validators } from '@angular/forms';
+import { SelectDto } from '../components/mmci-form-mat/dtos/select.dto';
+import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +89,18 @@ export class HelpersService {
     return userRoles.some(value => allowed.includes(value));
   }
 
+  padRowCol(rowCol: string): string {
+    const parts: string[] = rowCol.split('.');
+    parts[0] = parts[0].padStart(2, '0');
+    // console.log('helpers - padRowCol - padded: ', parts.join('.'));
+    return parts.join('.');
+  }
+
   populateRows(fieldsArr: FormFieldDto[]): any[] {
+
+    for(let i = 0; i < fieldsArr.length; i++) {
+      fieldsArr[i].rowCol = this.padRowCol(fieldsArr[i].rowCol); // ensure row number sorts correctly
+    }
     // console.log('populateRows - fieldsArr: ', fieldsArr);
     const rows: any[] = [];
     fieldsArr.sort((a: FormFieldDto,b: FormFieldDto): number => {
@@ -114,7 +125,7 @@ export class HelpersService {
         row++;
       }
       // const col: number = parseInt(rowColParts[1], 10);
-      console.log(`field: ${field.fcn} -  row: ${row} col: ${col} rows.length: ${rows.length}`);
+      console.log(`helpers - populateRows - field: ${field.fcn} -  row: ${row} col: ${col} rows.length: ${rows.length}`);
       if(row === rows.length + 1) {
         // console.log('>>>>>>> populateRows - make a slot');
         rows.push([]);
@@ -143,12 +154,21 @@ export class HelpersService {
         // console.log('processFields - address - addrObj: ', field.addrObj);
         controls.set(field.fcn, field.addrObj.getFormGroup());
       } else {
+        if(field.conditional) {
+          const condControl: FormControl = new FormControl();
+          if(obj) {
+            condControl.setValue(obj[field.condFcn as keyof typeof obj]);
+          } else {
+            condControl.setValue(field.defaultCondition);
+          }
+          controls.set(field.condFcn, condControl);
+        }
         const control: FormControl = new FormControl();
         const validators: any[] = [];
         // const  valueObj: any = {};
         // console.log('createControls - value: ',obj[field.fcn as keyof typeof obj]);
         if(obj) {
-          control.setValue(obj[field.fcn as keyof typeof obj])
+          control.setValue(obj[field.fcn as keyof typeof obj]);
           // valueObj['value'] = obj[field.fcn as keyof typeof obj];
         } else {
           control.setValue('');
@@ -158,7 +178,9 @@ export class HelpersService {
           // valueObj['disabled'] = true;
         }
         // console.log('createControls - valueObj: ', valueObj);
+        if(field.type === 'select') {
 
+        }
         if(field.required) {
           validators.push(Validators.required);
 
@@ -209,4 +231,5 @@ export class HelpersService {
     }
     return value;
   }
+
 }

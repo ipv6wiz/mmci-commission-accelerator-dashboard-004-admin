@@ -96,6 +96,7 @@ export class TblCommAdvancesComponent implements OnInit {
     this.modal.open(AdvanceRequestFormDialogComponent, {
       data: {
         type: 'new',
+        dataType: this.dataTypeTag,
         escrow: this.escrow,
         mls: this.mls,
       }

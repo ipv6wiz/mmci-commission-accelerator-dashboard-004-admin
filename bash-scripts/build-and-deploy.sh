@@ -1,4 +1,11 @@
 #!/bin/bash
+if ! firebase login; then
+  echo "Firebase login failed - trying --reauth"
+  if ! firebase login --reauth; then
+    echo "Firebase login --reauth failed"
+    exit 1
+  fi
+fi
 cd ..
 while getopts v:m: flag
 do
@@ -79,7 +86,13 @@ if ! ng build --aot --configuration "production"; then
     echo "Angular build failed"
     exit 1
 fi
-firebase deploy --only hosting
+if ! firebase deploy --only hosting; then
+      if ! firebase login --reauth; then
+        echo "Firebase login --reauth failed"
+        exit 1
+      fi
+      firebase deploy --only hosting
+fi
 echo "MMCI Admin Dashboard New Version: $VER"
 
 

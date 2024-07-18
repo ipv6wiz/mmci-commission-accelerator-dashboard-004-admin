@@ -111,6 +111,7 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
     this.modal.open(TblEscrowCompanyFormMatComponent, {
       data: {
         type: 'update',
+        dataType: this.dataTypeTag,
         item,
         index
       }
@@ -120,7 +121,8 @@ export class TblEscrowCompaniesMatComponent implements OnInit, AfterViewChecked 
   openItemCreateFormModal() {
     this.modal.open(TblEscrowCompanyFormMatComponent, {
       data: {
-        type: 'new'
+        type: 'new',
+        dataType: this.dataTypeTag,
       }
     });
   }

@@ -105,6 +105,7 @@ export class TblMlsListMatComponent implements OnInit, AfterViewChecked {
     this.modal.open(TblMlsListFormMatComponent, {
       data: {
         type: 'update',
+        dataType: this.dataTypeTag,
         item,
         index
       }
@@ -114,7 +115,8 @@ export class TblMlsListMatComponent implements OnInit, AfterViewChecked {
   openItemCreateFormModal() {
     this.modal.open(TblMlsListFormMatComponent, {
       data: {
-        type: 'new'
+        type: 'new',
+        dataType: this.dataTypeTag,
       }
     });
   }

@@ -1,0 +1,36 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{tableTitle}}</mat-card-title>
+  </mat-card-header>
+  @if(loadingItems) {
+    <section class="items-load-spinner-section">
+      <h3>Loading {{tableTitle}}</h3>
+      <mat-progress-spinner
+        class="items-load-spinner-margin"
+        [color]="loadSpinnerColor"
+        [mode]="loadSpinnerMode"
+        [diameter]="loadSpinnerDiameter"
+      ></mat-progress-spinner>
+    </section>
+  } @else {
+    <mat-toolbar>
+      <button type="button" class="btn btn-primary" style="margin-bottom: 10px" (click)="refreshItemsList()">
+        <i class="bi bi-arrow-repeat"></i>
+        Refresh {{tableTitle}}
+      </button>
+      <span class="example-spacer"></span>
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="margin-bottom: 10px"
+        (click)="addItem()">
+        <i class="bi bi-plus-circle"></i>&nbsp;Request New {{tableItemName}}</button>
+    </mat-toolbar>
+    <mat-card-content>
+      <app-options-dg
+        [loadingItems]="loadingItems",
+        [dgDataObj]="optionItemsObj"
+      ></app-options-dg>
+    </mat-card-content>
+  }
+</mat-card>

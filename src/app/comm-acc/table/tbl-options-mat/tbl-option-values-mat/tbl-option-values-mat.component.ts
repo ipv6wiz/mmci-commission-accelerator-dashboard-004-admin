@@ -9,7 +9,7 @@ import {
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable
 } from '@angular/material/table';
-import { Options } from '../../../../theme/shared/entities/options.interface';
+import { OptionsEntity } from '../../../../theme/shared/entities/options.interface';
 import { MatIconButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -39,7 +39,7 @@ import { User } from '../../../../theme/shared/entities/user.interface';
 })
 export class TblOptionValuesMatComponent implements OnInit{
   @Input() values: OptionValues[] = [];
-  @Input() option!: Options;
+  @Input() option!: OptionsEntity;
   @Input() user!: User;
 
   valueColumnsToDisplay: string[] = ['key', 'value', 'sortOrder', 'displayValue'];
@@ -53,16 +53,16 @@ export class TblOptionValuesMatComponent implements OnInit{
     console.log('ngOnInit - values: ', this.values);
   }
 
-  addOptionValue(event: any, option: Options) {
+  addOptionValue(event: any, option: OptionsEntity) {
     console.log('addOptionValue - option: ', option);
   }
 
-  editOptionValue(event: any, option: Options, optionValue: OptionValues) {
+  editOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
     console.log('editOptionValue - option: ', option);
     console.log('editOptionValue - optionValue: ', optionValue);
   }
 
-  deleteOptionValue(event: any, option: Options, optionValue: OptionValues) {
+  deleteOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
     console.log('deleteOptionValue - option: ', option);
     console.log('deleteOptionValue - optionValue: ', optionValue);
   }

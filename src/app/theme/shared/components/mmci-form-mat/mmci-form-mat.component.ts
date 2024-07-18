@@ -9,7 +9,7 @@ import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field'
 import { MatInput } from '@angular/material/input';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatToolbar } from '@angular/material/toolbar';
 import { NgForOf, NgStyle } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
@@ -135,7 +135,7 @@ export class MmciFormMatComponent implements OnInit{
     console.log('onSubmit - event: ', event);
     console.log('onSubmit - values: ', this.formGroup.value);
     this.populateDefaultValues();
-    mmciFormSubmitSignal.set({action: 'submit', formType: this.data.type, formData: this.formGroup.value});
+    mmciFormSubmitSignal.set({action: 'submit', dataType: this.data.dataTypeTag, formType: this.data.type, formData: this.formGroup.value});
   }
 
   populateDefaultValues() {

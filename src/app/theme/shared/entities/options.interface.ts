@@ -1,6 +1,6 @@
 import {OptionValues} from "./option-values.interface";
 
-export interface Options {
+export interface OptionsEntity {
   id: string;
   optionName: string;
   type: string;

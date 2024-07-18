@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Options} from "../entities/options.interface";
+import {OptionsEntity} from "../entities/options.interface";
 import {OptionValues} from "../entities/option-values.interface";
 import { lastValueFrom, Observable } from 'rxjs';
 import { ApiResponse } from '../dtos/api-response.dto';
@@ -34,19 +34,19 @@ export class OptionsService {
     return response.data;
   }
 
-  async getOneOptionItem(uid: string): Promise<Options> {
+  async getOneOptionItem(uid: string): Promise<OptionsEntity> {
     const response: ApiResponse = await lastValueFrom(this.getOneById(uid), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
   }
 
-  async updateOptionItem(uid: string, data: Options): Promise<Options> {
+  async updateOptionItem(uid: string, data: OptionsEntity): Promise<ApiResponse> {
     const response: ApiResponse = await lastValueFrom(this.updateOptionById(uid, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
-    return response.data;
+    return response;
   }
 
-  async createOptionItem(data: Options): Promise<any> {
-    const response: ApiResponse = await lastValueFrom(this.createOption(data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
-    return response.data;
+  async createOptionItem(data: OptionsEntity): Promise<ApiResponse> {
+    const response: ApiResponse = await lastValueFrom(this.optionTypeCreate(data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    return response;
   }
 
   async updateOptionValueItem(uid: string, key: string, data: OptionValues): Promise<any> {
@@ -75,7 +75,7 @@ export class OptionsService {
     return this.http.get<ApiResponse>(`${this.endPointUrl}/type/${type}`);
   }
 
-  createOption(optionData: Options): Observable<ApiResponse> {
+  optionTypeCreate(optionData: OptionsEntity): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.endPointUrl}`, optionData);
   }
 
@@ -83,7 +83,7 @@ export class OptionsService {
     return this.http.post<ApiResponse>(`${this.endPointUrl}/value/${optionId}`, valueData);
   }
 
-  updateOptionById(optionId: string, optionUpdateData: Options): Observable<ApiResponse> {
+  updateOptionById(optionId: string, optionUpdateData: OptionsEntity): Observable<ApiResponse> {
     return this.http.put<ApiResponse>(`${this.endPointUrl}/id/${optionId}`, optionUpdateData);
   }
 

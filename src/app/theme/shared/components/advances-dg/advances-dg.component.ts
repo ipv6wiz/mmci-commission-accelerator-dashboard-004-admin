@@ -58,6 +58,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
   tableTitle: string = 'Commission Advances';
   tableItemName: string = 'Commission Advance';
   dataSource!: MatTableDataSource<AdvanceEntity>;
+  dataTypeTag: string = 'advances';
 
   totalItemsCount: number = 0;
   columnsToDisplay: string[] = [
@@ -121,6 +122,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     this.modal.open(AdvanceRequestFormDialogComponent, {
       data: {
         type: 'update',
+        dataType: this.dataTypeTag,
         escrow: this.escrow,
         mls: this.mls,
         item,
@@ -133,6 +135,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     this.modal.open(AdvanceRequestFormDialogComponent, {
       data: {
         type: 'new',
+        dataType: this.dataTypeTag,
         escrow: this.escrow,
         mls: this.mls,
       }

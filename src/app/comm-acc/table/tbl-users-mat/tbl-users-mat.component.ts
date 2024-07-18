@@ -112,6 +112,7 @@ export class TblUsersMatComponent implements OnInit, AfterViewChecked{
     this.modal.open(TblUsersDialogFormMatComponent, {
       data: {
         type: 'update',
+        dataType: this.dataTypeTag,
         item,
         index
       }
@@ -121,7 +122,8 @@ export class TblUsersMatComponent implements OnInit, AfterViewChecked{
   openItemCreateFormModal() {
     this.modal.open(TblUsersDialogFormMatComponent, {
       data: {
-        type: 'new'
+        type: 'new',
+        dataType: this.dataTypeTag
       }
     });
   }

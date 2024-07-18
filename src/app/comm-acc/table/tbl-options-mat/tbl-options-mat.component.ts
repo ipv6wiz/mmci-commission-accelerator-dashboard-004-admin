@@ -14,10 +14,9 @@ import {
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { OptionsService } from '../../../theme/shared/service/options.service';
 import { lastValueFrom } from 'rxjs';
-import { ApiResponse } from '../../../theme/shared/dtos/api-response.dto';
 import { MatIconButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
-import { Options } from '../../../theme/shared/entities/options.interface';
+import { OptionsEntity } from '../../../theme/shared/entities/options.interface';
 import { MatIcon } from '@angular/material/icon';
 import { TblOptionValuesMatComponent } from './tbl-option-values-mat/tbl-option-values-mat.component';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -71,15 +70,17 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
   public loadSpinnerDiameter: string = '50';
-  optionsDataSource!: MatTableDataSource<Options>;
+  optionsDataSource!: MatTableDataSource<OptionsEntity>;
   totalOptionCount: number = 0;
   optionColumnsToDisplay: string[] = ['optionName'];
   optionColumnNamesToDisplay: string[] = ['Type', 'Actions'];
   optionColumnsToDisplayWithExpand: string[] = [...this.optionColumnsToDisplay, 'expand'];
 
-  expandedOption: Options | null = null;
+  expandedOption: OptionsEntity | null = null;
 
   user: User;
+
+  dataTypeTag: string = 'options';
 
   constructor(
     private optionsService: OptionsService,
@@ -90,7 +91,7 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
   ) {
     this.user = this.authService.getLocalUser();
     effect(async () => {
-      const optionTypeChange: {master: Options, masterId: string, update: boolean, user: User} = optionTypeListChangeSignal();
+      const optionTypeChange: {master: OptionsEntity, masterId: string, update: boolean, user: User} = optionTypeListChangeSignal();
       if(this.optionsDataSource) {
         // const dsIndex: number = this.optionsDataSource.data.findIndex((item) => item.id === optionTypeChange.masterId);
         // console.log('effect - dsIndex: ', dsIndex);
@@ -116,13 +117,13 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
     this.loadingOptions = true;
     const optionsDataObj: ListWithCountDto = await this.loadOptionsData();
     this.totalOptionCount = optionsDataObj.count;
-    this.optionsDataSource = new MatTableDataSource<Options>(optionsDataObj.items);
+    this.optionsDataSource = new MatTableDataSource<OptionsEntity>(optionsDataObj.items);
     console.log('ngOnInit - optionsDataSource - data: ', this.optionsDataSource.data);
     this.loadingOptions = false;
     this.expandedOption = null;
   }
 
-  onExpandRow(event: any, option: Options) {
+  onExpandRow(event: any, option: OptionsEntity) {
     event.stopPropagation();
     console.log('onExpandRow - event: ', event);
     console.log('onExpandRow - option: ', option);
@@ -139,9 +140,11 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
     return  await  this.optionsService.loadAllOptionItems();
   }
 
-  openOptionFormModal(option: Options, index: number) {
+  openOptionTypeFormUpdateModal(option: OptionsEntity, index: number) {
     this.modal.open(TblOptionsFormMatComponent, {
       data: {
+        type: 'update',
+        dataType: this.dataTypeTag,
         option,
         index
       }
@@ -152,14 +155,14 @@ export class TblOptionsMatComponent implements OnInit, AfterViewChecked {
     console.log('addOption - event: ', event);
   }
 
-  editOption(event: any, option: Options) {
+  editOption(event: any, option: OptionsEntity) {
     console.log('editOption - option: ', option);
-    const index = this.optionsDataSource.data.findIndex((item: Options) => item.type === option.type);
+    const index = this.optionsDataSource.data.findIndex((item: OptionsEntity) => item.type === option.type);
     console.log('editOption  - index: ', index);
-    this.openOptionFormModal(option, index);
+    this.openOptionTypeFormUpdateModal(option, index);
   }
 
-  deleteOption(event: any, option: Options) {
+  deleteOption(event: any, option: OptionsEntity) {
     console.log('deleteOption - option: ', option);
   }
 

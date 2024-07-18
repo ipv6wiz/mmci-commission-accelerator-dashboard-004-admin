@@ -1,5 +1,4 @@
 export interface OptionValues {
-  id?: string;
   typeId: string;
   key: string;
   value: string;
