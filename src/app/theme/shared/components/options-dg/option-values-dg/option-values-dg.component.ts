@@ -84,6 +84,7 @@ export class OptionValuesDgComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addOptionValue(event: any, option: OptionsEntity) {
+    console.log('OptionValuesDgComponent - addOptionValue - option: ', option);
     this.openItemCreateFormModal(option.id);
   }
 
