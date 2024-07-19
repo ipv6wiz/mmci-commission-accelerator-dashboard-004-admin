@@ -29,7 +29,12 @@ export class OptionValueFormDialogComponent implements OnInit {
   ) {
     effect(() => {
       const formSubmitSignal = mmciFormSubmitSignal();
-      if(formSubmitSignal.dataType === this.dataTypeTag && formSubmitSignal.action === 'submit') {
+      console.log('OptionValueFormDialogComponent - data: ', this.data);
+      console.log('OptionValueFormDialogComponent - formData: ', formSubmitSignal.formData);
+      if(
+        formSubmitSignal.dataType === this.dataTypeTag
+        && formSubmitSignal.action === 'submit'
+      ) {
         this.onSubmit(formSubmitSignal).then();
       }
     });
