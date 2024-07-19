@@ -7,6 +7,7 @@ import { OptionsService } from '../../../service/options.service';
 import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-submit.signal';
 import { ApiResponse } from '../../../dtos/api-response.dto';
 import { dataGridRefreshSignal } from '../../../signals/data-grid-refresh.signal';
+import { OptionValues } from '../../../entities/option-values.interface';
 
 @Component({
   selector: 'app-option-value-form-dialog',
@@ -31,9 +32,11 @@ export class OptionValueFormDialogComponent implements OnInit {
       const formSubmitSignal = mmciFormSubmitSignal();
       console.log('OptionValueFormDialogComponent - data: ', this.data);
       console.log('OptionValueFormDialogComponent - formData: ', formSubmitSignal.formData);
+      const formData: OptionValues = formSubmitSignal.formData as OptionValues;
       if(
         formSubmitSignal.dataType === this.dataTypeTag
         && formSubmitSignal.action === 'submit'
+        && formData.typeId === this.data.optionId
       ) {
         this.onSubmit(formSubmitSignal).then();
       }

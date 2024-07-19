@@ -1,6 +1,6 @@
 {
   "name": "comm-acc-dash-004-admin",
-  "version": "0.0.180",
+  "version": "0.0.181",
   "author": "MMCI - deployed to MMCI Workspace",
   "scripts": {
     "ng": "ng",
