@@ -8,6 +8,7 @@ import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-subm
 import { ApiResponse } from '../../../dtos/api-response.dto';
 import { dataGridRefreshSignal } from '../../../signals/data-grid-refresh.signal';
 import { OptionValues } from '../../../entities/option-values.interface';
+import { HelpersService } from '../../../service/helpers.service';
 
 @Component({
   selector: 'app-option-value-form-dialog',
@@ -22,12 +23,15 @@ export class OptionValueFormDialogComponent implements OnInit {
   dataTypeTag: string = 'optionValue';
   fieldsArr!: FormFieldDto[];
   formConfig!: SelectDto[];
+  formUUID: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public modal: MatDialog,
-    private service: OptionsService
+    private service: OptionsService,
+    private helpers: HelpersService
   ) {
+    this.formUUID = this.helpers.getUUID();
     effect(() => {
       const formSubmitSignal = mmciFormSubmitSignal();
       const formData: OptionValues = formSubmitSignal.formData as OptionValues;
@@ -36,6 +40,7 @@ export class OptionValueFormDialogComponent implements OnInit {
       if(
         formSubmitSignal.dataType === this.dataTypeTag
         && formSubmitSignal.action === 'submit'
+        && formSubmitSignal.formUUID === this.formUUID
       ) {
         this.onSubmit(formSubmitSignal).then();
       }
@@ -44,6 +49,7 @@ export class OptionValueFormDialogComponent implements OnInit {
       {key: 'fieldIdPrefix', value: 'optionValue'},
       {key: 'dataTypeTag', value: 'optionValue'},
       {key: 'formTag', value: 'Option Value'},
+      {key: 'formUUID', value: this.formUUID}
     ];
 
   }

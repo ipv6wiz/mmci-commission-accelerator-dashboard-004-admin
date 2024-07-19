@@ -75,6 +75,7 @@ export class MmciFormMatComponent implements OnInit{
   loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
   loadSpinnerDiameter: string = '50';
   chipsList!: Map<string, string[]>;
+  formUUID: string = '';
 
   rows: any[] = [];
 
@@ -137,7 +138,14 @@ export class MmciFormMatComponent implements OnInit{
     console.log('MmciFormMatComponent - onSubmit - event: ', event);
     console.log('MmciFormMatComponent - onSubmit - values: ', this.formGroup.value);
     this.populateDefaultValues();
-    mmciFormSubmitSignal.set({action: 'submit', dataType: this.data.dataType, formType: this.data.type, formData: this.formGroup.value});
+    mmciFormSubmitSignal.set(
+      {
+        action: 'submit',
+        dataType: this.data.dataType,
+        formType: this.data.type,
+        formData: this.formGroup.value,
+        formUUID: this.formUUID
+      });
   }
 
   populateDefaultValues() {

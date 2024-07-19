@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { SelectDto } from '../components/mmci-form-mat/dtos/select.dto';
 import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
+import { v7 as uuid } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,10 @@ import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 export class HelpersService {
 
   constructor() { }
+
+  getUUID(): string {
+    return uuid();
+  }
 
   isColumnTypeBool(data: any): boolean {
     if(typeof data === 'string') {
