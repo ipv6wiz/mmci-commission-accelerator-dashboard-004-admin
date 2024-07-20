@@ -22,7 +22,7 @@ import { AppConfig } from '../../../../app.config';
   styleUrl: './advances-kanban.component.scss'
 })
 export class AdvancesKanbanComponent {
-  private readonly version: string;
+  readonly version: string;
   private config = new AppConfig();
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
