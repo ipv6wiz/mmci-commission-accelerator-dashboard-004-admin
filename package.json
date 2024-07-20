@@ -1,6 +1,6 @@
 {
   "name": "comm-acc-dash-004-admin",
-  "version": "0.0.183",
+  "version": "0.0.184",
   "author": "MMCI - deployed to MMCI Workspace",
   "scripts": {
     "ng": "ng",
@@ -37,7 +37,7 @@
     "@popperjs/core": "^2.11.8",
     "@sweetalert2/ngx-sweetalert2": "^12.2.0",
     "@syncfusion/ej2-angular-kanban": "^26.1.40",
-    "@syncfusion/ej2-base": "^26.1.37",
+    "@syncfusion/ej2-base": "^26.1.42",
     "@tinymce/tinymce-angular": "^7.0.0",
     "@xmldom/xmldom": "^0.8.10",
     "angular-calendar": "^0.31.0",

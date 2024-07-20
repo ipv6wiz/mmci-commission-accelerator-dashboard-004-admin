@@ -3870,7 +3870,14 @@
     "@syncfusion/ej2-kanban" "26.1.40"
     tslib "^2.3.0"
 
-"@syncfusion/ej2-base@^26.1.37", "@syncfusion/ej2-base@~26.1.35", "@syncfusion/ej2-base@~26.1.37":
+"@syncfusion/ej2-base@^26.1.42":
+  version "26.1.42"
+  resolved "https://registry.yarnpkg.com/@syncfusion/ej2-base/-/ej2-base-26.1.42.tgz#a930e42213400e73f9e70146d87efd7a828195e7"
+  integrity sha512-20tz5+XwzMP4pbQkE/WWwWOl2sHh/OZP0SVNy316P/CuU9fdMVHvQSy6ch9JftC/VKfOYpXPHuQvd2D1cxrDeA==
+  dependencies:
+    "@syncfusion/ej2-icons" "~26.1.35"
+
+"@syncfusion/ej2-base@~26.1.35", "@syncfusion/ej2-base@~26.1.37":
   version "26.1.37"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-base/-/ej2-base-26.1.37.tgz#26a40c6ca9543616c765af6a6ad9bce3f17cc151"
   integrity sha512-aDnABkOg+5Uw9SiORkCas8p+5/U+GWI0lL1czZJAwsJ1OGw3vN1zju6klwTX8prefOEh9/aQ67pmt2yepO00bg==

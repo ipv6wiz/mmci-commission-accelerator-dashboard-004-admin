@@ -16,6 +16,7 @@ import {
   OptionTypeFormDialogComponent
 } from '../../../theme/shared/components/options-dg/option-type-form-dialog/option-type-form-dialog.component';
 import { OptionsEntity } from '../../../theme/shared/entities/options.interface';
+import { AdvancesKanbanComponent } from '../../../theme/shared/components/advances-kanban/advances-kanban.component';
 
 @Component({
   selector: 'app-tbl-options-mat-mmci',
@@ -24,7 +25,8 @@ import { OptionsEntity } from '../../../theme/shared/entities/options.interface'
     MatCardModule,
     MatProgressSpinner,
     MatToolbarModule,
-    OptionsDgComponent
+    OptionsDgComponent,
+    AdvancesKanbanComponent
   ],
   templateUrl: './tbl-options-mat-mmci.component.html',
   styleUrl: './tbl-options-mat-mmci.component.scss'
