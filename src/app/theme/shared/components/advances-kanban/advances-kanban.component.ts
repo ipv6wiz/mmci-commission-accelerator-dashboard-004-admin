@@ -10,6 +10,7 @@ import { OptionsService } from '../../service/options.service';
 import { AdvanceService } from '../../service/advance.service';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { extend } from '@syncfusion/ej2-base';
+import { AppConfig } from '../../../../app.config';
 
 @Component({
   selector: 'app-advances-kanban',
@@ -21,6 +22,8 @@ import { extend } from '@syncfusion/ej2-base';
   styleUrl: './advances-kanban.component.scss'
 })
 export class AdvancesKanbanComponent {
+  private readonly version: string;
+  private config = new AppConfig();
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
   enableToolTip: boolean = true;
@@ -79,6 +82,7 @@ export class AdvancesKanbanComponent {
     private optionService: OptionsService,
     private advanceService: AdvanceService,
   ) {
+    this.version = this.config.version;
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
       for(let i = 0; i < this.columns.length; i++) {
