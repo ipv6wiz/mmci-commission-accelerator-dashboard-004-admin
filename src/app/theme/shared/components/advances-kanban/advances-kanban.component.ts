@@ -2,8 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import {
   CardSettingsModel,
   ColumnsModel,
-  KanbanAllModule,
-  KanbanComponent,
+  KanbanComponent, KanbanModule,
   SwimlaneSettingsModel
 } from '@syncfusion/ej2-angular-kanban';
 import { OptionsService } from '../../service/options.service';
@@ -16,7 +15,7 @@ registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5
   selector: 'app-advances-kanban',
   standalone: true,
   imports: [
-    KanbanAllModule
+    KanbanModule
   ],
   templateUrl: './advances-kanban.component.html',
   styleUrl: './advances-kanban.component.scss'

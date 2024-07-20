@@ -1,6 +1,6 @@
 {
   "name": "comm-acc-dash-004-admin",
-  "version": "0.0.198",
+  "version": "0.0.199",
   "author": "MMCI - deployed to MMCI Workspace",
   "scripts": {
     "ng": "ng",
@@ -130,6 +130,6 @@
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
     "prettier": "^3.2.4",
-    "typescript": "^5.3.3"
+    "typescript": "5.4"
   }
 }

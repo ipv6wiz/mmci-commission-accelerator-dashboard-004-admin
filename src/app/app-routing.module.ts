@@ -66,11 +66,6 @@ const routes: Routes = [
           canActivate: [AuthGuard]
       },
       {
-        path: 'tbl-datatable',
-        loadComponent: () => import('./comm-acc/table/tbl-datatable/tbl-datatable.component'),
-          canActivate: [AuthGuard]
-      },
-      {
         path: 'charts',
         loadChildren: () => import('./comm-acc/chart-maps/core-chart/core-chart.module').then((module) => module.CoreChartModule),
           canActivate: [AuthGuard]
