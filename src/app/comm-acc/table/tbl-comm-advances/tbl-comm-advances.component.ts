@@ -23,6 +23,7 @@ import {  MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { dataGridRefreshSignal } from '../../../theme/shared/signals/data-grid-refresh.signal';
 import { dashCardsRefreshSignal } from '../../../theme/shared/signals/dash-cards-refresh.signal';
+import { AdvancesKanbanComponent } from '../../../theme/shared/components/advances-kanban/advances-kanban.component';
 
 @Component({
   selector: 'app-tbl-comm-advances',
@@ -38,7 +39,8 @@ import { dashCardsRefreshSignal } from '../../../theme/shared/signals/dash-cards
     MatTableModule,
     MatTabsModule,
     MatToolbar,
-    MatProgressSpinner
+    MatProgressSpinner,
+    AdvancesKanbanComponent
   ],
   templateUrl: './tbl-comm-advances.component.html',
   styleUrl: './tbl-comm-advances.component.scss'
