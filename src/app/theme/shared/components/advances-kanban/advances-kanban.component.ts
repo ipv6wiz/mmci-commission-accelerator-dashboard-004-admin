@@ -9,9 +9,9 @@ import {
 import { OptionsService } from '../../service/options.service';
 import { AdvanceService } from '../../service/advance.service';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
-import { extend } from '@syncfusion/ej2-base';
+import { extend, registerLicense } from '@syncfusion/ej2-base';
 import { AppConfig } from '../../../../app.config';
-
+registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
   standalone: true,
@@ -82,6 +82,7 @@ export class AdvancesKanbanComponent {
     private optionService: OptionsService,
     private advanceService: AdvanceService,
   ) {
+
     this.version = this.config.version;
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
