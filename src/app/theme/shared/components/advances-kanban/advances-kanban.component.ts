@@ -85,9 +85,11 @@ export class AdvancesKanbanComponent {
     this.version = this.config.version;
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
+      console.log('AdvancesKanbanComponent - constructor - columns: ', this.columns);
       for(let i = 0; i < this.columns.length; i++) {
         this.columns[i].transitionColumns = this.setValidDropColumn(this.columns[i].keyField+'');
       }
+      console.log('AdvancesKanbanComponent - constructor - columns with transitions: ', this.columns);
     });
   }
 
