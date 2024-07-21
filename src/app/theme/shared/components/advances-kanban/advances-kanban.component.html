@@ -1,6 +1,7 @@
 <div style="text-align: center">
   <h1>Commission Accelerator Kanban Workflow Demo</h1>
   <h3>Version: {{version}}</h3>
+  <button (click)="refreshKanban($event)" >Refresh Kanban</button>
 </div>
 
 <div class="control-section">
@@ -38,22 +39,24 @@
         <div class='card-template'>
           <div class='e-card-header'>
             <div class='e-card-header-caption'>
-              <div class='e-card-header-title e-tooltip-text'>{{data.advanceName}}</div>
+              <div class='e-card-header-title e-tooltip-text'>{{ advanceName }}</div>
             </div>
           </div>
+          <div class="e-card-content">
+            <p>This is a placeholder</p>
+            {{data}}
+            {{showData(data)}}
+          </div>
           <div class='e-card-content e-tooltip-text'>
-            <div class='e-text'>Advance Requested: {{data.advanceRequested}}</div>
+            <div class='e-text'>Advance Requested: data.amountRequested</div>
           </div>
           <div class='e-card-custom-footer'>
             <!--            <div class="e-card-tag-field e-tooltip-text" *ngFor="let tag of data.Tags.split(',');">{{tag}}</div>-->
-            <div class='e-card-avatar'>{{getString(data.displayName)}}</div>
+            <div class='e-card-avatar'>data.currClient.displayName</div>
           </div>
         </div>
       </ng-template>
 
-      <ng-template #dialogSettingsTemplate let-data>
-
-      </ng-template>
 
     </ejs-kanban>
   </div>

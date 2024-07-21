@@ -20,7 +20,7 @@ export class AdvanceService {
     this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
   }
 
-  async loadAllItemsForAdminDG(filter: string = '', sortBy: string = '', sortDir: string = 'desc'): Promise<ListWithCountDto> {
+  async loadAllItemsForAdminDG(filter: string = '', sortBy: string = 'dateRequested', sortDir: string = 'desc'): Promise<ListWithCountDto> {
     const response: ApiResponse = await lastValueFrom(this.getAllForAdminDG(filter, sortBy, sortDir), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
   }

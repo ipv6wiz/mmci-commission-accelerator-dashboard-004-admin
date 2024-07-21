@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {
   CardSettingsModel,
   ColumnsModel,
@@ -14,25 +14,27 @@ import { AppConfig } from '../../../../app.config';
 import { MatDialog } from '@angular/material/dialog';
 import { RequestPendingDialogComponent } from './request-pending-dialog/request-pending-dialog.component';
 import { PendingEscrowDialogComponent } from './pending-escrow-dialog/pending-escrow-dialog.component';
-import { DataManager } from '@syncfusion/ej2-data';
+import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { KanbanAdaptorClass } from '../../classes/kanban-adaptor.class';
 import { AuthenticationService } from '../../service';
+import { AsyncPipe } from '@angular/common';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
   standalone: true,
   imports: [
-    KanbanModule
+    KanbanModule,
+    AsyncPipe
   ],
   templateUrl: './advances-kanban.component.html',
   styleUrl: './advances-kanban.component.scss'
 })
-export class AdvancesKanbanComponent {
+export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
   readonly version: string;
   private config = new AppConfig();
   private readonly apiUrl = environment.gcpCommAccApiUrl;
   private readonly endPoint: string = 'advance';
-  private readonly endPointUrl: string;
+  private endPointUrl: string = `${this.apiUrl}/${this.endPoint}`;
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
   enableToolTip: boolean = true;
@@ -78,16 +80,18 @@ export class AdvancesKanbanComponent {
 
   // kanbanData: any[] = extend([], this.commAccData, null, true) as any[];
   private kanbanUrlAdaptor = new KanbanAdaptorClass();
-  kanbanData: DataManager;
+  kanbanData!: DataManager;
   columns: ColumnsModel[] = [];
   cardSettings: CardSettingsModel = {
     headerField: 'advanceName',
-    selectionType: 'Single'
+    selectionType: 'Single',
+
   }
   swimLaneSettings: SwimlaneSettingsModel = {
     keyField: 'clientId',
-    textField: 'displayName'
+    textField: 'clientId'
   }
+  advanceName: string = "advanceName Placeholder";
 
   constructor(
     public modal: MatDialog,
@@ -95,16 +99,15 @@ export class AdvancesKanbanComponent {
     private advanceService: AdvanceService,
     private authService: AuthenticationService
   ) {
-    const token: string = this.authService.getLocalUserDataProp('accessToken');
-    this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
+    console.log('AdvancesKanbanComponent - constructor')
     this.version = this.config.version;
+    const token: string = this.authService.getLocalUserDataProp('accessToken');
     this.kanbanData = new DataManager({
-      adaptor: this.kanbanUrlAdaptor,
+      adaptor: new UrlAdaptor(),
       url: `${this.endPointUrl}/kanban`,
       headers: [{'Authorization': `Bearer ${token}`}],
-      crossDomain: true
+      crossDomain: true,
     });
-    console.log('kanbanData: ', this.kanbanData);
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
       console.log('AdvancesKanbanComponent - constructor - columns: ', this.columns);
@@ -113,6 +116,28 @@ export class AdvancesKanbanComponent {
       }
       console.log('AdvancesKanbanComponent - constructor - columns with transitions: ', this.columns);
     });
+  }
+
+  refreshKanban(event: any) {
+    console.log('refreshKanban - event: ', event);
+    event.stopPropagation();
+    this.kanbanObj.refresh();
+    // this.kanbanObj.refreshHeader();
+    this.kanbanObj.renderTemplates();
+  }
+
+  ngOnInit() {
+    console.log('AdvancesKanbanComponent - ngOnInit');
+
+
+  }
+
+  ngAfterViewInit() {
+    console.log('AdvancesKanbanComponent - ngAfterViewInit');
+
+    // this.kanbanObj.refresh();
+
+    console.log('AdvancesKanbanComponent - kanbanData: ', this.kanbanData);
   }
 
   cardDoubleClick(event: any) {
@@ -145,6 +170,11 @@ export class AdvancesKanbanComponent {
         dataType: 'kb-pending-escrow-dialog'
       }
     });
+  }
+
+  public showData(data: any) {
+    console.log('showData - data: ', data);
+    return data;
   }
 
   public getString(displayName: string) {

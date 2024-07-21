@@ -18,7 +18,7 @@ export class KanbanAdaptorClass extends UrlAdaptor{
     const count = dataResult.data.count;
     const newData: DataResult = {
       count,
-      result: results
+      results
     };
     console.log('------> KanbanAdaptorClass - processResponse - newData: ', newData);
     return super.processResponse(newData);
