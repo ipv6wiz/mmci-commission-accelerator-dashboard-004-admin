@@ -39,7 +39,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [dgDataObj]="advancesByCategory.get('pending')"
+                [dgDataObj]="advancesByCategory.get('REQUEST-PENDING')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -54,7 +54,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [dgDataObj]="advancesByCategory.get('current')"
+                [dgDataObj]="advancesByCategory.get('BALANCE-OUTSTANDING')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -69,7 +69,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [dgDataObj]="advancesByCategory.get('paid')"
+                [dgDataObj]="advancesByCategory.get('FUNDED')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -84,7 +84,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [dgDataObj]="advancesByCategory.get('cleared')"
+                [dgDataObj]="advancesByCategory.get('CLEARED')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>
@@ -99,7 +99,7 @@
                 [escrow]="escrow"
                 [mls]="mls"
                 [loadingItems]="loadingAdvanceItems"
-                [dgDataObj]="advancesByCategory.get('rejected')"
+                [dgDataObj]="advancesByCategory.get('REJECTED')"
               ></app-advances-dg>
             </ng-template>
           </mat-tab>

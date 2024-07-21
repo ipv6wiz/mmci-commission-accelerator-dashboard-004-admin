@@ -5,11 +5,18 @@ import {
   KanbanComponent, KanbanModule,
   SwimlaneSettingsModel
 } from '@syncfusion/ej2-angular-kanban';
+import { environment } from '../../../../../environments/environment';
 import { OptionsService } from '../../service/options.service';
 import { AdvanceService } from '../../service/advance.service';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
-import { extend, registerLicense } from '@syncfusion/ej2-base';
+import {  registerLicense } from '@syncfusion/ej2-base';
 import { AppConfig } from '../../../../app.config';
+import { MatDialog } from '@angular/material/dialog';
+import { RequestPendingDialogComponent } from './request-pending-dialog/request-pending-dialog.component';
+import { PendingEscrowDialogComponent } from './pending-escrow-dialog/pending-escrow-dialog.component';
+import { DataManager } from '@syncfusion/ej2-data';
+import { KanbanAdaptorClass } from '../../classes/kanban-adaptor.class';
+import { AuthenticationService } from '../../service';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
@@ -23,6 +30,9 @@ registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5
 export class AdvancesKanbanComponent {
   readonly version: string;
   private config = new AppConfig();
+  private readonly apiUrl = environment.gcpCommAccApiUrl;
+  private readonly endPoint: string = 'advance';
+  private readonly endPointUrl: string;
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
   enableToolTip: boolean = true;
@@ -65,8 +75,10 @@ export class AdvancesKanbanComponent {
       notes: ''
     },
   ];
-  // @ts-expect-error could be null
-  kanbanData: any[] = extend([], this.commAccData, null, true) as any[];
+
+  // kanbanData: any[] = extend([], this.commAccData, null, true) as any[];
+  private kanbanUrlAdaptor = new KanbanAdaptorClass();
+  kanbanData: DataManager;
   columns: ColumnsModel[] = [];
   cardSettings: CardSettingsModel = {
     headerField: 'advanceName',
@@ -78,11 +90,21 @@ export class AdvancesKanbanComponent {
   }
 
   constructor(
+    public modal: MatDialog,
     private optionService: OptionsService,
     private advanceService: AdvanceService,
+    private authService: AuthenticationService
   ) {
-
+    const token: string = this.authService.getLocalUserDataProp('accessToken');
+    this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
     this.version = this.config.version;
+    this.kanbanData = new DataManager({
+      adaptor: this.kanbanUrlAdaptor,
+      url: `${this.endPointUrl}/kanban`,
+      headers: [{'Authorization': `Bearer ${token}`}],
+      crossDomain: true
+    });
+    console.log('kanbanData: ', this.kanbanData);
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
       console.log('AdvancesKanbanComponent - constructor - columns: ', this.columns);
@@ -95,6 +117,34 @@ export class AdvancesKanbanComponent {
 
   cardDoubleClick(event: any) {
     console.log('cardDoubleClick - event: ', event);
+    event.cancel = true;
+    const data: any = event.data;
+    switch(data.advanceStatus) {
+      case 'REQUEST-PENDING':
+        this.openRequestPendingFormModal();
+        break;
+      case 'PENDING-ESCROW':
+        this.openPendingEscrowFormModal();
+        break;
+    }
+  }
+
+  openRequestPendingFormModal() {
+    this.modal.open(RequestPendingDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: 'kb-request-pending-dialog'
+      }
+    });
+  }
+
+  openPendingEscrowFormModal() {
+    this.modal.open(PendingEscrowDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: 'kb-pending-escrow-dialog'
+      }
+    });
   }
 
   public getString(displayName: string) {
@@ -118,9 +168,9 @@ export class AdvancesKanbanComponent {
 
   setValidDropColumn(advanceStatus: string) {
     // console.log('setValidDropColumn - advanceStatus: ', advanceStatus);
-    const validCols: string[] = this.validColumns.get(advanceStatus) || [];
+    // const validCols: string[] = this.validColumns.get(advanceStatus) || [];
     // console.log('setValidDropColumn - validCols: ', validCols);
-    return validCols;
+    return this.validColumns.get(advanceStatus) || [];
   }
 
 }

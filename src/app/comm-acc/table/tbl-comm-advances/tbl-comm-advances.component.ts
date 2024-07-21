@@ -61,11 +61,11 @@ export class TblCommAdvancesComponent implements OnInit {
   advancesByCategory: Map<string, ListWithCountDto> = new Map<string, ListWithCountDto>();
 
   advanceStatus: string[] = [
-    'pending',
-    'current',
-    'paid',
-    'cleared',
-    'rejected'
+    'REQUEST-PENDING',
+    'BALANCE-OUTSTANDING',
+    'FUNDED',
+    'CLEARED',
+    'REJECTED'
   ];
 
   constructor(

@@ -27,6 +27,7 @@ import { AuthenticationService } from '../../../service';
   styleUrl: './advance-request-form-dialog.component.scss'
 })
 export class AdvanceRequestFormDialogComponent implements OnInit {
+  formUUID: string;
   fieldsArr!: FormFieldDto[];
   chipListArr: string[];
   escrow!: EscrowCompanyDto[];
@@ -42,9 +43,14 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
     private authService: AuthenticationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    this.formUUID = this.helpers.getUUID();
     effect(() => {
       const formSubmitSignal = mmciFormSubmitSignal();
-      if(formSubmitSignal.dataType === this.dataTypeTag && formSubmitSignal.action === 'submit') {
+      if(
+        formSubmitSignal.dataType === this.dataTypeTag
+        && formSubmitSignal.action === 'submit'
+        && formSubmitSignal.formUUID === this.formUUID
+      ) {
         this.onSubmit(formSubmitSignal).then();
       }
     });
@@ -52,6 +58,7 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
       {key: 'fieldIdPrefix', value: 'advance'},
       {key: 'dataTypeTag', value: 'advances'},
       {key: 'formTag', value: 'Commission Advance'},
+      {key: 'formUUID', value: this.formUUID}
     ];
     this.chipListArr = [];
   }

@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import {
  MatTableDataSource, MatTableModule
 } from '@angular/material/table';
@@ -103,6 +103,7 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async refreshItemsList(sortBy: string = 'dateRequested', filter: string = '') {
     // console.log('AdvancesDgComponent - refreshItemsList - entered');
     this.loadingItems = true;

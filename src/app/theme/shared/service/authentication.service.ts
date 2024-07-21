@@ -7,6 +7,9 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import * as auth from 'firebase/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from './users.service';
+import { HttpRequest } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { DOCUMENT } from '@angular/common';
 
 
 @Injectable({ providedIn: 'root' })
@@ -21,6 +24,7 @@ export class AuthenticationService {
       public afAuth: AngularFireAuth,
       public userService: UsersService,
       @Inject(LOCALE_ID) public locale: string,
+      @Inject(DOCUMENT) private document: any,
       private modal: MatDialog
   ) {
     // eslint-disable-next-line
@@ -87,7 +91,75 @@ export class AuthenticationService {
             });
     }
 
+  addAuthHeaders(request: HttpRequest<string> | Request): any {
+    if( this.isLoggedIn) {
+      const uid: string | null = this.getLocalUserDataProp('uid');
+      const token: string = this.getLocalUserDataProp('accessToken');
+      const isApiUrl = request.url.startsWith(environment.gcpCommAccApiUrl);
+      console.log(`addAuthHeaders - isApiUrl: ${isApiUrl} URL: ${request.url} token: ${token}`);
+      const domain: string = this.document.location.hostname;
 
+      const port: string = this.document.location.port;
+      console.log(`addAuthHeaders - domain: ${domain}:${port}`);
+      if (isApiUrl && !!uid) {
+        if( request instanceof HttpRequest) {
+          console.log('addAuthHeaders - HttpRequest');
+          request = request.clone({
+            reportProgress: true,
+            withCredentials: true,
+            setHeaders: {
+              'Authorization': `Bearer ${token}`,
+              'Cache-Control': 'no-cache',
+              'x-csrf-token': uid
+            }
+          });
+          return request;
+        } else {
+          console.log('addAuthHeaders - Fetch Request');
+          console.log('addAuthHeaders - Fetch Request - oldRequest: ', request);
+          const headersObj: Headers = new Headers(
+            [
+              ['Authorization', `Bearer ${token}`],
+              ['Cache-Control', 'no-cache'],
+              ['x-csrf-token', uid]
+            ]
+          );
+          // headersObj.set('Authorization', `Bearer ${token}`);
+          // headersObj.set('Cache-Control', 'no-cache');
+          // headersObj.set('x-csrf-token', uid);
+          // headersObj.forEach((value, key) => {
+          //   console.log(`addAuthHeaders - Fetch Request - headersObj: key: ${key} - value: ${value}`);
+          // });
+
+          const requestUrl: string = request.url;
+          const requestMethod: string = request.method;
+          const  newRequest: Request = new Request(requestUrl, {
+            referrerPolicy: 'origin',
+            method: requestMethod,
+            headers: new Headers(
+              [
+                ['Authorization', `Bearer ${token}`],
+                ['Cache-Control', 'no-cache'],
+                ['x-csrf-token', uid]
+              ]
+            ),
+            credentials: 'include'
+          });
+          // console.log('addAuthHeaders - Fetch Request - newRequest - authHeader: ', newRequest.headers.get('Authorization'));
+          const replaceRequest: Request = newRequest.clone();
+          replaceRequest.headers.forEach((value, key) => {
+            console.log(`addAuthHeaders - Fetch Request - replaceRequest - headersObj: key: ${key} - value: ${value}`);
+          })
+
+          console.log('addAuthHeaders - Fetch Request - replaceRequest: ', replaceRequest);
+          return replaceRequest;
+        }
+      }
+    } else {
+      return request;
+    }
+
+  }
 
   async login(email: string, password: string, returnUrl: string) {
       return this.afAuth

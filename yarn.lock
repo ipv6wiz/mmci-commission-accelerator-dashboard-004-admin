@@ -3975,7 +3975,7 @@
   dependencies:
     "@syncfusion/ej2-base" "~26.1.37"
 
-"@syncfusion/ej2-data@~26.1.35", "@syncfusion/ej2-data@~26.1.40", "@syncfusion/ej2-data@~26.1.41", "@syncfusion/ej2-data@~26.1.42":
+"@syncfusion/ej2-data@^26.1.42", "@syncfusion/ej2-data@~26.1.35", "@syncfusion/ej2-data@~26.1.40", "@syncfusion/ej2-data@~26.1.41", "@syncfusion/ej2-data@~26.1.42":
   version "26.1.42"
   resolved "https://registry.yarnpkg.com/@syncfusion/ej2-data/-/ej2-data-26.1.42.tgz#f8013521eb26d8bea7d38d69a45766424e133152"
   integrity sha512-rzKJGVmVR9WXa4T1Bm9ZmhYD6A6PM7qAdjBOWanPohxQOdlvYIlktowOWhyp6iRxQN4QSPhsBtJtlMEjLTZfcA==
