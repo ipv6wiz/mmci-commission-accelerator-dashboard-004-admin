@@ -13,6 +13,7 @@ import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-subm
 import { AdvanceService } from '../../../service/advance.service';
 import { SelectDto } from '../../mmci-form-mat/dtos/select.dto';
 import { AuthenticationService } from '../../../service';
+import { BankInfoClass } from '../../../entities/bankInfo.class';
 
 @Component({
   selector: 'app-advance-request-form',
@@ -66,39 +67,32 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
   ngOnInit() {
     this.escrow = this.data.escrow;
     this.mls = this.data.mls;
-    console.log('ngOnInit - Escrow Companies: ', this.escrow);
-    console.log('ngOnInit - MLS Systems: ', this.mls);
+    console.log('AdvanceRequestFormDialogComponent - ngOnInit - Escrow Companies: ', this.escrow);
+    console.log('AdvanceRequestFormDialogComponent - ngOnInit - MLS Systems: ', this.mls);
     this.fieldsArr = this.populateFormFields();
   }
 
+  async onSubmit(event: any) {
+    console.log('AdvanceRequestFormDialogComponent - onSubmit - event: ', event);
+    let response;
+    // if(event.formType === 'new') {
+    //   const clientId = this.authService.getLocalClientData().uid;
+    //   console.log('AdvanceRequestFormDialogComponent - onSubmit - clientId : ', clientId);
+    //   event.formData.clientId = clientId;
+    //   event.formData.advanceStatus = 'REQUEST-PENDING';
+    //   response = await this.service.createItem(event.formData);
+    // } else
+      if(event.formType === 'update') {
+      response = await this.service.updateItem(event.formData.uid, event.formData);
+    }
+    console.log('AdvanceRequestFormDialogComponent - onSubmit - response: ', response);
+    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag });
+  }
+
+
+
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
-      // fields.push({
-      //   fieldLabel: '',
-      //   placeholder: '',
-      //   fcn: '',
-      //   type: '',
-      //   required: true,
-      //   disabled: false,
-      //   validators: [],
-      //   width: 0, // percentage
-      //   rowCol: '',
-      //   autoCapitalize: '',
-      //   mask: '',
-      //   addrObj: null,
-      //   pickerId: '',
-      //   startView: 'month',
-      //   storedFormat: '',
-      //   options: [],
-      //   conditional: false, // if true precede the field with a checkbox
-      //   defaultCondition: true, // render the field
-      //   condFieldLabel: '',
-      //   condPlaceholder: '',
-      //   condFcn: '',
-      // });
-
-
-
     fields.push({
       fieldLabel: 'MLS #',
       placeholder: 'MLS # of property',
@@ -294,33 +288,32 @@ export class AdvanceRequestFormDialogComponent implements OnInit {
     });
 
     fields.push({
-      fieldLabel: 'Advance Name',
-      placeholder: 'If left Empty will be replaced with Address Line 1',
-      fcn: 'name',
-      type: 'text',
+      fieldLabel: 'Notes',
+      placeholder: 'Add Notes/Comments',
+      fcn: 'notes',
+      type: 'textarea',
       required: false,
       disabled: false,
       validators: [],
-      width: 100, // percentage
-      rowCol: '8.1',
-      default: '#propertyAddress.Address1'
+      width: 100,
+      rowCol: '8.1'
     });
+
+    fields.push({
+      fieldLabel: 'Your Bank Info',
+      placeholder: 'Your Bank Information',
+      fcn: 'bankInfo',
+      type: 'bank',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 100,
+      rowCol: '9.1',
+      bankObj: new BankInfoClass(this.formBuilder, this.helpers)
+    });
+
     return fields;
   }
 
-  async onSubmit(event: any) {
-    console.log('onSubmit - event: ', event);
-    let response;
-    if(event.formType === 'new') {
-      const clientId = ''; // this.authService.getLocalClientData().uid;
-      console.log('clientId : ', clientId);
-      event.formData.clientId = clientId;
-      event.formData.advanceStatus = 'pending';
-      response = await this.service.createItem(event.formData);
-    } else if(event.formType === 'update') {
-      response = await this.service.updateItem(event.formData.uid, event.formData);
-    }
-    dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag })
-    console.log('onSubmit - response: ', response);
-  }
+
 }

@@ -1,5 +1,6 @@
 import {AdvanceEscrowDto} from "./advance-escrow.dto";
 import { AddressDto } from './address.dto';
+import { AdvanceBankDto } from './advance-bank.dto';
 
 export interface AdvanceCreateDto {
     clientId: string;
@@ -14,4 +15,5 @@ export interface AdvanceCreateDto {
     actualClosingDate?: string; // ISO format date
     remainingContingencies: boolean;
     contingencyReleaseDate?: string; // ISO format date
+    bankInfo: AdvanceBankDto
 }

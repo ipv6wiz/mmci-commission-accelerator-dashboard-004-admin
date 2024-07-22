@@ -42,7 +42,7 @@
                 </div>
               }
               <div class="col"   [style.width]="'{{field.width}}%'">
-                @if(!['address'].includes(field.type)){
+                @if(!['address', 'bank'].includes(field.type)){
                   <mat-form-field [ngStyle]="{'display': fields.get(field.fcn)!.hide ? 'none': 'inline-flex'}">
                     <mat-label>{{field.fieldLabel}}</mat-label>
                     @if(!field.type || field.type === 'text') {
@@ -140,14 +140,19 @@
                       ></app-chip-list>
                     }
                   </mat-form-field>
-                    }
-                    @if(field.type === 'address' && field.required){
-                      <app-address-form
-                        [addressFormGroup]="controls[field.fcn]"
-                        [addrField]="fields.get(field['fcn'])"
-                      ></app-address-form>
-                    }
-
+                }
+                @if(field.type === 'address'){
+                  <app-address-form
+                    [addressFormGroup]="controls[field.fcn]"
+                    [addrField]="fields.get(field['fcn'])"
+                  ></app-address-form>
+                }
+                @if(field.type === 'bank'){
+                  <app-bank-form
+                    [bankFormGroup]="controls[field.fcn]"
+                    [bankField]="fields.get(field['fcn'])"
+                  ></app-bank-form>
+                }
               </div>
             }
           </div>

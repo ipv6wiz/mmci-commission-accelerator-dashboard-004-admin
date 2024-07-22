@@ -86,7 +86,7 @@ export class HelpersService {
     items.forEach((item: any) => {
       arr.push(item);
     });
-    console.log('arr: ', arr);
+    console.log('HelpersService - mapToArray arr: ', arr);
     return arr;
   }
 
@@ -120,6 +120,7 @@ export class HelpersService {
       return 0;
     })
     fieldsArr.forEach((field: FormFieldDto) => {
+      console.log('HelpersService - populateRows - fieldsArr for each : field: ', field);
       let row: number = 0;
       let col: number = 0;
       if(field.rowCol) {
@@ -154,10 +155,20 @@ export class HelpersService {
   processFields(fields: Map<string, any>, obj: any, controls: Map<string, any>): Map<string, any> {
     console.log('processFields - obj: ', obj);
     fields.forEach((field: any) => {
-      if(['address'].includes(field['type'])) {
-        // console.log('processFields - address - field.fcn: ', field.fcn);
-        // console.log('processFields - address - addrObj: ', field.addrObj);
-        controls.set(field.fcn, field.addrObj.getFormGroup());
+      if(['address', 'bank'].includes(field['type'])) {
+
+        switch(field['type']) {
+          case 'address':
+            console.log('processFields - address - field.fcn: ', field.fcn);
+            console.log('processFields - address - addrObj: ', field.addrObj);
+            controls.set(field.fcn, field.addrObj.getFormGroup());
+            break;
+          case 'bank':
+            console.log('processFields - bank - field.fcn: ', field.fcn);
+            console.log('processFields - bank - bankObj: ', field.bankObj);
+            controls.set(field.fcn, field.bankObj.getFormGroup());
+            break;
+        }
       } else {
         if(field.conditional) {
           const condControl: FormControl = new FormControl();
@@ -184,11 +195,10 @@ export class HelpersService {
         }
         // console.log('createControls - valueObj: ', valueObj);
         if(field.type === 'select') {
-
+          console.log('processFields - select');
         }
         if(field.required) {
           validators.push(Validators.required);
-
         }
         if(field.validators &&  field.validators.length > 0) {
           field.validators.forEach((val: any) => {

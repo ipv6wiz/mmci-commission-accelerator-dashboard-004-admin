@@ -1,5 +1,6 @@
 import {AuditTrail} from "./audit-trail.class";
 import {Address} from "./address.interface";
+import { BankInfo } from './bankInfo.interface';
 
 export class AdvanceEntity extends AuditTrail {
     uid!: string;
@@ -24,6 +25,7 @@ export class AdvanceEntity extends AuditTrail {
     rejectedReason?: string;
     remainingContingencies!: boolean;
     contingencyReleaseDate?: string; // ISO format date
+    bankInfo!: BankInfo
 
     constructor() {
         super();

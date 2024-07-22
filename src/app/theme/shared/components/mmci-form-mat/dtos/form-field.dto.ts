@@ -1,5 +1,6 @@
 import { AddressClass } from '../../../entities/address.class';
 import { AdvanceEscrowDetailsClass } from '../../../entities/advance-escrow-details.class';
+import { BankInfoClass } from '../../../entities/bankInfo.class';
 
 export interface FormFieldDto {
   fieldLabel: string;
@@ -16,6 +17,7 @@ export interface FormFieldDto {
   autoCapitalize?: string;
   mask?: string;
   addrObj?: AddressClass;
+  bankObj?: BankInfoClass;
   escrowObj?: AdvanceEscrowDetailsClass;
   pickerId?: string;
   startView?: 'month' | 'year' | 'multi-year';

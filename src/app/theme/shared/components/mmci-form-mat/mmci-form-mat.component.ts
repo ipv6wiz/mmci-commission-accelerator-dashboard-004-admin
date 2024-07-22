@@ -21,6 +21,7 @@ import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { mmciFormSubmitSignal } from './signals/mmci-form-submit.signal';
 import { SelectDto } from './dtos/select.dto';
+import { BankFormComponent } from '../bank-form/bank-form.component';
 
 @Component({
   selector: 'app-mmci-form-mat',
@@ -49,7 +50,8 @@ import { SelectDto } from './dtos/select.dto';
     MatDialogContent,
     NgStyle,
     MatDialogTitle,
-    MatDialogClose
+    MatDialogClose,
+    BankFormComponent
   ],
   providers: [
     provideNgxMask()

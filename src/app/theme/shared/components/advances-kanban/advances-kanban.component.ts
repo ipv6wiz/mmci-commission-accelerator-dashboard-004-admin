@@ -18,6 +18,10 @@ import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { KanbanAdaptorClass } from '../../classes/kanban-adaptor.class';
 import { AuthenticationService } from '../../service';
 import { AsyncPipe } from '@angular/common';
+import { EscrowCompanyDto } from '../../dtos/escrow-company.dto';
+import { MlsListDto } from '../../dtos/mls-list.dto';
+import { EscrowCompanyService } from '../../service/escrow-company.service';
+import { MlsListService } from '../../service/mls-list.service';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
@@ -29,7 +33,9 @@ registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5
   templateUrl: './advances-kanban.component.html',
   styleUrl: './advances-kanban.component.scss'
 })
-export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
+export class AdvancesKanbanComponent implements OnInit {
+  escrow!: EscrowCompanyDto[];
+  mls!: MlsListDto[];
   readonly version: string;
   private config = new AppConfig();
   private readonly apiUrl = environment.gcpCommAccApiUrl;
@@ -39,47 +45,19 @@ export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
   enableToolTip: boolean = true;
   validColumns: Map<string, string[]> = new Map([
-    ['REQUEST-PENDING', ['PENDING-ESCROW', 'REJECTED']],
-    ['PENDING-ESCROW', ['PENDING-CLIENT', 'REJECTED']],
-    ['PENDING-CLIENT', ['PENDING-CONTRACTS', 'REJECTED']],
-    ['PENDING-CONTRACTS', ['PENDING-FUNDING', 'REJECTED']],
-    ['PENDING-FUNDING', ['PENDING-DEMAND', 'REJECTED']],
-    ['PENDING-DEMAND', ['ADVANCE-FUNDED', 'REJECTED']],
-    ['ADVANCE-FUNDED', ['ESCROW-CLOSED', 'REJECTED']],
+    ['REQUEST-PENDING', ['REJECTED']],
+    ['PENDING-ESCROW', ['REJECTED']],
+    ['PENDING-CLIENT', ['REJECTED']],
+    ['PENDING-CONTRACTS', ['REJECTED']],
+    ['PENDING-FUNDING', ['REJECTED']],
+    ['PENDING-DEMAND', ['REJECTED']],
+    ['ADVANCE-FUNDED', ['REJECTED']],
     ['ESCROW-CLOSED', ['CURRENT-BALANCE']],
     ['CURRENT-BALANCE', ['BALANCE-CLEARED']],
     ['BALANCE-CLEARED', []],
     ['REJECTED', []]
   ]);
-  commAccData: any[] = [
-    {
-      clientId: 'Uz7UZXlrJvgqoDPpuBrGCwduHx82',
-      displayName: 'John Page',
-      advanceName: '704 N Main St',
-      advanceStatus: 'REQUEST-PENDING',
-      advanceRequested: '$10,000',
-      notes: ''
-    },
-    {
-      clientId: 'rppGoqXml7NoKIHyCJI0tD2ysst1',
-      displayName: 'Thomas Thournir',
-      advanceName: '710 N Main St',
-      advanceStatus: 'PENDING-CLIENT',
-      advanceRequested: '$15,000',
-      notes:''
-    },
-    {
-      clientId: 'Uz7UZXlrJvgqoDPpuBrGCwduHx82',
-      displayName: 'John Page',
-      advanceName: '123 Broadway',
-      advanceStatus: 'PENDING-FUNDING',
-      advanceRequested: '$12,000',
-      notes: ''
-    },
-  ];
 
-  // kanbanData: any[] = extend([], this.commAccData, null, true) as any[];
-  private kanbanUrlAdaptor = new KanbanAdaptorClass();
   kanbanData!: DataManager;
   columns: ColumnsModel[] = [];
   cardSettings: CardSettingsModel = {
@@ -89,15 +67,17 @@ export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
   }
   swimLaneSettings: SwimlaneSettingsModel = {
     keyField: 'clientId',
-    textField: 'clientId'
+    textField: 'displayName'
   }
-  advanceName: string = "advanceName Placeholder";
+
 
   constructor(
     public modal: MatDialog,
     private optionService: OptionsService,
     private advanceService: AdvanceService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private escrowService: EscrowCompanyService,
+    private mlsService: MlsListService,
   ) {
     console.log('AdvancesKanbanComponent - constructor')
     this.version = this.config.version;
@@ -107,6 +87,7 @@ export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
       url: `${this.endPointUrl}/kanban`,
       headers: [{'Authorization': `Bearer ${token}`}],
       crossDomain: true,
+
     });
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
@@ -118,6 +99,11 @@ export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
     });
   }
 
+  async ngOnInit() {
+    this.escrow = await this.loadEscrowCompanies();
+    this.mls = await this.loadMlsList();
+  }
+
   refreshKanban(event: any) {
     console.log('refreshKanban - event: ', event);
     event.stopPropagation();
@@ -126,55 +112,42 @@ export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
     this.kanbanObj.renderTemplates();
   }
 
-  ngOnInit() {
-    console.log('AdvancesKanbanComponent - ngOnInit');
-
-
-  }
-
-  ngAfterViewInit() {
-    console.log('AdvancesKanbanComponent - ngAfterViewInit');
-
-    // this.kanbanObj.refresh();
-
-    console.log('AdvancesKanbanComponent - kanbanData: ', this.kanbanData);
-  }
-
   cardDoubleClick(event: any) {
     console.log('cardDoubleClick - event: ', event);
     event.cancel = true;
     const data: any = event.data;
     switch(data.advanceStatus) {
       case 'REQUEST-PENDING':
-        this.openRequestPendingFormModal();
+        this.openRequestPendingFormModal(data);
         break;
       case 'PENDING-ESCROW':
-        this.openPendingEscrowFormModal();
+        this.openPendingEscrowFormModal(data);
         break;
     }
   }
 
-  openRequestPendingFormModal() {
+  openRequestPendingFormModal(requestData: any) {
     this.modal.open(RequestPendingDialogComponent, {
       data: {
         type: 'update',
-        dataType: 'kb-request-pending-dialog'
+        dataType: 'kb-request-pending-dialog',
+        item: requestData,
+        escrow: this.escrow,
+        mls: this.mls
       }
     });
   }
 
-  openPendingEscrowFormModal() {
+  openPendingEscrowFormModal(requestData: any) {
     this.modal.open(PendingEscrowDialogComponent, {
       data: {
         type: 'update',
-        dataType: 'kb-pending-escrow-dialog'
+        dataType: 'kb-pending-escrow-dialog',
+        item: requestData,
+        escrow: this.escrow,
+        mls: this.mls
       }
     });
-  }
-
-  public showData(data: any) {
-    console.log('showData - data: ', data);
-    return data;
   }
 
   public getString(displayName: string) {
@@ -197,10 +170,17 @@ export class AdvancesKanbanComponent implements OnInit, AfterViewInit {
   }
 
   setValidDropColumn(advanceStatus: string) {
-    // console.log('setValidDropColumn - advanceStatus: ', advanceStatus);
-    // const validCols: string[] = this.validColumns.get(advanceStatus) || [];
-    // console.log('setValidDropColumn - validCols: ', validCols);
     return this.validColumns.get(advanceStatus) || [];
+  }
+
+  async loadEscrowCompanies(): Promise<EscrowCompanyDto[]> {
+    const response = await this.escrowService.loadItemsForSelect();
+    return response.items;
+  }
+
+  async loadMlsList(): Promise<MlsListDto[]> {
+    const response = await this.mlsService.loadItemsForSelect();
+    return response.items;
   }
 
 }
