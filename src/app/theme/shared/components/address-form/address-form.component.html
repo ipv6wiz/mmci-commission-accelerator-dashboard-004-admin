@@ -9,6 +9,7 @@
               @if(!field.type || field.type === 'text') {
                 <input
                   matInput
+                  [readonly]="formMode === 'view'"
                   placeholder="{{field.placeholder}}"
                   formControlName="{{field.fcn}}"
                   [required]="field.required"

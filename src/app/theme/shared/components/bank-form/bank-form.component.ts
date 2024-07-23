@@ -34,6 +34,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 export class BankFormComponent implements OnInit{
   @Input() bankFormGroup!: any;
   @Input() bankField!: any;
+  @Input() formMode: string = 'edit'
   fields!: Map<string, FormFieldDto>;
   fieldIdPrefix: string = 'bank';
   rows: any[] = [];
@@ -43,8 +44,8 @@ export class BankFormComponent implements OnInit{
     private helpers: HelpersService) {}
 
   ngOnInit() {
-    console.log('BankFormComponent - addressFormGroup: ', this.bankFormGroup);
-    console.log('BankFormComponent - addrField: ', this.bankField);
+    console.log('BankFormComponent - bankFormGroup: ', this.bankFormGroup);
+    console.log('BankFormComponent - bankField: ', this.bankField);
     this.fields = this.bankField.bankObj.fields;
     console.log('BankFormComponent - bankFormFields: ', this.fields);
     this.popRows(this.fields);

@@ -34,12 +34,14 @@
                   <mat-form-field>
                     <mat-label [ngStyle]="{'margin-left.px': 40, 'margin-top.px': 15}" >{{field.condFieldLabel}}</mat-label>
                     <input hidden="hidden" matInput />
-                    <mat-checkbox
-                      (change)="checkboxChange($event)"
-                      formControlName="{{field.condFcn}}"
-                      [required]="field.condRequired"
-                      name="{{field.condFcn}}.{{field.fcn}}"
-                    ></mat-checkbox>
+                    @if(mode === 'edit') {
+                      <mat-checkbox
+                        (change)="checkboxChange($event)"
+                        formControlName="{{field.condFcn}}"
+                        [required]="field.condRequired"
+                        name="{{field.condFcn}}.{{field.fcn}}"
+                      ></mat-checkbox>
+                    }
                   </mat-form-field>
                 </div>
               }
@@ -49,6 +51,7 @@
                     <mat-label>{{field.fieldLabel}}</mat-label>
                     @if(!field.type || field.type === 'text') {
                       <input
+                        [readonly]="mode === 'view'"
                         matInput
                         placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
@@ -62,6 +65,7 @@
                     }
                     @if(field.type === 'textarea') {
                       <textarea
+                        [readonly]="mode === 'view'"
                         matInput
                         placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
@@ -73,6 +77,7 @@
                     @if(field.type === 'date'){
                       <ng-container>
                         <input
+                          [readonly]="mode === 'view'"
                           matInput
                           placeholder="{{field.placeholder}}"
                           formControlName="{{field.fcn}}"
@@ -82,12 +87,15 @@
                           [id]="field.pickerId"
                           style="color: black"
                         >
-                        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-                        <mat-datepicker disabled="false" #datePicker [startView]="field.startView"></mat-datepicker>
+                        @if(mode === 'edit') {
+                          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                          <mat-datepicker disabled="false" #datePicker [startView]="field.startView"></mat-datepicker>
+                          }
                       </ng-container>
                     }
                     @if(field.type === 'currency'){
                       <input
+                        [readonly]="mode === 'view'"
                         matInput
                         type="text"
                         placeholder="{{field.placeholder}}"
@@ -101,6 +109,7 @@
                     }
                     @if(field.type === 'quantity'){
                       <input
+                        [readonly]="mode === 'view'"
                         matInput
                         placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
@@ -111,11 +120,18 @@
                       >
                     }
                     @if(field.type === 'select'){
-                      <mat-select
-                        placeholder="{{field.placeholder}}"
-                        formControlName="{{field.fcn}}"
-                        [required]="field.required"
-                      >
+                      @if(mode === 'view') {
+                        <input
+                          [readonly]="mode === 'view'"
+                          matInput
+                          formControlName="{{field.fcn}}"
+                        >
+                      } @else {
+                        <mat-select
+                          placeholder="{{field.placeholder}}"
+                          formControlName="{{field.fcn}}"
+                          [required]="field.required"
+                        >
                           @for(option of field.options; track $index) {
                             <mat-option
                               [value]="option.value"
@@ -123,7 +139,9 @@
                               {{option.key}}
                             </mat-option>
                           }
-                      </mat-select>
+                        </mat-select>
+                      }
+
                     }
                     @if(field.type === 'boolean') {
                       <input hidden="hidden" matInput />
@@ -147,20 +165,24 @@
                   <app-address-form
                     [addressFormGroup]="controls[field.fcn]"
                     [addrField]="fields.get(field['fcn'])"
+                    [formMode]="mode"
                   ></app-address-form>
                 }
                 @if(field.type === 'bank'){
                   <app-bank-form
                     [bankFormGroup]="controls[field.fcn]"
                     [bankField]="fields.get(field['fcn'])"
+                    [formMode]="mode"
                   ></app-bank-form>
                 }
               </div>
             }
           </div>
         }
-        <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" [mat-dialog-close]="true">Save</button>
-        <button mat-button [mat-dialog-close]="true">Cancel</button>
+        @if(!subForm) {
+          <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" [mat-dialog-close]="true">Save</button>
+          <button mat-button [mat-dialog-close]="true">Cancel</button>
+        }
       </form>
     </mat-dialog-content>
   }

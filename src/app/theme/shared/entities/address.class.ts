@@ -38,6 +38,21 @@ export class AddressClass {
     return this.fields;
   }
 
+  getPropsValues(): AddressDto {
+    const addrDtoObj: AddressDto = {} as AddressDto;
+    const keys: string[] = [];
+    this.fields.forEach((value, key) => {
+      keys.push(key);
+    })
+    if(keys.length > 0){
+      console.log('Address Class - getPropsValues - keys: ', keys);
+      keys.forEach((key ) => {
+        addrDtoObj[key as keyof typeof  addrDtoObj] = this[key as keyof typeof  addrDtoObj];
+      });
+    }
+    return addrDtoObj;
+  }
+
   populateProps(addrObj: AddressDto) {
     const keys = Object.keys(addrObj);
     console.log('populateProps - addrObj: ', addrObj);

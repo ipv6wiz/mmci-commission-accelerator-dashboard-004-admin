@@ -65,6 +65,7 @@ export class MmciFormMatComponent implements OnInit{
   @Input() chipListArr!: string[];
   @Input() config!: SelectDto[];
   @Input() mode: string = 'edit';
+  @Input() subForm: boolean = false;
 
   formGroup!: FormGroup;
   fields!: Map<string, FormFieldDto>;
