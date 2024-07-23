@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, OnInit, ViewChild } from '@angular/core';
 import {
   CardSettingsModel,
   ColumnsModel,
@@ -22,6 +22,7 @@ import { EscrowCompanyDto } from '../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../dtos/mls-list.dto';
 import { EscrowCompanyService } from '../../service/escrow-company.service';
 import { MlsListService } from '../../service/mls-list.service';
+import { advanceKanbanRefreshSignal } from '../../signals/advance-kanban-refresh.signal';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
@@ -41,6 +42,7 @@ export class AdvancesKanbanComponent implements OnInit {
   private readonly apiUrl = environment.gcpCommAccApiUrl;
   private readonly endPoint: string = 'advance';
   private endPointUrl: string = `${this.apiUrl}/${this.endPoint}`;
+  private validDataTypeTags: string[] = ['kb-request-pending-dialog'];
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
   enableToolTip: boolean = true;
@@ -79,7 +81,13 @@ export class AdvancesKanbanComponent implements OnInit {
     private escrowService: EscrowCompanyService,
     private mlsService: MlsListService,
   ) {
-    console.log('AdvancesKanbanComponent - constructor')
+    console.log('AdvancesKanbanComponent - constructor');
+    effect(() => {
+      const akrs = advanceKanbanRefreshSignal();
+      if(akrs.refresh && this.validDataTypeTags.includes(akrs.dataType)) {
+        this.refreshKanban({})
+      }
+    });
     this.version = this.config.version;
     const token: string = this.authService.getLocalUserDataProp('accessToken');
     this.kanbanData = new DataManager({
@@ -89,6 +97,7 @@ export class AdvancesKanbanComponent implements OnInit {
       crossDomain: true,
 
     });
+
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
       console.log('AdvancesKanbanComponent - constructor - columns: ', this.columns);
@@ -106,10 +115,9 @@ export class AdvancesKanbanComponent implements OnInit {
 
   refreshKanban(event: any) {
     console.log('refreshKanban - event: ', event);
-    event.stopPropagation();
     this.kanbanObj.refresh();
     // this.kanbanObj.refreshHeader();
-    this.kanbanObj.renderTemplates();
+    // this.kanbanObj.renderTemplates();
   }
 
   cardDoubleClick(event: any) {

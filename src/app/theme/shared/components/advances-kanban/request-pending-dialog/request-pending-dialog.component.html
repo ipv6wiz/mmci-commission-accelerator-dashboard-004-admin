@@ -1,6 +1,22 @@
+<mat-toolbar color="antiquewhite">
+  <button mat-fab extended style="color: antiquewhite; background-color: darkgreen" (click)="clickAccept($event)"><mat-icon>check</mat-icon>Accept Advance</button>
+  <button mat-fab extended style="color: antiquewhite; background-color: #d19a66; margin-left: 5px" (click)="clickEdit($event)"><mat-icon>edit</mat-icon>{{editButtonText}} Advance</button>
+  <button mat-fab extended style="color: antiquewhite; background-color: red; margin-left: 5px" (click)="clickReject($event)"><mat-icon>delete</mat-icon>Reject Advance</button>
+  <span class="example-spacer"></span>
+  <button
+    style="background-color: transparent; border: 0; "
+    [mat-dialog-close]="true"
+  >
+    <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+  </button>
+</mat-toolbar>
+
 <app-mmci-form-mat
   [fieldsArr]="fieldsArr"
   [data]="data"
   [chipListArr]="chipListArr"
   [config]="formConfig"
+  [mode]="formMode"
 ></app-mmci-form-mat>
+
+

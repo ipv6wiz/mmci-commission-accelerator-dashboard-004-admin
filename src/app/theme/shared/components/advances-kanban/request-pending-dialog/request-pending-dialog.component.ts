@@ -4,7 +4,7 @@ import { FormFieldDto } from '../../mmci-form-mat/dtos/form-field.dto';
 import { EscrowCompanyDto } from '../../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../../dtos/mls-list.dto';
 import { SelectDto } from '../../mmci-form-mat/dtos/select.dto';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogClose } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { HelpersService } from '../../../service/helpers.service';
 import { AdvanceService } from '../../../service/advance.service';
@@ -13,12 +13,23 @@ import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-subm
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { AddressClass } from '../../../entities/address.class';
 import { BankInfoClass } from '../../../entities/bankInfo.class';
+import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refresh.signal';
+import { ApiResponse } from '../../../dtos/api-response.dto';
+import { MatCard } from '@angular/material/card';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-request-pending-dialog',
   standalone: true,
   imports: [
-    MmciFormMatComponent
+    MmciFormMatComponent,
+    MatCard,
+    MatToolbar,
+    MatDialogClose,
+    MatButtonModule, MatDividerModule, MatIconModule
   ],
   providers: [
     provideNgxMask()
@@ -34,6 +45,8 @@ export class RequestPendingDialogComponent implements OnInit{
   mls!: MlsListDto[];
   dataTypeTag: string = 'kb-request-pending-dialog';
   formConfig!: SelectDto[];
+  formMode: string = 'view';
+  editButtonText: string = "Edit";
 
   constructor(
     public modal: MatDialog,
@@ -59,11 +72,10 @@ export class RequestPendingDialogComponent implements OnInit{
       {key: 'fieldIdPrefix', value: 'request-pending'},
       {key: 'dataTypeTag', value: 'kb-request-pending-dialog'},
       {key: 'formTag', value: 'Request Pending Verification'},
-      {key: 'formUUID', value: this.formUUID}
+      {key: 'formUUID', value: this.formUUID},
+      {key: 'showToolbar', value: 'false'}
     ];
     this.chipListArr = [];
-
-
   }
 
   async ngOnInit() {
@@ -75,8 +87,34 @@ export class RequestPendingDialogComponent implements OnInit{
     this.fieldsArr = this.populateFormFields(this.data.item);
   }
 
+  clickAccept(event: any) {
+    console.log('RequestPendingDialogComponent - clickAccept - event: ', event);
+  }
+
+  clickEdit(event: any) {
+    console.log('RequestPendingDialogComponent - clickEdit - event: ', event);
+    if(this.editButtonText === 'Edit') {
+      this.formMode = 'edit';
+      this.editButtonText = 'View'
+    } else {
+      this.formMode = 'view';
+      this.editButtonText = 'Edit';
+    }
+  }
+
+  clickReject(event: any) {
+    console.log('RequestPendingDialogComponent - clickReject - event: ', event);
+  }
+
   async onSubmit(event: any) {
-    console.log('onSubmit - event: ', event);
+    console.log('RequestPendingDialogComponent - onSubmit - event: ', event);
+    console.log('RequestPendingDialogComponent - onSubmit - data.item: ', this.data.item);
+    let response: ApiResponse = {statusCode: 999, msg: 'Placeholder'};
+    if(event.formType === 'update') {
+      response = await this.service.updateItem(this.data.item.uid, event.formData);
+    }
+    console.log('RequestPendingDialogComponent - onSubmit - response: ', response);
+    advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
   }
 
 

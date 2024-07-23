@@ -8,8 +8,13 @@ import { v7 as uuid } from 'uuid';
   providedIn: 'root'
 })
 export class HelpersService {
+  private boolWords: string[] = [];
 
-  constructor() { }
+  private trueWords: string[] = [ 'true','yes',];
+  private falseWords: string[] = ['false','no'];
+  constructor() {
+    this.boolWords = this.trueWords.concat(this.falseWords);
+  }
 
   getUUID(): string {
     return uuid();
@@ -18,11 +23,23 @@ export class HelpersService {
   isColumnTypeBool(data: any): boolean {
     if(typeof data === 'string') {
       const dx: string = data;
-      if(dx.toLowerCase() === 'true' || dx.toLowerCase() === 'false') {
+      if(this.boolWords.includes(dx.toLowerCase())) {
         return true;
       }
     }
     return (typeof data === 'boolean');
+  }
+
+  convertBoolString(data: any): any {
+    if(typeof data === 'string' && this.isColumnTypeBool(data)){
+      if(this.trueWords.includes(data.toLowerCase())) {
+        return true;
+      } else if(this.falseWords.includes(data.toLowerCase())) {
+        return false;
+      }
+    } else {
+      return data;
+    }
   }
 
   isColumnTypeBoolNested(item: any, column: string): boolean {

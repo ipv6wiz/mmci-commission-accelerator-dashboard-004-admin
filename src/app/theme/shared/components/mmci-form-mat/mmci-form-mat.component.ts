@@ -64,6 +64,7 @@ export class MmciFormMatComponent implements OnInit{
   @Input() fieldsArr!: FormFieldDto[];
   @Input() chipListArr!: string[];
   @Input() config!: SelectDto[];
+  @Input() mode: string = 'edit';
 
   formGroup!: FormGroup;
   fields!: Map<string, FormFieldDto>;
@@ -78,6 +79,7 @@ export class MmciFormMatComponent implements OnInit{
   loadSpinnerDiameter: string = '50';
   chipsList!: Map<string, string[]>;
   formUUID: string = '';
+  showToolbar: boolean = true;
 
   rows: any[] = [];
 
@@ -85,12 +87,15 @@ export class MmciFormMatComponent implements OnInit{
     private formBuilder: FormBuilder,
     private helpers: HelpersService,
     private optionsService: OptionsService,
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
     console.log('MmciFormMatComponent - ngOnInit - data: ', this.data);
     console.log('MmciFormMatComponent - ngOnInit - config: ', this.config);
     this.unpackConfig();
+    console.log('MmciFormMatComponent - ngOnInit - showToolBar: ', this.showToolbar);
     // const fieldsArr: FormFieldDto[] = this.populateFormFields();
     // console.log('MmciFormMatComponent - ngOnInit - fieldsArr: ', this.fieldsArr);
     this.rows = this.helpers.populateRows(this.fieldsArr);
@@ -107,8 +112,12 @@ export class MmciFormMatComponent implements OnInit{
 
   unpackConfig() {
     this.config.forEach((item: SelectDto) => {
+      const value = this.helpers.convertBoolString(item.value);
+      console.log('MmciFormMatComponent - unpackConfig - value: ', value);
+
       // @ts-expect-error item maybe undefined
-      this[item.key] = item.value;
+      this[item.key] = value;
+      console.log('MmciFormMatComponent - unpackConfig - fieldIdPrefix: ',this.fieldIdPrefix)
     });
   }
 
