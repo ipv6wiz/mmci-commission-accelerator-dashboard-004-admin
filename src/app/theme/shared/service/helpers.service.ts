@@ -4,16 +4,67 @@ import { SelectDto } from '../components/mmci-form-mat/dtos/select.dto';
 import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 import { v7 as uuid } from 'uuid';
 
+import { ConfirmDialogDto } from '../dtos/confirm-dialog.dto';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
+import { Address } from '../entities/address.interface';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HelpersService {
   private boolWords: string[] = [];
-
   private trueWords: string[] = [ 'true','yes',];
   private falseWords: string[] = ['false','no'];
-  constructor() {
+
+  constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.boolWords = this.trueWords.concat(this.falseWords);
+  }
+
+  sequenceRowCol(fields: FormFieldDto[]): FormFieldDto[] {
+    const f: FormFieldDto[] = [];
+    let row: number = 1;
+    let currRowNumber: number = -1;
+    fields.forEach((field: FormFieldDto) => {
+      const rowColParts: string[] = field.rowCol.split('.');
+      if(currRowNumber === -1) {
+        currRowNumber = parseInt( rowColParts[0], 10);
+      }
+      const fieldRowNumber = parseInt( rowColParts[0], 10);
+      if(fieldRowNumber > currRowNumber  ) {
+        row++;
+        currRowNumber = fieldRowNumber;
+      }
+      rowColParts[0] = row.toString(10).padStart(2, '0');
+      field.rowCol = rowColParts.join('.');
+      f.push(field);
+    });
+    return f;
+  }
+
+  makeFullAddress(propAddress: Address, type: string = 'flat'): string {
+    const addr: string[] = [];
+    const joiner: string = type === 'flat' ? ', ' : '<br/>';
+    addr.push(propAddress.Address1);
+    if(propAddress.Address2 && propAddress.Address2.length > 0){
+      addr.push(propAddress.Address2)
+    }
+    addr.push(propAddress.City);
+    const zip4: string = propAddress.Zip4 ? '-'+propAddress.Zip4 : ''
+    const stateZip: string = `${propAddress.State || 'CA'} ${propAddress.Zip5}${zip4}`;
+    addr.push(stateZip);
+    return addr.join(joiner);
+  }
+
+  openConfirmDialog(data: ConfirmDialogDto): MatDialogRef<any> {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data
+    });
+  }
+
+  openSnackBar(message: string, action: string = '', duration: number = 2000): MatSnackBarRef<any> {
+    return this.snackBar.open(message, action, { duration });
   }
 
   getUUID(): string {

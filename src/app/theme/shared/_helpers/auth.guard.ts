@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Router,  ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Router,  ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 
 import { AuthenticationService } from '../service';
-import {Observable} from "rxjs";
 import {JwtService} from "../service/jwt.service";
 import {AlertService} from "../service/alert.service";
 

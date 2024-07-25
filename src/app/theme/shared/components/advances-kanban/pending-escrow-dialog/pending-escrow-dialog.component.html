@@ -1,1 +1,13 @@
-<p>pending-escrow-dialog works!</p>
+<mat-toolbar color="antiquewhite">
+  <button mat-fab extended [disabled]="formMode === 'edit'" style="color: antiquewhite; background-color: darkgreen" (click)="clickConfirmed($event)"><mat-icon>check</mat-icon>Escrow Confirmed</button>
+  <button mat-fab extended  style="color: antiquewhite; background-color: #d19a66; margin-left: 5px" (click)="clickChanges($event)"><mat-icon>edit</mat-icon>{{editButtonText}}Changes Needed</button>
+  <button mat-fab extended [disabled]="formMode === 'edit'" style="color: antiquewhite; background-color: red; margin-left: 5px" (click)="clickReject($event)"><mat-icon>delete</mat-icon>Reject Advance</button>
+  <span class="example-spacer"></span>
+  <button
+    style="background-color: transparent; border: 0; "
+    [mat-dialog-close]="true"
+    [disabled]="formMode === 'edit'"
+  >
+    <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+  </button>
+</mat-toolbar>

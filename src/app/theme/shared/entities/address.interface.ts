@@ -3,5 +3,6 @@ export interface Address {
   Address2?: string;
   City: string;
   Zip5: string;
+  Zip4?: string;
   State: string;
 }

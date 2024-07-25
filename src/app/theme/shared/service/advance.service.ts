@@ -54,6 +54,7 @@ export class AdvanceService {
   }
 
   async updateItem(uid: string, data: AdvanceUpdateDto): Promise<ApiResponse> {
+    console.log('===================> Advance - updateItem - data: ', data);
     const response: ApiResponse = await lastValueFrom(this.update(uid, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response;
   }

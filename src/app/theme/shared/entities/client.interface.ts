@@ -8,6 +8,7 @@ export interface Client {
     firstName: string;
     middleName: string;
     lastName: string;
+    displayName?: string;
     email: string;
     dreNumber: string;
     dreState: string;

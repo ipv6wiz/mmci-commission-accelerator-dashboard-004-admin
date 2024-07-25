@@ -42,7 +42,10 @@ export class AdvancesKanbanComponent implements OnInit {
   private readonly apiUrl = environment.gcpCommAccApiUrl;
   private readonly endPoint: string = 'advance';
   private endPointUrl: string = `${this.apiUrl}/${this.endPoint}`;
-  private validDataTypeTags: string[] = ['kb-request-pending-dialog'];
+  private validDataTypeTags: string[] = [
+    'kb-request-pending-dialog',
+    'kb-pending-escrow-dialog'
+  ];
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
   enableToolTip: boolean = true;
@@ -142,7 +145,9 @@ export class AdvancesKanbanComponent implements OnInit {
         item: requestData,
         escrow: this.escrow,
         mls: this.mls
-      }
+      },
+      disableClose: true,
+      hasBackdrop: true
     });
   }
 
@@ -154,7 +159,9 @@ export class AdvancesKanbanComponent implements OnInit {
         item: requestData,
         escrow: this.escrow,
         mls: this.mls
-      }
+      },
+      disableClose: true,
+      hasBackdrop: true
     });
   }
 

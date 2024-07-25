@@ -49,6 +49,19 @@
                 @if(!['address', 'bank'].includes(field.type)){
                   <mat-form-field [ngStyle]="{'display': fields.get(field.fcn)!.hide ? 'none': 'inline-flex'}">
                     <mat-label>{{field.fieldLabel}}</mat-label>
+                    @if(field.type === 'readonly') {
+                      <input
+                        readonly="true"
+                        matInput
+                        placeholder="{{field.placeholder}}"
+                        formControlName="{{field.fcn}}"
+                        [required]="field.required"
+                        [mask]="field.mask || ''"
+                        [autocapitalize]="field.autoCapitalize"
+                        (blur)="onFieldChange($event)"
+                        id="{{fieldIdPrefix + '-' + field.fcn }}"
+                      >
+                    }
                     @if(!field.type || field.type === 'text') {
                       <input
                         [readonly]="mode === 'view'"
@@ -58,7 +71,6 @@
                         [required]="field.required"
                         [mask]="field.mask || ''"
                         [autocapitalize]="field.autoCapitalize"
-
                         (blur)="onFieldChange($event)"
                         id="{{fieldIdPrefix + '-' + field.fcn }}"
                       >
@@ -76,6 +88,13 @@
                     }
                     @if(field.type === 'date'){
                       <ng-container>
+                        @if(mode === 'view') {
+                          <input
+                            [readonly]="mode === 'view'"
+                            matInput
+                            formControlName="{{field.fcn}}"
+                          >
+                        } @else {
                         <input
                           [readonly]="mode === 'view'"
                           matInput
@@ -87,7 +106,6 @@
                           [id]="field.pickerId"
                           style="color: black"
                         >
-                        @if(mode === 'edit') {
                           <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
                           <mat-datepicker disabled="false" #datePicker [startView]="field.startView"></mat-datepicker>
                           }
@@ -179,8 +197,8 @@
             }
           </div>
         }
-        @if(!subForm) {
-          <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" [mat-dialog-close]="true">Save</button>
+        @if(!subForm && mode === 'edit') {
+          <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" >Save</button>
           <button mat-button [mat-dialog-close]="true">Cancel</button>
         }
       </form>

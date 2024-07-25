@@ -36,6 +36,11 @@ const routes: Routes = [
         path: 'profile-settings',
           title: AppSiteConfig.siteName,
         loadComponent: () => import('./auth-profile-settings/auth-profile-settings.component')
+      },
+      {
+        path: 'pending-approval',
+        title: AppSiteConfig.siteName,
+        loadComponent: () => import('./auth-pending-approval/auth-pending-approval.component')
       }
     ]
   }

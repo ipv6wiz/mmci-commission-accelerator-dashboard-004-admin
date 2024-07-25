@@ -20,6 +20,11 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { EmailSendService } from '../../../service/email-send.service';
+import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-template.entity';
+import { AdvanceEntity } from '../../../entities/advance.entity';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
 
 @Component({
   selector: 'app-request-pending-dialog',
@@ -50,9 +55,10 @@ export class RequestPendingDialogComponent implements OnInit{
 
   constructor(
     public modal: MatDialog,
+    public snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private helpers: HelpersService,
-
+    private emailSendService: EmailSendService,
     private service: AdvanceService,
     private authService: AuthenticationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -89,21 +95,141 @@ export class RequestPendingDialogComponent implements OnInit{
 
   clickAccept(event: any) {
     console.log('RequestPendingDialogComponent - clickAccept - event: ', event);
+    if(!this.data.item.agreementNumber) {
+      this.helpers.openSnackBar('Agreement Number can not be empty - switching to Edit Mode')
+      this.clickEdit({});
+    } else {
+      const dialogRef = this.helpers.openConfirmDialog({
+        message: 'Are you sure that you want to Accept this Advance Request and send a verification email to Escrow ?',
+        buttonText: {ok: 'Yes - Send Email to Escrow', cancel: 'No'}
+      });
+      dialogRef.afterClosed().subscribe({
+        next: (confirmed) => {
+          if(confirmed) {
+            this.updateAdvanceStatus(this.data.item.uid, 'PENDING-ESCROW').then((updRes: ApiResponse) => {
+              console.log('clickAccept - dialogRef - updRes: ', updRes);
+              console.log('clickAccept - dialogRef - this.data.item: ', this.data.item);
+              this.sendEmailToEscrow(this.data.item).then((response) => {
+                console.log('sendEmailToEscrow - response: ', response);
+                this.setFormMode('view');
+                this.modal.closeAll();
+                advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
+              })
+            });
+          }
+
+        },
+        error: (err) => {
+          console.log('clickAccept - dialogRef - error: ', err.message);
+        }
+      })
+    }
+
   }
+
+  async sendEmailToEscrow(item: AdvanceEntity): Promise<ApiResponse> {
+    const email: MailOutWithTemplateEntity = {
+      to: item.escrowEmail,
+      cc: [item.currClient.email],
+      template: {
+        name: 'escrow-confirm',
+        data: {
+          escrowOfficer: item.escrowOfficer,
+          escrowEmail: item.escrowEmail,
+          escrowTransactionNumber: item.escrowTransactionNumber,
+          Address1: item.propertyAddress.Address1,
+          displayName: item.currClient.displayName,
+          fullAddress: this.helpers.makeFullAddress(item.propertyAddress)
+        }
+      }
+    };
+    const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
+    return response;
+  }
+
+
+
+  async updateAdvanceStatus(uid: string, advanceStatus: string): Promise<ApiResponse> {
+    const data: any = {advanceStatus};
+    try {
+      const response: ApiResponse = await this.service.updateItem(uid, data);
+      console.log('RequestPendingDialogComponent - onSubmit - response: ', response);
+      if([200, 201].includes(response.statusCode)) {
+        return response;
+      } else {
+        throw new Error(response.msg);
+      }
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
+
+
 
   clickEdit(event: any) {
     console.log('RequestPendingDialogComponent - clickEdit - event: ', event);
     if(this.editButtonText === 'Edit') {
-      this.formMode = 'edit';
-      this.editButtonText = 'View'
+      this.setFormMode('edit')
     } else {
-      this.formMode = 'view';
-      this.editButtonText = 'Edit';
+      this.setFormMode('view');
+    }
+  }
+
+  private setFormMode(type: string) {
+    switch(type) {
+      case 'edit':
+        this.formMode = 'edit';
+        this.editButtonText = 'View';
+        break;
+      case 'view':
+        this.formMode = 'view';
+        this.editButtonText = 'Edit';
+        break;
     }
   }
 
   clickReject(event: any) {
     console.log('RequestPendingDialogComponent - clickReject - event: ', event);
+    console.log('RequestPendingDialogComponent - clickReject - event: ', event);
+    const dialogRef = this.helpers.openConfirmDialog({
+      message: 'Are you sure that you want to Reject this Advance Request and send a rejection email to the Client ?',
+      buttonText: {ok: 'Yes - Reject & Email Client', cancel: 'No'}
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (confirmed) => {
+        if(confirmed) {
+          this.updateAdvanceStatus(this.data.item.uid, 'REJECTED').then((updRes: ApiResponse) => {
+            console.log('clickReject - dialogRef - updRes: ', updRes);
+            console.log('clickReject - dialogRef - this.data.item: ', this.data.item);
+            this.sendRejectedEmail(this.data.item).then((response) => {
+              console.log('sendRejectedEmail - response: ', response);
+              this.setFormMode('view');
+              this.modal.closeAll();
+              advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
+            })
+          });
+        }
+
+      },
+      error: (err) => {
+        console.log('clickAccept - dialogRef - error: ', err.message);
+      }
+    })
+  }
+
+  async sendRejectedEmail(item: AdvanceEntity): Promise<ApiResponse> {
+    const email: MailOutWithTemplateEntity = {
+      to: item.currClient.email,
+      template: {
+        name: 'request-rejected',
+        data: {
+          displayName: item.currClient.displayName,
+          advanceName: item.advanceName
+        }
+      }
+    };
+    const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
+    return response;
   }
 
   async onSubmit(event: any) {
@@ -111,16 +237,57 @@ export class RequestPendingDialogComponent implements OnInit{
     console.log('RequestPendingDialogComponent - onSubmit - data.item: ', this.data.item);
     let response: ApiResponse = {statusCode: 999, msg: 'Placeholder'};
     if(event.formType === 'update') {
-      response = await this.service.updateItem(this.data.item.uid, event.formData);
+      try {
+        response = await this.service.updateItem(this.data.item.uid, event.formData);
+        console.log('RequestPendingDialogComponent - onSubmit - response: ', response);
+        if([200, 201].includes(response.statusCode)) {
+          this.updateFormData(response.data.item);
+        } else {
+          throw new Error(response.msg);
+        }
+      } catch (err: any) {
+        throw new Error(err.message);
+      }
     }
-    console.log('RequestPendingDialogComponent - onSubmit - response: ', response);
+    this.setFormMode('view');
     advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
+  }
+
+  updateFormData(resData: AdvanceUpdateDto) {
+    const keys = Object.keys(resData);
+    keys.forEach((key: string) => {
+      this.data.item[key] = resData[key as keyof AdvanceUpdateDto];
+    });
   }
 
 
 
   populateFormFields(item: any): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
+    fields.push({
+      fieldLabel: 'Advance Name',
+      placeholder: 'Name for the Advance Request',
+      fcn: 'advanceName',
+      type: 'readonly',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '10.1'
+    });
+
+    fields.push({
+      fieldLabel: 'Agreement Number',
+      placeholder: 'Format YYYYMMDD-999',
+      fcn: 'agreementNumber',
+      type: 'text',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '10.2'
+    });
+
     fields.push({
       fieldLabel: 'MLS #',
       placeholder: 'MLS # of property',
@@ -130,7 +297,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '1.1',
+      rowCol: '20.1',
     });
 
     fields.push({
@@ -142,7 +309,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '1.2',
+      rowCol: '20.2',
       options: this.mls
     });
 
@@ -155,7 +322,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 100, // percentage
-      rowCol: '2.1',
+      rowCol: '30.1',
       addrObj: new AddressClass(this.formBuilder, this.helpers, item.propertyAddress)
     });
 
@@ -168,7 +335,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.3',
+      rowCol: '40.3',
     });
 
     fields.push({
@@ -180,7 +347,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.2',
+      rowCol: '40.2',
     });
 
     fields.push({
@@ -192,7 +359,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '3.1',
+      rowCol: '40.1',
     });
 
     fields.push({
@@ -204,7 +371,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '4.1',
+      rowCol: '50.1',
       options: this.escrow
     });
 
@@ -217,7 +384,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '4.2',
+      rowCol: '50.2',
       autoCapitalize: 'words',
     });
 
@@ -230,7 +397,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 33, // percentage
-      rowCol: '4.3',
+      rowCol: '50.3',
       mask: '(000) 000-0000',
       options: [
         ['pattern', '^[0-9]*$'],
@@ -248,7 +415,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [['email']],
       width: 50, // percentage
-      rowCol: '5.1',
+      rowCol: '60.1',
     });
 
     fields.push({
@@ -260,7 +427,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 50, // percentage
-      rowCol: '5.2',
+      rowCol: '60.2',
     });
 
     fields.push({
@@ -271,7 +438,7 @@ export class RequestPendingDialogComponent implements OnInit{
       required: true,
       disabled: false,
       width: 50, // percentage
-      rowCol: '6.1',
+      rowCol: '70.1',
       pickerId: 'escrow-estimatedClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
@@ -286,7 +453,7 @@ export class RequestPendingDialogComponent implements OnInit{
       required: false,
       disabled: false,
       width: 50, // percentage
-      rowCol: '6.2',
+      rowCol: '70.2',
       pickerId: 'escrow-actualClosingDate',
       startView: 'month',
       storedFormat: 'ISO Local',
@@ -301,7 +468,7 @@ export class RequestPendingDialogComponent implements OnInit{
       pickerId: 'escrow-contingencyReleaseDate',
       startView: 'month',
       storedFormat: 'ISO Local',
-      rowCol: '7.1',
+      rowCol: '80.1',
       hide: true,
       required: false,
       disabled: false,
@@ -324,7 +491,7 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 100,
-      rowCol: '8.1'
+      rowCol: '90.1'
     });
 
     fields.push({
@@ -336,10 +503,10 @@ export class RequestPendingDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 100,
-      rowCol: '9.1',
+      rowCol: '100.1',
       bankObj: new BankInfoClass(this.formBuilder, this.helpers, item.bankInfo)
     });
-
-    return fields;
+    const seqFields: FormFieldDto[] = this.helpers.sequenceRowCol(fields);
+    return seqFields;
   }
 }

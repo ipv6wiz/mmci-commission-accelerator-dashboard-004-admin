@@ -72,7 +72,9 @@ export default class AuthSigninV2Component implements OnInit {
 
   googleLogin() {
     this.loading = true;
-    this.authenticationService.GoogleAuth().then(() => {});
+    this.authenticationService.GoogleAuth().then((response:any) => {
+      console.log('googleLogin - response: ', response);
+    });
   }
 
   // convenience getter for easy access to form fields

@@ -117,13 +117,13 @@ export class AuthenticationService {
         } else {
           console.log('addAuthHeaders - Fetch Request');
           console.log('addAuthHeaders - Fetch Request - oldRequest: ', request);
-          const headersObj: Headers = new Headers(
-            [
-              ['Authorization', `Bearer ${token}`],
-              ['Cache-Control', 'no-cache'],
-              ['x-csrf-token', uid]
-            ]
-          );
+          // const headersObj: Headers = new Headers(
+          //   [
+          //     ['Authorization', `Bearer ${token}`],
+          //     ['Cache-Control', 'no-cache'],
+          //     ['x-csrf-token', uid]
+          //   ]
+          // );
           // headersObj.set('Authorization', `Bearer ${token}`);
           // headersObj.set('Cache-Control', 'no-cache');
           // headersObj.set('x-csrf-token', uid);
@@ -258,6 +258,7 @@ export class AuthenticationService {
    provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
     async SetUserData(user: any, data: any = {}) {
         const {firstName, lastName, roles} = data;
+        let userDoc: User | null;
         console.log('>>>>>>> SetUserData - user: ', user);
         const idToken = await user.getIdToken();
         const accessToken = user.auth.currentUser.accessToken;
@@ -274,20 +275,23 @@ export class AuthenticationService {
           userRecord: user
         };
         sessionStorage.setItem('user', JSON.stringify(this.userData));
-        const userDoc = await this.userService.getOneItem(user.uid);
-
+        try {
+           userDoc = await this.userService.getOneItem(user.uid);
+        } catch (err: any) {
+          userDoc = null;
+        }
         // console.log('SetClientData - idToken: ', idToken);
 
         if(userDoc === null ) {
             console.log('New User');
             this.userData.status = 'User Pending Approval';
-            this.userData.defaultPage = '/pending-approval/';
+            this.userData.defaultPage = '/auth/pending-approval/';
             this.userData.firstName = firstName;
             this.userData.lastName = lastName;
             this.setLocalUserData(this.userData);
             this.userData.roles = roles || [];
             this.userData.roles.push('USER-PENDING-APPROVAL');
-            return this.userService.create(this.userData);
+            return this.userService.createItem(this.userData);
         } else {
             // console.log('SetUserData - userDoc: ', userDoc);
             this.userData.firstName = userDoc.firstName || '';

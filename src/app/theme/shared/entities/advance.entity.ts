@@ -1,11 +1,12 @@
 import {AuditTrail} from "./audit-trail.class";
 import {Address} from "./address.interface";
 import { BankInfo } from './bankInfo.interface';
+import { Client } from './client.interface';
 
 export class AdvanceEntity extends AuditTrail {
     uid!: string;
     clientId!: string;
-    name!: string; // when empty replaced by 1st line of address
+    advanceName!: string; // when empty replaced by 1st line of address
     mlsId!: string; // mls id for property
     mlsSystem!: string;
     propertyAddress!: Address;
@@ -25,7 +26,8 @@ export class AdvanceEntity extends AuditTrail {
     rejectedReason?: string;
     remainingContingencies!: boolean;
     contingencyReleaseDate?: string; // ISO format date
-    bankInfo!: BankInfo
+    bankInfo!: BankInfo;
+    currClient!: Client
 
     constructor() {
         super();
