@@ -49,8 +49,8 @@ export class OptionsService {
     return response;
   }
 
-  async updateOptionValueItem(uid: string, key: string, data: OptionValues): Promise<ApiResponse> {
-    const response: ApiResponse = await lastValueFrom(this.updateOptionValue(uid, key, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+  async updateOptionValueItem(uid: string, oldKey: string, data: OptionValues): Promise<ApiResponse> {
+    const response: ApiResponse = await lastValueFrom(this.updateOptionValue(uid, oldKey, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response;
   }
 
@@ -87,8 +87,8 @@ export class OptionsService {
     return this.http.put<ApiResponse>(`${this.endPointUrl}/id/${optionId}`, optionUpdateData);
   }
 
-  updateOptionValue(optionId: string, key: string, optionValueData: OptionValues): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.endPointUrl}/value/${optionId}/${key}`, optionValueData);
+  updateOptionValue(optionId: string, oldKey: string, optionValueData: OptionValues): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${this.endPointUrl}/value/${optionId}/${oldKey}`, optionValueData);
   }
 
   deleteOptionById(optionId: string): Observable<ApiResponse> {

@@ -91,13 +91,14 @@ export class OptionValuesDgComponent implements OnInit {
     this.openItemCreateFormModal(option.id);
   }
 
-  openItemUpdateFormModal(optionId: string, optionValue: OptionValues) {
+  openItemUpdateFormModal(optionId: string, index: number, optionValue: OptionValues) {
     this.modal.open(OptionValueFormDialogComponent, {
       data: {
         type: 'update',
         dataType: this.dataTypeTag,
         optionId,
-        item: optionValue
+        item: optionValue,
+        index
       }
     });
   }
@@ -105,7 +106,8 @@ export class OptionValuesDgComponent implements OnInit {
   editOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
     console.log('editOptionValue - option: ', option);
     console.log('editOptionValue - optionValue: ', optionValue);
-    this.openItemUpdateFormModal(option.id, optionValue);
+    const index: number = this.values.findIndex((valueItem: OptionValues) => optionValue.key === valueItem.key);
+    this.openItemUpdateFormModal(option.id, index,  optionValue);
   }
 
   deleteOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {

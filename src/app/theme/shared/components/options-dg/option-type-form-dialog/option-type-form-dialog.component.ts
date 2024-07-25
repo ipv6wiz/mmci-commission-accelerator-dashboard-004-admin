@@ -58,6 +58,7 @@ export class OptionTypeFormDialogComponent implements OnInit {
         throw new Error(`Update Option Type failed: ${response.msg}`);
       }
     }
+    this.modal.closeAll();
     dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
   }
 

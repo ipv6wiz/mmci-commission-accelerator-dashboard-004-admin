@@ -92,7 +92,7 @@ export class PendingEscrowDialogComponent implements OnInit{
   async clickConfirmed(event: any) {
     console.log('PendingEscrowDialogComponent - clickConfirmed - event: ', event);
     // Do Advance calculations and send Email to Client for Approval
-
+    
   }
 
   async clickChanges(event: any) {

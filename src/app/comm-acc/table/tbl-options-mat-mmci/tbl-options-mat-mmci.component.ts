@@ -59,7 +59,7 @@ export class TblOptionsMatMmciComponent implements OnInit {
 
   async ngOnInit() {
     await this.refreshItemsList().then(() => {
-      console.log('TblCommAdvancesComponent - ngOnInit - refreshItemsList - done')
+      console.log('TblOptionsMatMmciComponent - ngOnInit - refreshItemsList - done')
     });
   }
 

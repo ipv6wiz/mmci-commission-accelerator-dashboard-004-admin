@@ -70,12 +70,13 @@ export class OptionValueFormDialogComponent implements OnInit {
         throw new Error(`Create Option Value failed: ${response.msg}`);
       }
     } else if(event.formType === 'update') {
-      response = await this.service.updateOptionValueItem(formData.typeId, formData.key, formData);
+      response = await this.service.updateOptionValueItem(formData.typeId, this.data.item.key, formData);
       console.log('OptionValueFormDialogComponent - onSubmit - response: ', response);
       if(response.statusCode !== 200) {
         throw new Error(`Update Option Value failed: ${response.msg}`);
       }
     }
+    this.modal.closeAll();
     dataGridRefreshSignal.set({refresh: true, dataType: this.dataTypeTag, dataId: formData.typeId});
   }
 

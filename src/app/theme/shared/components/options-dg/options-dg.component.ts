@@ -62,7 +62,7 @@ export class OptionsDgComponent implements OnInit, AfterViewChecked{
     'optionName'
   ];
   columnNamesToDisplay: string[] = ['Type', 'Actions'];
-  columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'expand'];
+  columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'optionActions'];
   columnsConfig: Map<string, any> = new Map<string, any>();
 
   expandedOption: OptionsEntity | null = null;
@@ -74,6 +74,7 @@ export class OptionsDgComponent implements OnInit, AfterViewChecked{
     private authService: AuthenticationService
   ) {
     this.user = this.authService.getLocalUser();
+    console.log('OptionsDgComponent - constructor - columnsToDisplayWithActions: ', this.columnsToDisplayWithActions);
   }
 
   async ngOnInit() {
