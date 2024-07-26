@@ -1,4 +1,4 @@
-export interface OptionValues {
+export interface OptionValue {
   typeId: string;
   key: string;
   value: string;

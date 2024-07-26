@@ -3,7 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { SelectDto } from '../components/mmci-form-mat/dtos/select.dto';
 import { FormFieldDto } from '../components/mmci-form-mat/dtos/form-field.dto';
 import { v7 as uuid } from 'uuid';
-
 import { ConfirmDialogDto } from '../dtos/confirm-dialog.dto';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
@@ -20,6 +19,11 @@ export class HelpersService {
 
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.boolWords = this.trueWords.concat(this.falseWords);
+  }
+
+  percentCalc(amount: number, percent: number): number {
+    const p: number = percent / 100;
+    return amount * p;
   }
 
   sequenceRowCol(fields: FormFieldDto[]): FormFieldDto[] {
@@ -251,7 +255,9 @@ export class HelpersService {
         const validators: any[] = [];
         // const  valueObj: any = {};
         // console.log('createControls - value: ',obj[field.fcn as keyof typeof obj]);
-        if(obj) {
+        if(field.injectValue !== undefined) {
+          control.setValue(field.injectValue);
+        } else if(obj) {
           control.setValue(obj[field.fcn as keyof typeof obj]);
           // valueObj['value'] = obj[field.fcn as keyof typeof obj];
         } else {

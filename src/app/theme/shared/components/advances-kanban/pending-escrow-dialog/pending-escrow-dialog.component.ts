@@ -1,13 +1,9 @@
 import { Component, effect, Inject, OnInit } from '@angular/core';
 import { FormFieldDto } from '../../mmci-form-mat/dtos/form-field.dto';
-import { EscrowCompanyDto } from '../../../dtos/escrow-company.dto';
-import { MlsListDto } from '../../../dtos/mls-list.dto';
 import { SelectDto } from '../../mmci-form-mat/dtos/select.dto';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogClose } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
 import { HelpersService } from '../../../service/helpers.service';
 import { AdvanceService } from '../../../service/advance.service';
-import { AuthenticationService } from '../../../service';
 import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-submit.signal';
 import { EmailSendService } from '../../../service/email-send.service';
 import { MatFabButton } from '@angular/material/button';
@@ -17,6 +13,10 @@ import { AdvanceEntity } from '../../../entities/advance.entity';
 import { ApiResponse } from '../../../dtos/api-response.dto';
 import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-template.entity';
 import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refresh.signal';
+import { OptionValue } from '../../../entities/option-values.interface';
+import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
+import { LedgerService } from '../../../service/ledger.service';
+import { LedgerBalanceDto } from '../../../dtos/ledger-balance.dto';
 
 @Component({
   selector: 'app-pending-escrow-dialog',
@@ -25,7 +25,8 @@ import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refr
     MatFabButton,
     MatIcon,
     MatToolbar,
-    MatDialogClose
+    MatDialogClose,
+    MmciFormMatComponent
   ],
   templateUrl: './pending-escrow-dialog.component.html',
   styleUrl: './pending-escrow-dialog.component.scss'
@@ -34,20 +35,19 @@ export class PendingEscrowDialogComponent implements OnInit{
   formUUID: string;
   fieldsArr!: FormFieldDto[];
   chipListArr: string[];
-  escrow!: EscrowCompanyDto[];
-  mls!: MlsListDto[];
+  promoCodes!: OptionValue[];
+  creditObj!: LedgerBalanceDto;
   dataTypeTag: string = 'kb-pending-escrow-dialog';
   formConfig!: SelectDto[];
-  formMode: string = 'view';
-  editButtonText: string = "Edit";
+  formMode: string = 'edit';
+  editButtonText: string = "View";
 
   constructor(
     public modal: MatDialog,
-    private formBuilder: FormBuilder,
     private helpers: HelpersService,
     private emailSendService: EmailSendService,
     private service: AdvanceService,
-    private authService: AuthenticationService,
+    private ledgerService: LedgerService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.formUUID = this.helpers.getUUID();
@@ -66,17 +66,20 @@ export class PendingEscrowDialogComponent implements OnInit{
       {key: 'dataTypeTag', value: 'kb-pending-escrow-dialog'},
       {key: 'formTag', value: 'Pending Escrow Confirmation'},
       {key: 'formUUID', value: this.formUUID},
-      {key: 'showToolbar', value: 'false'}
+      {key: 'showToolbar', value: 'false'},
+      {key: 'topSubmit', value: 'true'}
     ];
     this.chipListArr = [];
+    console.log('PendingEscrowDialogComponent - constructor - data: ', this.data);
+    this.promoCodes = this.data.promoCodes;
+    console.log('PendingEscrowDialogComponent - constructor - Promo Codes: ', this.promoCodes);
+    this.creditObj = this.data.creditObj;
+    console.log('PendingEscrowDialogComponent - constructor - creditObj: ', this.creditObj);
   }
 
-  ngOnInit() {
-    console.log('ngOnInit');
-    this.escrow = this.data.escrow;
-    this.mls = this.data.mls;
-    console.log('PendingEscrowDialogComponent - ngOnInit - Escrow Companies: ', this.escrow);
-    console.log('PendingEscrowDialogComponent - ngOnInit - MLS Systems: ', this.mls);
+ async ngOnInit() {
+    // console.log('PendingEscrowDialogComponent - ngOnInit');
+    // console.log('PendingEscrowDialogComponent - ngOnInit - data: ', this.data);
     this.fieldsArr = this.populateFormFields();
   }
 
@@ -86,7 +89,152 @@ export class PendingEscrowDialogComponent implements OnInit{
 
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
-    return fields;
+
+    fields.push({
+      fieldLabel: 'Amount Requested',
+      placeholder: 'Amount Client Requested (RO)',
+      fcn: 'amountRequested',
+      type: 'currency',
+      readOnly: true,
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '10.1'
+    });
+
+    fields.push({
+      fieldLabel: 'Available Credit',
+      placeholder: 'Available Credit',
+      fcn: 'availableCredit',
+      type: 'currency',
+      readOnly: true,
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '10.2',
+      injectValue: this.creditObj.availableCredit
+    });
+
+    fields.push({
+      fieldLabel: 'Gross Commission',
+      placeholder: 'Commission To your broker',
+      fcn: 'grossCommission',
+      type: 'currency',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 33, // percentage
+      rowCol: '20.1',
+    });
+
+    fields.push({
+      fieldLabel: 'Agent Commission',
+      placeholder: 'Commission due to you',
+      fcn: 'agentCommission',
+      type: 'currency',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 33, // percentage
+      rowCol: '20.2',
+    });
+
+    fields.push({
+      fieldLabel: 'Amount Approved' ,
+      placeholder: 'Advance Amount Approved',
+      fcn: 'amountApproved',
+      type: 'currency',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '30.1'
+    });
+
+    fields.push({
+      fieldLabel: 'Advance Fee' ,
+      placeholder: 'Advance Fee',
+      fcn: 'advanceFee',
+      type: 'currency',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '30.2'
+    });
+
+    fields.push({
+      fieldLabel: 'Promo Code' ,
+      placeholder: 'Promo Code',
+      fcn: 'promoCode',
+      type: 'select',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 30,
+      rowCol: '40.1',
+      options: this.promoCodes,
+      selectValueField: 'key',
+      selectKeyField: 'key',
+      associatedToField: 'promoCodeDetailsRaw',
+      associatedFieldFormat: 'value:displayValue:description'
+    });
+
+    fields.push({
+      fieldLabel: 'Promo Code Details' ,
+      placeholder: 'Promo Code Details',
+      fcn: 'promoCodeDetailsRaw',
+      type: 'text',
+      readOnly: true,
+      required: false,
+      disabled: false,
+      validators: [],
+      width: 70,
+      rowCol: '40.2',
+      associatedFromField: 'promoCode'
+    });
+
+    fields.push({
+      fieldLabel: 'Fee Discount Amount' ,
+      placeholder: 'Fee Discount Amount',
+      fcn: 'advanceFeeDiscount',
+      type: 'currency',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 70,
+      rowCol: '50.1',
+    });
+
+    fields.push({
+      fieldLabel: 'Amount to Client' ,
+      placeholder: "Amount to Client (calc'd)",
+      fcn: 'amountToClient',
+      type: 'currency',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 70,
+      rowCol: '50.2',
+    });
+
+    fields.push({
+      fieldLabel: 'Amount to CA' ,
+      placeholder: "Amount to CA (calc'd)",
+      fcn: 'amountToCommAcc',
+      type: 'currency',
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 70,
+      rowCol: '60.1',
+    });
+
+
+    const seqFields: FormFieldDto[] = this.helpers.sequenceRowCol(fields);
+    return seqFields;
   }
 
   async clickConfirmed(event: any) {

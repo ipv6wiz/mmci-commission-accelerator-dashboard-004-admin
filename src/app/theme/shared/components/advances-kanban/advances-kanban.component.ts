@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, OnInit, ViewChild } from '@angular/core';
+import { Component, effect, OnInit, ViewChild } from '@angular/core';
 import {
   CardSettingsModel,
   ColumnsModel,
@@ -15,7 +15,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { RequestPendingDialogComponent } from './request-pending-dialog/request-pending-dialog.component';
 import { PendingEscrowDialogComponent } from './pending-escrow-dialog/pending-escrow-dialog.component';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
-import { KanbanAdaptorClass } from '../../classes/kanban-adaptor.class';
 import { AuthenticationService } from '../../service';
 import { AsyncPipe } from '@angular/common';
 import { EscrowCompanyDto } from '../../dtos/escrow-company.dto';
@@ -23,6 +22,9 @@ import { MlsListDto } from '../../dtos/mls-list.dto';
 import { EscrowCompanyService } from '../../service/escrow-company.service';
 import { MlsListService } from '../../service/mls-list.service';
 import { advanceKanbanRefreshSignal } from '../../signals/advance-kanban-refresh.signal';
+import { OptionValue } from '../../entities/option-values.interface';
+import { ApiResponse } from '../../dtos/api-response.dto';
+import { LedgerService } from '../../service/ledger.service';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
@@ -37,6 +39,7 @@ registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5
 export class AdvancesKanbanComponent implements OnInit {
   escrow!: EscrowCompanyDto[];
   mls!: MlsListDto[];
+  promoCodes!: OptionValue[];
   readonly version: string;
   private config = new AppConfig();
   private readonly apiUrl = environment.gcpCommAccApiUrl;
@@ -76,10 +79,13 @@ export class AdvancesKanbanComponent implements OnInit {
   }
 
 
+
+
   constructor(
     public modal: MatDialog,
     private optionService: OptionsService,
     private advanceService: AdvanceService,
+    private ledgerService: LedgerService,
     private authService: AuthenticationService,
     private escrowService: EscrowCompanyService,
     private mlsService: MlsListService,
@@ -114,6 +120,7 @@ export class AdvancesKanbanComponent implements OnInit {
   async ngOnInit() {
     this.escrow = await this.loadEscrowCompanies();
     this.mls = await this.loadMlsList();
+    this.promoCodes = await this.loadPromoCodes();
   }
 
   refreshKanban(event: any) {
@@ -151,14 +158,15 @@ export class AdvancesKanbanComponent implements OnInit {
     });
   }
 
-  openPendingEscrowFormModal(requestData: any) {
+  async openPendingEscrowFormModal(requestData: any) {
+    const creditObj = await this.ledgerService.getClientBalance(requestData.currClient.uid);
     this.modal.open(PendingEscrowDialogComponent, {
       data: {
         type: 'update',
         dataType: 'kb-pending-escrow-dialog',
         item: requestData,
-        escrow: this.escrow,
-        mls: this.mls
+        creditObj,
+        promoCodes: this.promoCodes
       },
       disableClose: true,
       hasBackdrop: true
@@ -196,6 +204,12 @@ export class AdvancesKanbanComponent implements OnInit {
   async loadMlsList(): Promise<MlsListDto[]> {
     const response = await this.mlsService.loadItemsForSelect();
     return response.items;
+  }
+
+  async loadPromoCodes(): Promise<OptionValue[]> {
+    const response: ApiResponse = await this.optionService.loadValuesByType('PromoCodes');
+    console.log('loadPromoCodes - items: ',response.data.items);
+    return response.data.items;
   }
 
 }

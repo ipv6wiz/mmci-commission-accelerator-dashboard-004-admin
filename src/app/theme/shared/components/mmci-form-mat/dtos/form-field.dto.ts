@@ -9,6 +9,7 @@ export interface FormFieldDto {
   type: string;
   required: boolean;
   disabled: boolean;
+  readOnly?: boolean;
   validators: any[];
   width: number; // percentage
   rowCol: string;
@@ -30,6 +31,12 @@ export interface FormFieldDto {
   condFcn?: string;
   condRequired?: boolean;
   condWidth?: number;
+  selectKeyField?: string;
+  selectValueField?: string;
+  associatedToField?: string;
+  associatedFromField?: string;
+  associatedFieldFormat?: string;
+  injectValue?:any;
 }
 
 // fields.push({

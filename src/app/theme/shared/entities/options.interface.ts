@@ -1,4 +1,4 @@
-import {OptionValues} from "./option-values.interface";
+import {OptionValue} from "./option-values.interface";
 
 export interface OptionsEntity {
   id: string;
@@ -6,5 +6,5 @@ export interface OptionsEntity {
   type: string;
   dataType: string;
   slug: string;
-  values: OptionValues[];
+  values: OptionValue[];
 }

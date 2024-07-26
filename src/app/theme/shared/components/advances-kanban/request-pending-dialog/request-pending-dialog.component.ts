@@ -79,7 +79,8 @@ export class RequestPendingDialogComponent implements OnInit{
       {key: 'dataTypeTag', value: 'kb-request-pending-dialog'},
       {key: 'formTag', value: 'Request Pending Verification'},
       {key: 'formUUID', value: this.formUUID},
-      {key: 'showToolbar', value: 'false'}
+      {key: 'showToolbar', value: 'false'},
+      {key: 'topSubmit', value: 'true'}
     ];
     this.chipListArr = [];
   }

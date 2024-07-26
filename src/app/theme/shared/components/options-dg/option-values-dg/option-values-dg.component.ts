@@ -1,5 +1,5 @@
 import { Component, effect, Input, OnInit } from '@angular/core';
-import { OptionValues } from '../../../entities/option-values.interface';
+import { OptionValue } from '../../../entities/option-values.interface';
 import { OptionsEntity } from '../../../entities/options.interface';
 import { User } from '../../../entities/user.interface';
 import { HelpersService } from '../../../service/helpers.service';
@@ -42,7 +42,7 @@ import { ApiResponse } from '../../../dtos/api-response.dto';
   styleUrl: './option-values-dg.component.scss'
 })
 export class OptionValuesDgComponent implements OnInit {
-  @Input() values: OptionValues[] = [];
+  @Input() values: OptionValue[] = [];
   @Input() option!: OptionsEntity;
   @Input() user!: User;
 
@@ -91,7 +91,7 @@ export class OptionValuesDgComponent implements OnInit {
     this.openItemCreateFormModal(option.id);
   }
 
-  openItemUpdateFormModal(optionId: string, index: number, optionValue: OptionValues) {
+  openItemUpdateFormModal(optionId: string, index: number, optionValue: OptionValue) {
     this.modal.open(OptionValueFormDialogComponent, {
       data: {
         type: 'update',
@@ -103,14 +103,14 @@ export class OptionValuesDgComponent implements OnInit {
     });
   }
 
-  editOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
+  editOptionValue(event: any, option: OptionsEntity, optionValue: OptionValue) {
     console.log('editOptionValue - option: ', option);
     console.log('editOptionValue - optionValue: ', optionValue);
-    const index: number = this.values.findIndex((valueItem: OptionValues) => optionValue.key === valueItem.key);
+    const index: number = this.values.findIndex((valueItem: OptionValue) => optionValue.key === valueItem.key);
     this.openItemUpdateFormModal(option.id, index,  optionValue);
   }
 
-  deleteOptionValue(event: any, option: OptionsEntity, optionValue: OptionValues) {
+  deleteOptionValue(event: any, option: OptionsEntity, optionValue: OptionValue) {
     console.log('deleteOptionValue - option: ', option);
     console.log('deleteOptionValue - optionValue: ', optionValue);
   }

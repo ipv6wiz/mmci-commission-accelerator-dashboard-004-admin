@@ -22,6 +22,7 @@ import { MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/mater
 import { mmciFormSubmitSignal } from './signals/mmci-form-submit.signal';
 import { SelectDto } from './dtos/select.dto';
 import { BankFormComponent } from '../bank-form/bank-form.component';
+import { OptionValue } from '../../entities/option-values.interface';
 
 @Component({
   selector: 'app-mmci-form-mat',
@@ -81,6 +82,7 @@ export class MmciFormMatComponent implements OnInit{
   chipsList!: Map<string, string[]>;
   formUUID: string = '';
   showToolbar: boolean = true;
+  topSubmit: boolean = false;
 
   rows: any[] = [];
 
@@ -109,6 +111,48 @@ export class MmciFormMatComponent implements OnInit{
     this.loadChipsList(this.chipListArr).then(() => {
       this.loadingForm = false;
     });
+  }
+
+  selectionChange(event: any, field: FormFieldDto) {
+    // console.log('MmciFormMatComponent - selectionChange - event: ', event);
+    // console.log('MmciFormMatComponent - selectionChange - option value: ', event.value);
+    // console.log('MmciFormMatComponent - selectionChange - field: ', field);
+    // console.log('MmciFormMatComponent - selectionChange - data: ', this.data);
+    if(field.associatedToField && field.associatedFieldFormat) {
+      // console.log('MmciFormMatComponent - selectionChange - processing - associatedField');
+      if(field.options) {
+        const promoIndex: number = field.options.findIndex((option: OptionValue) => option.key === event.value);
+        const promoData: OptionValue = field.options[promoIndex];
+        const dataParts: string[] = field.associatedFieldFormat.split(':');
+        let assocFieldValueString: string = '';
+        dataParts.forEach((part: string) => {
+          let data: string =  `${promoData[ part as keyof OptionValue]}`;
+          data = data.toLowerCase();
+          if(part === 'displayValue') {
+            if(['percent', 'fixed', '%', '$'].includes(data)) {
+              switch(data) {
+                case 'percent':
+                case '%':
+                  assocFieldValueString = assocFieldValueString.trim() + '% ';
+                  break;
+                case 'fixed':
+                case '$':
+                  assocFieldValueString = '$'+assocFieldValueString;
+              }
+            }
+          } else {
+            assocFieldValueString += `${promoData[ part as keyof OptionValue]} `
+          }
+
+        })
+        this.formGroup.controls[field.associatedToField].setValue(assocFieldValueString.trim() );
+      }
+
+    }
+  }
+
+  isReadOnly(field: FormFieldDto): boolean {
+    return this.mode === 'view' || (field.readOnly !== undefined && field.readOnly);
   }
 
   unpackConfig() {
