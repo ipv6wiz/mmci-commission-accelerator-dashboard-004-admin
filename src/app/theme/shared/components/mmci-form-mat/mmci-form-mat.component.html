@@ -29,7 +29,7 @@
         @if(topSubmit && !subForm && mode === 'edit') {
           @if(!subForm && mode === 'edit') {
             <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" >Save</button>
-            <button mat-button [mat-dialog-close]="true">Cancel</button>
+            <button mat-button (click)="onCancel($event)" >Cancel</button>
           }
         }
         @for(row of rows; track $index) {
@@ -54,7 +54,9 @@
               <div class="col"   [style.width]="'{{field.width}}%'">
                 @if(!['address', 'bank'].includes(field.type)){
                   <mat-form-field [ngStyle]="{'display': fields.get(field.fcn)!.hide ? 'none': 'inline-flex'}">
-                    <mat-label>{{field.fieldLabel}}</mat-label>
+                    @if(field.type !== 'hidden') {
+                      <mat-label>{{field.fieldLabel}}</mat-label>
+                    }
                     @if(field.type === 'readonly') {
                       <input
                         readonly="true"
@@ -65,6 +67,13 @@
                         [mask]="field.mask || ''"
                         [autocapitalize]="field.autoCapitalize"
                         (blur)="onFieldChange($event, field)"
+                        id="{{fieldIdPrefix + '-' + field.fcn }}"
+                      >
+                    }
+                    @if(field.type === 'hidden') {
+                      <input
+                        matInput
+                        formControlName="{{field.fcn}}"
                         id="{{fieldIdPrefix + '-' + field.fcn }}"
                       >
                     }
@@ -207,7 +216,7 @@
         }
         @if(!subForm && mode === 'edit') {
           <button mat-button type="submit" [disabled]="!formGroup.valid || !formGroup.dirty" >Save</button>
-          <button mat-button [mat-dialog-close]="true">Cancel</button>
+          <button mat-button (click)="onCancel($event)" >Cancel</button>
         }
       </form>
     </mat-dialog-content>

@@ -16,7 +16,7 @@ import { RequestPendingDialogComponent } from './request-pending-dialog/request-
 import { PendingEscrowDialogComponent } from './pending-escrow-dialog/pending-escrow-dialog.component';
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 import { AuthenticationService } from '../../service';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { EscrowCompanyDto } from '../../dtos/escrow-company.dto';
 import { MlsListDto } from '../../dtos/mls-list.dto';
 import { EscrowCompanyService } from '../../service/escrow-company.service';
@@ -27,13 +27,15 @@ import { PromoCodeService } from '../../service/promo-code.service';
 import { PromoCodeDto } from '../../dtos/promo-code.dto';
 import { OptionValue } from '../../entities/option-values.interface';
 import { ApiResponse } from '../../dtos/api-response.dto';
+import { PendingApprovalDialogComponent } from './pending-approval-dialog/pending-approval-dialog.component';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
   standalone: true,
   imports: [
     KanbanModule,
-    AsyncPipe
+    AsyncPipe,
+    CurrencyPipe
   ],
   templateUrl: './advances-kanban.component.html',
   styleUrl: './advances-kanban.component.scss'
@@ -50,7 +52,8 @@ export class AdvancesKanbanComponent implements OnInit {
   private endPointUrl: string = `${this.apiUrl}/${this.endPoint}`;
   private validDataTypeTags: string[] = [
     'kb-request-pending-dialog',
-    'kb-pending-escrow-dialog'
+    'kb-pending-escrow-dialog',
+    'kb-pending-approval-dialog'
   ];
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
@@ -144,6 +147,9 @@ export class AdvancesKanbanComponent implements OnInit {
       case 'PENDING-ESCROW':
         this.openPendingEscrowFormModal(data).then();
         break;
+      case 'PENDING-APPROVAL':
+        this.openPendingApprovalFormModal(data);
+        break;
     }
   }
 
@@ -171,6 +177,18 @@ export class AdvancesKanbanComponent implements OnInit {
         creditObj,
         promoCodes: this.promoCodes,
         promoOptions: this.promoCodeOptions
+      },
+      disableClose: true,
+      hasBackdrop: true
+    });
+  }
+
+  openPendingApprovalFormModal(requestData: any) {
+    this.modal.open(PendingApprovalDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: 'kb-pending-approval-dialog',
+        item: requestData
       },
       disableClose: true,
       hasBackdrop: true

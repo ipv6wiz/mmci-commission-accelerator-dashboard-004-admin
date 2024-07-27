@@ -123,7 +123,7 @@ export class RequestPendingDialogComponent implements OnInit{
         error: (err) => {
           console.log('clickAccept - dialogRef - error: ', err.message);
         }
-      })
+      });
     }
 
   }
@@ -148,8 +148,6 @@ export class RequestPendingDialogComponent implements OnInit{
     return response;
   }
 
-
-
   async updateAdvanceStatus(uid: string, advanceStatus: string): Promise<ApiResponse> {
     const data: any = {advanceStatus};
     try {
@@ -164,8 +162,6 @@ export class RequestPendingDialogComponent implements OnInit{
       throw new Error(err.message);
     }
   }
-
-
 
   clickEdit(event: any) {
     console.log('RequestPendingDialogComponent - clickEdit - event: ', event);
@@ -260,8 +256,6 @@ export class RequestPendingDialogComponent implements OnInit{
       this.data.item[key] = resData[key as keyof AdvanceUpdateDto];
     });
   }
-
-
 
   populateFormFields(item: any): FormFieldDto[] {
     const fields: FormFieldDto[] = [];

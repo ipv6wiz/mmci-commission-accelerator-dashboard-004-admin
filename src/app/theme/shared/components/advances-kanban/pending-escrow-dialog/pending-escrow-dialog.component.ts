@@ -18,6 +18,8 @@ import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.componen
 import { LedgerService } from '../../../service/ledger.service';
 import { LedgerBalanceDto } from '../../../dtos/ledger-balance.dto';
 import { PromoCodeDto } from '../../../dtos/promo-code.dto';
+import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
+import { mmciFormModeChangeSignal } from '../../mmci-form-mat/signals/mmci-form-mode-change.signal';
 
 @Component({
   selector: 'app-pending-escrow-dialog',
@@ -54,6 +56,17 @@ export class PendingEscrowDialogComponent implements OnInit{
   ) {
     this.formUUID = this.helpers.getUUID();
     effect(() => {
+      const formModeChangeSignal = mmciFormModeChangeSignal();
+      if(
+        formModeChangeSignal.dataTypeTag === this.dataTypeTag
+        && formModeChangeSignal.action === 'change'
+        && formModeChangeSignal.formUUID === this.formUUID
+      ) {
+        this.setFormMode(formModeChangeSignal.mode);
+      }
+    });
+
+    effect(() => {
       const formSubmitSignal = mmciFormSubmitSignal();
       if(
         formSubmitSignal.dataType === this.dataTypeTag
@@ -82,17 +95,54 @@ export class PendingEscrowDialogComponent implements OnInit{
 
  async ngOnInit() {
     // console.log('PendingEscrowDialogComponent - ngOnInit');
-    // console.log('PendingEscrowDialogComponent - ngOnInit - data: ', this.data);
+    console.log('PendingEscrowDialogComponent - ngOnInit - data: ', this.data);
+    if(this.data.item.advanceFee && this.data.item.amountApproved) {
+      this.setFormMode('view');
+    } else {
+      this.setFormMode('edit');
+    }
     this.fieldsArr = this.populateFormFields();
   }
 
   async onSubmit(event: any) {
     console.log('onSubmit - event: ', event);
+    let response: ApiResponse = {statusCode: 999, msg: 'Placeholder'};
+    if(event.formType === 'update') {
+      try {
+        response = await this.service.updateItem(event.formData.uid, event.formData);
+        console.log('PendingEscrowDialogComponent - onSubmit - response: ', response);
+        if([200, 201].includes(response.statusCode)) {
+          this.updateFormData(response.data.item);
+        } else {
+          throw new Error(response.msg);
+        }
+      } catch (err: any) {
+        throw new Error(err.message);
+      }
+    }
+    this.setFormMode('view');
+    advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
   }
 
-  // calcFeeDiscount(): number {
-  //
-  // }
+  updateFormData(resData: AdvanceUpdateDto) {
+    const keys = Object.keys(resData);
+    keys.forEach((key: string) => {
+      this.data.item[key] = resData[key as keyof AdvanceUpdateDto];
+    });
+  }
+
+  private setFormMode(type: string) {
+    switch(type) {
+      case 'edit':
+        this.formMode = 'edit';
+        this.editButtonText = 'View';
+        break;
+      case 'view':
+        this.formMode = 'view';
+        this.editButtonText = 'Edit';
+        break;
+    }
+  }
 
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
@@ -168,7 +218,7 @@ export class PendingEscrowDialogComponent implements OnInit{
       placeholder: 'Advance Fee',
       fcn: 'advanceFee',
       type: 'currency',
-      required: false,
+      required: true,
       disabled: false,
       validators: [],
       width: 50,
@@ -262,6 +312,19 @@ export class PendingEscrowDialogComponent implements OnInit{
       rowCol: '60.1',
     });
 
+    fields.push({
+      fieldLabel: 'Advance UID' ,
+      placeholder: 'Advance UID',
+      fcn: 'uid',
+      type: 'hidden',
+      hide: true,
+      required: false,
+      disabled: false,
+      validators: [],
+      width: 50,
+      rowCol: '999.1',
+    });
+
 
     const seqFields: FormFieldDto[] = this.helpers.sequenceRowCol(fields);
     return seqFields;
@@ -269,28 +332,72 @@ export class PendingEscrowDialogComponent implements OnInit{
 
   async clickConfirmed(event: any) {
     console.log('PendingEscrowDialogComponent - clickConfirmed - event: ', event);
-    // Do Advance calculations and send Email to Client for Approval
+    console.log('PendingEscrowDialogComponent - clickConfirmed - this.data.item: ', this.data.item);
+    const dialogRef = this.helpers.openConfirmDialog({
+      message: 'Are you sure that you want to send an Offer Approval email to the Client ?',
+      buttonText: {ok: 'Yes - Send Email to Client', cancel: 'No'}
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (confirmed) => {
+        if(confirmed) {
+          this.updateAdvanceStatus(this.data.item.uid, 'PENDING-APPROVAL').then((updRes: ApiResponse) => {
+            console.log('PendingEscrowDialogComponent - clickConfirmed - dialogRef - updRes: ', updRes);
+            console.log('PendingEscrowDialogComponent - clickConfirmed - dialogRef - this.data.item: ', this.data.item);
+            this.sendClientApprovalEmail(this.data.item).then((response) => {
+              console.log('sendClientApprovalEmail - response: ', response);
+              this.setFormMode('view');
+              this.modal.closeAll();
+              advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
+            })
+          });
+        }
+
+      },
+      error: (err) => {
+        console.log('clickAccept - dialogRef - error: ', err.message);
+      }
+    });
     
   }
 
-  async clickChanges(event: any) {
-    console.log('PendingEscrowDialogComponent - clickChanges - event: ', event);
-    try {
-      const response = await this.updateAdvanceStatus(this.data.item.uid, 'REQUEST-PENDING');
-      if([200, 201].includes(response.statusCode)) {
-        this.modal.closeAll();
-        advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
-      } else {
-        throw new Error(response.msg);
-      }
-    } catch (err: any) {
-      throw new Error(err.message);
-    }
 
+  clickEdit(event: any) {
+    console.log('PendingEscrowDialogComponent - clickEdit - event: ', event);
+    if(this.editButtonText === 'Edit') {
+      this.setFormMode('edit')
+    } else {
+      this.setFormMode('view');
+    }
+  }
+
+  async sendClientApprovalEmail(item: AdvanceEntity): Promise<ApiResponse> {
+    let promoCodeDesc: string = '';
+    if(item.promoCode && item.promoCode != '') {
+      promoCodeDesc = `(code: ${item.promoCode} ${item.promoCodeDetailsRaw})`
+    }
+    const email: MailOutWithTemplateEntity = {
+      to: item.currClient.email,
+      template: {
+        name: 'client-approval',
+        data: {
+          agreementNumber: item.agreementNumber,
+          advanceName: item.advanceName,
+          displayName: item.currClient.displayName,
+          amountRequested: this.helpers.formatCurrencyField(item.amountRequested),
+          amountApproved: this.helpers.formatCurrencyField(item.amountApproved),
+          advanceFee: this.helpers.formatCurrencyField(item.advanceFee),
+          feeDiscountAmount:this.helpers.formatCurrencyField(item.advanceFeeDiscount),
+          promoCodeDesc,
+          amountToClient: this.helpers.formatCurrencyField(item.amountToClient),
+          amountToCommAcc: this.helpers.formatCurrencyField(item.amountToCommAcc)
+        }
+      }
+    };
+    const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
+    return response;
   }
 
   clickReject(event: any) {
-    console.log('PendingEscrowDialogComponent - clickReject - event: ', event);
     console.log('PendingEscrowDialogComponent - clickReject - event: ', event);
     const dialogRef = this.helpers.openConfirmDialog({
       message: 'Are you sure that you want to Reject this Advance Request and send a rejection email to the Client ?',

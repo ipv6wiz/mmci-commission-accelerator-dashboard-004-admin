@@ -1,0 +1,10 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.invisible{
+  display: block;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}

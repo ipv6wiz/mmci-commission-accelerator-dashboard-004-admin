@@ -24,6 +24,7 @@ import { SelectDto } from './dtos/select.dto';
 import { BankFormComponent } from '../bank-form/bank-form.component';
 import { PromoCodeService } from '../../service/promo-code.service';
 import { PromoCodeDto } from '../../dtos/promo-code.dto';
+import { mmciFormModeChangeSignal } from './signals/mmci-form-mode-change.signal';
 
 @Component({
   selector: 'app-mmci-form-mat',
@@ -152,6 +153,11 @@ export class MmciFormMatComponent implements OnInit{
     this.formGroup.controls[event.key].setValue(event.value);
     // console.log('chipListChange - fcn - value: ', this.formGroup.controls[event.key].value);
     this.formGroup.controls[event.key].markAsDirty();
+  }
+
+  onCancel(event: any) {
+    console.log('MmciFormMatComponent - onCancel - event: ', event);
+    mmciFormModeChangeSignal.set({action: 'change', mode: 'view', dataTypeTag: this.dataTypeTag})
   }
 
   async onSubmit(event: any) {

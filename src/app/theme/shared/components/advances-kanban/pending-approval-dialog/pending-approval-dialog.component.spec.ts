@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingApprovalComponent } from './pending-approval.component';
+import { PendingApprovalDialogComponent } from './pending-approval-dialog.component';
 
 describe('PendingApprovalComponent', () => {
-  let component: PendingApprovalComponent;
-  let fixture: ComponentFixture<PendingApprovalComponent>;
+  let component: PendingApprovalDialogComponent;
+  let fixture: ComponentFixture<PendingApprovalDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PendingApprovalComponent]
+      imports: [PendingApprovalDialogComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PendingApprovalComponent);
+    fixture = TestBed.createComponent(PendingApprovalDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

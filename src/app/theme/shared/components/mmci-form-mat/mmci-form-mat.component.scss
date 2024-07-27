@@ -16,3 +16,10 @@
 .items-load-spinner-margin {
   margin: auto;
 }
+
+.invisible{
+  display: block;
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}

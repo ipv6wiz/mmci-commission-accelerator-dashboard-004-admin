@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { Address } from '../entities/address.interface';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { formatCurrency } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,17 @@ export class HelpersService {
     this.boolWords = this.trueWords.concat(this.falseWords);
   }
 
-  percentCalc(amount: number, percent: number): number {
-    const p: number = percent / 100;
-    return amount * p;
+  formatCurrencyField(amount: number | undefined): string {
+    if(amount !== undefined) {
+      const locale: string = 'en-us';
+      const currency: string = '$';
+      const currencyCode: string = 'USD';
+      const digitsInfo: string = '1.0-2';
+      return formatCurrency(amount, locale, currency, currencyCode, digitsInfo);
+    } else {
+      return '';
+    }
+
   }
 
   sequenceRowCol(fields: FormFieldDto[]): FormFieldDto[] {
