@@ -15,9 +15,7 @@ export class OptionsService {
   private readonly endPoint: string = 'options';
   private readonly endPointUrl: string;
 
-  constructor(
-    private http: HttpClient
-    ) {
+  constructor(private http: HttpClient) {
     this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
     console.log('OptionsService - endPointUrl: ', this.endPointUrl);
   }

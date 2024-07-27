@@ -35,8 +35,13 @@ export interface FormFieldDto {
   selectValueField?: string;
   associatedToField?: string;
   associatedFromField?: string;
-  associatedFieldFormat?: string;
+  associatedFieldType?: string;
+  calculated?: boolean;
+  calculation?: any;
   injectValue?:any;
+  linkedField?: string;
+  linkedFieldSource?: string;
+  linkedFieldSourceField?: string;
 }
 
 // fields.push({

@@ -17,6 +17,7 @@ import { OptionValue } from '../../../entities/option-values.interface';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { LedgerService } from '../../../service/ledger.service';
 import { LedgerBalanceDto } from '../../../dtos/ledger-balance.dto';
+import { PromoCodeDto } from '../../../dtos/promo-code.dto';
 
 @Component({
   selector: 'app-pending-escrow-dialog',
@@ -35,7 +36,8 @@ export class PendingEscrowDialogComponent implements OnInit{
   formUUID: string;
   fieldsArr!: FormFieldDto[];
   chipListArr: string[];
-  promoCodes!: OptionValue[];
+  promoCodes!: PromoCodeDto[];
+  promoCodeOptions!: OptionValue[];
   creditObj!: LedgerBalanceDto;
   dataTypeTag: string = 'kb-pending-escrow-dialog';
   formConfig!: SelectDto[];
@@ -72,6 +74,7 @@ export class PendingEscrowDialogComponent implements OnInit{
     this.chipListArr = [];
     console.log('PendingEscrowDialogComponent - constructor - data: ', this.data);
     this.promoCodes = this.data.promoCodes;
+    this.promoCodeOptions = this.data.promoOptions;
     console.log('PendingEscrowDialogComponent - constructor - Promo Codes: ', this.promoCodes);
     this.creditObj = this.data.creditObj;
     console.log('PendingEscrowDialogComponent - constructor - creditObj: ', this.creditObj);
@@ -86,6 +89,10 @@ export class PendingEscrowDialogComponent implements OnInit{
   async onSubmit(event: any) {
     console.log('onSubmit - event: ', event);
   }
+
+  // calcFeeDiscount(): number {
+  //
+  // }
 
   populateFormFields(): FormFieldDto[] {
     const fields: FormFieldDto[] = [];
@@ -150,7 +157,10 @@ export class PendingEscrowDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '30.1'
+      rowCol: '30.1',
+      calculated: true,
+      associatedToField: 'advanceFeeDiscount',
+      associatedFromField: 'promoCode'
     });
 
     fields.push({
@@ -162,7 +172,10 @@ export class PendingEscrowDialogComponent implements OnInit{
       disabled: false,
       validators: [],
       width: 50,
-      rowCol: '30.2'
+      rowCol: '30.2',
+      calculated: true,
+      associatedToField: 'advanceFeeDiscount',
+      associatedFromField: 'promoCode'
     });
 
     fields.push({
@@ -176,10 +189,11 @@ export class PendingEscrowDialogComponent implements OnInit{
       width: 30,
       rowCol: '40.1',
       options: this.promoCodes,
-      selectValueField: 'key',
-      selectKeyField: 'key',
-      associatedToField: 'promoCodeDetailsRaw',
-      associatedFieldFormat: 'value:displayValue:description'
+      selectValueField: 'code',
+      selectKeyField: 'code',
+      linkedField: 'promoCodeDetailsRaw',
+      linkedFieldSource: 'PromoCode',
+      linkedFieldSourceField: 'details'
     });
 
     fields.push({
@@ -198,13 +212,27 @@ export class PendingEscrowDialogComponent implements OnInit{
 
     fields.push({
       fieldLabel: 'Fee Discount Amount' ,
-      placeholder: 'Fee Discount Amount',
+      placeholder: 'Fee Discount Amount (calc\'d)',
       fcn: 'advanceFeeDiscount',
       type: 'currency',
+      readOnly: true,
       required: true,
       disabled: false,
       validators: [],
-      width: 70,
+      width: 50,
+      rowCol: '50.1',
+    });
+
+    fields.push({
+      fieldLabel: 'Fee Amount after Discount' ,
+      placeholder: 'Fee Amount after Discount (calc\'d)',
+      fcn: 'advanceFeeAfterDiscount',
+      type: 'currency',
+      readOnly: true,
+      required: true,
+      disabled: false,
+      validators: [],
+      width: 50,
       rowCol: '50.1',
     });
 
@@ -213,11 +241,12 @@ export class PendingEscrowDialogComponent implements OnInit{
       placeholder: "Amount to Client (calc'd)",
       fcn: 'amountToClient',
       type: 'currency',
+      readOnly: true,
       required: true,
       disabled: false,
       validators: [],
-      width: 70,
-      rowCol: '50.2',
+      width: 50,
+      rowCol: '60.2',
     });
 
     fields.push({
@@ -225,10 +254,11 @@ export class PendingEscrowDialogComponent implements OnInit{
       placeholder: "Amount to CA (calc'd)",
       fcn: 'amountToCommAcc',
       type: 'currency',
+      readOnly: true,
       required: true,
       disabled: false,
       validators: [],
-      width: 70,
+      width: 50,
       rowCol: '60.1',
     });
 

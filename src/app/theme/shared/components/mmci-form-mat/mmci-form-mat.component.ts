@@ -22,7 +22,8 @@ import { MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/mater
 import { mmciFormSubmitSignal } from './signals/mmci-form-submit.signal';
 import { SelectDto } from './dtos/select.dto';
 import { BankFormComponent } from '../bank-form/bank-form.component';
-import { OptionValue } from '../../entities/option-values.interface';
+import { PromoCodeService } from '../../service/promo-code.service';
+import { PromoCodeDto } from '../../dtos/promo-code.dto';
 
 @Component({
   selector: 'app-mmci-form-mat',
@@ -90,6 +91,7 @@ export class MmciFormMatComponent implements OnInit{
     private formBuilder: FormBuilder,
     private helpers: HelpersService,
     private optionsService: OptionsService,
+    private promoCodeService: PromoCodeService
   ) {
 
   }
@@ -111,44 +113,6 @@ export class MmciFormMatComponent implements OnInit{
     this.loadChipsList(this.chipListArr).then(() => {
       this.loadingForm = false;
     });
-  }
-
-  selectionChange(event: any, field: FormFieldDto) {
-    // console.log('MmciFormMatComponent - selectionChange - event: ', event);
-    // console.log('MmciFormMatComponent - selectionChange - option value: ', event.value);
-    // console.log('MmciFormMatComponent - selectionChange - field: ', field);
-    // console.log('MmciFormMatComponent - selectionChange - data: ', this.data);
-    if(field.associatedToField && field.associatedFieldFormat) {
-      // console.log('MmciFormMatComponent - selectionChange - processing - associatedField');
-      if(field.options) {
-        const promoIndex: number = field.options.findIndex((option: OptionValue) => option.key === event.value);
-        const promoData: OptionValue = field.options[promoIndex];
-        const dataParts: string[] = field.associatedFieldFormat.split(':');
-        let assocFieldValueString: string = '';
-        dataParts.forEach((part: string) => {
-          let data: string =  `${promoData[ part as keyof OptionValue]}`;
-          data = data.toLowerCase();
-          if(part === 'displayValue') {
-            if(['percent', 'fixed', '%', '$'].includes(data)) {
-              switch(data) {
-                case 'percent':
-                case '%':
-                  assocFieldValueString = assocFieldValueString.trim() + '% ';
-                  break;
-                case 'fixed':
-                case '$':
-                  assocFieldValueString = '$'+assocFieldValueString;
-              }
-            }
-          } else {
-            assocFieldValueString += `${promoData[ part as keyof OptionValue]} `
-          }
-
-        })
-        this.formGroup.controls[field.associatedToField].setValue(assocFieldValueString.trim() );
-      }
-
-    }
   }
 
   isReadOnly(field: FormFieldDto): boolean {
@@ -258,26 +222,97 @@ export class MmciFormMatComponent implements OnInit{
     }
   }
 
-  onFieldChange(event: any) {
-    // console.log('***** >>>>> fieldChange - event: ', event);
-    console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
-    const text = event.target.value;
-    const ctrlId = event.target.id;
-    const ctrlNameParts = ctrlId.split('-');
-    // const formGroup = ctrlNameParts[0];
-    const fcn = ctrlNameParts[1];
+  selectionChange(event: any, field: FormFieldDto) {
+    // console.log('MmciFormMatComponent - selectionChange - event: ', event);
+    // console.log('MmciFormMatComponent - selectionChange - option value: ', event.value);
+    // console.log('MmciFormMatComponent - selectionChange - field: ', field);
+    // console.log('MmciFormMatComponent - selectionChange - data: ', this.data);
+    let linkedFieldValueString: string = '';
+    if(field.linkedField && field.linkedFieldSource && field.linkedFieldSourceField) {
+      if(field.linkedFieldSource === 'PromoCode') {
+        if(field.options) {
+          const index: number = field.options.findIndex((o: PromoCodeDto) => o.code === event.value);
+          if(index !== -1) {
+            const pc: PromoCodeDto = field.options[index];
+            linkedFieldValueString = field.options[index][field.linkedFieldSourceField];
+            this.formGroup.controls[field.linkedField].setValue(linkedFieldValueString.trim() );
+            this.getValuesForPromoCodeCalc(pc);
+          }
+        }
+      }
+      this.formGroup.controls[field.linkedField].setValue(linkedFieldValueString.trim() );
+    }
+  }
 
-    if(this.fields.has(fcn)) {
-      const field: FormFieldDto | undefined = this.fields.get(fcn);
+  onFieldChange(event: any, field: FormFieldDto) {
+    console.log('***** >>>>> fieldChange - field: ', field);
+    console.log(`***** >>>>> fieldChange - id: ${event.target.id} - value: ${event.target.value}`);
+
+    const text = event.target.value;
+    const fcn = field.fcn;
       if(field) {
-        const doAutoCap: boolean = !!field.autoCapitalize;
-        // console.log('***** >>>>> fieldChange - doAutoCap: ', doAutoCap);
+        const doAutoCap: boolean = field.autoCapitalize !== undefined && field.autoCapitalize === 'words';
         if(doAutoCap) {
           const capFirst = this.helpers.autoCapitalize(text);
           this.formGroup.controls[fcn].setValue(capFirst);
         }
+        if(field.calculated && field.associatedFromField && field.associatedToField) {
+          console.log('Calculated Field');
+          if(field.associatedFromField === 'promoCode') {
+            // do PromoCode  calculation
+            // expected fields:
+            // promoCode Select value to look up discount
+            // amountApproved - might not be set yet
+            // advanceFee - field that triggered this
+            // advanceFeeDiscount - calculated
+            // amountToClient - calculated
+            // amountToCommAcc - calculated
+            const assocFromFieldValue: any = this.formGroup.controls[field.associatedFromField].value;
+            console.log('***** >>>>> fieldChange - calculated - assocFromFieldValue: ', assocFromFieldValue);
+            const assocFromFieldDef: FormFieldDto | undefined = this.fields.get(field.associatedFromField);
+            if(assocFromFieldDef) {
+              if(assocFromFieldDef.type === 'select' && assocFromFieldDef.options) {
+                const amountApproved: number = this.formGroup.controls['amountApproved'].value;
+                const advanceFee: number = this.formGroup.controls['advanceFee'].value;
+                let advanceFeeDiscount: number = 0;
+                const index: number = assocFromFieldDef.options.findIndex((o: PromoCodeDto) => o.code === assocFromFieldValue);
+                if(index !== -1) {
+                  const pc: PromoCodeDto = assocFromFieldDef.options[index];
+                  advanceFeeDiscount = this.doFeeDiscountCalc(pc, advanceFee);
+                }
+                this.promoCodeCalculation(advanceFeeDiscount, amountApproved, advanceFee);
+              }
+            }
+          }
+        }
       }
+  }
+
+  private getValuesForPromoCodeCalc(pc: PromoCodeDto) {
+    const amountApproved: number = this.formGroup.controls['amountApproved'].value;
+    const advanceFee: number = this.formGroup.controls['advanceFee'].value;
+    const advanceFeeDiscount: number = this.doFeeDiscountCalc(pc, advanceFee);
+    this.promoCodeCalculation(advanceFeeDiscount, amountApproved, advanceFee);
+  }
+
+  private doFeeDiscountCalc(pc: PromoCodeDto, advanceFee: number): number {
+    let discount: number = 0;
+    if(pc.valueType.toLowerCase() === 'percent' || pc.valueType === '%') {
+      const percent: number = pc.value / 100;
+      discount = advanceFee * percent;
+    } else if(pc.valueType.toLowerCase() === 'fixed' || pc.valueType === '$') {
+      discount = advanceFee - pc.value;
     }
+    return discount;
+  }
+
+  private promoCodeCalculation(advanceFeeDiscount: number, amountApproved: number, advanceFee: number) {
+    this.formGroup.controls['advanceFeeDiscount'].setValue(advanceFeeDiscount);
+    const feeAfterDiscount: number = (advanceFee - advanceFeeDiscount);
+    this.formGroup.controls['advanceFeeAfterDiscount'].setValue(feeAfterDiscount);
+    const amountToClient = amountApproved - feeAfterDiscount;
+    this.formGroup.controls['amountToClient'].setValue(amountToClient);
+    this.formGroup.controls['amountToCommAcc'].setValue(amountApproved);
   }
 }
 

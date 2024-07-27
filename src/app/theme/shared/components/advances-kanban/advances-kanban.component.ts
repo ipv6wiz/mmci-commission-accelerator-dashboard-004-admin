@@ -22,9 +22,11 @@ import { MlsListDto } from '../../dtos/mls-list.dto';
 import { EscrowCompanyService } from '../../service/escrow-company.service';
 import { MlsListService } from '../../service/mls-list.service';
 import { advanceKanbanRefreshSignal } from '../../signals/advance-kanban-refresh.signal';
+import { LedgerService } from '../../service/ledger.service';
+import { PromoCodeService } from '../../service/promo-code.service';
+import { PromoCodeDto } from '../../dtos/promo-code.dto';
 import { OptionValue } from '../../entities/option-values.interface';
 import { ApiResponse } from '../../dtos/api-response.dto';
-import { LedgerService } from '../../service/ledger.service';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
@@ -39,7 +41,8 @@ registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5
 export class AdvancesKanbanComponent implements OnInit {
   escrow!: EscrowCompanyDto[];
   mls!: MlsListDto[];
-  promoCodes!: OptionValue[];
+  promoCodes!: PromoCodeDto[];
+  promoCodeOptions!: OptionValue[];
   readonly version: string;
   private config = new AppConfig();
   private readonly apiUrl = environment.gcpCommAccApiUrl;
@@ -84,6 +87,7 @@ export class AdvancesKanbanComponent implements OnInit {
   constructor(
     public modal: MatDialog,
     private optionService: OptionsService,
+    private promoCodeService: PromoCodeService,
     private advanceService: AdvanceService,
     private ledgerService: LedgerService,
     private authService: AuthenticationService,
@@ -121,13 +125,12 @@ export class AdvancesKanbanComponent implements OnInit {
     this.escrow = await this.loadEscrowCompanies();
     this.mls = await this.loadMlsList();
     this.promoCodes = await this.loadPromoCodes();
+    this.promoCodeOptions = await this.loadPromoCodesOptionValues();
   }
 
   refreshKanban(event: any) {
     console.log('refreshKanban - event: ', event);
     this.kanbanObj.refresh();
-    // this.kanbanObj.refreshHeader();
-    // this.kanbanObj.renderTemplates();
   }
 
   cardDoubleClick(event: any) {
@@ -139,7 +142,7 @@ export class AdvancesKanbanComponent implements OnInit {
         this.openRequestPendingFormModal(data);
         break;
       case 'PENDING-ESCROW':
-        this.openPendingEscrowFormModal(data);
+        this.openPendingEscrowFormModal(data).then();
         break;
     }
   }
@@ -166,7 +169,8 @@ export class AdvancesKanbanComponent implements OnInit {
         dataType: 'kb-pending-escrow-dialog',
         item: requestData,
         creditObj,
-        promoCodes: this.promoCodes
+        promoCodes: this.promoCodes,
+        promoOptions: this.promoCodeOptions
       },
       disableClose: true,
       hasBackdrop: true
@@ -206,7 +210,13 @@ export class AdvancesKanbanComponent implements OnInit {
     return response.items;
   }
 
-  async loadPromoCodes(): Promise<OptionValue[]> {
+  async loadPromoCodes(): Promise<PromoCodeDto[]> {
+    const response: PromoCodeDto[] = await this.promoCodeService.loadAllPromoCodes();
+    console.log('loadPromoCodes - items: ',response);
+    return response;
+  }
+
+  async loadPromoCodesOptionValues(): Promise<OptionValue[]> {
     const response: ApiResponse = await this.optionService.loadValuesByType('PromoCodes');
     console.log('loadPromoCodes - items: ',response.data.items);
     return response.data.items;

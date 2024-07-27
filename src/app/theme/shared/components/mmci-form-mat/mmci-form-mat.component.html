@@ -64,7 +64,7 @@
                         [required]="field.required"
                         [mask]="field.mask || ''"
                         [autocapitalize]="field.autoCapitalize"
-                        (blur)="onFieldChange($event)"
+                        (blur)="onFieldChange($event, field)"
                         id="{{fieldIdPrefix + '-' + field.fcn }}"
                       >
                     }
@@ -77,7 +77,7 @@
                         [required]="field.required"
                         [mask]="field.mask || ''"
                         [autocapitalize]="field.autoCapitalize"
-                        (blur)="onFieldChange($event)"
+                        (blur)="onFieldChange($event, field)"
                         id="{{fieldIdPrefix + '-' + field.fcn }}"
                       >
                     }
@@ -88,7 +88,7 @@
                         placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
                         [required]="field.required"
-                        (input)="onFieldChange($event)"
+                        (input)="onFieldChange($event, field)"
                         id="{{fieldIdPrefix + '-' + field.fcn }}"
                       ></textarea>
                     }
@@ -125,6 +125,7 @@
                         placeholder="{{field.placeholder}}"
                         formControlName="{{field.fcn}}"
                         [required]="field.required"
+                        (blur)="onFieldChange($event, field)"
                         mask="separator"
                         thousandSeparator=","
                         decimalMarker="."
