@@ -28,6 +28,7 @@ import { PromoCodeDto } from '../../dtos/promo-code.dto';
 import { OptionValue } from '../../entities/option-values.interface';
 import { ApiResponse } from '../../dtos/api-response.dto';
 import { PendingApprovalDialogComponent } from './pending-approval-dialog/pending-approval-dialog.component';
+import { PendingContractsDialogComponent } from './pending-contracts-dialog/pending-contracts-dialog.component';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 @Component({
   selector: 'app-advances-kanban',
@@ -53,7 +54,8 @@ export class AdvancesKanbanComponent implements OnInit {
   private validDataTypeTags: string[] = [
     'kb-request-pending-dialog',
     'kb-pending-escrow-dialog',
-    'kb-pending-approval-dialog'
+    'kb-pending-approval-dialog',
+    'kb-pending-contracts-dialog'
   ];
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
@@ -150,7 +152,22 @@ export class AdvancesKanbanComponent implements OnInit {
       case 'PENDING-APPROVAL':
         this.openPendingApprovalFormModal(data);
         break;
+      case 'PENDING-CONTRACTS':
+        this.openPendingContractsFormModal(data);
+        break;
     }
+  }
+
+  openPendingContractsFormModal(requestData: any) {
+    this.modal.open(PendingContractsDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: 'kb-pending-contracts-dialog',
+        item: requestData,
+      },
+      disableClose: true,
+      hasBackdrop: true
+    });
   }
 
   openRequestPendingFormModal(requestData: any) {

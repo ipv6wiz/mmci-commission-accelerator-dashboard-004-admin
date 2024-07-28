@@ -1,1 +1,12 @@
-<p>pending-contracts-dialog works!</p>
+<mat-toolbar color="antiquewhite">
+  <button mat-fab extended  style="color: antiquewhite; background-color: darkgreen" (click)="clickAllParties()"><mat-icon>check</mat-icon>All Parties Signed</button>
+  <button mat-fab extended   style="color: antiquewhite; background-color: #d19a66; margin-left: 5px" (click)="clickSendReminderEmail()"><mat-icon>email</mat-icon>CSend Reminder Email</button>
+  <button mat-fab extended style="color: antiquewhite; background-color: red; margin-left: 5px" (click)="clickReject()"><mat-icon>delete</mat-icon>Reject Advance</button>
+  <span class="example-spacer"></span>
+  <button
+    style="background-color: transparent; border: 0; "
+    [mat-dialog-close]="true"
+  >
+    <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+  </button>
+</mat-toolbar>
