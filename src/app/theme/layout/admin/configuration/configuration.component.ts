@@ -151,7 +151,7 @@ export class ConfigurationComponent implements OnInit {
     document.querySelector('.pcoded-navbar')?.classList.remove('navbar-dark');
     document.querySelector('.pcoded-navbar')?.classList.remove('brand-dark');
     document.querySelector('body')?.classList.remove('gradient-dark');
-    this.setHeaderBackground('header-blue');
+    this.setHeaderBackground('header-yellow');
 
     this.layoutType = layout;
     if (layout === 'menu-light') {

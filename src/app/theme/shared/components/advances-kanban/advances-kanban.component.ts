@@ -7,7 +7,6 @@ import {
 } from '@syncfusion/ej2-angular-kanban';
 import { environment } from '../../../../../environments/environment';
 import { OptionsService } from '../../service/options.service';
-import { AdvanceService } from '../../service/advance.service';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import {  registerLicense } from '@syncfusion/ej2-base';
 import { AppConfig } from '../../../../app.config';
@@ -29,7 +28,11 @@ import { OptionValue } from '../../entities/option-values.interface';
 import { ApiResponse } from '../../dtos/api-response.dto';
 import { PendingApprovalDialogComponent } from './pending-approval-dialog/pending-approval-dialog.component';
 import { PendingContractsDialogComponent } from './pending-contracts-dialog/pending-contracts-dialog.component';
+import { PendingFundingDialogComponent } from './pending-funding-dialog/pending-funding-dialog.component';
+import { AdvanceHelpersService } from '../../service/advance-helpers.service';
+import { AdvanceFundedDialogComponent } from './advance-funded-dialog/advance-funded-dialog.component';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
+
 @Component({
   selector: 'app-advances-kanban',
   standalone: true,
@@ -45,7 +48,7 @@ export class AdvancesKanbanComponent implements OnInit {
   escrow!: EscrowCompanyDto[];
   mls!: MlsListDto[];
   promoCodes!: PromoCodeDto[];
-  promoCodeOptions!: OptionValue[];
+
   readonly version: string;
   private config = new AppConfig();
   private readonly apiUrl = environment.gcpCommAccApiUrl;
@@ -55,7 +58,13 @@ export class AdvancesKanbanComponent implements OnInit {
     'kb-request-pending-dialog',
     'kb-pending-escrow-dialog',
     'kb-pending-approval-dialog',
-    'kb-pending-contracts-dialog'
+    'kb-pending-contracts-dialog',
+    'kb-pending-funding-dialog',
+    'kb-advance-funded-dialog',
+    'kb-ucc-filed-dialog',
+    'kb-escrow-closed-dialog',
+    'kb-outstanding-balance-dialog',
+    'kb-rejected-dialog'
   ];
   // @ts-expect-error could be null
   @ViewChild('kanbanObj') kanbanObj: KanbanComponent;
@@ -66,12 +75,12 @@ export class AdvancesKanbanComponent implements OnInit {
     ['PENDING-CLIENT', ['REJECTED']],
     ['PENDING-CONTRACTS', ['REJECTED']],
     ['PENDING-FUNDING', ['REJECTED']],
-    ['PENDING-DEMAND', ['REJECTED']],
-    ['ADVANCE-FUNDED', ['REJECTED']],
-    ['ESCROW-CLOSED', ['CURRENT-BALANCE']],
-    ['CURRENT-BALANCE', ['BALANCE-CLEARED']],
-    ['BALANCE-CLEARED', []],
-    ['REJECTED', []]
+    ['ADVANCE-FUNDED', ['UCC-FILED']],
+    ['UCC-FILED', ['ESCROW-CLOSED']],
+    ['ESCROW-CLOSED', ['ESCROW-CLOSED']],
+    ['CURRENT-BALANCE', ['CURRENT-BALANCE']],
+    ['BALANCE-CLEARED', ['BALANCE-CLEARED']],
+    ['REJECTED', ['REJECTED']]
   ]);
 
   kanbanData!: DataManager;
@@ -86,14 +95,11 @@ export class AdvancesKanbanComponent implements OnInit {
     textField: 'displayName'
   }
 
-
-
-
   constructor(
     public modal: MatDialog,
     private optionService: OptionsService,
     private promoCodeService: PromoCodeService,
-    private advanceService: AdvanceService,
+    private advanceHelpers: AdvanceHelpersService,
     private ledgerService: LedgerService,
     private authService: AuthenticationService,
     private escrowService: EscrowCompanyService,
@@ -115,7 +121,6 @@ export class AdvancesKanbanComponent implements OnInit {
       crossDomain: true,
 
     });
-
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
       console.log('AdvancesKanbanComponent - constructor - columns: ', this.columns);
@@ -130,7 +135,15 @@ export class AdvancesKanbanComponent implements OnInit {
     this.escrow = await this.loadEscrowCompanies();
     this.mls = await this.loadMlsList();
     this.promoCodes = await this.loadPromoCodes();
-    this.promoCodeOptions = await this.loadPromoCodesOptionValues();
+  }
+
+  async onDrop(event: any) {
+    console.log('=========> onDrop - event: ', event);
+    if(event.dropIndex !== undefined){
+      const status: string = event.data[0].advanceStatus;
+      const advanceId: string = event.data[0].uid;
+      await this.advanceHelpers.updateAdvanceStatus(advanceId, status);
+    }
   }
 
   refreshKanban(event: any) {
@@ -155,7 +168,36 @@ export class AdvancesKanbanComponent implements OnInit {
       case 'PENDING-CONTRACTS':
         this.openPendingContractsFormModal(data);
         break;
+      case 'PENDING-FUNDING':
+        this.openPendingFundingFormModal(data);
+        break;
+      case 'ADVANCE-FUNDED':
+        this.openAdvanceFundedFormModal(data);
+        break;
     }
+  }
+
+  openAdvanceFundedFormModal(requestData: any) {
+    this.modal.open(AdvanceFundedDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: 'kb-advance-funded-dialog',
+        item: requestData
+      }
+    });
+  }
+
+  openPendingFundingFormModal(requestData: any) {
+    this.modal.open(PendingFundingDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: 'kb-pending-funding-dialog',
+        item: requestData
+      },
+      disableClose: true,
+      hasBackdrop: true
+    });
+
   }
 
   openPendingContractsFormModal(requestData: any) {
@@ -193,7 +235,6 @@ export class AdvancesKanbanComponent implements OnInit {
         item: requestData,
         creditObj,
         promoCodes: this.promoCodes,
-        promoOptions: this.promoCodeOptions
       },
       disableClose: true,
       hasBackdrop: true

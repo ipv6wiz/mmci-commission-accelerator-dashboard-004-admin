@@ -13,7 +13,6 @@ import { AdvanceEntity } from '../../../entities/advance.entity';
 import { ApiResponse } from '../../../dtos/api-response.dto';
 import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-template.entity';
 import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refresh.signal';
-import { OptionValue } from '../../../entities/option-values.interface';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { LedgerService } from '../../../service/ledger.service';
 import { LedgerBalanceDto } from '../../../dtos/ledger-balance.dto';
@@ -39,7 +38,6 @@ export class PendingEscrowDialogComponent implements OnInit{
   fieldsArr!: FormFieldDto[];
   chipListArr: string[];
   promoCodes!: PromoCodeDto[];
-  promoCodeOptions!: OptionValue[];
   creditObj!: LedgerBalanceDto;
   dataTypeTag: string = 'kb-pending-escrow-dialog';
   formConfig!: SelectDto[];
@@ -87,7 +85,6 @@ export class PendingEscrowDialogComponent implements OnInit{
     this.chipListArr = [];
     console.log('PendingEscrowDialogComponent - constructor - data: ', this.data);
     this.promoCodes = this.data.promoCodes;
-    this.promoCodeOptions = this.data.promoOptions;
     console.log('PendingEscrowDialogComponent - constructor - Promo Codes: ', this.promoCodes);
     this.creditObj = this.data.creditObj;
     console.log('PendingEscrowDialogComponent - constructor - creditObj: ', this.creditObj);

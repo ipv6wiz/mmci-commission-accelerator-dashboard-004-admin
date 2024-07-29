@@ -9,9 +9,7 @@ import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-templ
 import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refresh.signal';
 import { HelpersService } from '../../../service/helpers.service';
 import { EmailSendService } from '../../../service/email-send.service';
-import { AdvanceService } from '../../../service/advance.service';
-import { OptionsService } from '../../../service/options.service';
-import { OptionValue } from '../../../entities/option-values.interface';
+import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
 
 @Component({
   selector: 'app-pending-contracts-dialog',
@@ -32,15 +30,13 @@ export class PendingContractsDialogComponent implements OnInit {
   constructor(
     public modal: MatDialog,
     private helpers: HelpersService,
+    private advanceHelpers: AdvanceHelpersService,
     private emailSendService: EmailSendService,
-    private optionsService: OptionsService,
-    private service: AdvanceService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   async ngOnInit() {
-    this.fundingEmailSettings = await this.getFundingEmailSettings();
-    console.log('PendingContractsDialogComponent - ngOnInit - fundingEmailSettings: ', this.fundingEmailSettings)
+    this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
   }
 
   clickAllParties() {
@@ -51,7 +47,7 @@ export class PendingContractsDialogComponent implements OnInit {
     dialogRef.afterClosed().subscribe({
       next: (confirmed) => {
         if(confirmed) {
-          this.updateAdvanceStatus(this.data.item.uid, 'PENDING-FUNDING').then((updRes: ApiResponse) => {
+          this.advanceHelpers.updateAdvanceStatus(this.data.item.uid, 'PENDING-FUNDING').then((updRes: ApiResponse) => {
             console.log('PendingEscrowDialogComponent - clickConfirmed - dialogRef - updRes: ', updRes);
             console.log('PendingEscrowDialogComponent - clickConfirmed - dialogRef - this.data.item: ', this.data.item);
             this.sendFundingEmail(this.data.item).then((response) => {
@@ -127,76 +123,7 @@ export class PendingContractsDialogComponent implements OnInit {
   }
 
   clickReject() {
-    const dialogRef = this.helpers.openConfirmDialog({
-      message: 'Are you sure that you want to Reject this Advance Request and send a rejection email to the Client ?',
-      buttonText: {ok: 'Yes - Reject & Email Client', cancel: 'No'}
-    });
-    dialogRef.afterClosed().subscribe({
-      next: (confirmed) => {
-        if(confirmed) {
-          this.updateAdvanceStatus(this.data.item.uid, 'REJECTED').then((updRes: ApiResponse) => {
-            console.log('clickReject - dialogRef - updRes: ', updRes);
-            console.log('clickReject - dialogRef - this.data.item: ', this.data.item);
-            this.sendRejectedEmail(this.data.item).then((response) => {
-              console.log('sendRejectedEmail - response: ', response);
-              this.modal.closeAll();
-              advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
-            })
-          });
-        }
-
-      },
-      error: (err) => {
-        console.log('clickAccept - dialogRef - error: ', err.message);
-      }
-    })
+    this.advanceHelpers.handleRejectClick(this.data.item, this.dataTypeTag);
   }
 
-  async sendRejectedEmail(item: AdvanceEntity): Promise<ApiResponse> {
-    const email: MailOutWithTemplateEntity = {
-      to: item.currClient.email,
-      template: {
-        name: 'request-rejected',
-        data: {
-          displayName: item.currClient.displayName,
-          advanceName: item.advanceName
-        }
-      }
-    };
-    const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
-    return response;
-  }
-
-  async updateAdvanceStatus(uid: string, advanceStatus: string): Promise<ApiResponse> {
-    const data: any = {advanceStatus};
-    try {
-      const response: ApiResponse = await this.service.updateItem(uid, data);
-      console.log('PendingEscrowDialogComponent - onSubmit - response: ', response);
-      if([200, 201].includes(response.statusCode)) {
-        return response;
-      } else {
-        throw new Error(response.msg);
-      }
-    } catch (err: any) {
-      throw new Error(err.message);
-    }
-  }
-
-  async getFundingEmailSettings(): Promise<any>{
-    try {
-      const response: ApiResponse = await this.optionsService.loadValuesByType('EmailOutSettings');
-      if(response.statusCode === 200) {
-        const items = response.data.items; // items & count
-        const emailSettings: any = {};
-        items.forEach((item: OptionValue) => {
-          emailSettings[item.key] = item.value;
-        });
-        return emailSettings;
-      } else {
-        throw new Error(response.msg);
-      }
-    } catch (err: any) {
-      throw new Error(err.message);
-    }
-  }
 }

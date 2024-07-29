@@ -3,7 +3,7 @@ export class GradientConfig {
   static subLayout = ''; // horizontal-2
   static isCollapse_menu = false; // true
   static layoutType = 'menu-dark'; // menu-dark, menu-light, dark
-  static header_back_color = 'header-yellow'; // header-blue, header-red, header-purple, header-info, header-dark, header-orange
+  static header_back_color = 'header-orange'; // header-blue, header-red, header-purple, header-info, header-dark, header-orange
   static isRtlLayout = false; // true
   static nav_fixed_layout = true; // false
   static header_fixed_layout = true; // false

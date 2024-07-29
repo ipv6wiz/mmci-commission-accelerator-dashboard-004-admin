@@ -17,6 +17,8 @@
       [cardSettings]="cardSettings"
       [swimlaneSettings]="swimLaneSettings"
       (cardDoubleClick)="cardDoubleClick($event)"
+      (dragStop)="onDrop($event)"
+
     >
       <e-columns>
         @for(column of columns; track $index) {
