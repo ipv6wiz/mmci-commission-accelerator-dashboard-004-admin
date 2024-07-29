@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogClose } from '@angular/material/di
 import { FormBuilder } from '@angular/forms';
 import { HelpersService } from '../../../service/helpers.service';
 import { AdvanceService } from '../../../service/advance.service';
-import { AuthenticationService } from '../../../service';
+
 import { mmciFormSubmitSignal } from '../../mmci-form-mat/signals/mmci-form-submit.signal';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { AddressClass } from '../../../entities/address.class';
@@ -23,8 +23,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { EmailSendService } from '../../../service/email-send.service';
 import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-template.entity';
 import { AdvanceEntity } from '../../../entities/advance.entity';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
+import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
 
 @Component({
   selector: 'app-request-pending-dialog',
@@ -43,24 +44,23 @@ import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
   styleUrl: './request-pending-dialog.component.scss'
 })
 export class RequestPendingDialogComponent implements OnInit{
+  dataTypeTag: string = 'kb-request-pending-dialog';
   formUUID: string;
   fieldsArr!: FormFieldDto[];
   chipListArr: string[];
   escrow!: EscrowCompanyDto[];
   mls!: MlsListDto[];
-  dataTypeTag: string = 'kb-request-pending-dialog';
   formConfig!: SelectDto[];
   formMode: string = 'view';
   editButtonText: string = "Edit";
 
   constructor(
     public modal: MatDialog,
-    public snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private helpers: HelpersService,
+    private advanceHelpers: AdvanceHelpersService,
     private emailSendService: EmailSendService,
     private service: AdvanceService,
-    private authService: AuthenticationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.formUUID = this.helpers.getUUID();
@@ -94,11 +94,10 @@ export class RequestPendingDialogComponent implements OnInit{
     this.fieldsArr = this.populateFormFields(this.data.item);
   }
 
-  clickAccept(event: any) {
-    console.log('RequestPendingDialogComponent - clickAccept - event: ', event);
+  clickAccept() {
     if(!this.data.item.agreementNumber) {
       this.helpers.openSnackBar('Agreement Number can not be empty - switching to Edit Mode')
-      this.clickEdit({});
+      this.clickEdit();
     } else {
       const dialogRef = this.helpers.openConfirmDialog({
         message: 'Are you sure that you want to Accept this Advance Request and send a verification email to Escrow ?',
@@ -163,8 +162,7 @@ export class RequestPendingDialogComponent implements OnInit{
     }
   }
 
-  clickEdit(event: any) {
-    console.log('RequestPendingDialogComponent - clickEdit - event: ', event);
+  clickEdit() {
     if(this.editButtonText === 'Edit') {
       this.setFormMode('edit')
     } else {
@@ -185,48 +183,8 @@ export class RequestPendingDialogComponent implements OnInit{
     }
   }
 
-  clickReject(event: any) {
-    console.log('RequestPendingDialogComponent - clickReject - event: ', event);
-    console.log('RequestPendingDialogComponent - clickReject - event: ', event);
-    const dialogRef = this.helpers.openConfirmDialog({
-      message: 'Are you sure that you want to Reject this Advance Request and send a rejection email to the Client ?',
-      buttonText: {ok: 'Yes - Reject & Email Client', cancel: 'No'}
-    });
-    dialogRef.afterClosed().subscribe({
-      next: (confirmed) => {
-        if(confirmed) {
-          this.updateAdvanceStatus(this.data.item.uid, 'REJECTED').then((updRes: ApiResponse) => {
-            console.log('clickReject - dialogRef - updRes: ', updRes);
-            console.log('clickReject - dialogRef - this.data.item: ', this.data.item);
-            this.sendRejectedEmail(this.data.item).then((response) => {
-              console.log('sendRejectedEmail - response: ', response);
-              this.setFormMode('view');
-              this.modal.closeAll();
-              advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
-            })
-          });
-        }
-
-      },
-      error: (err) => {
-        console.log('clickAccept - dialogRef - error: ', err.message);
-      }
-    })
-  }
-
-  async sendRejectedEmail(item: AdvanceEntity): Promise<ApiResponse> {
-    const email: MailOutWithTemplateEntity = {
-      to: item.currClient.email,
-      template: {
-        name: 'request-rejected',
-        data: {
-          displayName: item.currClient.displayName,
-          advanceName: item.advanceName
-        }
-      }
-    };
-    const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
-    return response;
+  clickReject() {
+    this.advanceHelpers.handleRejectClick(this.data.item, this.dataTypeTag);
   }
 
   async onSubmit(event: any) {

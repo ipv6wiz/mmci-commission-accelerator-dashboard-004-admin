@@ -5,8 +5,6 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogClose } from '@angular/material/dialog';
 import { HelpersService } from '../../../service/helpers.service';
 import { EmailSendService } from '../../../service/email-send.service';
-import { OptionsService } from '../../../service/options.service';
-import { AdvanceService } from '../../../service/advance.service';
 import { AdvanceEntity } from '../../../entities/advance.entity';
 import { ApiResponse } from '../../../dtos/api-response.dto';
 import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-template.entity';

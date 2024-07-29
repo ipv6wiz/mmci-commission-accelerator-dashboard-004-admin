@@ -1,3 +1,3 @@
 export class AppConfig {
-  version: string = '0.0.214';
+  version: string = '0.0.215';
 }

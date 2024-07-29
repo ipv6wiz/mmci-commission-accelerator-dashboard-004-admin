@@ -31,6 +31,7 @@ import { PendingContractsDialogComponent } from './pending-contracts-dialog/pend
 import { PendingFundingDialogComponent } from './pending-funding-dialog/pending-funding-dialog.component';
 import { AdvanceHelpersService } from '../../service/advance-helpers.service';
 import { AdvanceFundedDialogComponent } from './advance-funded-dialog/advance-funded-dialog.component';
+import { EscrowClosedDialogComponent } from './escrow-closed-dialog/escrow-closed-dialog.component';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 
 @Component({
@@ -174,7 +175,20 @@ export class AdvancesKanbanComponent implements OnInit {
       case 'ADVANCE-FUNDED':
         this.openAdvanceFundedFormModal(data);
         break;
+      case 'ESCROW-CLOSED':
+        this.openEscrowClosedFormModal(data);
+        break;
     }
+  }
+
+  openEscrowClosedFormModal(requestData: any) {
+    this.modal.open(EscrowClosedDialogComponent, {
+      data: {
+        type: 'update',
+        dataType: 'kb-escrow-closed-dialog',
+        item: requestData
+      }
+    });
   }
 
   openAdvanceFundedFormModal(requestData: any) {

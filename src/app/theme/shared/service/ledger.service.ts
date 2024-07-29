@@ -6,6 +6,7 @@ import { lastValueFrom, Observable } from 'rxjs';
 import { ListWithCountDto } from '../dtos/list-with-count.dto';
 import { LedgerBalanceDto } from '../dtos/ledger-balance.dto';
 import { AdvanceLedgerPostDto } from '../dtos/advance-ledger-post.dto';
+import { FundsReceivedFromEscrowDto } from '../dtos/funds-received-from-escrow.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,15 @@ export class LedgerService {
   async postAdvance(clientId: string, data: AdvanceLedgerPostDto): Promise<ApiResponse> {
     const response: ApiResponse = await lastValueFrom(this.postAdvanceCall(clientId, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response;
+  }
+
+  async postEscrowFunds(clientId: string, data: FundsReceivedFromEscrowDto): Promise<ApiResponse> {
+    const response: ApiResponse = await lastValueFrom(this.postEscrowFundsCall(clientId, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    return response;
+  }
+
+  postEscrowFundsCall(clientId: string, data: FundsReceivedFromEscrowDto): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.endPointUrl}/client/${clientId}/escrow-funds`, data);
   }
 
   postAdvanceCall(clientId: string, data: AdvanceLedgerPostDto): Observable<ApiResponse> {
