@@ -17,11 +17,11 @@ export class ClientVerifyService {
   }
 
   updateClientVerifyItem(clientId: string, item: any): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}/client-verify/verify/status/item/${clientId}`, item);
+    return this.http.put<ApiResponse>(`${this.apiUrl}/client-verify/verify/${clientId}/status/item`, item);
   }
 
   updateClientVerifyDocItem(clientId: string, item: any, allDocsOk: boolean): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.apiUrl}/client-verify/verify/status/item/doc/${clientId}?allDocsOk=${allDocsOk}`, item);
+    return this.http.put<ApiResponse>(`${this.apiUrl}/client-verify/verify/${clientId}/status/item/doc?allDocsOk=${allDocsOk}`, item);
   }
 
 }
