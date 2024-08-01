@@ -156,9 +156,9 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   }
 
   itemDisable(btn: string, item: any): boolean {
-    if(btn == 'accept') {
+    if(btn === 'accept') {
       return item.value['status'] === 1 || item.value['status'] === 4;
-    } else if(btn === 'reject' || btn === 'enter') {
+    } else if(btn === 'reject' ) { // || btn === 'enter'
       return item.value['status'] === 3 || item.value['status'] === 5;
     }
     return false;
@@ -231,12 +231,13 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
 
   adminDataEntry(event: any, item: any) {
     console.log('adminDataEntry - event: ', event);
+    console.log('adminDataEntry - item: ', item);
     const itemIndex = this.findItemIndex(item.key);
     if(!item.value['adminEnteredData']) {
       const adminInfo = {
         source: 'Admin entered data',
         infoType: item.key,
-        data: 'My Placeholder',
+        data: item.value.researchData.data,
         editable: false
       }
       this.verifyDataSource[itemIndex].value['adminEnteredData'] = adminInfo;
