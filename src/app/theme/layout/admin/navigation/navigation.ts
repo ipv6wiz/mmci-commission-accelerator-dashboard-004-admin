@@ -464,13 +464,6 @@ export const NavigationItems: NavigationItem[] = [
             url: '/tbl-bootstrap/bt-styling'
           }
         ]
-      },
-      {
-        id: 'data-table',
-        title: 'Data Table',
-        type: 'item',
-        icon: 'feather-grid',
-        url: '/tbl-datatable'
       }
     ]
   },

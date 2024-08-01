@@ -21,7 +21,7 @@
 
     >
       <e-columns>
-        @for(column of columns; track $index) {
+        @for(column of columns; let index=$index; track index) {
           <e-column headerText={{column.headerText}}
                     keyField='{{column.keyField}}'
                     [allowToggle]='column.allowToggle'
@@ -31,8 +31,19 @@
           >
             <ng-template #template let-data>
               <div class="header-template-wrap">
-                <div class="header-icon e-icons {{data.keyField}}"></div>
-                <div class="header-text">{{data.headerText}}</div>
+<!--                <div class="header-icon e-icons {{data.keyField}}"></div>-->
+                <div class="container text-center">
+                  <div class="row">
+                    <div class="advance-kanban-header-icon">
+                      <span class="material-symbols-outlined">
+                        {{colMatIcons[index]}}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="row advance-kanban-header-text">{{data.headerText}}</div>
+                  </div>
+                </div>
               </div>
             </ng-template>
           </e-column>

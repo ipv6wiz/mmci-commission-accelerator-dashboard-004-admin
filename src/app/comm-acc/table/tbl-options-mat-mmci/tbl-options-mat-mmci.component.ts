@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinner, ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
-import { Options } from 'ngx-slider-v2';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { OptionsDgComponent } from '../../../theme/shared/components/options-dg/options-dg.component';
@@ -39,7 +38,7 @@ export class TblOptionsMatMmciComponent implements OnInit {
   public loadSpinnerDiameter: string = '50';
   tableTitle: string = 'Options (Dropdowns, etc.)';
   tableItemName: string = 'Option Type';
-  dataSource!: MatTableDataSource<Options>;
+  dataSource!: MatTableDataSource<OptionsEntity>;
   dataTypeTag: string = 'options';
   optionItemsObj: any;
 

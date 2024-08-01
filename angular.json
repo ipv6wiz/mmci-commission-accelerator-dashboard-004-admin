@@ -58,15 +58,6 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/quill/dist/quill.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js",
-              "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
-              "node_modules/datatables.net-buttons/js/buttons.colVis.js",
-              "node_modules/datatables.net-buttons/js/buttons.flash.js",
-              "node_modules/datatables.net-buttons/js/buttons.html5.js",
-              "node_modules/datatables.net-buttons/js/buttons.print.js",
-              "node_modules/datatables.net-colreorder/js/dataTables.colReorder.js",
-              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/datatables.net-select/js/dataTables.select.js",
               "node_modules/sweetalert2/dist/sweetalert2.min.js"
             ]
           },

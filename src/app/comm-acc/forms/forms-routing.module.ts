@@ -7,10 +7,6 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'basic',
-        loadComponent: () => import('./basic-elements/basic-elements.component')
-      },
-      {
         path: 'advance',
         loadComponent: () => import('./form-advance/form-advance.component')
       },

@@ -13,10 +13,6 @@ const routes: Routes = [
       {
         path: 'card',
         loadComponent: () => import('./users-card/users-card.component')
-      },
-      {
-        path: 'list',
-        loadComponent: () => import('./users-list/users-list.component')
       }
     ]
   }

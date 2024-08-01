@@ -7,7 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 
 // Third party
-import { NgxSliderModule, Options, CustomStepDefinition } from 'ngx-slider-v2';
+import { NgxSliderModule, Options, CustomStepDefinition } from '@angular-slider/ngx-slider';
 
 interface SliderDetails {
   value: number;

@@ -32,6 +32,7 @@ import { PendingFundingDialogComponent } from './pending-funding-dialog/pending-
 import { AdvanceHelpersService } from '../../service/advance-helpers.service';
 import { AdvanceFundedDialogComponent } from './advance-funded-dialog/advance-funded-dialog.component';
 import { EscrowClosedDialogComponent } from './escrow-closed-dialog/escrow-closed-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
 registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5Ud0xhW31WdXRSRGlc');
 
 @Component({
@@ -40,7 +41,8 @@ registerLicense('ORg4AjUWIQA/Gnt2U1hhQlJBfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hTX5
   imports: [
     KanbanModule,
     AsyncPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    MatIconModule
   ],
   templateUrl: './advances-kanban.component.html',
   styleUrl: './advances-kanban.component.scss'
@@ -86,6 +88,7 @@ export class AdvancesKanbanComponent implements OnInit {
 
   kanbanData!: DataManager;
   columns: ColumnsModel[] = [];
+  colMatIcons: string[] = [];
   cardSettings: CardSettingsModel = {
     headerField: 'advanceName',
     selectionType: 'Single',
@@ -125,6 +128,7 @@ export class AdvancesKanbanComponent implements OnInit {
     this.getAdvanceStatusFromOptions().then((cols) => {
       this.columns = cols;
       console.log('AdvancesKanbanComponent - constructor - columns: ', this.columns);
+      console.log('AdvancesKanbanComponent - constructor - colMatIcons: ', this.colMatIcons);
       for(let i = 0; i < this.columns.length; i++) {
         this.columns[i].transitionColumns = this.setValidDropColumn(this.columns[i].keyField+'');
       }
@@ -273,17 +277,30 @@ export class AdvancesKanbanComponent implements OnInit {
   }
 
   async getAdvanceStatusFromOptions() {
-    const statusListResponse: ListWithCountDto = await this.optionService.loadValuesItemsForSelect('AdvanceStatus');
-    const columnsList: ColumnsModel[] = [];
-    statusListResponse.items.forEach((item: any) => {
-      const colItem: ColumnsModel = {
-        headerText: item.value,
-        keyField: item.key,
-        allowToggle: true
+    try {
+      const statusListResponse: ApiResponse = await this.optionService.loadValuesByType('AdvanceStatus');
+      if(statusListResponse.statusCode === 200) {
+        const items: OptionValue[] = statusListResponse.data.items;
+        const columnsList: ColumnsModel[] = [];
+        items.forEach((item: OptionValue) => {
+          if(item.displayValue) {
+            console.log('getAdvanceStatusFromOptions - displayValue: ', item.displayValue);
+            this.colMatIcons.push(item.displayValue);
+          }
+          const colItem: ColumnsModel = {
+            headerText: item.value,
+            keyField: item.key,
+            allowToggle: true
+          }
+          columnsList.push(colItem);
+        });
+        return columnsList;
+      } else {
+        throw new Error('Error loading Advance Status list from Options')
       }
-      columnsList.push(colItem);
-    });
-    return columnsList;
+    } catch(err: any) {
+      throw new Error(err.message);
+    }
   }
 
   setValidDropColumn(advanceStatus: string) {
