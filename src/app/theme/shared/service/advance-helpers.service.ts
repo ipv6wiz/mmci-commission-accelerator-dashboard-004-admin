@@ -9,6 +9,9 @@ import { MailOutWithTemplateEntity } from '../entities/mail-out-with-template.en
 import { advanceKanbanRefreshSignal } from '../signals/advance-kanban-refresh.signal';
 import { HelpersService } from './helpers.service';
 import { MatDialog } from '@angular/material/dialog';
+import { CompanyInfoDto } from '../dtos/company-info.dto';
+import { AddressDto } from '../dtos/address.dto';
+import { FundingEmailSettingsDto } from '../dtos/funding-email-settings.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +41,7 @@ export class AdvanceHelpersService {
     }
   }
 
-  async getFundingEmailSettings(): Promise<any>{
+  async getFundingEmailSettings(): Promise<FundingEmailSettingsDto>{
     try {
       const response: ApiResponse = await this.optionsService.loadValuesByType('EmailOutSettings');
       if(response.statusCode === 200) {
@@ -97,6 +100,36 @@ export class AdvanceHelpersService {
     };
     const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
     return response;
+  }
+
+  async getCompanyInfo(): Promise<CompanyInfoDto> {
+    const nsy: string = 'Not Set Yet';
+    try {
+      const response: ApiResponse = await this.optionsService.loadValuesByType('CommAccConfig');
+      if(response.statusCode === 200) {
+        const values: OptionValue[] = response.data.items;
+        const mapValues: Map<string, OptionValue> = new Map(values.map((item: OptionValue) => [item.key, item]));
+        const info: CompanyInfoDto = {} as CompanyInfoDto;
+        const addrOption: OptionValue | undefined = mapValues.get('COMPANY-ADDRESS');
+        let address: AddressDto = {} as AddressDto;
+        if(addrOption && addrOption.data) {
+          if(addrOption.data.startsWith('{') && addrOption.data.endsWith('}')) {
+            address = JSON.parse(addrOption.data);
+          }
+        }
+        info.companyName = mapValues.get('COMPANY-NAME')!.value || nsy;
+        info.companyAddress = address;
+        info.bankName = mapValues.get('BANK-NAME')!.value || nsy;
+        info.bankAccountName = mapValues.get('BANK-ACCOUNT-NAME')?.value || nsy;
+        info.bankAccountNumber = mapValues.get('BANK_ACCOUNT_NUMBER')?.value || nsy;
+        info.bankRoutingNumber = mapValues.get('BANK-ROUTING')?.value || nsy;
+        return info;
+      } else {
+        throw new Error(response.msg);
+      }
+    } catch(err: any) {
+      throw new Error(err.message);
+    }
   }
 
 }

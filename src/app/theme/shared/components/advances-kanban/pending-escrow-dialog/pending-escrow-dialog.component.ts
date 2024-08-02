@@ -14,11 +14,12 @@ import { ApiResponse } from '../../../dtos/api-response.dto';
 import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-template.entity';
 import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refresh.signal';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
-import { LedgerService } from '../../../service/ledger.service';
 import { LedgerBalanceDto } from '../../../dtos/ledger-balance.dto';
 import { PromoCodeDto } from '../../../dtos/promo-code.dto';
 import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
 import { mmciFormModeChangeSignal } from '../../mmci-form-mat/signals/mmci-form-mode-change.signal';
+import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
+import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
 
 @Component({
   selector: 'app-pending-escrow-dialog',
@@ -34,6 +35,7 @@ import { mmciFormModeChangeSignal } from '../../mmci-form-mat/signals/mmci-form-
   styleUrl: './pending-escrow-dialog.component.scss'
 })
 export class PendingEscrowDialogComponent implements OnInit{
+  private fundingEmailSettings!: FundingEmailSettingsDto
   formUUID: string;
   fieldsArr!: FormFieldDto[];
   chipListArr: string[];
@@ -49,7 +51,7 @@ export class PendingEscrowDialogComponent implements OnInit{
     private helpers: HelpersService,
     private emailSendService: EmailSendService,
     private service: AdvanceService,
-    private ledgerService: LedgerService,
+    private advanceHelpers: AdvanceHelpersService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.formUUID = this.helpers.getUUID();
@@ -91,7 +93,6 @@ export class PendingEscrowDialogComponent implements OnInit{
   }
 
  async ngOnInit() {
-    // console.log('PendingEscrowDialogComponent - ngOnInit');
     console.log('PendingEscrowDialogComponent - ngOnInit - data: ', this.data);
     if(this.data.item.advanceFee && this.data.item.amountApproved) {
       this.setFormMode('view');
@@ -99,6 +100,7 @@ export class PendingEscrowDialogComponent implements OnInit{
       this.setFormMode('edit');
     }
     this.fieldsArr = this.populateFormFields();
+   this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
   }
 
   async onSubmit(event: any) {
@@ -354,9 +356,7 @@ export class PendingEscrowDialogComponent implements OnInit{
         console.log('clickAccept - dialogRef - error: ', err.message);
       }
     });
-    
   }
-
 
   clickEdit(event: any) {
     console.log('PendingEscrowDialogComponent - clickEdit - event: ', event);
@@ -374,6 +374,7 @@ export class PendingEscrowDialogComponent implements OnInit{
     }
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,
+      bcc: [this.fundingEmailSettings.FundsAdminEmail],
       template: {
         name: 'client-approval',
         data: {
@@ -396,44 +397,7 @@ export class PendingEscrowDialogComponent implements OnInit{
 
   clickReject(event: any) {
     console.log('PendingEscrowDialogComponent - clickReject - event: ', event);
-    const dialogRef = this.helpers.openConfirmDialog({
-      message: 'Are you sure that you want to Reject this Advance Request and send a rejection email to the Client ?',
-      buttonText: {ok: 'Yes - Reject & Email Client', cancel: 'No'}
-    });
-    dialogRef.afterClosed().subscribe({
-      next: (confirmed) => {
-        if(confirmed) {
-          this.updateAdvanceStatus(this.data.item.uid, 'REJECTED').then((updRes: ApiResponse) => {
-            console.log('clickReject - dialogRef - updRes: ', updRes);
-            console.log('clickReject - dialogRef - this.data.item: ', this.data.item);
-            this.sendRejectedEmail(this.data.item).then((response) => {
-              console.log('sendRejectedEmail - response: ', response);
-              this.modal.closeAll();
-              advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
-            })
-          });
-        }
-
-      },
-      error: (err) => {
-        console.log('clickAccept - dialogRef - error: ', err.message);
-      }
-    })
-  }
-
-  async sendRejectedEmail(item: AdvanceEntity): Promise<ApiResponse> {
-    const email: MailOutWithTemplateEntity = {
-      to: item.currClient.email,
-      template: {
-        name: 'request-rejected',
-        data: {
-          displayName: item.currClient.displayName,
-          advanceName: item.advanceName
-        }
-      }
-    };
-    const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
-    return response;
+    this.advanceHelpers.handleRejectClick(this.data.item, this.dataTypeTag);
   }
 
   async updateAdvanceStatus(uid: string, advanceStatus: string): Promise<ApiResponse> {

@@ -16,6 +16,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { FundsReceivedFromEscrowDto } from '../../../dtos/funds-received-from-escrow.dto';
+import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
 
 @Component({
   selector: 'app-escrow-closed-dialog',
@@ -31,6 +32,7 @@ import { FundsReceivedFromEscrowDto } from '../../../dtos/funds-received-from-es
   styleUrl: './escrow-closed-dialog.component.scss'
 })
 export class EscrowClosedDialogComponent implements OnInit {
+  private fundingEmailSettings!: FundingEmailSettingsDto;
   dataTypeTag: string = 'kb-escrow-closed-dialog';
   formUUID: string;
   fieldsArr!: FormFieldDto[];
@@ -75,6 +77,7 @@ export class EscrowClosedDialogComponent implements OnInit {
   async ngOnInit() {
     this.fieldsArr = this.populateFormFields();
     this.data.item.amountReceivedFromEscrow = this.data.item.amountToCommAcc;
+    this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
   }
 
   async onSubmit(event: any) {
@@ -86,10 +89,6 @@ export class EscrowClosedDialogComponent implements OnInit {
   }
 
   clickAccept() {
-    /*
-      Update Ledger with amount received from Escrow
-      Update status based on balance
-    */
     console.log('RequestPendingDialogComponent - clickAccept - event: ');
     const dialogRef = this.helpers.openConfirmDialog({
       message: `Are you sure that you want to Accept ${this.helpers.formatCurrencyField(this.data.item.amountReceivedFromEscrow)} from Escrow ?`,

@@ -26,6 +26,7 @@ import { AdvanceEntity } from '../../../entities/advance.entity';
 
 import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
 import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
+import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
 
 @Component({
   selector: 'app-request-pending-dialog',
@@ -44,6 +45,7 @@ import { AdvanceHelpersService } from '../../../service/advance-helpers.service'
   styleUrl: './request-pending-dialog.component.scss'
 })
 export class RequestPendingDialogComponent implements OnInit{
+  private fundingEmailSettings!: FundingEmailSettingsDto;
   dataTypeTag: string = 'kb-request-pending-dialog';
   formUUID: string;
   fieldsArr!: FormFieldDto[];
@@ -92,6 +94,7 @@ export class RequestPendingDialogComponent implements OnInit{
     console.log('RequestPendingDialogComponent - ngOnInit - Escrow Companies: ', this.escrow);
     console.log('RequestPendingDialogComponent - ngOnInit - MLS Systems: ', this.mls);
     this.fieldsArr = this.populateFormFields(this.data.item);
+    this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
   }
 
   clickAccept() {

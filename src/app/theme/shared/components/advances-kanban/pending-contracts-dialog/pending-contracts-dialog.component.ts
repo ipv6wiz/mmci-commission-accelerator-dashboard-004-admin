@@ -10,6 +10,7 @@ import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refr
 import { HelpersService } from '../../../service/helpers.service';
 import { EmailSendService } from '../../../service/email-send.service';
 import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
+import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
 
 @Component({
   selector: 'app-pending-contracts-dialog',
@@ -25,7 +26,7 @@ import { AdvanceHelpersService } from '../../../service/advance-helpers.service'
 })
 export class PendingContractsDialogComponent implements OnInit {
   dataTypeTag: string = 'kb-pending-contracts-dialog';
-  fundingEmailSettings!: any;
+  fundingEmailSettings!: FundingEmailSettingsDto;
 
   constructor(
     public modal: MatDialog,
@@ -89,6 +90,7 @@ export class PendingContractsDialogComponent implements OnInit {
   async sendContractsReminderEmail(item: AdvanceEntity): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,
+      bcc: [this.fundingEmailSettings.FundsAdminEmail],
       template: {
         name: 'contracts-reminder',
         data: {
@@ -102,11 +104,12 @@ export class PendingContractsDialogComponent implements OnInit {
 
   async sendFundingEmail(item: AdvanceEntity): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
-      to: this.fundingEmailSettings.FundsAdminEmail,
+      to: this.fundingEmailSettings.FundsSourceEmail,
+      bcc: [this.fundingEmailSettings.FundsAdminEmail],
       template: {
         name: 'advance-funding',
         data: {
-          salutation: this.fundingEmailSettings.FundsAdminSalutation,
+          salutation: this.fundingEmailSettings.FundsSourceSalutation,
           agreementNumber: item.agreementNumber,
           displayName: item.currClient.displayName,
           dreNumber: item.currClient.dreNumber,

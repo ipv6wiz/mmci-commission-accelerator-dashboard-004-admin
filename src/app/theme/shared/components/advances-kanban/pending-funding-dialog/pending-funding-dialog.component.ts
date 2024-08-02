@@ -12,6 +12,8 @@ import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refr
 import { LedgerService } from '../../../service/ledger.service';
 import { AdvanceLedgerPostDto } from '../../../dtos/advance-ledger-post.dto';
 import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
+import { CompanyInfoDto } from '../../../dtos/company-info.dto';
+import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
 
 @Component({
   selector: 'app-pending-funding-dialog',
@@ -27,7 +29,7 @@ import { AdvanceHelpersService } from '../../../service/advance-helpers.service'
 })
 export class PendingFundingDialogComponent implements OnInit {
   dataTypeTag: string = 'kb-pending-funding-dialog';
-  fundingEmailSettings!: any;
+  fundingEmailSettings!: FundingEmailSettingsDto;
 
   constructor(
     public modal: MatDialog,
@@ -48,6 +50,8 @@ export class PendingFundingDialogComponent implements OnInit {
     if([200, 201].includes(postResponse.statusCode)) {
       const statusResponse = await this.advanceHelpers.updateAdvanceStatus(this.data.item.uid, 'ADVANCE-FUNDED');
       if([200, 201].includes(statusResponse.statusCode)) {
+        await this.sendFundedEmail(this.data.item);
+        await this.sendEscrowDemandEmail(this.data.item);
         this.modal.closeAll();
         advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
       } else {
@@ -76,8 +80,8 @@ export class PendingFundingDialogComponent implements OnInit {
 
   clickSendReminderEmail() {
     const dialogRef = this.helpers.openConfirmDialog({
-      message: `Are you sure that you want to send a Contracts Reminder email to the Client & the Broker ?`,
-      buttonText: {ok: `Yes - Send a Contracts Reminder Email `, cancel: 'No'}
+      message: `Are you sure that you want to send a Funding Reminder email ?`,
+      buttonText: {ok: `Yes - Send a Funding Reminder Email `, cancel: 'No'}
     });
     dialogRef.afterClosed().subscribe({
       next: (confirmed) => {
@@ -95,13 +99,45 @@ export class PendingFundingDialogComponent implements OnInit {
     });
   }
 
+  async sendEscrowDemandEmail(item: AdvanceEntity): Promise<ApiResponse> {
+    const companyInfo: CompanyInfoDto = await this.advanceHelpers.getCompanyInfo();
+    const email: MailOutWithTemplateEntity = {
+      to: item.escrowEmail,
+      cc: [item.currClient.email, item.currClient.brokerage.brokerEmail],
+      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      template: {
+        name: 'escrow-demand',
+        data: {
+          advanceName: item.advanceName,
+          escrowTransactionNumber: item.escrowTransactionNumber,
+          escrowOfficer: item.escrowOfficer,
+          brokerageName: item.currClient.brokerage.brokerageName,
+          displayName: item.currClient.displayName,
+          amount: item.amountToCommAcc,
+          bankAccountName: companyInfo.bankAccountName,
+          bankName: companyInfo.bankName,
+          bankRoutingNumber: companyInfo.bankRoutingNumber,
+          bankAccountNumber: companyInfo.bankAccountNumber,
+          companyName: companyInfo.companyName,
+          Address1: companyInfo.companyAddress.Address1,
+          City: companyInfo.companyAddress.City,
+          State: companyInfo.companyAddress.State,
+          Zip5: companyInfo.companyAddress.Zip5
+        }
+      }
+    }
+    const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
+    return response;
+  }
+
   async sendFundingReminderEmail(item: AdvanceEntity): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
-      to:  this.fundingEmailSettings.FundsAdminEmail,
+      to:  this.fundingEmailSettings.FundsSourceEmail,
+      bcc: [this.fundingEmailSettings.FundsAdminEmail],
       template: {
         name: 'funding-reminder',
         data: {
-          salutation: this.fundingEmailSettings.FundsAdminSalutation,
+          salutation: this.fundingEmailSettings.FundsSourceSalutation,
           agreementNumber: item.agreementNumber,
           displayName: item.currClient.displayName,
           amountToClient: this.helpers.formatCurrencyField(item.amountToClient),
@@ -112,45 +148,24 @@ export class PendingFundingDialogComponent implements OnInit {
     return response;
   }
 
-  clickReject() {
-    const dialogRef = this.helpers.openConfirmDialog({
-      message: 'Are you sure that you want to Reject this Advance Request and send a rejection email to the Client ?',
-      buttonText: {ok: 'Yes - Reject & Email Client', cancel: 'No'}
-    });
-    dialogRef.afterClosed().subscribe({
-      next: (confirmed) => {
-        if(confirmed) {
-          this.advanceHelpers.updateAdvanceStatus(this.data.item.uid, 'REJECTED').then((updRes: ApiResponse) => {
-            console.log('clickReject - dialogRef - updRes: ', updRes);
-            console.log('clickReject - dialogRef - this.data.item: ', this.data.item);
-            this.sendRejectedEmail(this.data.item).then((response) => {
-              console.log('sendRejectedEmail - response: ', response);
-              this.modal.closeAll();
-              advanceKanbanRefreshSignal.set({refresh: true, dataType: this.dataTypeTag});
-            })
-          });
-        }
-
-      },
-      error: (err) => {
-        console.log('clickAccept - dialogRef - error: ', err.message);
-      }
-    })
-  }
-
-  async sendRejectedEmail(item: AdvanceEntity): Promise<ApiResponse> {
+  async sendFundedEmail(item: AdvanceEntity): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,
+      cc: [item.currClient.brokerage.brokerEmail],
+      bcc: [this.fundingEmailSettings.FundsAdminEmail],
       template: {
-        name: 'request-rejected',
+        name: 'funded-advance',
         data: {
-          displayName: item.currClient.displayName,
-          advanceName: item.advanceName
+          displayName: item.currClient.displayName
         }
       }
-    };
+    }
     const response: ApiResponse = await this.emailSendService.sendEmailWithTemplate(email);
     return response;
+  }
+
+  clickReject() {
+    this.advanceHelpers.handleRejectClick(this.data.item, this.dataTypeTag);
   }
 
 }
