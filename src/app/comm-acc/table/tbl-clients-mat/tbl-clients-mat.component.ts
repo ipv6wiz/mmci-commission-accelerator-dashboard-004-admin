@@ -20,6 +20,7 @@ import { AdvanceLimitComponent } from '../../../theme/shared/components/credit-l
 import { Client } from '../../../theme/shared/entities/client.interface';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HelpersService } from '../../../theme/shared/service/helpers.service';
+import { ClientRegFormComponent } from '../../../theme/shared/components/client-reg-form/client-reg-form.component';
 
 @Component({
   selector: 'app-tbl-clients-mat',
@@ -89,16 +90,20 @@ export class TblClientsMatComponent implements OnInit{
     });
   }
 
-  lostFocus() {
-    console.log('TblClientsMatComponent >>>>>>>>>>>> lostFocus <<<<<<<<<<<<<<<<<<<<')
-  }
-
   openCreditLimitModal(client:any) {
     this.modal.open(AdvanceLimitComponent, {
       data: {
         client
       }
     });
+  }
+
+  openClientRegFormModal(client: any) {
+    this.modal.open(ClientRegFormComponent, {
+      data: {
+        client
+      }
+    })
   }
 
   onExpandRow(event: any, client: any) {

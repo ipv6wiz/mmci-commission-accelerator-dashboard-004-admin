@@ -2,7 +2,7 @@
   @for(row of rows; track $index){
     <div class="row">
       @for(field of row; track $index) {
-        <div class="col" [style.width]="'{{field.width}}%'">
+        <div class="col" [style.width.%]="field.width" [style.max-width.%]="field.width">
           @if(!['address', 'bank'].includes(field.type)){
             <mat-form-field [ngStyle]="">
               <mat-label>{{field.fieldLabel}}</mat-label>

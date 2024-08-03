@@ -53,7 +53,7 @@ export class AdvancesKanbanComponent implements OnInit {
   promoCodes!: PromoCodeDto[];
 
   readonly version: string;
-  private config = new AppConfig();
+  private config: AppConfig = new AppConfig();
   private readonly apiUrl = environment.gcpCommAccApiUrl;
   private readonly endPoint: string = 'advance';
   private endPointUrl: string = `${this.apiUrl}/${this.endPoint}`;
@@ -110,13 +110,14 @@ export class AdvancesKanbanComponent implements OnInit {
     private mlsService: MlsListService,
   ) {
     console.log('AdvancesKanbanComponent - constructor');
+    this.version = this.config.version;
     effect(() => {
       const akrs = advanceKanbanRefreshSignal();
       if(akrs.refresh && this.validDataTypeTags.includes(akrs.dataType)) {
         this.refreshKanban({})
       }
     });
-    this.version = this.config.version;
+
     const token: string = this.authService.getLocalUserDataProp('accessToken');
     this.kanbanData = new DataManager({
       adaptor: new UrlAdaptor(),

@@ -1,0 +1,41 @@
+<mat-toolbar color="antiquewhite">
+<!--  <button mat-fab extended [disabled]="formMode === 'edit'" style="color: antiquewhite; background-color: darkgreen" (click)="clickAccept()"><mat-icon>check</mat-icon>Accept Advance</button>-->
+  <button mat-fab extended  style="color: antiquewhite; background-color: #d19a66; margin-left: 5px" (click)="clickEdit()"><mat-icon>edit</mat-icon>{{editButtonText}} Client Reg Data</button>
+<!--  <button mat-fab extended [disabled]="formMode === 'edit'" style="color: antiquewhite; background-color: red; margin-left: 5px" (click)="clickReject()"><mat-icon>delete</mat-icon>Reject Advance</button>-->
+  <span class="example-spacer"></span>
+  <button
+    style="background-color: transparent; border: 0; "
+    [mat-dialog-close]="true"
+    [disabled]="formMode === 'edit'"
+  >
+    <i style=" color: red; font-size: 2rem" class="bi bi-x-square-fill"></i>
+  </button>
+</mat-toolbar>
+@if(loadingData) {
+  <section class="client-load-spinner-section">
+    <h3>Loading Clients</h3>
+    <mat-progress-spinner
+      class="client-load-spinner-margin"
+      [color]="loadSpinnerColor"
+      [mode]="loadSpinnerMode"
+      [diameter]="loadSpinnerDiameter"
+    ></mat-progress-spinner>
+  </section>
+} @else{
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <app-mmci-form-mat
+            [fieldsArr]="getFormConfig('agentDreData', 'fieldsArr')"
+            [data]="formData.agentDreData"
+            [chipListArr]="chipListArr"
+            [config]="getFormConfig('agentDreData', 'formConfig')"
+            [mode]="formMode"
+          ></app-mmci-form-mat>
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+  </section>
+}

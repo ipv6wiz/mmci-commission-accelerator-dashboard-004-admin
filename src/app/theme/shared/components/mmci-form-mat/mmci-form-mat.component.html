@@ -11,7 +11,12 @@
     </mat-toolbar>
   }
   <div mat-dialog-title style="border-bottom: #3c5a99 1px solid; text-align: center">
-    <h3>Add or Edit {{formTag}} - Mode: {{mode}}</h3>
+    @if(justTag) {
+      <h3>{{formTag}}</h3>
+    } @else {
+      <h3>Add or Edit {{formTag}} - Mode: {{mode}}</h3>
+    }
+
   </div>
   @if(loadingForm) {
     <section class="items-load-spinner-section">
@@ -36,7 +41,7 @@
           <div class="row">
             @for(field of row; track $index) {
               @if(field.conditional) {
-                <div class="col" [style.width]="'{{field.condWidth || 50}}%'">
+                <div class="col" [style.width.%]="field.condWidth || 50" [style.max-width.%]="field.condWidth || 50">
                   <mat-form-field>
                     <mat-label [ngStyle]="{'margin-left.px': 40, 'margin-top.px': 15}" >{{field.condFieldLabel}}</mat-label>
                     <input hidden="hidden" matInput />
@@ -51,8 +56,8 @@
                   </mat-form-field>
                 </div>
               }
-              <div class="col"   [style.width]="'{{field.width}}%'">
-                @if(!['address', 'bank'].includes(field.type)){
+              <div class="col"   [style.width.%]="field.width" [style.max-width.%]="field.width">
+                @if(!['address', 'bank', 'fieldset-start', 'fieldset-end'].includes(field.type)){
                   <mat-form-field [ngStyle]="{'display': fields.get(field.fcn)!.hide ? 'none': 'inline-flex'}">
                     @if(field.type !== 'hidden') {
                       <mat-label>{{field.fieldLabel}}</mat-label>

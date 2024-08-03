@@ -462,6 +462,7 @@ export class RequestPendingDialogComponent implements OnInit{
       rowCol: '100.1',
       bankObj: new BankInfoClass(this.formBuilder, this.helpers, item.bankInfo)
     });
+
     const seqFields: FormFieldDto[] = this.helpers.sequenceRowCol(fields);
     return seqFields;
   }

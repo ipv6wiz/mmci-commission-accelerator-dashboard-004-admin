@@ -85,6 +85,8 @@ export class MmciFormMatComponent implements OnInit{
   formUUID: string = '';
   showToolbar: boolean = true;
   topSubmit: boolean = false;
+  justTag: boolean = false;
+  dataObjType: string = 'item';
 
   rows: any[] = [];
 
@@ -106,7 +108,7 @@ export class MmciFormMatComponent implements OnInit{
     // console.log('MmciFormMatComponent - ngOnInit - fieldsArr: ', this.fieldsArr);
     this.rows = this.helpers.populateRows(this.fieldsArr);
     this.fields = new Map<string, FormFieldDto>(this.fieldsArr.map((obj: FormFieldDto) => [obj.fcn, obj]));
-    this.controls = this.helpers.createControls(this.fields, this.data);
+    this.controls = this.helpers.createControls(this.fields, this.data, this.dataObjType);
     console.log('MMCI Form - constructor - controls: ', this.controls);
     // console.log('Escrow Form - constructor - typeof controls: ', typeof this.controls);
     this.formGroup = this.formBuilder.group(this.controls);

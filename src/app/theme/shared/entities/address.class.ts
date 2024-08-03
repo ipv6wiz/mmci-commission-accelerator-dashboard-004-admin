@@ -111,7 +111,7 @@ export class AddressClass {
       disabled: true,
       default: 'CA',
       validators: [],
-      width: 33,
+      width: 12,
       rowCol: '02.2'
     });
     fields.push({
@@ -126,14 +126,14 @@ export class AddressClass {
       rowCol: '02.3'
     });
     fields.push({
-      fieldLabel: 'Zip Code extension',
+      fieldLabel: 'Zip Code Ext',
       placeholder: '4 digit Zip ',
       fcn: 'Zip4',
       type: 'text',
       required: false,
       disabled: false,
       validators: [['pattern', "^[0-9]{4}?$"], ['minLength', 4], ['maxLength', 4]],
-      width: 16,
+      width: 17,
       rowCol: '02.4'
     });
     return fields;

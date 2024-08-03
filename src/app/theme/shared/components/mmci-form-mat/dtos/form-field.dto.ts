@@ -3,17 +3,17 @@ import { AdvanceEscrowDetailsClass } from '../../../entities/advance-escrow-deta
 import { BankInfoClass } from '../../../entities/bankInfo.class';
 
 export interface FormFieldDto {
+  type: string;
+  rowCol: string;
+  fcn: string;
   fieldLabel: string;
   placeholder: string;
-  fcn: string;
-  type: string;
   required: boolean;
   disabled: boolean;
-  readOnly?: boolean;
   validators: any[];
-  width: number; // percentage
-  rowCol: string;
+  width: number;
   default?: any;
+  readOnly?: boolean;
   hide?: boolean
   autoCapitalize?: string;
   mask?: string;
@@ -42,6 +42,9 @@ export interface FormFieldDto {
   linkedField?: string;
   linkedFieldSource?: string;
   linkedFieldSourceField?: string;
+  fieldsetLegend?: string;
+  fieldsetStartHtml?: string;
+  fieldsetEndHtml?: string;
 }
 
 // fields.push({

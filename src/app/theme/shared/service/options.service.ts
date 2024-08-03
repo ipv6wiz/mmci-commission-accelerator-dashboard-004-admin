@@ -11,7 +11,7 @@ import { ListWithCountDto } from '../dtos/list-with-count.dto';
   providedIn: 'root'
 })
 export class OptionsService {
-  private apiUrl = environment.gcpCommAccApiUrl;
+  private apiUrl: string = environment.gcpCommAccApiUrl;
   private readonly endPoint: string = 'options';
   private readonly endPointUrl: string;
 
