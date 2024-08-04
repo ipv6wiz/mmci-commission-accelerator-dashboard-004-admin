@@ -1,0 +1,15 @@
+<div
+    class="container"
+    *ngIf="this.gradientConfig.layout === 'horizontal' && this.gradientConfig.subLayout === 'horizontal-2'; else mainHeader"
+>
+    <ng-container *ngTemplateOutlet="mainHeader"></ng-container>
+</div>
+<ng-template #mainHeader>
+    <div class="m-header">
+        <img id="main-logo" src="assets/images/auth/comm-acc-logo-001.png" alt="logo-img" class="logo" />
+        <img src="assets/images/logo-icon.png" alt="logo-icon-img" class="logo-thumb" />
+    </div>
+    <div class="collapse navbar-collapse" [style.display]="this.collapseStyle">
+        <app-reg-nav-bar-right class="ms-auto"></app-reg-nav-bar-right>
+    </div>
+</ng-template>

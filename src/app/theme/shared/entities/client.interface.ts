@@ -5,27 +5,34 @@ import { CreditLimitItemEntity } from './credit-limit-item.entity';
 
 export interface Client {
     uid: string;
-    firstName: string;
-    middleName: string;
-    lastName: string;
+    agentDreData?: any;
+    approvedBy?: string;
+    archivedBy?: string;
+    brokerage?: Brokerage;
+    bucket?: string;
+    cellPhone?: string;
+    clientDocs?: any;
+    creditLimit?: CreditLimitItemEntity;
+    creditLimits?: CreditLimitItemEntity[],
+    dateApplied?: Date;
+    dateApproved?: Date;
+    dateArchived?: Date;
+    dateUpdated?: Date;
+    defaultPage?: string;
     displayName?: string;
-    email: string;
+    dreLicenseExpirationDate?: Date;
     dreNumber: string;
-    dreState: string;
-    dreLicenseExpirationDate: Date;
-    cellPhone: string;
-    homeAddress: AddressClass;
-    brokerage: Brokerage;
-    performance: AgentPerformance;
-    creditLimit: CreditLimitItemEntity;
-    creditLimits: CreditLimitItemEntity[],
-    dateApplied: Date;
-    dateApproved: Date;
-    approvedBy: string;
-    dateUpdated: Date;
-    updatedBy: string;
-    dateArchived: Date;
-    archivedBy: string;
-    agentData: any;
-    limit?: number;
+    dreState?: string;
+    email?: string;
+    emailVerified?: boolean;
+    firstName?: string;
+    homeAddress?: AddressClass;
+    lastLogin?:string;
+    lastName?: string;
+    middleName?: string;
+    performance?: AgentPerformance;
+    photoURL?: string;
+    roles?: string[];
+    status?: string;
+    updatedBy?: string;
 }

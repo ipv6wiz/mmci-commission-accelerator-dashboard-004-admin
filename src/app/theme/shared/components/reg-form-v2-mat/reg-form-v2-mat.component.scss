@@ -1,0 +1,44 @@
+.mat-stepper-horizontal {
+    margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+    margin-top: 16px;
+    min-width: 100%;
+}
+
+#client-wizard.card-body {
+    margin: auto;
+    width: 700px;
+}
+
+.registration-load-spinner-section {
+    display: block;
+    text-align: center;
+    height: 110px;
+}
+
+.registration-load-spinner-margin {
+    margin: auto;
+}
+
+.example-action-buttons {
+    padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+}
+
+#docUploads .mat-vertical-stepper-content{
+    overflow: visible;
+}
+
+#cdk-ste-label-1-5 .mat-vertical-stepper-content{
+    overflow:visible;
+}

@@ -1,0 +1,176 @@
+<app-reg-nav-bar class="navbar pcoded-header navbar-expand-lg navbar-light header-blue headerPos-fixed" style="position: sticky"></app-reg-nav-bar>
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h4>New Client Application Process for {{clientLocalData.displayName}}</h4>
+        <h5>Even if you entered some data on the SignUp form please enter it again here</h5>
+        <h5>Your entries need to exactly match what is on file at the DRE</h5>
+        <p><span style="font-weight: bold">You must Click "Submit Form" in the "Submit for Verification" (final) step<br />for your info to be submitted for consideration</span></p>
+        <button mat-raised-button color="primary" (click)="openDialog()">Instructions</button>
+    </div>
+    <div *ngIf="formLoading">
+        <section class="registration-load-spinner-section">
+          <h3>Loading Registration Data Entered Previously</h3>
+          <mat-progress-spinner
+            class="registration-load-spinner-margin"
+            [color]="loadSpinnerColor"
+            [mode]="loadSpinnerMode"
+            [diameter]="loadSpinnerDiameter"
+          ></mat-progress-spinner>
+        </section>
+    </div>
+    <div *ngIf="!formLoading">
+        <div id="client-wizard" class="card-body">
+        <mat-stepper (selectionChange)="onStepChange($event)" orientation="vertical" [linear]="isLinear" #stepper>
+            <div *ngFor="let step of steps">
+                <mat-step [stepControl]="step['stepControl']">
+                    <form [formGroup]="step['formGroup']" (submit)="onSubmit($event)">
+                        <ng-template matStepLabel>{{step['stepLabel']}}</ng-template>
+                        <div *ngFor="let field of step['fields']">
+                            <mat-form-field [ngStyle]="">
+                                <mat-label>{{field['fieldLabel']}}</mat-label>
+                                <div *ngIf="!field['type'] || field['type'] === 'text'">
+                                    <input
+                                        matInput
+                                        placeholder="{{field['placeholder']}}"
+                                        formControlName="{{field['fcn']}}"
+                                        [required]="field['required']"
+                                        [mask]="field['mask'] || ''"
+                                        [autocapitalize]="field['autoCapitalize']"
+                                        (input)="fieldChange($event)"
+                                        id="{{step['stepId'] + '-' + field['fcn'] }}"
+                                    >
+                                </div>
+                                <div *ngIf="field['type'] === 'date'">
+                                    <input
+                                        matInput
+                                        placeholder="{{field['placeholder']}}"
+                                        formControlName="{{field['fcn']}}"
+                                        [required]="field['required']"
+                                        [matDatepicker]="datePicker"
+                                        (dateChange)="onDateChange($event)"
+                                        [id]="field['pickerId']"
+                                        style="color: black"
+                                    >
+                                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker disabled="false" #datePicker [startView]="field['startView']"></mat-datepicker>
+                                </div>
+                                <div *ngIf="field['type'] === 'currency'">
+                                    <input
+                                        matInput
+                                        placeholder="{{field['placeholder']}}"
+                                        formControlName="{{field['fcn']}}"
+                                        [required]="field['required']"
+                                        mask="separator"
+                                        thousandSeparator=","
+                                        prefix="$"
+                                    >
+                                </div>
+                                <div *ngIf="field['type'] === 'quantity'">
+                                    <input
+                                        matInput
+                                        placeholder="{{field['placeholder']}}"
+                                        formControlName="{{field['fcn']}}"
+                                        [required]="field['required']"
+                                        mask="separator"
+                                        thousandSeparator=","
+                                    >
+                                </div>
+                                <div *ngIf="field['type'] === 'select'">
+                                    <mat-select
+                                        [(value)]="field['fcn']"
+                                        formControlName="{{field['fcn']}}"
+                                        [required]="field['required']"
+                                        placeholder="{{field['placeholder']}}"
+                                    >
+                                        <div *ngFor="let option of field['options']">
+                                            <mat-option [value]="option.value">{{option.key}}</mat-option>
+                                        </div>
+                                    </mat-select>
+                                </div>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <button *ngIf="step['stepPrev']" mat-button matStepperPrevious>Back</button>
+                            <button *ngIf="step['stepNext']" mat-button matStepperNext [id]="step['stepId']">Next</button>
+                        </div>
+                    </form>
+                </mat-step>
+            </div>
+          <div id="docUploads">
+            <mat-step [completed]="docUploadComplete" [stepControl]="docUploadGroup"  >
+                <form [formGroup]="docUploadGroup" (submit)="onDocSubmit($event)">
+                    <ng-template matStepLabel>Documents Upload</ng-template>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            Please upload the following documents:
+                        </div>
+                    </div>
+                    <div id="accordion">
+                      <mat-accordion class="example-headers-align">
+                        @for(doc of docUploads; track $index){
+                          <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <h4>{{ doc.title }}
+                                  @if(doc.uploaded) {
+                                    <span style="float: right">
+                                          <mat-icon aria-hidden="false" aria-label="File Uploaded" fontIcon="check_circle" [ngStyle]="{'color': 'green'}"></mat-icon>
+                                    </span>
+                                  } @else {
+                                    <span  style="float: right">
+                                          <mat-icon aria-hidden="false" aria-label="Upload File" fontIcon="file_upload" [ngStyle]="{'color': 'red'}"></mat-icon>
+                                    </span>
+                                  }
+                                </h4>
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            @if(doc.text) {
+                              <p>{{doc.text}}</p>
+                            }
+                            <div class="file-uploader-block" >
+                              <app-reg-file-upload
+                                (fileUploaded)="onFileUploaded($event)"
+                                [bucket]="clientBucketName"
+                                folder="{{doc.folder}}"
+                                newFileName="{{doc.newFileName}}"
+                                ctrlName="{{doc.ctrlName}}"
+                                title="{{doc.title}}"
+                                [accept]="doc.accept"
+                              ></app-reg-file-upload>
+                              @if(doc.uploaded) {
+                                <p>
+                                  <span class="note">File Successfully Uploaded</span>
+                                </p>
+                              }
+                              <p><span class="note">Maximum file size: <span>4 MB</span>.</span></p>
+                              <p><span class="note">Allowed file extensions: <span>{{doc.allowedExts.join(',')}}</span>.</span></p>
+                            </div>
+                          </mat-expansion-panel>
+                        }
+                      </mat-accordion>
+                      @if(clientBucketName) {
+                        <app-file-manager fmType="client" [needRefresh]="refreshRequest" [docInfo]="" [clientId]="clientLocalData.uid" [bucket]="clientBucketName"></app-file-manager>
+                      }
+                    </div>
+                    <div>
+                        <button  mat-button matStepperPrevious id="docUpload-prev">Back</button>
+                        <button  mat-button matStepperNext id="docUpload-next">Next</button>
+                    </div>
+                </form>
+            </mat-step>
+          </div>
+            <mat-step [stepControl]="regFormDoneGroup">
+                <form [formGroup]="regFormDoneGroup" (submit)="onSubmit($event)">
+                    <ng-template matStepLabel>Submit for Verification</ng-template>
+                    <p>To complete your application please click the Submit Form button.</p>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext id="reg-form-save" color="primary" >Submit Form</button>
+                    </div>
+                </form>
+            </mat-step>
+        </mat-stepper>
+
+    </div>
+    </div>
+</div>

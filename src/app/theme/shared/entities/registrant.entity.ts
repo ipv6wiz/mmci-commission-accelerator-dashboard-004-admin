@@ -14,6 +14,7 @@ export class Registrant {
     performanceInfo!: AgentPerformanceDto;
     docUploadInfo!: DocUploadInfoDto;
     agentDreData: any;
+    brokerDreData: any;
 
     constructor() {}
 }

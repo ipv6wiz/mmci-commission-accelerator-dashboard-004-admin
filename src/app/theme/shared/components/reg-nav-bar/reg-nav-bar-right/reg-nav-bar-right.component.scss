@@ -1,0 +1,10 @@
+button#btn-logout {
+}
+button#btn-logout:hover:after {
+    content: "Logout";
+    position: absolute;
+    top: 38px;
+    right: 1em;
+    font-size: small;
+    z-index: 1;
+}

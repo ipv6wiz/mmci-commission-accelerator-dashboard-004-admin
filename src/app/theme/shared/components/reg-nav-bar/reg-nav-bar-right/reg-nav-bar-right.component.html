@@ -1,0 +1,30 @@
+<ul class="navbar-nav ms-auto">
+    <li>
+        <div class="dropdown drp-user" ngbDropdown placement="auto">
+            <a href="javascript:" ngbDropdownToggle>
+                <img src="{{currentUserImage}}" class="img-radius wid-40" alt="User-Profile-Image" />
+            </a>
+            <div class="dropdown-menu dropdown-menu-end profile-notification" ngbDropdownMenu>
+                <div class="pro-head">
+                    <img src="{{currentUserImage}}" class="img-radius" alt="User-Profile-Image" />
+                    <span>{{currentUser.displayName}}</span>
+                    <button id="btn-logout" style="float:right" (click)="authService.logoutViaApi()">
+                        <i class="feather-log-out"></i>
+                    </button>
+
+                </div>
+                <ul class="pro-body">
+                    <li
+                    ><a href="javascript:" class="dropdown-item"><i class="feather-user"></i> Profile</a></li
+                    >
+                    <li
+                    ><a href="javascript:" class="dropdown-item"><i class="feather-mail"></i> My Messages</a></li
+                    >
+                    <li
+                    ><a href="javascript:" class="dropdown-item"><i class="feather-lock"></i> Lock Screen</a></li
+                    >
+                </ul>
+            </div>
+        </div>
+    </li>
+</ul>
