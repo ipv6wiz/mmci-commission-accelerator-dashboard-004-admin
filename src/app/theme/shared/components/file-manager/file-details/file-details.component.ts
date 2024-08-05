@@ -10,7 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {FileItem} from "../dtos/file-item.interface";
-import {newLeaf} from "../../../signals/file-item.signal";
+import {newLeaf} from "../signals/file-item.signal";
 import {
   MatTable, MatTableModule
 } from "@angular/material/table";
@@ -34,6 +34,7 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   @Input() clientId: string = '';
   @Input() docInfo: any;
   @Input() bucket: string = '';
+  @Input() fmType: string = 'admin';
   @ViewChild('fileDetails') fileDetailsTable!: MatTable<any>;
   files: FileItem[] = [];
   newFile: EffectRef;
@@ -85,13 +86,14 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   private filesSubject = new Subject<FileItem[]>();
   dataSource$ = this.filesSubject.asObservable();
 
-  columnsToDisplay: string[] = ['status', 'name', 'size'];
+  columnsToDisplay: string[] = [];
   columnNamesToDisplay: string[] = [];
 
   constructor(
     public modal: MatDialog,
     private helpers: HelpersService
     ) {
+
     this.newFile = effect(() => {
       const nf = newLeaf();
       console.log('FileDetailsComponent - newLeaf effect - nf: ', nf);
@@ -117,6 +119,11 @@ export class FileDetailsComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    if(this.fmType === 'admin') {
+      this.columnsToDisplay = ['status', 'name', 'size'];
+    } else {
+      this.columnsToDisplay = ['name'];
+    }
     console.log('FileDetailsComponent - ngOnInit ');
   }
 

@@ -17,7 +17,7 @@ export class UsersService {
 
   constructor(private http: HttpClient) {
     this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
-    console.log('UsersService - endPointUrl: ', this.endPointUrl);
+    // console.log('UsersService - endPointUrl: ', this.endPointUrl);
   }
 
   async loadAllItems(): Promise<ListWithCountDto> {

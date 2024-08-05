@@ -1,19 +1,27 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import {Observable} from "rxjs";
 import {StorageService} from "../../service/storage.service";
 import {ApiResponse} from "../../dtos/api-response.dto";
+import { NgIf, NgStyle } from '@angular/common';
 
 @Component({
-    selector: 'app-reg-file-upload',
-    templateUrl: './file-upload.component.html',
     standalone: true,
-    styleUrls: ['./file-upload.component.scss']
+    imports: [
+        NgStyle,
+        NgIf
+    ],
+  selector: 'app-reg-file-upload',
+  templateUrl: './file-upload.component.html',
+  styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
     @Input() bucket: string = '';
     @Input() folder: string = '';
     @Input() newFileName: string = '';
     @Input() accept: string = '';
+    @Input() ctrlName: string = '';
+    @Input() title: string = '';
     @Output() fileUploaded = new EventEmitter<ApiResponse>();
     selectedFiles?: FileList;
     currentFile?: File;
@@ -43,6 +51,8 @@ export class FileUploadComponent implements OnInit {
                 const formData: FormData = new FormData();
                 formData.append('file', file);
                 formData.append('newFileName', this.newFileName);
+                formData.append('title', this.title);
+                formData.append('ctrlName', this.ctrlName);
                 this.storageService.uploadFile(this.bucket,this.folder,formData).subscribe({
                     next: (event: any) => {
                         console.log('upload - HttpEvent - event: ', event);
@@ -76,6 +86,7 @@ export class FileUploadComponent implements OnInit {
                                 this.progress = Math.round(100 * event.loaded / event.total);
                                 break;
                             case HttpEventType.Response:
+                                event.body.data['ctrlName'] = this.ctrlName;
                                 this.fileUploaded.emit(event.body);
                                 break;
                         }

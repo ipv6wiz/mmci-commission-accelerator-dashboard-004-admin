@@ -23,7 +23,7 @@ import { NavCollapseComponent } from './theme/layout/admin/navigation/nav-conten
 import { NavGroupComponent } from './theme/layout/admin/navigation/nav-content/nav-group/nav-group.component';
 import { NavItemComponent } from './theme/layout/admin/navigation/nav-content/nav-item/nav-item.component';
 import { SharedModule } from './theme/shared/shared.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { JwtInterceptor, ErrorInterceptor } from 'src/app/theme/shared/_helpers';
 
@@ -68,16 +68,15 @@ import {LoggerModule} from "ngx-logger";
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
-        HttpClientModule,
         LoggerModule.forRoot({
-            serverLoggingUrl: `${environment.gcpCommAccApiUrl}logit`,
+            serverLoggingUrl: `${environment.gcpCommAccApiUrl}/logit`,
             level: environment.logLevel,
             serverLogLevel: 3,
             disableConsoleLogging: environment.hideConsole
         })
     ],
     providers: [
-
+        provideHttpClient(withInterceptorsFromDi(),),
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
         AuthenticationService

@@ -10,6 +10,9 @@ import { Address } from '../entities/address.interface';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { formatCurrency } from '@angular/common';
 
+type IsEmptyObject<Obj extends Record<PropertyKey, unknown>> =
+  [keyof Obj] extends [never] ? true : false
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +23,16 @@ export class HelpersService {
 
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.boolWords = this.trueWords.concat(this.falseWords);
+  }
+
+  isEmpty<Obj extends Record<PropertyKey, unknown>>(obj: Obj): IsEmptyObject<Obj>
+  isEmpty<Obj extends Record<PropertyKey, unknown>>(obj: Obj) {
+    return Object.keys(obj).length === 0
+  }
+
+  percentCalc(amount: number, percent: number): number {
+    const p: number = percent / 100;
+    return amount * p;
   }
 
   formatCurrencyField(amount: number | undefined): string {

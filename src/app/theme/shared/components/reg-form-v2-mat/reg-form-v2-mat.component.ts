@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
 import {SharedModule} from "../../shared.module";
@@ -22,7 +22,7 @@ import {AgentPerformanceDto} from "../../dtos/agent-performance.dto";
 import {ApiResponse} from "../../dtos/api-response.dto";
 import {DocUploadInfoDto} from "../../dtos/doc-upload-info.dto";
 import {MatIconModule} from "@angular/material/icon";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {RegFormHelpComponent} from "../reg-form-help/reg-form-help.component";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSelectModule} from "@angular/material/select";
@@ -31,6 +31,8 @@ import {ThemePalette} from "@angular/material/core";
 import { HelpersService } from '../../service/helpers.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FileManagerComponent } from '../file-manager/file-manager.component';
+import { ClientUpdateDto } from '../../dtos/client-update.dto';
+import { FileUploadComponent } from '../file-upload/file-upload.component';
 
 @Component({
   selector: 'app-reg-form-v2-mat',
@@ -47,7 +49,8 @@ import { FileManagerComponent } from '../file-manager/file-manager.component';
         MatSelectModule,
         MatExpansionModule,
         MatProgressSpinnerModule,
-        FileManagerComponent
+        FileManagerComponent,
+        FileUploadComponent
     ],
     providers: [
         provideNgxMask()
@@ -56,7 +59,6 @@ import { FileManagerComponent } from '../file-manager/file-manager.component';
   styleUrls: ['./reg-form-v2-mat.component.scss']
 })
 export class RegFormV2MatComponent implements OnInit {
-    @Input() clientId!: string;
     refreshRequest: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     clientBucketName: string = '';
     registrant: Registrant;
@@ -122,16 +124,16 @@ export class RegFormV2MatComponent implements OnInit {
         }
     ]
 
-    isLinear = true; // @TODO set isLinear to true for production
+    isLinear = false; // @TODO set isLinear to true for production
 
     steps: any[] = [];
     docUploadComplete: boolean = false;
     docUploadGroup: any;
     regFormDoneGroup: any;
+    clientId!: string;
 
     constructor(
-        private router: Router,
-        private authService: AuthenticationService,
+      @Inject(MAT_DIALOG_DATA) public data: any,
         private clientService: ClientService,
         private regService: RegistrationService,
         private storageService: StorageService,
@@ -142,11 +144,11 @@ export class RegFormV2MatComponent implements OnInit {
     ) {
 
         this.registrant = new Registrant();
-        this.populateSteps();
-        console.log('RegFormV2MatComponent - constructor - after populateSteps');
-        this.setup().then(() => {
-            console.log('RegFormV2MatComponent - constructor - after setup');
-        });
+        // this.populateSteps();
+        // console.log('RegFormV2MatComponent - constructor - after populateSteps');
+        // this.setup().then(() => {
+        //     console.log('RegFormV2MatComponent - constructor - after setup');
+        // });
         console.log('RegFormV2MatComponent - constructor - end');
     }
 
@@ -158,10 +160,13 @@ export class RegFormV2MatComponent implements OnInit {
     }
 
     async ngOnInit() {
-        console.log('RegFormV2MatComponent - ngOnInit');
+        this.formLoading = true;
+        this.clientId = this.data.client.uid;
+        this.populateSteps();
+        console.log('RegFormV2MatComponent - ngOnInit - data: ', this.data);
 
-        // await this.setup();
-        // console.log('RegFormV2MatComponent - ngOnInit - after setup');
+        await this.setup();
+        console.log('RegFormV2MatComponent - ngOnInit - after setup');
         const docUploadControls = {};
         this.docUploads.forEach((du: DocUploadFormDto) => {
             // @ts-ignore
@@ -183,13 +188,14 @@ export class RegFormV2MatComponent implements OnInit {
         this.docUploadGroup = this._formBuilder.group(docUploadControls);
         console.log('RegFormV2MatComponent - ngOnInit - docUploadGroup: ', this.docUploadGroup);
         this.regFormDoneGroup = this._formBuilder.group({done: ['', Validators.required]});
+        this.formLoading = false;
     }
 
     async setup(): Promise<any> {
         try {
             if(this.clientId) {
                 try {
-                    this.currentClient = await this.clientService.getOne(this.clientId);
+                    this.currentClient = this.data.client;
                     if(this.currentClient) {
                         console.log('RegFormV2MatComponent - setup - currentClient: ', this.currentClient);
                         if(!!this.currentClient.bucket) {
@@ -198,7 +204,7 @@ export class RegFormV2MatComponent implements OnInit {
                         } else {
                             throw new Error(`No bucket for Client ID: ${this.clientId}`)
                         }
-                        this.formLoading = true;
+                        // this.formLoading = true;
                         try {
                             const reg: Registrant = await this.regService.getOne(this.clientId);
                             if(reg) {
@@ -211,7 +217,7 @@ export class RegFormV2MatComponent implements OnInit {
                         } catch (e) {
                             this.registrant.uid = this.clientId;
                         }
-                        this.formLoading = false;
+                        // this.formLoading = false;
                     }
                 } catch (err: any) {
                     console.log('RegFormV2MatComponent - setup - currentClient & Registrant Error: ', err.message);
@@ -869,7 +875,7 @@ export class RegFormV2MatComponent implements OnInit {
         if(event.submitter.id === 'reg-form-save') {
             // let clientLocalData = this.authService.getLocalClientData();
             // this.clientLocalData = clientLocalData;
-            const client: Client = {
+            const client: ClientUpdateDto = {
                 uid: this.clientId,
                 roles: ['CLIENT-PENDING-VERIFICATION'],
                 status: 'Client Pending Verification',

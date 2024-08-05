@@ -27,23 +27,23 @@ export class GlobalErrorHandler extends ErrorHandler {
             }
         } else {
             let msg: string = error.message;
-            this.logger.log('Error handled - before - msg: ', msg);
+            // this.logger.log('Error handled - before - msg: ', msg);
             msg = msg.split('\n').shift() || msg;
-            this.logger.log('Error handled - msg: ', msg);
+            // this.logger.log('Error handled - msg: ', msg);
 
             newMsg = 'An error has occurred';
             const parts = msg.split(':');
             tmpMsg = parts.pop() || newMsg;
-            // this.logger.log('ErrorHandler - FirebaseError - tmpMsg: ', tmpMsg);
+            // // this.logger.log('ErrorHandler - FirebaseError - tmpMsg: ', tmpMsg);
             const open = tmpMsg.indexOf('(');
             const close = tmpMsg.indexOf(')');
             if(open !== -1 && close !== -1){
-                // this.logger.log(`Open: ${open} close: ${close}`);
+                // // this.logger.log(`Open: ${open} close: ${close}`);
 
                 const subMsg = tmpMsg.slice(open+1, close);
-                // this.logger.log('subMsg: ', subMsg);
+                // // this.logger.log('subMsg: ', subMsg);
                 const msgParts = subMsg.split('/');
-                // this.logger.log('msgParts: ', msgParts);
+                // // this.logger.log('msgParts: ', msgParts);
                 switch(msgParts[0]) {
                     case 'auth':
                         newMsg = this.processAuth(msgParts[1]);
@@ -56,13 +56,13 @@ export class GlobalErrorHandler extends ErrorHandler {
             } else if(!!msg) {
                 newMsg = tmpMsg;
             }
-            // this.logger.log('Before Alert newMsg: ', newMsg);
+            // // this.logger.log('Before Alert newMsg: ', newMsg);
             this.alertService.error(newMsg);
         }
     }
 
     processAuth(msg: string): string {
-        // this.logger.log('processAuth - msg: ', msg);
+        // // this.logger.log('processAuth - msg: ', msg);
         let newMsg: string = '';
         switch (msg) {
             case 'user-not-found':
@@ -78,7 +78,7 @@ export class GlobalErrorHandler extends ErrorHandler {
                 newMsg = msg;
                 break;
         }
-        // this.logger.log('processAuth - newMsg: ', newMsg);
+        // // this.logger.log('processAuth - newMsg: ', newMsg);
         return newMsg;
     }
 }

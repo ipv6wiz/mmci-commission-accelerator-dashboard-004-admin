@@ -21,6 +21,7 @@ import { Client } from '../../../theme/shared/entities/client.interface';
 import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HelpersService } from '../../../theme/shared/service/helpers.service';
 import { ClientRegFormComponent } from '../../../theme/shared/components/client-reg-form/client-reg-form.component';
+import { RegFormV2MatComponent } from '../../../theme/shared/components/reg-form-v2-mat/reg-form-v2-mat.component';
 
 @Component({
   selector: 'app-tbl-clients-mat',
@@ -99,7 +100,10 @@ export class TblClientsMatComponent implements OnInit{
   }
 
   openClientRegFormModal(client: any) {
-    this.modal.open(ClientRegFormComponent, {
+    this.expandedClient = null;
+    this.clientVerifyData = null;
+    this.modal.open(RegFormV2MatComponent, {
+      height: '100%',
       data: {
         client
       }
@@ -128,31 +132,32 @@ export class TblClientsMatComponent implements OnInit{
 
   async refreshClientData() {
     this.loadingClients = true;
-    await this.loadClientData();
+    this.clientDataSource = await this.loadClientData();
     this.expandedClient = null;
   }
 
-  private async loadClientData() {
-    this.clientDataSource = await lastValueFrom(this.clientsService.getAll(), {defaultValue: []})
-      .then((response: any) => {
-        // this.logger.log('datasource - load - clients: ', response.data.clients);
-        this.loadingClients = false;
-        const clientsRaw = response.data.clients || [];
-        const clients: Client[] = [];
-        clientsRaw.forEach((client: Client) => {
-          if(client['creditLimit']) {
-            if(client['creditLimit'].active) {
-              client.limit = client['creditLimit'].limit;
-            }
+  private async loadClientData(): Promise<Client[]> {
+    try {
+      const clientsResponse: Client[] = await this.clientsService.getAll();
+      console.log('TblClientsMatComponent - loadClientData - response: ', clientsResponse);
+      this.loadingClients = false;
+      const clientsRaw = clientsResponse || [];
+      console.log('TblClientsMatComponent - loadClientData - clientsRaw: ', clientsRaw);
+      const clients: Client[] = [];
+      clientsRaw.forEach((client: Client) => {
+        if(client['creditLimit']) {
+          if(client['creditLimit'].active) {
+            client.limit = client['creditLimit'].limit;
           }
-          clients.push(client);
-        })
-        return clients;
-      })
-      .catch((err) => {
-        this.logger.log('dataSource - load - error: ', err.message);
+        }
+        clients.push(client);
+      });
+      console.log('TblClientsMatComponent - loadClientData - clients: ', clients);
+      return clients;
+    } catch(err: any)  {
+        // this.logger.log('dataSource - load - error: ', err.message);
         return [];
-      })
+      }
   }
 
   private async loadClientRolesData() {

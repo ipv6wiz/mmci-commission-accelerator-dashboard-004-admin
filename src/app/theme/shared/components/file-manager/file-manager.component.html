@@ -52,9 +52,9 @@
         <div class="resize-handle" (mousedown)="startResizing($event)"></div>
       </mat-drawer>
 
-      <mat-drawer-content  id="file-mgr-content" class="file-mgr-content">
+      <mat-drawer-content  id="file-mgr-content" class="file-mgr-content" [style.width]="contentWidth">
         <div #fileMgrContent>
-          <app-file-details [docInfo]="docInfo" [clientId]="clientId" [bucket]="bucket" ></app-file-details>
+          <app-file-details [fmType]="fmType" [docInfo]="docInfo" [clientId]="clientId" [bucket]="bucket" ></app-file-details>
         </div>
 
       </mat-drawer-content>

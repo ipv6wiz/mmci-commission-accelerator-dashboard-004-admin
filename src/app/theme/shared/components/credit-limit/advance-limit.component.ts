@@ -149,7 +149,7 @@ export class AdvanceLimitComponent implements OnInit {
         }
       })
       .catch((err) => {
-        this.logger.log('updateClientCreditLimit - error: ', err.message);
+        // this.logger.log('updateClientCreditLimit - error: ', err.message);
         return null;
       });
   }

@@ -8,7 +8,7 @@ export interface Client {
     agentDreData?: any;
     approvedBy?: string;
     archivedBy?: string;
-    brokerage?: Brokerage;
+    brokerage: Brokerage;
     bucket?: string;
     cellPhone?: string;
     clientDocs?: any;
@@ -23,12 +23,13 @@ export interface Client {
     dreLicenseExpirationDate?: Date;
     dreNumber: string;
     dreState?: string;
-    email?: string;
+    email: string;
     emailVerified?: boolean;
     firstName?: string;
     homeAddress?: AddressClass;
     lastLogin?:string;
     lastName?: string;
+    limit?: number;
     middleName?: string;
     performance?: AgentPerformance;
     photoURL?: string;

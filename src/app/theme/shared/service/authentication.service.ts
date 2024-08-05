@@ -10,6 +10,7 @@ import { UsersService } from './users.service';
 import { HttpRequest } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { DOCUMENT } from '@angular/common';
+import { HelpersService } from './helpers.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -23,6 +24,7 @@ export class AuthenticationService {
       private router: Router,
       public afAuth: AngularFireAuth,
       public userService: UsersService,
+      private helpers: HelpersService,
       @Inject(LOCALE_ID) public locale: string,
       @Inject(DOCUMENT) private document: any,
       private modal: MatDialog
@@ -257,7 +259,15 @@ export class AuthenticationService {
    sign up with username/password and sign in with social auth
    provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
     async SetUserData(user: any, data: any = {}) {
-        const {firstName, lastName, roles} = data;
+      console.log('>>>>>>> SetUserData - data: ', data);
+      let firstName: string = 'Not Set Yet';
+      let lastName: string = 'Not Set Yet';
+      let roles: string[] = [];
+      if(!this.helpers.isEmpty(data)) {
+        firstName = data.firstName;
+        lastName = data.lastName;
+        roles = data.roles;
+      }
         let userDoc: User | null;
         console.log('>>>>>>> SetUserData - user: ', user);
         const idToken = await user.getIdToken();

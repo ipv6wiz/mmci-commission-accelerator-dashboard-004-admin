@@ -52,7 +52,7 @@ export class RegistrationService {
   }
 
   saveRegFormViaApi(registrant: Registrant): Observable<any>{
-    return this.http.post<any>(`${this.endPointUrl}reg-form`, registrant);
+    return this.http.post<any>(`${this.endPointUrl}/reg-form`, registrant);
   }
 
 }

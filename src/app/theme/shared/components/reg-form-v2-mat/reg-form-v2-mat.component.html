@@ -1,7 +1,7 @@
 <app-reg-nav-bar class="navbar pcoded-header navbar-expand-lg navbar-light header-blue headerPos-fixed" style="position: sticky"></app-reg-nav-bar>
 <div class="card">
     <div class="card-header" style="text-align: center">
-        <h4>New Client Application Process for {{clientLocalData.displayName}}</h4>
+        <h4>New Client Application Process for {{currentClient.displayName}}</h4>
         <h5>Even if you entered some data on the SignUp form please enter it again here</h5>
         <h5>Your entries need to exactly match what is on file at the DRE</h5>
         <p><span style="font-weight: bold">You must Click "Submit Form" in the "Submit for Verification" (final) step<br />for your info to be submitted for consideration</span></p>
@@ -149,7 +149,7 @@
                         }
                       </mat-accordion>
                       @if(clientBucketName) {
-                        <app-file-manager fmType="client" [needRefresh]="refreshRequest" [docInfo]="" [clientId]="clientLocalData.uid" [bucket]="clientBucketName"></app-file-manager>
+                        <app-file-manager fmType="client" [needRefresh]="refreshRequest" [docInfo]="" [clientId]="currentClient.uid" [bucket]="clientBucketName"></app-file-manager>
                       }
                     </div>
                     <div>

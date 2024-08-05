@@ -1,7 +1,7 @@
 import { Component, effect, EffectRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ClientService } from '../../../theme/shared/service/client.service';
 import { NGXLogger } from 'ngx-logger';
-import { lastValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -12,7 +12,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { FileManagerComponent } from '../../../theme/shared/components/file-manager/file-manager.component';
 import {
   fileVerifyStatusSignal
-} from '../../../theme/shared/signals/file-verify-status.signal';
+} from '../../../theme/shared/components/file-manager/signals/file-verify-status.signal';
 import { FileVerifyStatusDto } from '../../../theme/shared/components/file-manager/dtos/file-verify-status.dto';
 import { ClientVerifyService } from '../../../theme/shared/service/client-verify.service';
 import { FileItem } from '../../../theme/shared/components/file-manager/dtos/file-item.interface';
@@ -48,6 +48,7 @@ import { ApiResponse } from '../../../theme/shared/dtos/api-response.dto';
 export class ClientVerifyMatComponent implements OnInit, OnChanges {
   @Input() clientData: any = null;
   @ViewChild('adminInput') adminInput!: MatInput
+  refreshRequest: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   verifyDataSource: any[] = [];
   verifyData: any;
   verifyDocInfo: any;
@@ -55,8 +56,8 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   public loadSpinnerColor: ThemePalette = 'primary';
   public loadSpinnerMode: ProgressSpinnerMode = 'indeterminate';
   public loadSpinnerDiameter: string = '50';
-  private fileVerifyStatusRef: EffectRef;
-  private clientVerifyStatusRef: EffectRef;
+  // private fileVerifyStatusRef: EffectRef;
+  // private clientVerifyStatusRef: EffectRef;
   verifyStatus: any[] = [
     { // 0
       status: 'Processing',
@@ -117,17 +118,20 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
     private authService: AuthenticationService,
     private logger: NGXLogger) {
     console.log('ClientVerifyMatComponent - constructor');
-    this.fileVerifyStatusRef = effect(async () => {
+    effect( () => {
       const fvs: FileVerifyStatusDto = fileVerifyStatusSignal();
+      console.debug('fileVerifyStatusSignal - fvs: ', fvs);
       if(fvs.action !== 'none' && fvs.item) {
-        console.log(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
-        await this.updateClientVerifyDocStatus(fvs);
-        await this.updateClientDocItem(fvs);
+        console.debug(`fileVerifyStatusSignal - action: ${fvs.action} - file name: ${fvs.item!.name} - status: ${fvs.item!.verifyStatus}`);
+        this.updateClientVerifyDocStatus(fvs).then(() => {
+          this.updateClientDocItem(fvs).then();
+        });
+
       } else {
         console.log(`fileVerifyStatusSignal - NO ITEM`);
       }
     });
-    this.clientVerifyStatusRef = effect(async () => {
+    effect(async () => {
       const vsm = clientVerifyStatusSignal();
       const overallStatus = vsm.overall;
       console.log('clientVerifyStatus - verifyStatusMap: ', vsm.statusMap);
@@ -135,22 +139,27 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
       console.log('clientVerifyStatus - effect - clientData: ', this.clientData);
       if(vsm.statusMap.size > 0) {
         console.log('clientVerifyStatusSignal - effect - vsm.statusMap.size: ', vsm.statusMap.size);
+        console.log('clientVerifyStatusSignal - effect - vsm.overall: ', vsm.overall);
         console.log('clientVerifyStatusSignal - effect - roles: ', this.clientData.roles);
-        if(vsm.overall && !this.clientData.roles.includes('CLIENT-VERIFIED')) {
-          console.log('=======> clientVerifyStatusSignal - effect - about to update to CLIENT-VERIFIED - verifyData: ', this.verifyData);
-          await this.clientUpdateRole(vsm.clientId, 'CLIENT-VERIFIED');
+        if((vsm.overall && this.clientData.roles.includes('CLIENT-VERIFIED'))) {
+          console.log('All good')
+        } else {
+          if(vsm.overall && !this.clientData.roles.includes('CLIENT-VERIFIED')) {
+            console.log('=======> clientVerifyStatusSignal - effect - about to update to CLIENT-VERIFIED - verifyData: ', this.verifyData);
+            await this.clientUpdateRole(vsm.clientId, 'CLIENT-VERIFIED');
+          }
+          else if(!vsm.overall && !this.clientData.roles.includes('CLIENT-PENDING-VERIFICATION')) {
+            console.log('clientVerifyStatusSignal - effect - about to update to CLIENT-PENDING-VERIFICATION');
+            await this.clientUpdateRole(vsm.clientId, 'CLIENT-PENDING-VERIFICATION');
+          }
         }
-        else if(!vsm.overall && !this.clientData.roles.includes('CLIENT-PENDING-VERIFICATION')) {
-          console.log('clientVerifyStatusSignal - effect - about to update to CLIENT-PENDING-VERIFICATION');
-          await this.clientUpdateRole(vsm.clientId, 'CLIENT-PENDING-VERIFICATION');
-        }
-
       }
-    });
+    }); // End of Effect
   }
 
   ngOnInit() {
     // console.log('ClientVerifyComponent - ngOnInit - Just so this method does not feel lonely');
+    console.debug('Client Data: ', this.clientData);
     this.verifyDataSource = [];
     this.verifyData = null;
   }
@@ -175,8 +184,12 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
           this.loadingVerification = true;
           await this.loadClientVerifyData();
           this.verifyDataSource = this.verifyData.items;
+          console.log('ClientVerifyMatComponent - ngOnChanges - verifyDataSource: ', this.verifyDataSource);
           const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
-          this.verifyDocInfo = this.verifyDataSource[docIndex].value['researchData']['data'];
+          console.log('ClientVerifyMatComponent - ngOnChanges - docIndex: ', docIndex);
+          if(docIndex !== -1) {
+            this.verifyDocInfo = this.verifyDataSource[docIndex].value['researchData']['data'];
+          }
           this.setClientVerifyStatusSignal(this.clientData.uid)
         }
       }
@@ -184,7 +197,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
   }
 
   private setClientVerifyStatusSignal(clientId: string) {
-    const statusMap = this.populateClientVerifyStatusMap();
+    const statusMap: Map<string, boolean> = this.populateClientVerifyStatusMap();
     clientVerifyStatusSignal.set({statusMap, overall: this.calcClientOverallVerifyStatus(statusMap), clientId });
   }
 
@@ -255,14 +268,16 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         return response.data;
       })
       .catch((err) => {
-        this.logger.log('verifyDataSource - load - error: ', err.message);
+        // this.logger.log('verifyDataSource - load - error: ', err.message);
         return [];
       })
   }
 
   async refreshVerificationData() {
+    const roles: string[] = this.clientData.roles;
+    const refresh: string = roles.includes('CLIENT-PENDING-VERIFICATION') ? 'true' : 'false';
     this.loadingVerification = true;
-    await this.loadClientVerifyData('true');
+    await this.loadClientVerifyData(refresh); // Made change here
     this.verifyDataSource = this.verifyData.items;
     const docIndex = this.findItemIndex('CLIENT_DOCUMENTS');
     this.updateClientDocumentsVerifyStatus(docIndex);
@@ -292,7 +307,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
             }
           })
           .catch((err) => {
-            this.logger.log('updateClientDocsStatus - error: ', err.message);
+            // this.logger.log('updateClientDocsStatus - error: ', err.message);
             return null;
           });
         this.updateClientDocumentsVerifyStatus(docIndex);
@@ -315,7 +330,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
         }
       })
       .catch((err: any) => {
-        this.logger.log('clientUpdateRole - error: ', err.message);
+        // this.logger.log('clientUpdateRole - error: ', err.message);
         return null;
       });
   }
@@ -383,7 +398,7 @@ export class ClientVerifyMatComponent implements OnInit, OnChanges {
           }
         })
         .catch((err) => {
-          this.logger.log('updateClientDocItem - error: ', err.message);
+          // this.logger.log('updateClientDocItem - error: ', err.message);
           return null;
         });
       console.log('updateClientDocItem - updateResponse: ', updateResponse);

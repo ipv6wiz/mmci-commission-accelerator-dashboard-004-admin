@@ -11,11 +11,14 @@ import { Client } from '../entities/client.interface';
 export class ClientService {
   private apiUrl: string = environment.gcpCommAccApiUrl;
   private readonly endPoint: string = 'client';
+  private readonly endPointPlural: string = 'clients';
   private readonly endPointUrl: string;
+  private readonly endPointUrlPlural: string;
 
 
   constructor(private http: HttpClient) {
     this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
+    this.endPointUrlPlural = `${this.apiUrl}/${this.endPointPlural}`;
   }
 
   async getOne(uid: string): Promise<Client> {
@@ -28,6 +31,20 @@ export class ClientService {
         }
       }).catch((err) => {
         console.log('Dash001 - Client Service - getOne- error: ', err.message);
+        return null;
+      })
+  }
+
+  async getAll(): Promise<Client[]> {
+    return lastValueFrom(this.getAllClients(), {defaultValue: {}})
+      .then((response: any) => {
+        if(response.statusCode === 200) {
+          return response.data.clients;
+        } else {
+          throw new Error(`Error loading all Clients`);
+        }
+      }).catch((err) => {
+        console.log('Client Service - getAll- error: ', err.message);
         return null;
       })
   }
@@ -47,24 +64,24 @@ export class ClientService {
       })
   }
 
-    getAll(): Observable<ApiResponse> {
-      return this.http.get<ApiResponse>(`${this.endPointUrl}/clients/dg`);
+    getAllClients(): Observable<ApiResponse> {
+      return this.http.get<ApiResponse>(`${this.endPointUrlPlural}/dg`);
     }
 
     getOneClient(clientId: string): Observable<ApiResponse> {
-      return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}`)
+      return this.http.get<ApiResponse>(`${this.endPointUrl}/${clientId}`)
     }
 
     updateClientDocItem(clientId: string, docItem: any): Observable<ApiResponse> {
-      return this.http.put<ApiResponse>(`${this.endPointUrl}/client/${clientId}/doc`, docItem);
+      return this.http.put<ApiResponse>(`${this.endPointUrl}/${clientId}/doc`, docItem);
     }
 
     updateClientCreditLimit(clientId: string, creditLimitObj: any): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.endPointUrl}/client/${clientId}/credit`, creditLimitObj);
+    return this.http.put<ApiResponse>(`${this.endPointUrl}/${clientId}/credit`, creditLimitObj);
     }
 
-  updateClient(clientId: string, data: any): Observable<ApiResponse> {
-      return this.http.put<ApiResponse>(`${this.endPointUrl}/client/${clientId}`, data);
-    }
+    updateClient(clientId: string, data: any): Observable<ApiResponse> {
+        return this.http.put<ApiResponse>(`${this.endPointUrl}/${clientId}`, data);
+      }
 
 }

@@ -17,7 +17,8 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
 import { FileItem } from '../dtos/file-item.interface';
-import { fileVerifyStatusSignal } from '../../../signals/file-verify-status.signal';
+import { fileVerifyStatusSignal } from '../signals/file-verify-status.signal';
+import { FileVerifyStatusDto } from '../dtos/file-verify-status.dto';
 
 @Component({
   selector: 'app-file-display',
@@ -85,6 +86,8 @@ export class FileDisplayComponent implements OnInit, OnChanges {
 
   async acceptRejectRequestBtnClick(event: any, kind: string, item: FileItem) {
     // base verifyStatus off of kind
+    console.debug('acceptRejectRequestBtnClick - kind: ', kind);
+    console.debug('acceptRejectRequestBtnClick - item: ', item);
     switch(kind) {
       case 'accept':
         item.verifyStatus = 4;
@@ -104,8 +107,13 @@ export class FileDisplayComponent implements OnInit, OnChanges {
     };
     newMeta.verifyStatus = item.verifyStatus;
     this.data.fileItem.meta.metadata.verifyStatus = item.verifyStatus;
-    await this.storageService.setFileStatus(this.data.bucket, item.folder, item.name, newMeta);
-    fileVerifyStatusSignal.set({clientId: this.data.clientId, action: kind, item});
+    const signalData: FileVerifyStatusDto = {clientId: this.data.clientId, action: kind, item}
+    console.debug('acceptRejectRequestBtnClick - After storage setFileStatus - signalData: ', signalData);
+    fileVerifyStatusSignal.set(signalData);
+    const res = await this.storageService.setFileStatus(this.data.bucket, item.folder, item.name, newMeta);
+    console.debug('acceptRejectRequestBtnClick - After storage setFileStatus - res: ', res);
+    console.debug('acceptRejectRequestBtnClick - After storage setFileStatus - item: ', item);
+
   }
 
   itemDisable(btn: string, item: any): boolean {
@@ -132,7 +140,7 @@ export class FileDisplayComponent implements OnInit, OnChanges {
             this.item = arrayBufferView;
           } else {
             const blob = new Blob([arrayBufferView], {type: "image/jpg"});
-            const urlCreator =  window.URL || window.webkitURL;
+            const urlCreator =  window.URL;
             this.itemUrl = urlCreator.createObjectURL( blob );
           }
         },
