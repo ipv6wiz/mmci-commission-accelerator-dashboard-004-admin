@@ -139,6 +139,8 @@ export class RequestPendingDialogComponent implements OnInit{
     const email: MailOutWithTemplateEntity = {
       to: item.escrowEmail,
       cc: [item.currClient.email],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'escrow-confirm',
         data: {

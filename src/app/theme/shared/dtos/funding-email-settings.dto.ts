@@ -3,4 +3,6 @@ export interface FundingEmailSettingsDto {
   FundsAdminSalutation: string;
   FundsSourceEmail: string;
   FundsSourceSalutation: string;
+  ReplyTo: string;
+  BCC: string;
 }

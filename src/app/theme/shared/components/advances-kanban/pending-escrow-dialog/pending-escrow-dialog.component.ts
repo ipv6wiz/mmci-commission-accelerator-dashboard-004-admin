@@ -379,7 +379,8 @@ export class PendingEscrowDialogComponent implements OnInit{
     }
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,
-      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'client-approval',
         data: {

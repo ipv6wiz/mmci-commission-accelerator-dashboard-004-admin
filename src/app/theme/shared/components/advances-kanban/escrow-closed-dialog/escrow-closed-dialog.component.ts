@@ -70,6 +70,7 @@ export class EscrowClosedDialogComponent implements OnInit {
       {key: 'fieldIdPrefix', value: 'escrow-closed'},
       {key: 'dataTypeTag', value: 'kb-escrow-closed-dialog'},
       {key: 'formTag', value: 'Funds from Escrow Verification'},
+      {key: 'justTag', value: 'true'},
       {key: 'formUUID', value: this.formUUID},
       {key: 'showToolbar', value: 'false'},
       {key: 'topSubmit', value: 'false'}

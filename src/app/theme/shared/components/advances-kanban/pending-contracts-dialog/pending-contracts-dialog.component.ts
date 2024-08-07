@@ -95,7 +95,8 @@ export class PendingContractsDialogComponent implements OnInit {
   async sendContractsReminderEmail(item: AdvanceEntity): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,
-      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'contracts-reminder',
         data: {
@@ -110,7 +111,8 @@ export class PendingContractsDialogComponent implements OnInit {
   async sendFundingEmail(item: AdvanceEntity): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
       to: this.fundingEmailSettings.FundsSourceEmail,
-      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'advance-funding',
         data: {

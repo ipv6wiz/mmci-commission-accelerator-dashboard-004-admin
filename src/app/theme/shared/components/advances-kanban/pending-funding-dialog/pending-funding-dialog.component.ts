@@ -104,7 +104,8 @@ export class PendingFundingDialogComponent implements OnInit {
     const email: MailOutWithTemplateEntity = {
       to: item.escrowEmail,
       cc: [item.currClient.email, item.currClient.brokerage.brokerEmail],
-      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'escrow-demand',
         data: {
@@ -112,6 +113,7 @@ export class PendingFundingDialogComponent implements OnInit {
           escrowTransactionNumber: item.escrowTransactionNumber,
           escrowOfficer: item.escrowOfficer,
           brokerageName: item.currClient.brokerage.brokerageName,
+          brokerName: item.currClient.brokerage.brokerName,
           displayName: item.currClient.displayName,
           amount: item.amountToCommAcc,
           bankAccountName: companyInfo.bankAccountName,
@@ -133,7 +135,8 @@ export class PendingFundingDialogComponent implements OnInit {
   async sendFundingReminderEmail(item: AdvanceEntity): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
       to:  this.fundingEmailSettings.FundsSourceEmail,
-      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'funding-reminder',
         data: {
@@ -152,7 +155,8 @@ export class PendingFundingDialogComponent implements OnInit {
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,
       cc: [item.currClient.brokerage.brokerEmail],
-      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'funded-advance',
         data: {

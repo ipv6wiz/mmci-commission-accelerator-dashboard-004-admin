@@ -106,7 +106,8 @@ export class PendingApprovalDialogComponent implements OnInit{
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,
       cc: [item.currClient.brokerage.brokerEmail],
-      bcc: [this.fundingEmailSettings.FundsAdminEmail],
+      replyTo: this.fundingEmailSettings.ReplyTo,
+      bcc: [this.fundingEmailSettings.BCC],
       template: {
         name: 'client-contracts',
         data: {

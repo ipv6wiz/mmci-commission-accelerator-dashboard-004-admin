@@ -172,7 +172,7 @@ export class AdvanceHelpersService {
         info.companyAddress = address;
         info.bankName = mapValues.get('BANK-NAME')!.value || nsy;
         info.bankAccountName = mapValues.get('BANK-ACCOUNT-NAME')?.value || nsy;
-        info.bankAccountNumber = mapValues.get('BANK_ACCOUNT_NUMBER')?.value || nsy;
+        info.bankAccountNumber = mapValues.get('BANK-ACCOUNT-NUMBER')?.value || nsy;
         info.bankRoutingNumber = mapValues.get('BANK-ROUTING')?.value || nsy;
         return info;
       } else {
