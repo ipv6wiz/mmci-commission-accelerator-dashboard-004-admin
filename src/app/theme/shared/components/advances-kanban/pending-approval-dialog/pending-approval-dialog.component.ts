@@ -15,6 +15,7 @@ import { MailOutWithTemplateEntity } from '../../../entities/mail-out-with-templ
 import { advanceKanbanRefreshSignal } from '../../../signals/advance-kanban-refresh.signal';
 import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
 import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
+import { AdvanceWorkflowDialogConfigEntity } from '../../../entities/advance-workflow-dialog-config.entity';
 
 @Component({
   selector: 'app-pending-approval',
@@ -31,6 +32,7 @@ import { AdvanceHelpersService } from '../../../service/advance-helpers.service'
 export class PendingApprovalDialogComponent implements OnInit{
   private fundingEmailSettings!: FundingEmailSettingsDto;
   dataTypeTag: string = 'kb-pending-approval-dialog';
+  wfConfig!: AdvanceWorkflowDialogConfigEntity;
 
   constructor(
     public modal: MatDialog,
@@ -39,10 +41,15 @@ export class PendingApprovalDialogComponent implements OnInit{
     private emailSendService: EmailSendService,
     private service: AdvanceService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {}
+  ) {
+    // console.debug('constructor - data: ', this.data);
+    this.wfConfig = this.data.wfConfig;
+    // console.debug('constructor - wfConfig: ', this.wfConfig);
+  }
 
   async ngOnInit() {
     this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
+
   }
 
   async clickCounter(event: any) {

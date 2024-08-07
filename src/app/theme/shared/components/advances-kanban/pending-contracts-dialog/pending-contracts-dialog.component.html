@@ -1,5 +1,5 @@
 <mat-toolbar color="antiquewhite">
-  <button mat-fab extended  style="color: antiquewhite; background-color: darkgreen" (click)="clickAllParties()"><mat-icon>check</mat-icon>All Parties Signed</button>
+  <button mat-fab extended  style="color: antiquewhite; background-color: darkgreen" (click)="clickAllParties()"><mat-icon>check</mat-icon>{{wfConfig.dialogAcceptButtonText}}</button>
   <button mat-fab extended   style="color: antiquewhite; background-color: #d19a66; margin-left: 5px" (click)="clickSendReminderEmail()"><mat-icon>email</mat-icon>Send Reminder Email</button>
   <button mat-fab extended style="color: antiquewhite; background-color: red; margin-left: 5px" (click)="clickReject()"><mat-icon>delete</mat-icon>Reject Advance</button>
   <span class="example-spacer"></span>

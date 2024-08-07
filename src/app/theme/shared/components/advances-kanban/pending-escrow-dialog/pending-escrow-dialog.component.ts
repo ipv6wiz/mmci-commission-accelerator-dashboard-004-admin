@@ -20,6 +20,7 @@ import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
 import { mmciFormModeChangeSignal } from '../../mmci-form-mat/signals/mmci-form-mode-change.signal';
 import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
 import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
+import { AdvanceWorkflowDialogConfigEntity } from '../../../entities/advance-workflow-dialog-config.entity';
 
 @Component({
   selector: 'app-pending-escrow-dialog',
@@ -45,6 +46,7 @@ export class PendingEscrowDialogComponent implements OnInit{
   formConfig!: SelectDto[];
   formMode: string = 'edit';
   editButtonText: string = "View";
+  wfConfig!: AdvanceWorkflowDialogConfigEntity;
 
   constructor(
     public modal: MatDialog,
@@ -79,7 +81,8 @@ export class PendingEscrowDialogComponent implements OnInit{
     this.formConfig = [
       {key: 'fieldIdPrefix', value: 'pending-escrow'},
       {key: 'dataTypeTag', value: 'kb-pending-escrow-dialog'},
-      {key: 'formTag', value: 'Pending Escrow Confirmation'},
+      {key: 'formTag', value: 'Create Advance Offer'},
+      {key: 'justTag', value: 'true'},
       {key: 'formUUID', value: this.formUUID},
       {key: 'showToolbar', value: 'false'},
       {key: 'topSubmit', value: 'true'}
@@ -90,6 +93,7 @@ export class PendingEscrowDialogComponent implements OnInit{
     console.log('PendingEscrowDialogComponent - constructor - Promo Codes: ', this.promoCodes);
     this.creditObj = this.data.creditObj;
     console.log('PendingEscrowDialogComponent - constructor - creditObj: ', this.creditObj);
+    this.wfConfig = this.data.wfConfig;
   }
 
  async ngOnInit() {
@@ -101,6 +105,7 @@ export class PendingEscrowDialogComponent implements OnInit{
     }
     this.fieldsArr = this.populateFormFields();
    this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
+
   }
 
   async onSubmit(event: any) {
@@ -181,7 +186,7 @@ export class PendingEscrowDialogComponent implements OnInit{
       required: true,
       disabled: false,
       validators: [],
-      width: 33, // percentage
+      width: 50, // percentage
       rowCol: '20.1',
     });
 
@@ -193,7 +198,7 @@ export class PendingEscrowDialogComponent implements OnInit{
       required: true,
       disabled: false,
       validators: [],
-      width: 33, // percentage
+      width: 50, // percentage
       rowCol: '20.2',
     });
 
@@ -235,7 +240,7 @@ export class PendingEscrowDialogComponent implements OnInit{
       required: false,
       disabled: false,
       validators: [],
-      width: 30,
+      width: 50,
       rowCol: '40.1',
       options: this.promoCodes,
       selectValueField: 'code',
@@ -254,7 +259,7 @@ export class PendingEscrowDialogComponent implements OnInit{
       required: false,
       disabled: false,
       validators: [],
-      width: 70,
+      width: 50,
       rowCol: '40.2',
       associatedFromField: 'promoCode'
     });

@@ -12,6 +12,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CompanyInfoDto } from '../dtos/company-info.dto';
 import { AddressDto } from '../dtos/address.dto';
 import { FundingEmailSettingsDto } from '../dtos/funding-email-settings.dto';
+import { ColumnsModel } from '@syncfusion/ej2-angular-kanban';
+import { AdvanceWorkflowDialogConfigEntity } from '../entities/advance-workflow-dialog-config.entity';
+import { AdvanceStatusConfigDto } from '../dtos/advance-status-config.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +28,54 @@ export class AdvanceHelpersService {
     private emailSendService: EmailSendService,
     private helpers: HelpersService
   ) { }
+
+  async getAdvanceStatusFromOptions(): Promise<AdvanceStatusConfigDto> {
+    const colMatIcons: string[] = [];
+    let advanceOptionsItems: Map<string, AdvanceWorkflowDialogConfigEntity>;
+    try {
+      const statusListResponse: ApiResponse = await this.optionsService.loadValuesByType('AdvanceStatus');
+      if(statusListResponse.statusCode === 200) {
+        const items: OptionValue[] = statusListResponse.data.items;
+        advanceOptionsItems = this.makeAdvanceOptionItems(items);
+        const columnsList: ColumnsModel[] = [];
+        items.forEach((item: OptionValue) => {
+          if(item.displayValue) {
+            console.log('getAdvanceStatusFromOptions - displayValue: ', item.displayValue);
+            colMatIcons.push(item.displayValue);
+          }
+          const colItem: ColumnsModel = {
+            headerText: item.value,
+            keyField: item.key,
+            allowToggle: true
+          }
+          columnsList.push(colItem);
+        });
+        return {
+          columnsList,
+          advanceOptionsItems,
+          colMatIcons
+        };
+      } else {
+        throw new Error('Error loading Advance Status list from Options')
+      }
+    } catch(err: any) {
+      throw new Error(err.message);
+    }
+  }
+
+  private makeAdvanceOptionItems(items: OptionValue[]): Map<string, AdvanceWorkflowDialogConfigEntity> {
+    const optMap: Map<string, AdvanceWorkflowDialogConfigEntity> = new Map<string, AdvanceWorkflowDialogConfigEntity>();
+    items.forEach((item: OptionValue) => {
+      const optItem: AdvanceWorkflowDialogConfigEntity = {
+        key: item.key,
+        kanbanColumnLabel: item.value,
+        kanbanColumnIcon: item.displayValue || '',
+        dialogAcceptButtonText: item.description || '',
+      };
+      optMap.set(item.key, optItem);
+    })
+    return optMap;
+  }
 
   async updateAdvanceStatus(uid: string, advanceStatus: string): Promise<ApiResponse> {
     const data: any = {advanceStatus};

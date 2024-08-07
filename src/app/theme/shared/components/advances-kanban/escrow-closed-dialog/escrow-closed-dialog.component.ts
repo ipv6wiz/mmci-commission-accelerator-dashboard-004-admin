@@ -17,6 +17,7 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { MmciFormMatComponent } from '../../mmci-form-mat/mmci-form-mat.component';
 import { FundsReceivedFromEscrowDto } from '../../../dtos/funds-received-from-escrow.dto';
 import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
+import { AdvanceWorkflowDialogConfigEntity } from '../../../entities/advance-workflow-dialog-config.entity';
 
 @Component({
   selector: 'app-escrow-closed-dialog',
@@ -40,6 +41,7 @@ export class EscrowClosedDialogComponent implements OnInit {
   formConfig!: SelectDto[];
   formMode: string = 'view';
   editButtonText: string = "Edit";
+  wfConfig!: AdvanceWorkflowDialogConfigEntity;
 
 
   constructor(
@@ -72,12 +74,14 @@ export class EscrowClosedDialogComponent implements OnInit {
       {key: 'showToolbar', value: 'false'},
       {key: 'topSubmit', value: 'false'}
     ];
+    this.wfConfig = this.data.wfConfig;
   }
 
   async ngOnInit() {
     this.fieldsArr = this.populateFormFields();
     this.data.item.amountReceivedFromEscrow = this.data.item.amountToCommAcc;
     this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
+
   }
 
   async onSubmit(event: any) {

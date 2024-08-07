@@ -27,6 +27,7 @@ import { AdvanceEntity } from '../../../entities/advance.entity';
 import { AdvanceUpdateDto } from '../../../dtos/advance-update.dto';
 import { AdvanceHelpersService } from '../../../service/advance-helpers.service';
 import { FundingEmailSettingsDto } from '../../../dtos/funding-email-settings.dto';
+import { AdvanceWorkflowDialogConfigEntity } from '../../../entities/advance-workflow-dialog-config.entity';
 
 @Component({
   selector: 'app-request-pending-dialog',
@@ -55,6 +56,7 @@ export class RequestPendingDialogComponent implements OnInit{
   formConfig!: SelectDto[];
   formMode: string = 'view';
   editButtonText: string = "Edit";
+  wfConfig!: AdvanceWorkflowDialogConfigEntity;
 
   constructor(
     public modal: MatDialog,
@@ -79,12 +81,14 @@ export class RequestPendingDialogComponent implements OnInit{
     this.formConfig = [
       {key: 'fieldIdPrefix', value: 'request-pending'},
       {key: 'dataTypeTag', value: 'kb-request-pending-dialog'},
-      {key: 'formTag', value: 'Request Pending Verification'},
+      {key: 'formTag', value: 'Advance Request Verification'},
+      {key: 'justTag', value: 'true'},
       {key: 'formUUID', value: this.formUUID},
       {key: 'showToolbar', value: 'false'},
       {key: 'topSubmit', value: 'true'}
     ];
     this.chipListArr = [];
+    this.wfConfig = this.data.wfConfig;
   }
 
   async ngOnInit() {
@@ -95,6 +99,7 @@ export class RequestPendingDialogComponent implements OnInit{
     console.log('RequestPendingDialogComponent - ngOnInit - MLS Systems: ', this.mls);
     this.fieldsArr = this.populateFormFields(this.data.item);
     this.fundingEmailSettings = await this.advanceHelpers.getFundingEmailSettings();
+
   }
 
   clickAccept() {

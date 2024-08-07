@@ -309,7 +309,7 @@ export class MmciFormMatComponent implements OnInit{
       const percent: number = pc.value / 100;
       discount = advanceFee * percent;
     } else if(pc.valueType.toLowerCase() === 'fixed' || pc.valueType === '$') {
-      discount = advanceFee - pc.value;
+      discount = pc.value;
     }
     return discount;
   }
@@ -318,9 +318,8 @@ export class MmciFormMatComponent implements OnInit{
     this.formGroup.controls['advanceFeeDiscount'].setValue(advanceFeeDiscount);
     const feeAfterDiscount: number = (advanceFee - advanceFeeDiscount);
     this.formGroup.controls['advanceFeeAfterDiscount'].setValue(feeAfterDiscount);
-    const amountToClient = amountApproved - feeAfterDiscount;
-    this.formGroup.controls['amountToClient'].setValue(amountToClient);
-    this.formGroup.controls['amountToCommAcc'].setValue(amountApproved);
+    this.formGroup.controls['amountToClient'].setValue(amountApproved);
+    this.formGroup.controls['amountToCommAcc'].setValue(amountApproved + feeAfterDiscount);
   }
 }
 

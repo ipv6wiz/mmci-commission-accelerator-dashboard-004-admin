@@ -1,5 +1,5 @@
 <mat-toolbar color="antiquewhite">
-  <button mat-fab extended [disabled]="formMode === 'edit'" style="color: antiquewhite; background-color: darkgreen" (click)="clickAccept()"><mat-icon>check</mat-icon>Accept Advance</button>
+  <button mat-fab extended [disabled]="formMode === 'edit'" style="color: antiquewhite; background-color: darkgreen" (click)="clickAccept()"><mat-icon>check</mat-icon>{{wfConfig.dialogAcceptButtonText}}</button>
   <button mat-fab extended  style="color: antiquewhite; background-color: #d19a66; margin-left: 5px" (click)="clickEdit()"><mat-icon>edit</mat-icon>{{editButtonText}} Advance</button>
   <button mat-fab extended [disabled]="formMode === 'edit'" style="color: antiquewhite; background-color: red; margin-left: 5px" (click)="clickReject()"><mat-icon>delete</mat-icon>Reject Advance</button>
   <span class="example-spacer"></span>
