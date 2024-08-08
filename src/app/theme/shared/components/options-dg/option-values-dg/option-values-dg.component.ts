@@ -125,6 +125,6 @@ export class OptionValuesDgComponent implements OnInit {
     } else {
       throw new Error(response.msg);
     }
-
+    this.loadingItems = false;
   }
 }

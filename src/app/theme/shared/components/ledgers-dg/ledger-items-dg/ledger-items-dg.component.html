@@ -1,1 +1,53 @@
-<p>ledger-items-dg works!</p>
+<table
+  mat-table
+  [dataSource]="dataSource"
+  multiTemplateDataRows="true"
+  class="mat-elevation-z8"
+>
+  @for(column of columnsToDisplay; track $index) {
+    <ng-container matColumnDef="{{column}}">
+      <th mat-header-cell *matHeaderCellDef>{{columnNamesToDisplay[$index]}}</th>
+      <td mat-cell *matCellDef="let item">
+        @if(column.indexOf('.') === -1) {
+          @if(columnsConfig.has(column)){
+            @if(columnsConfig.get(column).type === 'currency') {
+              <span [ngStyle]="{'color': item[column] < 0 ? 'red': 'black'}">
+                {{ (item[column] | mask: columnsConfig.get(column).mask : {allowNegativeNumbers: true, thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix, leadZero: true}) || 'Not Set Yet' }}
+              </span>
+            }
+          }@else if(helpers.isColumnTypeBool(item[column])) {
+            <span>
+                  <i class="bi {{item[column] | matBoolDisplay: 'bs' }}"></i>
+                </span>
+          } @else {
+            {{ item[column] || 'Not Set Yet' }}
+          }
+        } @else {
+          @if(columnsConfig.has(column)){
+            @if(columnsConfig.get(column).type === 'currency') {
+              <span [ngStyle]="{'color': (item | nestedCol: column | isNegative) ? 'red' : 'black'}">
+                {{ (item | nestedCol: column | mask: columnsConfig.get(column).mask : {allowNegativeNumbers: true, thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix, leadZero: true}) || 'Not Set Yet' }}
+              </span>
+            }
+          }@else if(helpers.isColumnTypeBoolNested(item, column)) {
+            <span>
+                  <i class="bi {{item | nestedCol: column | matBoolDisplay: 'bs' }}"></i>
+                </span>
+          } @else {
+            {{ item | nestedCol: column || 'Not Set Yet' }}
+          }
+        }
+      </td>
+    </ng-container>
+  }
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithActions"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithActions"></tr>
+</table>
+<mat-paginator #paginator
+               [length]="totalItemsCount"
+               [pageSize]="10"
+               [disabled]="'false'"
+               [pageSizeOptions]="[ 5, 10, 25, 50, 100]"
+               showFirstLastButtons="showFirstLastButtons"
+></mat-paginator>
+

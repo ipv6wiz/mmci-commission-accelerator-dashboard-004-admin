@@ -12,8 +12,10 @@
           @if(column.indexOf('.') === -1) {
             @if(columnsConfig.has(column)){
               @if(columnsConfig.get(column).type === 'currency') {
-                {{ (item[column] | mask: columnsConfig.get(column).mask : {thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix}) || 'Not Set Yet' }}
-              }
+                <span [ngStyle]="{'color': item[column] < 0 ? 'red': 'black'}">
+                {{ (item[column] | mask: columnsConfig.get(column).mask : {allowNegativeNumbers: true, thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix, leadZero: true}) || 'Not Set Yet' }}
+                </span>
+                  }
               @if(columnsConfig.get(column).type === 'date'){
                 {{item[column] | date: columnsConfig.get(column).format}}
               }
@@ -27,7 +29,9 @@
           } @else {
             @if(columnsConfig.has(column)){
               @if(columnsConfig.get(column).type === 'currency') {
-                {{ (item | nestedCol: column | mask: columnsConfig.get(column).mask : {thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix}) || 'Not Set Yet' }}
+                <span [ngStyle]="{'color': item[column] < 0 ? 'red': 'black'}">
+                {{ (item | nestedCol: column | mask: columnsConfig.get(column).mask : {allowNegativeNumbers: true, thousandSeparator:columnsConfig.get(column).thousandSeparator, prefix: columnsConfig.get(column).prefix, leadZero: true}) || 'Not Set Yet' }}
+                </span>
               }
               @if(columnsConfig.get(column).type === 'date'){
                 {{item[column] | nestedCol: column | date: columnsConfig.get(column).format}}
@@ -85,7 +89,7 @@
       <div class="example-option-detail"
            [@detailExpand]="ledger === expandedLedger ? 'expanded' : 'collapsed'">
         <div class="example-option-diagram-x">
-          <app-ledger-items-dg  [ledgerItems]="ledger.ledgerItems" [ledger]="ledger" [user]="user" ></app-ledger-items-dg>
+          <app-ledger-items-dg  [dgDataObj]="ledger" [loadingItems]="loadingItems" [user]="user" ></app-ledger-items-dg>
         </div>
       </div>
     </td>

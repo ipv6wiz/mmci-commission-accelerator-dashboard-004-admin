@@ -1,0 +1,38 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+table {
+  width: 100%;
+}
+
+table .mat-mdc-header-cell {
+  background-color: black;
+  color: white;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.items-load-spinner-section {
+  display: block;
+  text-align: center;
+  height: 90px;
+}
+
+.items-load-spinner-margin {
+  margin: auto;
+}

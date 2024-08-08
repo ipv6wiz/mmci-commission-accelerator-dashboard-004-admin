@@ -7,6 +7,7 @@ import { ListWithCountDto } from '../dtos/list-with-count.dto';
 import { LedgerBalanceDto } from '../dtos/ledger-balance.dto';
 import { AdvanceLedgerPostDto } from '../dtos/advance-ledger-post.dto';
 import { FundsReceivedFromEscrowDto } from '../dtos/funds-received-from-escrow.dto';
+import { LedgerEntity } from '../entities/ledger.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +26,9 @@ export class LedgerService {
     return response.data;
   }
 
-  async getClientLedger(clientId: string): Promise<ListWithCountDto> {
+  async getClientLedger(clientId: string): Promise<ApiResponse> {
     const response: ApiResponse = await lastValueFrom(this.getClientLedgerCall(clientId), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
-    return response.data;
+    return response;
   }
 
   async getClientBalance(clientId: string, withCredit: boolean = true): Promise<LedgerBalanceDto> {

@@ -2,12 +2,12 @@ import { AfterViewChecked, Component, Input, OnInit, ViewChild } from '@angular/
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { NgxMaskPipe } from 'ngx-mask';
+import { NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { NestedColumnPipe } from '../../pipes/nested-column.pipe';
 import { MatBoolDisplayPipe } from '../../pipes/mat-bool-display.pipe';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIconButton } from '@angular/material/button';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgStyle } from '@angular/common';
 import { AdvanceEntity } from '../../entities/advance.entity';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,6 +20,7 @@ import { OptionValuesDgComponent } from '../options-dg/option-values-dg/option-v
 import { AuthenticationService } from '../../service';
 import { LedgerItemsDgComponent } from './ledger-items-dg/ledger-items-dg.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { LedgerDto } from '../../dtos/ledger.dto';
 
 @Component({
   selector: 'app-ledgers-dg',
@@ -35,7 +36,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     MatIconButton,
     DatePipe,
     MatIcon,
-    LedgerItemsDgComponent
+    LedgerItemsDgComponent,
+    NgStyle
+  ],
+  providers: [
+    provideNgxMask()
   ],
   templateUrl: './ledgers-dg.component.html',
   styleUrl: './ledgers-dg.component.scss',
@@ -54,17 +59,20 @@ export class LedgersDgComponent implements OnInit, AfterViewChecked {
 
   tableTitle: string = 'Client Ledgers';
   tableItemName: string = 'Client Ledger';
-  dataSource!: MatTableDataSource<LedgerEntity>;
+  dataSource!: MatTableDataSource<LedgerDto>;
   dataTypeTag: string = 'ledgers';
   totalItemsCount: number = 0;
 
   columnsToDisplay: string[] = [
     'currClient.displayName',
+    'balance'
 
   ];
   columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'ledgerActions'];
-  columnNamesToDisplay: string[] = ['Client', 'Actions'];
-  columnsConfig: Map<string, any> = new Map<string, any>([]);
+  columnNamesToDisplay: string[] = ['Client', 'Balance', 'Actions'];
+  columnsConfig: Map<string, any> = new Map<string, any>([
+    ['balance', {type: 'currency', mask: 'separator.2', thousandSeparator: ',', prefix: '$'}],
+  ]);
 
   expandedLedger: LedgerEntity | null = null;
   expandedLedgerClientId: string | null = null;
@@ -92,7 +100,7 @@ export class LedgersDgComponent implements OnInit, AfterViewChecked {
     this.loadingItems = true;
     if(this.dgDataObj) {
       this.totalItemsCount = this.dgDataObj.count;
-      this.dataSource = new MatTableDataSource<LedgerEntity>(this.dgDataObj.items);
+      this.dataSource = new MatTableDataSource<LedgerDto>(this.dgDataObj.items);
       this.loadingItems = false;
     }
   }
@@ -122,7 +130,7 @@ export class LedgersDgComponent implements OnInit, AfterViewChecked {
   }
 
   editItem(event: any, item: LedgerEntity) {
-    const index: number = this.dataSource.data.findIndex((ldgItem: LedgerEntity) => item.clientId === ldgItem.clientId);
+    const index: number = this.dataSource.data.findIndex((ldgItem: LedgerDto) => item.clientId === ldgItem.clientId);
     this.openItemUpdateFormModal(item, index);
   }
 
