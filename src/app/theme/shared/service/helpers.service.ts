@@ -30,6 +30,20 @@ export class HelpersService {
     return Object.keys(obj).length === 0
   }
 
+  sortItems(items: any[], sortBy: string = 'sortOrder', sortDir: string = 'asc', sortType: string = 'number'): any[] {
+    items.sort((a,b) => {
+      const ax: string | number = sortType === 'number' ? parseInt(a[sortBy], 10) : a[sortBy];
+      const bx: string | number = sortType === 'number' ? parseInt(b[sortBy], 10) : b[sortBy];
+      if(ax < bx) {
+        return sortDir === 'asc' ? -1 : 1;
+      } else if(ax > bx) {
+        return sortDir === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+    return items;
+  }
+
   percentCalc(amount: number, percent: number): number {
     const p: number = percent / 100;
     return amount * p;

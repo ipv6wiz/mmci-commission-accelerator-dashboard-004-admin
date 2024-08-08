@@ -136,7 +136,6 @@ export class AdvanceHelpersService {
     });
   }
 
-
   async sendRejectedEmail(item: AdvanceEntity, reason: string): Promise<ApiResponse> {
     const email: MailOutWithTemplateEntity = {
       to: item.currClient.email,

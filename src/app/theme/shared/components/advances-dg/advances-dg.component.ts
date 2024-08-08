@@ -43,17 +43,9 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
   @ViewChild('paginator') paginator!: MatPaginator;
   @Input() loadingItems: boolean = true;
   @Input() dgDataObj!: ListWithCountDto;
-  @Input() advanceStatus!: string; // pending, current, paid, cleared, rejected
+  @Input() advanceStatus!: string;
   @Input() escrow!: EscrowCompanyDto[];
   @Input() mls!: MlsListDto[];
-  /*
-    pending: Request has been made but not yet approved
-    current: Request approved
-    paid: Request approved and paid to Client
-    cleared: Escrow closed remainder of commission less the fee has been paid
-    rejected: Request rejected and reason provided
-   */
-
 
   tableTitle: string = 'Commission Advances';
   tableItemName: string = 'Commission Advance';
@@ -81,8 +73,6 @@ export class AdvancesDgComponent implements OnInit, AfterViewChecked{
     ['estimatedClosingDate', {type: 'date', format: 'shortDate'}],
     ['actualClosingDate', {type: 'date', format: 'shortDate'}],
   ]);
-
-
 
   constructor(
     public modal: MatDialog,

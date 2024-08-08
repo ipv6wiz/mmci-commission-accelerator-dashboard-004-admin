@@ -20,6 +20,11 @@ export class LedgerService {
     this.endPointUrl = `${this.apiUrl}/${this.endPoint}`;
   }
 
+  async loadAllLedgerItems(): Promise<ListWithCountDto> {
+    const response: ApiResponse = await lastValueFrom(this.loadAllLedgerItemsCall(), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
+    return response.data;
+  }
+
   async getClientLedger(clientId: string): Promise<ListWithCountDto> {
     const response: ApiResponse = await lastValueFrom(this.getClientLedgerCall(clientId), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response.data;
@@ -54,5 +59,9 @@ export class LedgerService {
 
   getClientBalanceCall(clientId: string, withCredit: boolean): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.endPointUrl}/client/${clientId}/balance${withCredit ? "?withCredit=true" : ""}`)
+  }
+
+  loadAllLedgerItemsCall(): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.endPointUrl}/admin/ledgers`);
   }
 }

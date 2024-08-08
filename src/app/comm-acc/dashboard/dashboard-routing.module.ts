@@ -36,6 +36,12 @@ const routes: Routes = [
                 loadComponent: () => import('./dash-funds/dash-funds.component'),
                 canActivate: [AuthGuard],
                 data: {roles: ['FundsAdmin']}
+            },
+            {
+                path: 'ledgers',
+                loadComponent: () => import('./dash-ledgers/dash-ledgers.component'),
+                canActivate: [AuthGuard],
+                data: {roles: ['FundsAdmin']}
             }
         ]
     }

@@ -1,8 +1,10 @@
 import {AuditTrail} from "./audit-trail.class";
 import {LedgerItemEntity} from "./ledger-item.entity";
+import { Client } from './client.interface';
 
 export class LedgerEntity extends AuditTrail {
     clientId: string
+    currClient!: Client;
     ledgerItems!: LedgerItemEntity[];
     creditLimit: number;
     balance: number;
@@ -40,7 +42,7 @@ export class LedgerEntity extends AuditTrail {
     }
 
     postTransaction(item: LedgerItemEntity): number {
-        item.amount = this.checkAmountSign(item.type, item.amount);
+        item.amount = this.checkAmountSign(item.transType, item.amount);
         this.ledgerItems.push(item);
         return this.getBalance(true);
     }
