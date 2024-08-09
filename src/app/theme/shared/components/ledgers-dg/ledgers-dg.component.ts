@@ -8,7 +8,6 @@ import { MatBoolDisplayPipe } from '../../pipes/mat-bool-display.pipe';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIconButton } from '@angular/material/button';
 import { DatePipe, NgStyle } from '@angular/common';
-import { AdvanceEntity } from '../../entities/advance.entity';
 import { ListWithCountDto } from '../../dtos/list-with-count.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { HelpersService } from '../../service/helpers.service';
@@ -16,11 +15,14 @@ import { LedgerEntity } from '../../entities/ledger.entity';
 import { User } from '../../entities/user.interface';
 import { LedgerFormDialogComponent } from './ledger-form-dialog/ledger-form-dialog.component';
 import { MatIcon } from '@angular/material/icon';
-import { OptionValuesDgComponent } from '../options-dg/option-values-dg/option-values-dg.component';
 import { AuthenticationService } from '../../service';
 import { LedgerItemsDgComponent } from './ledger-items-dg/ledger-items-dg.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { LedgerDto } from '../../dtos/ledger.dto';
+import { OptionValue } from '../../entities/option-values.interface';
+import { OptionsService } from '../../service/options.service';
+import { LedgerTransactionTypeDto } from '../../dtos/ledger-transaction-type.dto';
+import { ApiResponse } from '../../dtos/api-response.dto';
 
 @Component({
   selector: 'app-ledgers-dg',
@@ -65,28 +67,36 @@ export class LedgersDgComponent implements OnInit, AfterViewChecked {
 
   columnsToDisplay: string[] = [
     'currClient.displayName',
-    'balance'
-
+    'balance',
+    'creditLimit'
   ];
-  columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'ledgerActions'];
-  columnNamesToDisplay: string[] = ['Client', 'Balance', 'Actions'];
+  columnsToDisplayWithActions: string[] = [...this.columnsToDisplay, 'ledgerCredit', 'ledgerActions'];
+  columnNamesToDisplay: string[] = ['Client', 'Balance', 'Advance Limit', 'Available'];
   columnsConfig: Map<string, any> = new Map<string, any>([
     ['balance', {type: 'currency', mask: 'separator.2', thousandSeparator: ',', prefix: '$'}],
+    ['creditLimit', {type: 'currency', mask: 'separator.2', thousandSeparator: ',', prefix: '$', allowZero: false}],
   ]);
 
   expandedLedger: LedgerEntity | null = null;
   expandedLedgerClientId: string | null = null;
-  user: User
+  user: User;
+  transactionTypes: LedgerTransactionTypeDto[] = [];
 
   constructor(
     public modal: MatDialog,
     public helpers: HelpersService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private optionsService: OptionsService
     ) {
     this.user = this.authService.getLocalUser();
   }
 
   async ngOnInit() {
+    const response: ApiResponse = await this.optionsService.loadValuesByType('LedgerTransTypes');
+    console.debug('LedgersDgComponent - ngOnInit - response: ', response);
+    if(response.statusCode === 200) {
+      this.transactionTypes = this.helpers.makeLedgerTransTypes(response.data.items);
+    }
     await this.refreshItemsList();
   }
 
@@ -116,17 +126,19 @@ export class LedgersDgComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  openItemCreateFormModal() {
+  openItemCreateFormModal(item: LedgerEntity) {
     this.modal.open(LedgerFormDialogComponent, {
       data: {
         type: 'new',
         dataType: this.dataTypeTag,
+        transTypes: this.transactionTypes,
+        item,
       }
     });
   }
 
-  addItem() {
-    this.openItemCreateFormModal();
+  addItem(item: LedgerEntity) {
+    this.openItemCreateFormModal(item);
   }
 
   editItem(event: any, item: LedgerEntity) {

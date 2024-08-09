@@ -9,6 +9,8 @@ import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dia
 import { Address } from '../entities/address.interface';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { formatCurrency } from '@angular/common';
+import { OptionValue } from '../entities/option-values.interface';
+import { LedgerTransactionTypeDto } from '../dtos/ledger-transaction-type.dto';
 
 type IsEmptyObject<Obj extends Record<PropertyKey, unknown>> =
   [keyof Obj] extends [never] ? true : false
@@ -28,6 +30,35 @@ export class HelpersService {
   isEmpty<Obj extends Record<PropertyKey, unknown>>(obj: Obj): IsEmptyObject<Obj>
   isEmpty<Obj extends Record<PropertyKey, unknown>>(obj: Obj) {
     return Object.keys(obj).length === 0
+  }
+
+  makeLedgerTransTypes(optionValues: OptionValue[]): LedgerTransactionTypeDto[] {
+    const types: LedgerTransactionTypeDto[] = [];
+    optionValues.forEach((val: OptionValue) => {
+      const typeObj: LedgerTransactionTypeDto = {
+        key: val.key,
+        value: val.value,
+        sortOrder: val.sortOrder,
+        valueSign: val.displayValue || 'positive',
+        description: val.description || undefined,
+        data: this.extractOptionData(val)
+      }
+      types.push(typeObj);
+    });
+    return types;
+  }
+
+  extractOptionData(val: OptionValue): any {
+    if(val.data) {
+      const data = val.data;
+      if(data.startsWith('{') && data.endsWith('}')) {
+        return JSON.parse(data);
+      } else {
+        return data;
+      }
+    } else {
+      return null;
+    }
   }
 
   sortItems(items: any[], sortBy: string = 'sortOrder', sortDir: string = 'asc', sortType: string = 'number'): any[] {
@@ -154,13 +185,38 @@ export class HelpersService {
     return words.join(joiner);
   }
 
-  makeIsoDate(localDate: string, withTime: boolean = true): string {
-    const dateParts = localDate.split('/'); // 0=month, 1=day, 2=year
+  makeIsoDate(localDate: string, withTime: boolean = true, localTime: string = ''): string {
+    const hasTime: string[] = localDate.split('T');
+    if(hasTime.length > 1) {
+      localTime = hasTime[1];
+    }
+    const dateParts = hasTime[0].split('/'); // 0=month, 1=day, 2=year
     const isoParts: string[] = [];
     isoParts.push(dateParts[2]);
     isoParts.push(dateParts[0].padStart(2, '0'));
     isoParts.push(dateParts[1].padStart(2, '0'));
-    return isoParts.join('-')+(withTime ? 'T00:00:00' : '');
+    return isoParts.join('-')+(withTime && localTime === '' ? 'T00:00:00' : `T${this.make24HourTime(localTime)}`);
+  }
+
+  make24HourTime(time: string): string {
+    const parts: string[] = time.split(' ');
+    if(parts.length > 1) {
+      if(parts[1] === 'PM') {
+        const timeParts: string[] = parts[0].split(':');
+        timeParts[0] = (parseInt(timeParts[0], 10) + 12).toString(10);
+        parts[0] = timeParts.join(':');
+      }
+    }
+    return parts[0];
+  }
+
+  makeNowIsoDate(withTime: boolean = false): string {
+    if(withTime) {
+      const now = new Date(Date.now());
+      return this.makeIsoDate(now.toLocaleDateString(), true, now.toLocaleTimeString());
+    } else {
+      return this.makeIsoDate(new Date(Date.now()).toLocaleDateString(), false);
+    }
   }
 
   dtoToObject(dto: any, obj: any): any {

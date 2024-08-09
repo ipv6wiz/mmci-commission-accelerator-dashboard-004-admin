@@ -8,6 +8,7 @@ import { LedgerBalanceDto } from '../dtos/ledger-balance.dto';
 import { AdvanceLedgerPostDto } from '../dtos/advance-ledger-post.dto';
 import { FundsReceivedFromEscrowDto } from '../dtos/funds-received-from-escrow.dto';
 import { LedgerEntity } from '../entities/ledger.entity';
+import { LedgerDto } from '../dtos/ledger.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,15 @@ export class LedgerService {
   async postEscrowFunds(clientId: string, data: FundsReceivedFromEscrowDto): Promise<ApiResponse> {
     const response: ApiResponse = await lastValueFrom(this.postEscrowFundsCall(clientId, data), {defaultValue: {statusCode: 400, msg: 'Default Response'}});
     return response;
+  }
+
+  async postTransaction(clientId: string, data: LedgerDto): Promise<ApiResponse> {
+    const response: ApiResponse = await lastValueFrom(this.postTransactionCall(clientId, data));
+    return response;
+  }
+
+  postTransactionCall(clientId: string, data: LedgerDto): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(`${this.endPointUrl}/client/${clientId}/transaction`, data);
   }
 
   postEscrowFundsCall(clientId: string, data: FundsReceivedFromEscrowDto): Observable<ApiResponse> {

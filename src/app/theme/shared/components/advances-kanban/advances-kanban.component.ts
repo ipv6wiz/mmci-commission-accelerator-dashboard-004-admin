@@ -121,7 +121,7 @@ export class AdvancesKanbanComponent implements OnInit  {
     private authService: AuthenticationService,
     private escrowService: EscrowCompanyService,
     private mlsService: MlsListService,
-    private renderer: Renderer2
+
   ) {
     console.log('AdvancesKanbanComponent - constructor');
     this.version = this.config.version;

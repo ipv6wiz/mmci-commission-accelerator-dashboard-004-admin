@@ -116,6 +116,7 @@ export class MmciFormMatComponent implements OnInit{
     this.loadChipsList(this.chipListArr).then(() => {
       this.loadingForm = false;
     });
+    this.populateDefaultValues();
   }
 
   isReadOnly(field: FormFieldDto): boolean {
@@ -196,6 +197,7 @@ export class MmciFormMatComponent implements OnInit{
           } else {
             value = field.default;
           }
+          console.debug('MMCI Form - populateDefaultValues - value: ', value);
           this.formGroup.controls[key].setValue(value);
         }
       }
